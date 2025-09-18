@@ -17,26 +17,21 @@ let
     ../system-configuration
     ../hardware
   ];
+  hardware = name: ./hardware/${name}-hardware-configuration.nix;
 in {
   flake.nixosConfigurations = {
 
     desktop = nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
-      modules = [
-        home-manager
-        home-manager-settings
-
-      ];
+      modules = [ home-manager home-manager-settings (hardware "desktop") ]
+        ++ general-path;
     };
     laptop = nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
-      modules = [
-        home-manager
-        home-manager-settings
-        ./hardware/laptop-hardware-configuration.nix
-      ] ++ general-path;
+      modules = [ home-manager home-manager-settings (hardware "laptop") ]
+        ++ general-path;
     };
   };
 }

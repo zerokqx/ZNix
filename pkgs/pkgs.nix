@@ -1,6 +1,7 @@
 { config, inputs, pkgs, ... }: {
   environment.systemPackages = with pkgs; [
     neovim
+    btop
     gnupg
     interception-tools
     gemini-cli
