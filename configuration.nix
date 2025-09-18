@@ -1,5 +1,5 @@
 { config, pkgs, ... }: {
-  imports = [ ./hardware-configuration.nix ];
+  # imports = [ ./hardware-configuration.nix ];
   virtualisation.docker.enable = true;
   security.polkit.enable = true;
   programs.sway.enable = true;
@@ -31,7 +31,7 @@
   };
 
   services = {
-
+    touchegg.enable = true;
     displayManager.ly.enable = true;
     playerctld.enable = true;
     flatpak.enable = true;

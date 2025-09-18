@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+
   imports = [ ./pkgs-configuration ./sway ./pkgs.nix ];
   home.username = "zerok";
   home.homeDirectory = "/home/zerok";
