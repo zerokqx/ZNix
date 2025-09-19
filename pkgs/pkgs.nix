@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, ... }: {
+{ pkgs, ... }: {
   environment.systemPackages = with pkgs; [
     neovim
     btop
@@ -16,7 +16,6 @@
     keybinder3
     mako
     apple-cursor
-    kdePackages.kdeconnect-kde
     firefox-devedition
     fd
     fzf
