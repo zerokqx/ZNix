@@ -1,7 +1,9 @@
 [
   { command = "exec mako"; }
-  { command = "exec cliphist store"; }
+  { command = "exec wl-paste --watc cliphist store"; }
   { command = " exec ayugram-desktop"; }
-  { command = " exec youtube-music"; }
-  { command = "clipse -listen"; }
+  { command = "exec obsidian"; }
+  { command = "exec firefox"; }
+  { command = "exec nekoray"; }
+
 ]

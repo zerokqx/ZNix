@@ -1,6 +1,5 @@
 { config, lib, pkgs, ... }: {
   wayland.windowManager.sway = let
-    notebook = import ../../itNotebook.nix;
     input = import ./input.nix;
     output = import ./output.nix;
     commands = import ./window-command.nix;
@@ -10,7 +9,7 @@
     slurp = "${pkgs.slurp}/bin/slurp";
     grim = "${pkgs.grim}/bin/grim";
     nr = "${pkgs.normcap}/bin/normcap";
-    browser = "chromium";
+    browser = "firefox";
     pConfig = ../scripts;
   in {
     enable = true;
@@ -26,8 +25,22 @@
       inherit assigns;
       window = { inherit commands; };
       inherit startup;
-      keybindings = let m = modifier;
 
+      workspaceOutputAssign = [
+        {
+          workspace = "2:code";
+          output = "DP-1";
+        }
+        {
+          workspace = "3:web";
+          output = "HDMI-A-1";
+        }
+        {
+          workspace = "9:chats";
+          output = "HDMI-A-1";
+        }
+      ];
+      keybindings = let m = modifier;
       in lib.mkOptionDefault {
         "${m}+v" =
           "exec cliphist list | wofi --dmenu | cliphist decode | wl-copy";
@@ -38,7 +51,7 @@
         "${m}+r" = "exec ${menu}";
         "${m}+q" = "exec ${terminal}";
         "${m}+b" = "exec ${browser}";
-        "${m}+n" = "exec kitty ${editor}";
+        "${m}+n" = "exec kitty --title nvim ${editor}";
         "${m}+Shift+s" = ''
           exec ${grim} -g "$(${slurp})" - | tee ~/Pictures/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy'';
         "XF86AudioRaiseVolume" =
@@ -56,7 +69,7 @@
         "${m}+Shift+n" = "exec ${nr}";
         "${m}+e" = "exec kitty yazi";
 
-        "XF86MonBrightnessDown" = "exec brightessctl s  10%+";
+        "XF86MonBrightnessDown" = "exec brightnessctl s  10%+";
         "XF86MonBrightnessUp" = "exec brigtnessctl s 10%-";
       };
     };

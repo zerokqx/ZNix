@@ -2,7 +2,7 @@
 let
   nixosSystem = import ../../utils/nixosSystem.nix { inherit inputs; };
   gAttr = import ../general-attr.nix;
-in nixosSystem {
+in inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = { inherit inputs; };
   modules = [

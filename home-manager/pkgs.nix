@@ -5,7 +5,6 @@
     git-crypt
     rustc
     loupe
-    age
     lutris
     fastfetch
     nixfmt-classic
