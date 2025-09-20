@@ -8,7 +8,16 @@ in inputs.nixpkgs.lib.nixosSystem {
     { home-manager.users.zerok.imports = [ ../../home-manager ]; }
     gAttr.home-manager-settings
 
-    { services.syncthing.settings.devices = { "samsung" = { id = "id"; }; }; }
+    {
+      services.syncthing.settings.devices = {
+        "samsung" = { id = "id"; };
+        "notebook" = {
+          id =
+            "CEK5F3K-DKBUKFM-Q7DA5LI-LHRXVS7-CWHW2PY-XYBQZRQ-GIEZUNF-5WN4BAX";
+        };
+      };
+
+    }
     ./hardware-configuration.nix
   ] ++ gAttr.general-path;
 }

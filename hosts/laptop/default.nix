@@ -1,5 +1,10 @@
 { inputs, ... }:
-let gAttr = import ../general-attr.nix;
+let
+  gAttr = import ../general-attr.nix;
+  certs = import ../../utils/getCerts.nix {
+    service = "syncthing";
+    host = "laptop";
+  };
 in inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = { inherit inputs; };
@@ -9,7 +14,13 @@ in inputs.nixpkgs.lib.nixosSystem {
       home-manager.users.zerok.imports =
         [ ../../home-manager ./output-sway-rewrite.nix ];
     }
-    { services.syncthing.settings.devices = { "desktop" = { id = "id"; }; }; }
+    {
+      services.syncthing.settings = {
+        inherit (certs) cert key;
+        devices = { "desktop" = { id = "id"; }; };
+
+      };
+    }
     gAttr.home-manager-settings
     ./hardware-configuration.nix
   ] ++ gAttr.general-path;

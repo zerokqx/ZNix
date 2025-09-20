@@ -1,16 +1,19 @@
 let
   obsidianPath = "/home/zerok/Documents/obsidian";
   user = "zerok";
-  pathToCertKey = ../../certs/syncthing;
-  certFile = builtins.toString pathToCertKey + "/cert.pem";
-  keyFile = builtins.toString pathToCertKey + "/key.pem";
+  cerst = import ../../utils/getCerts.nix {
+    service = "syncthing";
+    host = "desktop";
+  };
 in {
   services.syncthing = {
     inherit user;
+
+    overrideDevices = true;
+    overrideFolders = true;
     group = "users";
     enable = true;
-    cert = certFile;
-    key = keyFile;
+    inherit (cerst) cert key;
     settings = {
       gui = { inherit user; };
       # devices = { "My Notebook" = { id = deviceId; }; };
