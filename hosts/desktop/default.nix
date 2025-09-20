@@ -10,10 +10,13 @@ in inputs.nixpkgs.lib.nixosSystem {
 
     {
       services.syncthing.settings.devices = {
-        "samsung" = { id = "id"; };
+        "samsung" = {
+          id =
+            "NC2PQPF-VHC7PKH-CLYO3R5-A6AK6HN-RDIFQF5-GUD76E2-PMC6WFK-LIYV5AR";
+        };
         "notebook" = {
           id =
-            "CEK5F3K-DKBUKFM-Q7DA5LI-LHRXVS7-CWHW2PY-XYBQZRQ-GIEZUNF-5WN4BAX";
+            "THAFC5E-WTUGGKP-ZMTXAXA-Y5TOJIB-NPSSVEE-MGQVCAF-3KHGJF5-5UOTLQK";
         };
       };
 

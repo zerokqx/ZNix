@@ -15,10 +15,22 @@ in inputs.nixpkgs.lib.nixosSystem {
         [ ../../home-manager ./output-sway-rewrite.nix ];
     }
     {
-      services.syncthing.settings = {
+      services.syncthing = {
         inherit (certs) cert key;
-        devices = { "desktop" = { id = "id"; }; };
+        settings = {
+          devices = {
+            "desktop" = {
+              id =
+                "S2G4HHT-ZGWINJB-5QIGMOH-GJBA3X2-7CWANPV-5UDDONG-5I47UNZ-F45OHQE";
+            };
 
+            "samsung" = {
+              id =
+                "NC2PQPF-VHC7PKH-CLYO3R5-A6AK6HN-RDIFQF5-GUD76E2-PMC6WFK-LIYV5AR";
+            };
+          };
+
+        };
       };
     }
     gAttr.home-manager-settings

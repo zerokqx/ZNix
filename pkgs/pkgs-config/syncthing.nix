@@ -1,7 +1,9 @@
+{ lib, ... }:
 let
   obsidianPath = "/home/zerok/Documents/obsidian";
   user = "zerok";
-  cerst = import ../../utils/getCerts.nix {
+  certs = import ../../utils/getCerts.nix {
+
     service = "syncthing";
     host = "desktop";
   };
@@ -13,7 +15,8 @@ in {
     overrideFolders = true;
     group = "users";
     enable = true;
-    inherit (cerst) cert key;
+    cert = lib.mkDefault certs.cert;
+    key = lib.mkDefault certs.key;
     settings = {
       gui = { inherit user; };
       # devices = { "My Notebook" = { id = deviceId; }; };
