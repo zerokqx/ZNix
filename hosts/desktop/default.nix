@@ -1,7 +1,5 @@
 { inputs, ... }:
-let
-  nixosSystem = import ../../utils/nixosSystem.nix { inherit inputs; };
-  gAttr = import ../general-attr.nix;
+let gAttr = import ../general-attr.nix;
 in inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = { inherit inputs; };
