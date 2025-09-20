@@ -12,16 +12,12 @@ in inputs.nixpkgs.lib.nixosSystem {
       services.syncthing = {
         settings = {
 
-          folders."Obsidian".devices = [ "laptop" "samsung" ];
+          folders."Obsidian".devices = [ "samsung" ];
           devices = {
 
             "samsung" = {
               id =
                 "NC2PQPF-VHC7PKH-CLYO3R5-A6AK6HN-RDIFQF5-GUD76E2-PMC6WFK-LIYV5AR";
-            };
-            "notebook" = {
-              id =
-                "SNQIWSB-BMVZG37-SPZU4DT-3GZVJE6-72G4BOM-REIWDPC-LN3G6SS-WNLIPAJ";
             };
           };
         };

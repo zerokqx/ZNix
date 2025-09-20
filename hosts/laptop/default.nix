@@ -18,12 +18,8 @@ in inputs.nixpkgs.lib.nixosSystem {
       services.syncthing = {
         inherit (certs) cert key;
         settings = {
-          folders."Obsidian".devices = [ "desktop" "samsung" ];
+          folders."Obsidian".devices = [ "samsung" ];
           devices = {
-            "desktop" = {
-              id =
-                "S2G4HHT-ZGWINJB-5QIGMOH-GJBA3X2-7CWANPV-5UDDONG-5I47UNZ-F45OHQE";
-            };
 
             "samsung" = {
               id =
