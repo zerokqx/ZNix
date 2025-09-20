@@ -9,14 +9,21 @@ in inputs.nixpkgs.lib.nixosSystem {
     gAttr.home-manager-settings
 
     {
-      services.syncthing.settings.devices = {
-        "samsung" = {
-          id =
-            "NC2PQPF-VHC7PKH-CLYO3R5-A6AK6HN-RDIFQF5-GUD76E2-PMC6WFK-LIYV5AR";
-        };
-        "notebook" = {
-          id =
-            "THAFC5E-WTUGGKP-ZMTXAXA-Y5TOJIB-NPSSVEE-MGQVCAF-3KHGJF5-5UOTLQK";
+      services.syncthing = {
+        settings = {
+
+          folders."Obsidian".devices = [ "laptop" "samsung" ];
+          devices = {
+
+            "samsung" = {
+              id =
+                "NC2PQPF-VHC7PKH-CLYO3R5-A6AK6HN-RDIFQF5-GUD76E2-PMC6WFK-LIYV5AR";
+            };
+            "notebook" = {
+              id =
+                "SNQIWSB-BMVZG37-SPZU4DT-3GZVJE6-72G4BOM-REIWDPC-LN3G6SS-WNLIPAJ";
+            };
+          };
         };
       };
 

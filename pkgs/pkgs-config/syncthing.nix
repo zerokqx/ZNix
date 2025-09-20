@@ -19,13 +19,7 @@ in {
     key = lib.mkDefault certs.key;
     settings = {
       gui = { inherit user; };
-      # devices = { "My Notebook" = { id = deviceId; }; };
-      folders = {
-        "Obsidian" = {
-          path = obsidianPath;
-          devices = [ ];
-        };
-      };
+      folders = { "Obsidian" = { path = obsidianPath; }; };
     };
     openDefaultPorts = true;
   };
