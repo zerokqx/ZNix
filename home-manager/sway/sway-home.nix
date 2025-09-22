@@ -45,9 +45,6 @@
         "${m}+v" =
           "exec cliphist list | wofi --dmenu | cliphist decode | wl-copy";
         "${m}+c" = "exec swaymsg kill";
-        "${m}+s" = "workspace special";
-        "${m}+Alt+s" = "move container to workspace special";
-        "${m}+w" = "nop";
         "${m}+r" = "exec ${menu}";
         "${m}+q" = "exec ${terminal}";
         "${m}+b" = "exec ${browser}";
@@ -55,9 +52,9 @@
         "${m}+Shift+s" = ''
           exec ${grim} -g "$(${slurp})" - | tee ~/Pictures/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy'';
         "XF86AudioRaiseVolume" =
-          "exec pactl set-sink-volume @DEFAULT_SINK@ +1%";
+          "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
         "XF86AudioLowerVolume" =
-          "exec pactl set-sink-volume @DEFAULT_SINK@ -1%";
+          "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
         "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
         "Prior" = "exec playerctl next";
         "Next" = "exec playerctl play-pause";

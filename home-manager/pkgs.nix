@@ -8,6 +8,7 @@
     lutris
     fastfetch
     nixfmt-classic
+    devenv
     xdg-user-dirs
   ];
 }

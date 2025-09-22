@@ -16,6 +16,7 @@
     telephone = "en_US.UTF-8";
   };
 
+  home.sessionPath = [ "${config.home.homeDirectory}/.cargo/bin" ];
   home.sessionVariables = {
     XDG_MIME_DEFAULTS = ''
       application/pdf=zathura
