@@ -3,6 +3,7 @@
   home.packages = with pkgs; [
     cargo
     git-crypt
+    bun
     rustc
     loupe
     lutris

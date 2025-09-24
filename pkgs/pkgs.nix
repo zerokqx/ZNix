@@ -2,6 +2,7 @@
   environment.systemPackages = with pkgs; [
     neovim
     btop
+    impala
     gnupg
     interception-tools
     gemini-cli

@@ -2,7 +2,7 @@
 
 {
 
-  imports = [ ./pkgs-configuration ./sway ./pkgs.nix ];
+  imports = [ ./pkgs-configuration ./sway ./pkgs.nix ./dir-file-create.nix ];
   home.username = "zerok";
   home.homeDirectory = "/home/zerok";
   home.stateVersion = "25.05";
