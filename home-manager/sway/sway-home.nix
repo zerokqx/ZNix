@@ -65,7 +65,7 @@
         "${m}+Shift+m" = "exec swaylock";
         "${m}+Shift+n" = "exec ${nr}";
         "${m}+e" = "exec kitty yazi";
-
+        "${m}+i" = "exec kitty --title wifi impala";
         "XF86MonBrightnessDown" = "exec brightnessctl s  10%+";
         "XF86MonBrightnessUp" = "exec brigtnessctl s 10%-";
       };
