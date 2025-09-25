@@ -32,5 +32,6 @@ in inputs.nixpkgs.lib.nixosSystem {
     }
     gAttr.home-manager-settings
     ./hardware-configuration.nix
+    ./postgres.nix
   ] ++ gAttr.general-path;
 }

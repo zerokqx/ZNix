@@ -10,6 +10,8 @@
     fastfetch
     nixfmt-classic
     devenv
+    sqlfluff
+    postgresql_17_jit
     xdg-user-dirs
   ];
 }
