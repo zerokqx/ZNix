@@ -1,7 +1,9 @@
 { config, pkgs, ... }: {
   programs.fish = {
     enable = true;
-    interactiveShellInit = "\n\n";
+    interactiveShellInit = ''
+      set fish_greeting ""
+    '';
     plugins = [{
       name = "plugin-git";
       src = pkgs.fishPlugins.plugin-git.src;
@@ -15,7 +17,6 @@
       cd = "z";
       sn = "sudo -e";
       ls = "eza";
-      m = "micro";
       p = "pnpm";
       "cat" = "bat";
       bkp-sync = "rsync -avh --delete";
