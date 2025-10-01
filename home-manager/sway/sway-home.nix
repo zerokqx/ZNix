@@ -11,6 +11,7 @@
     nr = "${pkgs.normcap}/bin/normcap";
     browser = "firefox";
     pConfig = ../scripts;
+    bluetui = "${pkgs.bluetui}/bin/bluetui";
   in {
     enable = true;
 
@@ -60,12 +61,14 @@
         "Next" = "exec playerctl play-pause";
 
         "End" = "exec playerctl previous";
-        "${m}+Shift+b" = "exec  ${builtins.toString pConfig}/bluetooth.sh";
+        "${m}+Shift+b" =
+          "exec  kitty --single-instance --instance bluetooth --class bluetooth ${bluetui} ";
         "${m}+Shift+p" = "exec  ${builtins.toString pConfig}/power-wofi.sh";
         "${m}+Shift+m" = "exec swaylock";
         "${m}+Shift+n" = "exec ${nr}";
         "${m}+e" = "exec kitty yazi";
-        "${m}+i" = "exec kitty --title wifi impala";
+        "${m}+i" =
+          "exec kitty --single-instance --instance wifi --class wifi impala";
         "XF86MonBrightnessDown" = "exec brightnessctl s  10%+";
         "XF86MonBrightnessUp" = "exec brigtnessctl s 10%-";
       };

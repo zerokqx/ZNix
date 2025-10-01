@@ -2,7 +2,9 @@
   environment.systemPackages = with pkgs; [
     neovim
     btop
+    xorg.libxkbfile
     impala
+    bluetui
     gnupg
     interception-tools
     gemini-cli
