@@ -39,9 +39,6 @@
         jsonls = {
           enable = true;
         };
-        dockerls = {
-          enable = true;
-        };
         cssls = {
           enable = true;
         };

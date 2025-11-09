@@ -10,21 +10,34 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    znvim.url = "path:./programs/nixvim";
+    znvim = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "path:./programs/nixvim";
+    };
   };
 
-  outputs = inputs@{ flake-parts, nixpkgs, znvim, home-manager, ... }:
+  outputs =
+    inputs@{
+      flake-parts,
+      nixpkgs,
+      znvim,
+      home-manager,
+      ...
+    }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
       default = import ./dev-shells { inherit pkgs; };
-    in flake-parts.lib.mkFlake { inherit inputs; } {
+    in
+    flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ system ];
       imports = [
         home-manager.flakeModules.home-manager
 
         ./hosts
       ];
-      flake = { devShells.${system} = { inherit default; }; };
+      flake = {
+        devShells.${system} = { inherit default; };
+      };
     };
 }

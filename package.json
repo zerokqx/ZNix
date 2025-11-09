@@ -1,1 +1,6 @@
-{"dependencies": {}}
+{
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "command": "^1.1.1"
+  }
+}

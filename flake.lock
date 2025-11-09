@@ -284,8 +284,6 @@
     "znvim": {
       "inputs": {
         "nixpkgs": [
-          "znvim",
-          "nixvim",
           "nixpkgs"
         ],
         "nixvim": "nixvim"

@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "NixVim";
 
   inputs = {
     nixpkgs.follows = "nixvim/nixpkgs";
