@@ -9,16 +9,21 @@
     slurp = "${pkgs.slurp}/bin/slurp";
     grim = "${pkgs.grim}/bin/grim";
     nr = "${pkgs.normcap}/bin/normcap";
-    browser = "firefox";
     pConfig = ../scripts;
-    bluetui = "${pkgs.bluetui}/bin/bluetui";
+    rofi = {
+      default = "${pkgs.rofi-wayland}/bin/rofi";
+      calc = "${pkgs.rofi-calc}/bin/rofi-calc";
+      bluetooth = "${pkgs.rofi-bluetooth}/bin/rofi-bluetooth";
+      screenshot = "${pkgs.rofi-screenshot}/bin/rofi-screenshot";
+      power = "${pkgs.rofi-power-menu}/bin/rofi-power-menu";
+    };
   in {
     enable = true;
 
     config = rec {
       modifier = "Mod4";
-      terminal = "alacritty";
-      menu = "wofi --show drun";
+      terminal = "$TERM";
+      menu = "${rofi.default} -show drun";
       defaultWorkspace = "1";
       bindkeysToCode = true;
       inherit input;
@@ -41,38 +46,49 @@
           output = "HDMI-A-1";
         }
       ];
+
       keybindings = let m = modifier;
       in lib.mkOptionDefault {
+        "${m}+Shift+c" = "rofi -show calc -modi calc -no-show-match -no-sort";
         "${m}+v" =
-          "exec cliphist list | wofi --dmenu | cliphist decode | wl-copy";
+          "exec cliphist list | ${rofi.default} -dmenu | cliphist decode | wl-copy";
+
         "${m}+c" = "exec swaymsg kill";
         "${m}+r" = "exec ${menu}";
         "${m}+q" = "exec ${terminal}";
-        "${m}+b" = "exec ${browser}";
-        "${m}+n" = "exec kitty --title nvim ${editor}";
-        "${m}+Shift+s" = ''
-          exec ${grim} -g "$(${slurp})" - | tee ~/Pictures/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy'';
+        "${m}+b" = "exec $BROWSER";
+        "${m}+n" = "exec ${terminal} -T $EDITOR -e $EDITOR";
+
+        "${m}+Shift+s" = "exec ${rofi.screenshot}";
+
         "XF86AudioRaiseVolume" =
           "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
         "XF86AudioLowerVolume" =
           "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
         "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
+
+        # Медиа
         "Prior" = "exec playerctl next";
         "Next" = "exec playerctl play-pause";
-
         "End" = "exec playerctl previous";
-        "${m}+Shift+b" =
-          "exec  kitty --single-instance --instance bluetooth --class bluetooth ${bluetui} ";
-        "${m}+Shift+p" = "exec  ${builtins.toString pConfig}/power-wofi.sh";
+
+        "${m}+Shift+b" = "exec ${rofi.bluetooth}";
+
+        "${m}+Shift+p" =
+          "exec ${rofi.default} -show power-menu -modi power-menu:${rofi.power}";
+
         "${m}+Shift+m" = "exec swaylock";
         "${m}+Shift+n" = "exec ${nr}";
-        "${m}+e" = "exec kitty yazi";
-        "${m}+i" =
-          "exec kitty --single-instance --instance wifi --class wifi impala";
-        "XF86MonBrightnessDown" = "exec brightnessctl s  10%+";
-        "XF86MonBrightnessUp" = "exec brigtnessctl s 10%-";
+
+        # File manager
+        "${m}+e" = "exec ${terminal} -e yazi";
+
+        # WiFi manager
+        "${m}+i" = "exec  rofi-network-manager";
+
+        "XF86MonBrightnessDown" = "exec brightnessctl s 10%-";
+        "XF86MonBrightnessUp" = "exec brightnessctl s 10%+";
       };
     };
   };
-
 }

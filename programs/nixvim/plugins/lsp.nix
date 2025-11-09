@@ -1,0 +1,187 @@
+{ pkgs, ... }:
+
+{
+  # Включение плагинов LSP
+  plugins = {
+    lspkind.enable = true;
+    lsp-lines = {
+      enable = true;
+    };
+    lsp-format = {
+      enable = true;
+    };
+    helm = {
+      enable = true;
+    };
+    lsp-signature.enable = true;
+    lsp = {
+      enable = true;
+      inlayHints = false;
+      servers = {
+        html = {
+          enable = true;
+        };
+        tailwindcss = {
+          enable = true;
+        };
+        lua_ls = {
+          enable = true;
+        };
+        nil_ls = {
+          enable = true;
+        };
+        ts_ls = {
+          enable = true;
+        };
+        marksman = {
+          enable = true;
+        };
+        jsonls = {
+          enable = true;
+        };
+        dockerls = {
+          enable = true;
+        };
+        cssls = {
+          enable = true;
+        };
+        bashls = {
+          enable = true;
+        };
+        yamlls = {
+          enable = true;
+          extraOptions = {
+            settings = {
+              yaml = {
+                schemas = {
+                  kubernetes = "'*.yaml";
+                  "http://json.schemastore.org/github-workflow" = ".github/workflows/*";
+                  "http://json.schemastore.org/github-action" = ".github/action.{yml,yaml}";
+                  "http://json.schemastore.org/ansible-stable-2.9" = "roles/tasks/*.{yml,yaml}";
+                  "http://json.schemastore.org/kustomization" = "kustomization.{yml,yaml}";
+                  "http://json.schemastore.org/ansible-playbook" = "*play*.{yml,yaml}";
+                  "http://json.schemastore.org/chart" = "Chart.{yml,yaml}";
+                  "https://json.schemastore.org/dependabot-v2" = ".github/dependabot.{yml,yaml}";
+                  "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json" =
+                    "*docker-compose*.{yml,yaml}";
+                  "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" =
+                    "*flow*.{yml,yaml}";
+                };
+              };
+            };
+          };
+        };
+      };
+
+      # Ключевые биндинги с интеграцией Snacks
+      keymaps = {
+        silent = true;
+        extra = [
+          {
+            mode = "n";
+            key = "gr";
+            action.__raw = "Snacks.picker.lsp_references";
+            options = {
+              desc = "Snacks: LSP References";
+            };
+          }
+          {
+            mode = "n";
+            key = "gi";
+            action.__raw = "Snacks.picker.lsp_implementations";
+            options = {
+              desc = "Snacks: LSP Implementations";
+            };
+          }
+        ];
+        lspBuf = {
+          gd = {
+            action = "definition";
+            desc = "LSP: Go to Definition";
+          };
+          gD = {
+            action = "declaration";
+            desc = "LSP: Go to Declaration";
+          };
+          gt = {
+            action = "type_definition";
+            desc = "LSP: Type Definition";
+          };
+          K = {
+            action = "hover";
+            desc = "LSP: Hover";
+          };
+          "<leader>ca" = {
+            action = "code_action";
+            desc = "LSP: Code Action";
+          };
+          "<leader>cf" = {
+            action = "format";
+            desc = "LSP: Format";
+          };
+          "<leader>cw" = {
+            action = "workspace_symbol";
+            desc = "LSP: Workspace Symbol";
+          };
+          "<leader>cr" = {
+            action = "rename";
+            desc = "LSP: Rename";
+          };
+        };
+        diagnostic = {
+          "<leader>cd" = {
+            action = "open_float";
+            desc = "Diagnostics: Open Float";
+          };
+          "[d" = {
+            action = "goto_next";
+            desc = "Diagnostics: Next";
+          };
+          "]d" = {
+            action = "goto_prev";
+            desc = "Diagnostics: Previous";
+          };
+        };
+      };
+    };
+
+    trouble = {
+      enable = true;
+    };
+  };
+
+  extraPlugins = with pkgs.vimPlugins; [ ansible-vim ];
+
+  extraConfigLua = ''
+    local _border = "rounded"
+
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+      vim.lsp.handlers.hover, { border = _border }
+    )
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+      vim.lsp.handlers.signature_help, { border = _border }
+    )
+    vim.diagnostic.config {
+      float = { border = _border },
+      underline = true,
+      virtual_text = { spacing = 5, severity_limit = "Warning" },
+      update_in_insert = true,
+    }
+
+    require("lspconfig.ui.windows").default_options = {
+      border = _border,
+    }
+
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics,
+      {
+        underline = true,
+        virtual_text = {
+          spacing = 5,
+          severity_limit = "Warning",
+        },
+        update_in_insert = true,
+      }
+    )
+  '';
+}

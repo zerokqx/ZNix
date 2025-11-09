@@ -5,5 +5,5 @@ let
 in (map (program: {
   command = center;
   criteria = { app_id = program; };
-}) centerApps) ++ [ ]
+}) centerApps)
 

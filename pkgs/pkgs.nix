@@ -1,11 +1,12 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, ... }:
+{
 
   # =======================================================================
   # 📦 СИСТЕМНЫЕ ПАКЕТЫ
   # =======================================================================
   environment.systemPackages = with pkgs; [
     # --- Разработка и Утилиты ---
-    neovim # Основной редактор
+    inputs.znvim.packages.${system}.default
     alacritty
     typescript # Для ваших React Typescript проектов
     dualsensectl
@@ -16,6 +17,7 @@
     sqlite
     vtsls
 
+    #
     # --- Терминальные Утилиты и Файловая Система ---
     btop # Монитор ресурсов
     eza # Современная замена 'ls'
@@ -76,7 +78,16 @@
     maple-mono."NF-CN"
     nerd-fonts._0xproto
     apple-cursor # Курсор
-
+    rofi-wayland
+    rofi-calc
+    rofi-bluetooth
+    rofi-screenshot
+    ffcast
+    slop
+    xclip
+    rofi-power-menu
+    rofi-network-manager
+    bc
     # --- Интерфейс команд (для экспериментов, обычно не нужны в systemPackages) ---
     alacritty-theme
     impala

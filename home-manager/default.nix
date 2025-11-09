@@ -25,6 +25,7 @@
   home.sessionPath = [ "${config.home.homeDirectory}/.cargo/bin" ];
   home.sessionVariables = {
     TERM = "alacritty";
+    BROWSER = "firefox-devedition";
     XDG_MIME_DEFAULTS = ''
       application/pdf=zathura
       application/x-pdf=zathura

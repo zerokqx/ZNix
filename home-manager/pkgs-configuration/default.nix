@@ -8,6 +8,7 @@
     ./fish.nix
     ./gemini
     ./alacritty.nix
+    ./rofi.nix
   ];
 
 }

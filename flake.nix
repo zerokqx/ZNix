@@ -10,7 +10,7 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    znvim.url = "path:./programs/nvim";
+    znvim.url = "path:./programs/nixvim";
   };
 
   outputs = inputs@{ flake-parts, nixpkgs, znvim, home-manager, ... }:
