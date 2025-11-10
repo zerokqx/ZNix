@@ -59,7 +59,7 @@
         "${m}+b" = "exec $BROWSER";
         "${m}+n" = "exec ${terminal} -T $EDITOR -e $EDITOR";
 
-        "${m}+Shift+s" = "exec ${rofi.screenshot}";
+        "${m}+Shift+s" = "exec rofishot";
 
         "XF86AudioRaiseVolume" =
           "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";

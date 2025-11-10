@@ -1,11 +1,24 @@
-{ config, lib, ... }:
+{ lib, config, ... }:
 {
   plugins.flash = {
     enable = true;
-
     settings = {
-      jump = {
-        autojump = true;
+      label.uppercase = false;
+      search = {
+        exclude = [
+          "notify"
+          "cmp_menu"
+          "noice"
+          "flash_prompt"
+          {
+            __raw = ''
+              function(win)
+                -- exclude non-focusable windows
+                return not vim.api.nvim_win_get_config(win).focusable
+              end
+            '';
+          }
+        ];
       };
     };
   };
@@ -18,16 +31,27 @@
         "o"
       ];
       key = "s";
-      action.__raw = ''require("flash").jump'';
+      action = "<cmd>lua require('flash').jump()<cr>";
+      options.desc = "Flash";
+    }
+    {
+      key = "r";
+      action.__raw = ''function() require("flash").remote() end'';
+      mode = [
+        "o"
+      ];
+      options.desc = "Remote Flash";
     }
     {
       mode = [
-        "n"
         "x"
         "o"
       ];
-      key = "S";
-      action.__raw = ''require("flash").treesitter'';
+      key = "R";
+      action = "<cmd>lua require('flash').treesitter_search()<cr>";
+      options = {
+        desc = "Treesitter Search";
+      };
     }
   ];
 }

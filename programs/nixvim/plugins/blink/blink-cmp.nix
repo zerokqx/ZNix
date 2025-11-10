@@ -1,4 +1,6 @@
 {
+  plugins.cmp-calc.enable = true;
+  plugins.blink-compat.enable = true;
   plugins.blink-cmp = {
     enable = true;
     settings = {
@@ -7,14 +9,14 @@
           border = "rounded";
         };
         documentation = {
-          auto_show = true;
+          auto_show = false;
           window = {
             border = "rounded";
           };
         };
       };
       signature = {
-        enabled = true;
+        enabled = false;
       };
       keymap = {
         preset = "enter";
@@ -24,6 +26,7 @@
           "lsp"
           "path"
           "snippets"
+
         ];
       };
       appearance = {

@@ -221,11 +221,28 @@
         "type": "github"
       }
     },
+    "rofishot": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "path": "./programs/rofishot",
+        "type": "path"
+      },
+      "original": {
+        "path": "./programs/rofishot",
+        "type": "path"
+      },
+      "parent": []
+    },
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "rofishot": "rofishot",
         "zen-browser": "zen-browser",
         "znvim": "znvim"
       }

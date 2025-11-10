@@ -1,5 +1,6 @@
 result
 nixos.qcow2
+node_modules/
 
 # Devenv
 .devenv*

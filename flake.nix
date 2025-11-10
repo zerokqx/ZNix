@@ -14,6 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "path:./programs/nixvim";
     };
+
+    rofishot = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "path:./programs/rofishot";
+    };
   };
 
   outputs =

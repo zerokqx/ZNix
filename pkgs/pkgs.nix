@@ -7,6 +7,8 @@
   environment.systemPackages = with pkgs; [
     # --- Разработка и Утилиты ---
     inputs.znvim.packages.${system}.default
+
+    inputs.rofishot.packages.${system}.default
     alacritty
     typescript # Для ваших React Typescript проектов
     dualsensectl
@@ -32,7 +34,6 @@
     unrar
     p7zip
 
-    # --- Графические Приложения и Браузеры ---
     inputs.zen-browser.packages."${system}".default # beta
     chromium
     firefox-devedition # Браузер для разработки
@@ -81,10 +82,6 @@
     rofi-wayland
     rofi-calc
     rofi-bluetooth
-    rofi-screenshot
-    ffcast
-    slop
-    xclip
     rofi-power-menu
     rofi-network-manager
     bc

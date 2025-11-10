@@ -87,6 +87,17 @@
         desc = "Закрыть все окна кроме текущего";
       };
     }
+
+    {
+
+      mode = "n";
+      key = "<leader>p";
+      action = "<cmd>Snacks.picker.cliphist()<CR>";
+      options = {
+        silent = true;
+        desc = "История копирования";
+      };
+    }
     {
       mode = "n";
       key = "<leader>wq";

@@ -1,8 +1,5 @@
 {
   pkgs,
-  lib,
-  config,
-  inputs,
   ...
 }:
 
@@ -18,16 +15,22 @@
   scripts.nixvimRun.exec = ''
     nix run ./programs/nixvim/
   '';
-  # scripts.buildSystem = ''
-  #   sudo
-  # '';
-  scripts.rebuild.exec = ''
-    git add .
-    bun ./hostChoice/
+  scripts.mng.exec = ''
+  bun manager.js
+  '';
+scripts.backup.exec = ''
+  mkdir -p ~/backups/ZNix
+tar -czf ~/backups/ZNix/backup-$(date +%F).tar.gz \
+  --exclude=./node_modules \
+  .
+'';
+scripts.buidManager.exec = ''
+
+bun build ./manager/index.ts --target=node --outfile=manager.js
   '';
   enterShell = ''
-       bun i
-    bun ./hostChoice/welcome.js
+    bun i
+    bun ./manager/welcome.js
   '';
 
   enterTest = ''

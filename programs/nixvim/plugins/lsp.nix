@@ -74,56 +74,61 @@
       keymaps = {
         silent = true;
         extra = [
-          {
-            mode = "n";
-            key = "gr";
-            action.__raw = "Snacks.picker.lsp_references";
-            options = {
-              desc = "Snacks: LSP References";
-            };
-          }
-          {
-            mode = "n";
-            key = "gi";
-            action.__raw = "Snacks.picker.lsp_implementations";
-            options = {
-              desc = "Snacks: LSP Implementations";
-            };
-          }
+          # {
+          #   mode = "n";
+          #   key = "gr";
+          #   action = "<cmd> lua Snacks.picker.lsp_references()<cr>";
+          #   options = {
+          #     unique = true;
+          #     nowait = true;
+          #     desc = "Snacks: LSP References";
+          #   };
+          # }
+          # {
+          #   mode = "n";
+          #   key = "gii";
+          #   action = "<cmd>lua Snacks.picker.lsp_implementations()<cr>";
+          #   options = {
+          #     unique = true;
+          #     nowait = true;
+          #     desc = "Snacks: LSP Implementations";
+          #   };
+          # }
         ];
         lspBuf = {
-          gd = {
-            action = "definition";
-            desc = "LSP: Go to Definition";
-          };
-          gD = {
-            action = "declaration";
-            desc = "LSP: Go to Declaration";
-          };
-          gt = {
-            action = "type_definition";
-            desc = "LSP: Type Definition";
-          };
-          K = {
-            action = "hover";
-            desc = "LSP: Hover";
-          };
-          "<leader>ca" = {
-            action = "code_action";
-            desc = "LSP: Code Action";
-          };
-          "<leader>cf" = {
-            action = "format";
-            desc = "LSP: Format";
-          };
-          "<leader>cw" = {
-            action = "workspace_symbol";
-            desc = "LSP: Workspace Symbol";
-          };
-          "<leader>cr" = {
-            action = "rename";
-            desc = "LSP: Rename";
-          };
+        # "gi" = "implementation";
+        #   gd = {
+        #     action = "definition";
+        #     desc = "LSP: Go to Definition";
+        #   };
+        #   gD = {
+        #     action = "declaration";
+        #     desc = "LSP: Go to Declaration";
+        #   };
+        #   gt = {
+        #     action = "type_definition";
+        #     desc = "LSP: Type Definition";
+        #   };
+        #   K = {
+        #     action = "hover";
+        #     desc = "LSP: Hover";
+        #   };
+        #   "<leader>ca" = {
+        #     action = "code_action";
+        #     desc = "LSP: Code Action";
+        #   };
+        #   "<leader>cf" = {
+        #     action = "format";
+        #     desc = "LSP: Format";
+        #   };
+        #   "<leader>cw" = {
+        #     action = "workspace_symbol";
+        #     desc = "LSP: Workspace Symbol";
+        #   };
+        #   "<leader>cr" = {
+        #     action = "rename";
+        #     desc = "LSP: Rename";
+        #   };
         };
         diagnostic = {
           "<leader>cd" = {
@@ -147,7 +152,6 @@
     };
   };
 
-  extraPlugins = with pkgs.vimPlugins; [ ansible-vim ];
 
   extraConfigLua = ''
     local _border = "rounded"
