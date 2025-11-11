@@ -4,12 +4,13 @@ let
     git = {
       userEmail = "swiftkey382@gmail.com";
       userName = "zerokqx";
-
     };
     gemini = {
-      api = "AIzaSyDWhZ84N3NwbuFz8JQnYXoSh2uHxsdXWJU";
+      api = "AIzaSyAKnKgk7RLWf2VNzmKTLmXkRSQ_auJsQ1M";
       model = "";
     };
 
   };
-in if builtins.hasAttr key config then config.${key} else null
+
+in
+if builtins.hasAttr key config then config.${key} else null

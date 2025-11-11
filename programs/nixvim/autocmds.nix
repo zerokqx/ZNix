@@ -10,6 +10,7 @@
       pattern = "*";
       callback = {
         __raw = ''
+
           function()
             if
               vim.fn.line "'\"" > 1
