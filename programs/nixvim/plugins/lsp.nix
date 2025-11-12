@@ -31,6 +31,9 @@
           enable = true;
         };
         ts_ls = {
+          enable = false;
+        };
+        csharp_ls = {
           enable = true;
         };
         marksman = {
@@ -151,7 +154,6 @@
       enable = true;
     };
   };
-
 
   extraConfigLua = ''
     local _border = "rounded"

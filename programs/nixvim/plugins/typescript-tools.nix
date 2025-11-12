@@ -9,7 +9,7 @@
         formatters_by_ft.typescriptreact = [ "prettier" ];
       };
     };
-    lsp.servers.ts_ls = {
+    lsp.servers.vtsls = {
       enable = true;
       filetypes = [
         "javascript"
