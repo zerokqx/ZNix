@@ -5,22 +5,48 @@
     settings = {
       format_on_save = {
         lspFallback = true;
-        timeoutMs = 500;
+        timeoutMs = 2000;
       };
+
+      # Привязка форматтеров к типам файлов
       formatters_by_ft = {
-        # Use the "_" filetype to run formatters on filetypes that don't have other formatters configured.
         "_" = [
           "squeeze_blanks"
           "trim_whitespace"
           "trim_newlines"
         ];
+
+        nix = [ "nixfmt" ];
+        lua = [ "stylua" ];
+        json = [ "jq" ];
+        yaml = [ "yamlfmt" ];
       };
+
+      # Определение самих форматтеров
       formatters = {
         _ = {
           command = "${pkgs.gawk}/bin/gawk";
         };
+
         squeeze_blanks = {
           command = lib.getExe' pkgs.coreutils "cat";
+        };
+
+        nixfmt = {
+          command = lib.getExe pkgs.nixfmt-rfc-style;
+        };
+
+        stylua = {
+          command = lib.getExe pkgs.stylua;
+        };
+
+        jq = {
+          command = lib.getExe pkgs.jq;
+          args = [ "." ]; # форматирует JSON
+        };
+
+        yamlfmt = {
+          command = lib.getExe pkgs.yamlfmt;
         };
       };
     };

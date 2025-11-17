@@ -21,22 +21,10 @@
         html = {
           enable = true;
         };
-        tailwindcss = {
-          enable = true;
-        };
         lua_ls = {
           enable = true;
         };
         nil_ls = {
-          enable = true;
-        };
-        ts_ls = {
-          enable = false;
-        };
-        csharp_ls = {
-          enable = true;
-        };
-        marksman = {
           enable = true;
         };
         jsonls = {
@@ -99,39 +87,39 @@
           # }
         ];
         lspBuf = {
-        # "gi" = "implementation";
-        #   gd = {
-        #     action = "definition";
-        #     desc = "LSP: Go to Definition";
-        #   };
-        #   gD = {
-        #     action = "declaration";
-        #     desc = "LSP: Go to Declaration";
-        #   };
-        #   gt = {
-        #     action = "type_definition";
-        #     desc = "LSP: Type Definition";
-        #   };
-        #   K = {
-        #     action = "hover";
-        #     desc = "LSP: Hover";
-        #   };
-        #   "<leader>ca" = {
-        #     action = "code_action";
-        #     desc = "LSP: Code Action";
-        #   };
-        #   "<leader>cf" = {
-        #     action = "format";
-        #     desc = "LSP: Format";
-        #   };
-        #   "<leader>cw" = {
-        #     action = "workspace_symbol";
-        #     desc = "LSP: Workspace Symbol";
-        #   };
-        #   "<leader>cr" = {
-        #     action = "rename";
-        #     desc = "LSP: Rename";
-        #   };
+          # "gi" = "implementation";
+          #   gd = {
+          #     action = "definition";
+          #     desc = "LSP: Go to Definition";
+          #   };
+          #   gD = {
+          #     action = "declaration";
+          #     desc = "LSP: Go to Declaration";
+          #   };
+          #   gt = {
+          #     action = "type_definition";
+          #     desc = "LSP: Type Definition";
+          #   };
+          #   K = {
+          #     action = "hover";
+          #     desc = "LSP: Hover";
+          #   };
+          #   "<leader>ca" = {
+          #     action = "code_action";
+          #     desc = "LSP: Code Action";
+          #   };
+          #   "<leader>cf" = {
+          #     action = "format";
+          #     desc = "LSP: Format";
+          #   };
+          #   "<leader>cw" = {
+          #     action = "workspace_symbol";
+          #     desc = "LSP: Workspace Symbol";
+          #   };
+          #   "<leader>cr" = {
+          #     action = "rename";
+          #     desc = "LSP: Rename";
+          #   };
         };
         diagnostic = {
           "<leader>cd" = {

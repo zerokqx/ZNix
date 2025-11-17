@@ -3,7 +3,6 @@
 lib.mkIf (config.plugins.snacks.settings.explorer.enabled == false) {
 
   plugins.mini-files = {
-    enable = true;
     settings = {
       options = {
         permanent_delete = false;

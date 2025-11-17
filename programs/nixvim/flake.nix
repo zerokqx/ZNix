@@ -1,10 +1,4 @@
 {
-  description = "NixVim";
-
-  inputs = {
-    nixpkgs.follows = "nixvim/nixpkgs";
-    nixvim.url = "github:nix-community/nixvim";
-  };
 
   outputs =
     { nixpkgs, nixvim, ... }:
@@ -39,6 +33,7 @@
                 ./opts.nix
               ];
 
+              fileManager = "yazi";
               waylandSupport = true;
               globals = {
                 mapleader = " ";

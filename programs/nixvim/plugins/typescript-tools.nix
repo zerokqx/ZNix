@@ -11,6 +11,7 @@
     };
     lsp.servers.vtsls = {
       enable = true;
+
       filetypes = [
         "javascript"
         "javascriptreact"
@@ -45,9 +46,5 @@
       };
     };
     lsp.servers.eslint.enable = true;
-    none-ls.sources.formatting.prettier = {
-      enable = true;
-      disableTsServerFormatter = false;
-    };
   };
 }

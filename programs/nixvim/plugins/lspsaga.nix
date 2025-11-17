@@ -5,6 +5,9 @@
       settings = {
         beacon.enable = true;
         ui.border = "rounded"; # One of none, single, double, rounded, solid, shadow
+        ui = {
+          signatureHelp = false;
+        };
         hover = {
           silent = true;
           openCmd = "!firfox";

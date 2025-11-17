@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       general.import =
-        [ "${pkgs.alacritty-theme}/share/alacritty-theme/tokyo_night.toml" ];
+        [ "${pkgs.alacritty-theme}/share/alacritty-theme/terminal_app.toml" ];
       font = {
         normal = {
           family = "Maple Mono NF";

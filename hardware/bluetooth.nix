@@ -1,5 +1,5 @@
-{ ... }: {
-  services.pulseaudio.enable = false;
+{ ... }:
+{
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
@@ -11,8 +11,12 @@
         Experimental = "true";
         Enable = "Source,Sink,Media,Socket";
       };
-      Policy = { AutoEnable = "true"; };
-      LE = { EnableAdvMonInterleaveScan = "true"; };
+      Policy = {
+        AutoEnable = "true";
+      };
+      LE = {
+        EnableAdvMonInterleaveScan = "true";
+      };
     };
   };
 

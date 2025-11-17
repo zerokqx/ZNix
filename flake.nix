@@ -2,6 +2,10 @@
   description = "flake-parts configuration for NixOS";
 
   inputs = {
+  stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +30,7 @@
       flake-parts,
       nixpkgs,
       znvim,
+    stylix,
       home-manager,
       ...
     }:

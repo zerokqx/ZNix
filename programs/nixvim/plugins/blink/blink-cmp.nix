@@ -6,7 +6,6 @@
     settings = {
       completion = {
         menu = {
-      show_source = true;
           border = "rounded";
         };
         documentation = {
@@ -17,7 +16,7 @@
         };
       };
       signature = {
-        enabled = true;
+        enabled = false;
       };
       keymap = {
         preset = "enter";

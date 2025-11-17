@@ -138,13 +138,17 @@
           {
             type = "button";
             val = "      Projects    ";
-            on_press.__raw = "function() vim.cmd[[AutoSession search]] end";
+            on_press.__raw = ''
+              function()
+                Snacks.picker.projects()
+              end
+            '';
             opts = {
               shortcut = "p";
               keymap = [
                 "n"
                 "p"
-                "<cmd>Telescope projects<CR>"
+                "<cmd>lua Snacks.picker.projects()<CR>"
                 {
                   noremap = true;
                   silent = true;

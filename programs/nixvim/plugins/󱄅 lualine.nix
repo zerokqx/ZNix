@@ -26,7 +26,8 @@
             __unkeyed = "progress";
             separator = "";
           }
-          { __unkeyed = "location";
+          {
+            __unkeyed = "location";
             separator = "";
             padding = {
               left = 0;
@@ -52,7 +53,7 @@
 
     ---@param opts? {relative: "cwd"|"root", modified_hl: string?}
     function ui.pretty_path(opts)
-      opts = vim.tbl_extend("force", {
+      opts = vim.tbl_deep_extend("force", {
         relative = "cwd",
         modified_hl = "Constant",
       }, opts or {})
