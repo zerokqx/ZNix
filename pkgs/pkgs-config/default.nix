@@ -1,1 +1,9 @@
-{ ... }: { imports = [ ./pipewire.nix ./nekoray.nix ./syncthing.nix ]; }
+{ ... }:
+{
+  imports = [
+    ./pipewire.nix
+    ./nekoray.nix
+    ./syncthing.nix
+    ./stylix
+  ];
+}

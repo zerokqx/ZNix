@@ -33,7 +33,7 @@
                 ./opts.nix
               ];
 
-              fileManager = "yazi";
+              fileManager = "neotree";
               waylandSupport = true;
               globals = {
                 mapleader = " ";

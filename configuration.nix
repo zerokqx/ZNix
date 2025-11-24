@@ -1,12 +1,18 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   # imports = [ ./hardware-configuration.nix ];
   virtualisation.docker.enable = true;
   security.polkit.enable = true;
+
+  programs.command-not-found.enable = false;
   programs.sway.enable = true;
   security.pam.services.swaylock = { };
   nix = {
     package = pkgs.nix;
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
   nixpkgs.config.allowUnfree = true;
 
@@ -21,7 +27,10 @@
       enable = true;
       gamescopeSession = {
         enable = true;
-        args = [ "-O" "DP-1" ];
+        args = [
+          "-O"
+          "DP-1"
+        ];
       };
     };
     gamescope = {
@@ -44,8 +53,7 @@
     after = [ "graphical-session.target" ];
     serviceConfig = {
       Type = "simple";
-      ExecStart =
-        "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
       Restart = "on-failure";
       RestartSec = 1;
       TimeoutStopSec = 10;

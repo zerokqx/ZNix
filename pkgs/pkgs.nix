@@ -1,5 +1,10 @@
 { pkgs, inputs, ... }:
 {
+  programs.steam.package = pkgs.steam.override {
+    extraEnv = {
+      LD_AUDIT = "${inputs.sls-steam.packages.${pkgs.system}.sls-steam}/SLSsteam.so";
+    };
+  };
 
   # =======================================================================
   # 📦 СИСТЕМНЫЕ ПАКЕТЫ
@@ -8,6 +13,8 @@
     # --- Разработка и Утилиты ---
     inputs.znvim.packages.${system}.default
 
+    nix-ld
+    inputs.sls-steam.packages.${system}.wrapped
     inputs.rofishot.packages.${system}.default
     alacritty
     typescript # Для ваших React Typescript проектов
@@ -19,6 +26,7 @@
     sqlite
     vtsls
 
+    ncpamixer
     #
     # --- Терминальные Утилиты и Файловая Система ---
     btop # Монитор ресурсов

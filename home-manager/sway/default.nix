@@ -1,1 +1,8 @@
-{ ... }: { imports = [ ./sway-home.nix ./swaylock.nix ]; }
+{ ... }:
+{
+  imports = [
+    ./sway-home.nix
+    ./swaylock.nix
+    ./utils/keybindings.nix
+  ];
+}

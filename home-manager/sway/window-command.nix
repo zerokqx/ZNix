@@ -1,9 +1,15 @@
 let
   center = "floating enable, move position center, resize set 40ppt 80ppt";
-  centerApps = [ "wifi" "bluetooth" ];
+  centerApps = [
+    "wifi"
+    "bluetooth"
+    "volume"
+  ];
 
-in (map (program: {
+in
+(map (program: {
   command = center;
-  criteria = { app_id = program; };
+  criteria = {
+    app_id = program;
+  };
 }) centerApps)
-

@@ -1,14 +1,20 @@
-
 {
   colorschemes = {
+
+    kanagawa-paper = {
+      enable = false;
+    };
+    kanagawa = {
+      enable = false;
+
+    };
     tokyonight = {
       enable = true;
       settings = {
-        style="night";
+        style = "night";
         background = {
         };
         flavour = "macchiato"; # “latte”, “mocha”, “frappe”, “macchiato”, “auto”
-        transparent_background = true;
         integrations = {
           cmp = true;
           flash = true;

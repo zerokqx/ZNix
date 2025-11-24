@@ -2,7 +2,8 @@
 let
   desktop = import ./desktop { inherit inputs; };
   laptop = import ./laptop { inherit inputs; };
-in {
+in
+{
   flake.nixosConfigurations = {
 
     inherit desktop;

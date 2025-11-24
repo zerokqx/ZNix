@@ -1,11 +1,12 @@
-{ ... }: {
+{ ... }:
+{
   plugins.mini-basics = {
     enable = true;
     settings = {
       options = {
         basic = true; # Базовые опции - оставь true
         extra_ui = true; # Включи это для красивого UI
-        win_borders = "rounded"; # Или "single"  "double"
+        win_borders = "single"; # Или "single"  "double"
       };
       mappings = {
         basic = true;
