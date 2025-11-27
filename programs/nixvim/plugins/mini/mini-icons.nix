@@ -1,9 +1,9 @@
 { ... }:
 {
-  plugins.web-devicons.enable = false;
+  plugins.web-devicons.enable = true;
 
   plugins.mini = {
-    enable = true;
+    enable = false;
     modules = {
       icons = {
         mockDevIcons = true;

@@ -16,6 +16,7 @@
     nix-ld
     inputs.sls-steam.packages.${system}.wrapped
     inputs.rofishot.packages.${system}.default
+    antigravity
     alacritty
     typescript # Для ваших React Typescript проектов
     dualsensectl
@@ -58,7 +59,6 @@
     ffmpeg
     playerctl # Управление плеерами
     syncthing # Синхронизация файлов
-    nekoray # V2Ray/Clash клиент
     wget
 
     # --- Интерфейс и Окружение Sway/Wayland ---
@@ -87,7 +87,7 @@
     maple-mono."NF-CN"
     nerd-fonts._0xproto
     apple-cursor # Курсор
-    rofi-wayland
+    rofi
     rofi-calc
     rofi-bluetooth
     rofi-power-menu

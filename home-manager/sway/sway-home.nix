@@ -1,8 +1,6 @@
 {
-  config,
   lib,
   pkgs,
-  mkBind,
   ...
 }:
 {
@@ -15,7 +13,6 @@
       startup = import ./startup.nix;
       nr = "${pkgs.normcap}/bin/normcap";
       rofi = {
-        default = "${pkgs.rofi-wayland}/bin/rofi";
         calc = "${pkgs.rofi-calc}/bin/rofi-calc";
         bluetooth = "${pkgs.rofi-bluetooth}/bin/rofi-bluetooth";
         screenshot = "${pkgs.rofi-screenshot}/bin/rofi-screenshot";
@@ -29,7 +26,7 @@
         modifier = "Mod4";
 
         terminal = "$TERM";
-        menu = "${rofi.default} -show drun";
+        menu = "rofi -show drun";
         defaultWorkspace = "1";
         bindkeysToCode = true;
         inherit input;
@@ -40,15 +37,15 @@
 
         workspaceOutputAssign = [
           {
-            workspace = "2:code";
+            workspace = "2";
             output = "DP-1";
           }
           {
-            workspace = "3:web";
+            workspace = "3";
             output = "HDMI-A-1";
           }
           {
-            workspace = "9:chats";
+            workspace = "9";
             output = "HDMI-A-1";
           }
         ];
@@ -59,7 +56,7 @@
           in
           lib.mkOptionDefault {
             "${m}+Shift+c" = "exec rofi -show calc -modi calc -no-show-match -no-sort";
-            "${m}+v" = "exec cliphist list | ${rofi.default} -dmenu | cliphist decode | wl-copy";
+            "${m}+v" = "exec cliphist list | rofi -dmenu | cliphist decode | wl-copy";
 
             "${m}+c" = "exec swaymsg kill";
             "${m}+r" = "exec ${menu}";
@@ -80,7 +77,7 @@
 
             "${m}+Shift+b" = "exec ${rofi.bluetooth}";
 
-            "${m}+Shift+p" = "exec ${rofi.default} -show power-menu -modi power-menu:${rofi.power}";
+            "${m}+Shift+p" = "exec rofi -show power-menu -modi power-menu:${rofi.power}";
 
             "${m}+Shift+m" = "exec swaylock";
             "${m}+Shift+n" = "exec ${nr}";

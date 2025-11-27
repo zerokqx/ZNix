@@ -1,9 +1,9 @@
 { lib, helpers, ... }:
 {
-  plugins.cmp-calc.enable = true;
   plugins = {
+    cmp-calc.enable = false;
     cmp = {
-      enable = true;
+      enable = false;
       autoEnableSources = true;
 
       cmdline = {
@@ -155,7 +155,7 @@
     };
   };
   plugins.blink-cmp = {
-    enable = false;
+    enable = true;
     settings = {
       completion = {
         menu = {

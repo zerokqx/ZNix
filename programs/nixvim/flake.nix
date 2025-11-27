@@ -33,7 +33,7 @@
                 ./opts.nix
               ];
 
-              fileManager = "neotree";
+              fileManager = "snacks";
               waylandSupport = true;
               globals = {
                 mapleader = " ";
