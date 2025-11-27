@@ -2,10 +2,6 @@
   description = "flake-parts configuration for NixOS";
 
   inputs = {
-    sls-steam = {
-      url = "github:AceSLS/SLSsteam";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,7 +10,7 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -33,7 +29,6 @@
     inputs@{
       flake-parts,
       nixpkgs,
-      sls-steam,
       znvim,
       stylix,
       home-manager,

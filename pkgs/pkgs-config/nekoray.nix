@@ -1,7 +1,7 @@
 { ... }:
 {
-  programs.throne = {
-    enable = false;
+  programs.nekoray = {
+    enable = true;
     tunMode.enable = true;
   };
 
