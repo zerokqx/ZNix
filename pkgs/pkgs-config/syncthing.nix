@@ -7,19 +7,24 @@ let
     service = "syncthing";
     host = "desktop";
   };
-in {
+in
+{
   services.syncthing = {
     inherit user;
 
     overrideDevices = true;
     overrideFolders = true;
     group = "users";
-    enable = true;
+    enable = false;
     cert = lib.mkDefault certs.cert;
     key = lib.mkDefault certs.key;
     settings = {
       gui = { inherit user; };
-      folders = { "Obsidian" = { path = obsidianPath; }; };
+      folders = {
+        "Obsidian" = {
+          path = obsidianPath;
+        };
+      };
     };
     openDefaultPorts = true;
   };

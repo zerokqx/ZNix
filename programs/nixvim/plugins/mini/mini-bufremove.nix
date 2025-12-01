@@ -20,14 +20,5 @@
       ;
     }
 
-    {
-      mode = "n";
-      key = "<leader>bo";
-      action = "<cmd>lua MiniBufremove.delete(0, true)<cr>";
-      options = {
-        silent = true;
-        desc = "Удалить все буферы кроме текущего";
-      };
-    }
   ];
 }
