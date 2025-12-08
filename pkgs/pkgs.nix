@@ -11,15 +11,9 @@
     nix-ld
     inputs.rofishot.packages.${system}.default
     alacritty
-    typescript # Для ваших React Typescript проектов
-    dualsensectl
     nodejs_22 # Node.js
-    pnpm # Менеджер пакетов
     git
-    gcc # Компилятор
-    sqlite
-    vtsls
-
+    google-chrome
     ncpamixer
     #
     # --- Терминальные Утилиты и Файловая Система ---
@@ -36,8 +30,6 @@
     unrar
     p7zip
 
-    inputs.zen-browser.packages."${system}".default # beta
-    chromium
     firefox-devedition # Браузер для разработки
     qbittorrent
     zathura # Просмотр PDF
@@ -56,7 +48,6 @@
 
     # --- Интерфейс и Окружение Sway/Wayland ---
     # Решает проблему Marksman!
-    icu
     mako # Уведомления (Wayland)
     swaylock # Блокировщик экрана (Wayland)
     wl-clipboard # Буфер обмена (Wayland)
@@ -71,9 +62,7 @@
     bluez # Bluetooth-стек
     bluetuith # Консольный Bluetooth-менеджер
     gnupg
-    gemini-cli # Клиент Gemini (консольный)
 
-    # --- Шрифты ---
     maple-mono.CN
     maple-mono."CN-unhinted"
     maple-mono.NF

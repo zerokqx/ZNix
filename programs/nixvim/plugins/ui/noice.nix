@@ -4,6 +4,11 @@
     noice = {
       enable = true;
       settings = {
+        lsp = {
+          signature = {
+            enabled = false; # Отключаем signature help в Noice
+          };
+        };
         default_mappings = false;
         presets = {
           command_palette = true;

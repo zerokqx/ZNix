@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 {
-  # Включение плагинов LSP
   plugins = {
     lspkind.enable = true;
     lsp-lines = {
@@ -19,6 +18,7 @@
       inlayHints = false;
       servers = {
         html = {
+
           enable = true;
         };
         lua_ls = {

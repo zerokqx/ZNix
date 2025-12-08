@@ -17,21 +17,6 @@ inputs.nixpkgs.lib.nixosSystem {
         ./output-sway-rewrite.nix
       ];
     }
-    {
-      services.syncthing = {
-        inherit (certs) cert key;
-        settings = {
-          folders."Obsidian".devices = [ "samsung" ];
-          devices = {
-
-            "samsung" = {
-              id = "NC2PQPF-VHC7PKH-CLYO3R5-A6AK6HN-RDIFQF5-GUD76E2-PMC6WFK-LIYV5AR";
-            };
-          };
-
-        };
-      };
-    }
     gAttr.home-manager-settings
     ./hardware-configuration.nix
     ./postgres.nix
