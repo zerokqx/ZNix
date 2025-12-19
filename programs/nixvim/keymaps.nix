@@ -33,19 +33,6 @@
     }
 
     {
-      mode = [
-        "n"
-        "t"
-      ];
-      key = "<C-/>";
-      action = "<cmd>lua Snacks.terminal.toggle()<cr>";
-      options = {
-        silent = true;
-        desc = "Terminal";
-      };
-    }
-
-    {
       mode = "n";
       key = "<leader>qq";
       action = ":qa!<CR>";
@@ -54,20 +41,6 @@
         desc = "Выйти из ZNvim";
       };
     }
-
-    {
-      mode = "n";
-      key = "ca";
-      action = lib.nixvim.mkRaw "require('actions-preview').code_actions";
-      options = {
-        silent = true;
-        desc = "Code Actions";
-      };
-    }
-
-    # ✅ ОРИГИНАЛЬНЫЕ SEARCH ХОТКЕИ
-
-    # Остальные хоткеи
 
     {
       mode = "n";
@@ -96,6 +69,16 @@
       options = {
         silent = true;
         desc = "История копирования";
+      };
+    }
+
+    {
+      mode = "n";
+      key = "q";
+      action = "<Nop>";
+      options = {
+        noremap = true;
+        silent = true;
       };
     }
     {

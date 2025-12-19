@@ -1,7 +1,12 @@
 {
 
   outputs =
-    { nixpkgs, nixvim, ... }:
+    {
+      nixpkgs,
+      nixvim,
+      self,
+      ...
+    }:
     let
       system = "x86_64-linux";
       keymaps = import ./keymaps.nix;
@@ -28,11 +33,19 @@
             pkgs = import nixpkgs { inherit system; };
             module = {
               imports = [
+                {
+                  _module.args = {
+                    inherit self;
+                  };
+                }
+                ./options.nix
+                ./languages
                 ./plugins
                 ./keymaps.nix
                 ./opts.nix
               ];
 
+              animations = true;
               fileManager = "snacks";
               waylandSupport = true;
               globals = {

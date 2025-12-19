@@ -1,24 +1,28 @@
 { pkgs, ... }:
 
 {
-  # Включение плагинов LSP
   plugins = {
     lspkind.enable = true;
     lsp-lines = {
-      enable = true;
+      enable = false;
     };
     lsp-format = {
-      enable = true;
+      enable = false;
     };
     helm = {
-      enable = true;
+      enable = false;
     };
     lsp-signature.enable = true;
     lsp = {
       enable = true;
       inlayHints = false;
       servers = {
+        prismals = {
+          enable = true;
+          package = pkgs.prisma-language-server;
+        };
         html = {
+
           enable = true;
         };
         lua_ls = {
@@ -31,9 +35,6 @@
           enable = true;
         };
         cssls = {
-          enable = true;
-        };
-        bashls = {
           enable = true;
         };
         yamlls = {
@@ -121,20 +122,6 @@
           #     desc = "LSP: Rename";
           #   };
         };
-        diagnostic = {
-          "<leader>cd" = {
-            action = "open_float";
-            desc = "Diagnostics: Open Float";
-          };
-          "[d" = {
-            action = "goto_next";
-            desc = "Diagnostics: Next";
-          };
-          "]d" = {
-            action = "goto_prev";
-            desc = "Diagnostics: Previous";
-          };
-        };
       };
     };
 
@@ -156,7 +143,7 @@
       float = { border = _border },
       underline = true,
       virtual_text = { spacing = 5, severity_limit = "Warning" },
-      update_in_insert = true,
+      update_in_insert = false,
     }
 
     require("lspconfig.ui.windows").default_options = {

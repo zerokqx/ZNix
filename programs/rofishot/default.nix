@@ -7,7 +7,15 @@ pkgs.stdenv.mkDerivation {
 
   nativeBuildInputs = [ pkgs.makeWrapper ];
 
-  buildInputs = [ pkgs.grim pkgs.slurp pkgs.wl-clipboard pkgs.rofi pkgs.libnotify ];
+  buildInputs = [
+    pkgs.grim
+    pkgs.slurp
+    pkgs.wl-clipboard
+    pkgs.rofi
+    pkgs.libnotify
+
+    pkgs.wf-recorder
+  ];
 
   installPhase = ''
     mkdir -p $out/bin
@@ -15,6 +23,15 @@ pkgs.stdenv.mkDerivation {
     chmod +x $out/bin/rofishot
 
     wrapProgram $out/bin/rofishot \
-      --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.grim pkgs.slurp pkgs.wl-clipboard pkgs.rofi pkgs.libnotify ]}
+      --prefix PATH : ${
+        pkgs.lib.makeBinPath [
+          pkgs.grim
+          pkgs.slurp
+          pkgs.wl-clipboard
+          pkgs.rofi
+          pkgs.libnotify
+          pkgs.wf-recorder
+        ]
+      }
   '';
 }

@@ -9,6 +9,7 @@ with lib;
       "mini-files"
       "snacks"
       "neotree"
+      "nvim-tree"
     ];
     default = "yazi";
     description = "Choose which file manager plugin to enable";
@@ -30,6 +31,17 @@ with lib;
       ];
     })
 
+    (mkIf (config.fileManager == "nvim-tree") {
+      plugins.nvim-tree.enable = true;
+      keymaps = [
+        {
+          mode = "n";
+          key = "<leader>e";
+          action = "<cmd>NvimTreeToggle<CR>";
+          options.desc = "Toggle Tree";
+        }
+      ];
+    })
     (mkIf (config.fileManager == "snacks") {
 
       plugins.snacks.settings.explorer.enabled = lib.mkForce true;

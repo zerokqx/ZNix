@@ -10,6 +10,6 @@
       };
     };
 
-    lsp.servers.bashls.enable = true;
+    lsp.servers.bashls.enable = false;
   };
 }

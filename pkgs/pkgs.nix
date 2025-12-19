@@ -27,6 +27,7 @@
     sqlite
     vtsls
 
+    google-chrome
     ncpamixer
     #
     # --- Терминальные Утилиты и Файловая Система ---
@@ -79,7 +80,9 @@
     bluetuith # Консольный Bluetooth-менеджер
     gnupg
     gemini-cli # Клиент Gemini (консольный)
-
+    wf-recorder
+    vscode
+    nixd
     # --- Шрифты ---
     maple-mono.CN
     maple-mono."CN-unhinted"
@@ -100,6 +103,7 @@
     interception-tools
     keybinder3
     ayugram-desktop
+    insomnia
   ];
 
   # =======================================================================

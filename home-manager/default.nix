@@ -27,7 +27,10 @@
     telephone = "en_US.UTF-8";
   };
 
-  home.sessionPath = [ "${config.home.homeDirectory}/.cargo/bin" ];
+  home.sessionPath = [
+    "${config.home.homeDirectory}/.cargo/bin"
+    "${config.home.homeDirectory}/.bun/bin"
+  ];
   home.sessionVariables = {
     TERM = "alacritty";
     BROWSER = "firefox-devedition";

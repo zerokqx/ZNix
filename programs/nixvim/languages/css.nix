@@ -26,6 +26,27 @@
 
       tailwindcss = {
         enable = true;
+
+        # только то, где реально есть классы tailwind
+        filetypes = [
+          "html"
+          "css"
+          "scss"
+          "typescriptreact"
+          "javascriptreact"
+        ];
+
+        # опционально: не автозапускать, а включать руками
+
+        rootMarkers = [
+          "tailwind.config.js"
+          "tailwind.config.cjs"
+          "tailwind.config.mjs"
+          "tailwind.config.ts"
+          "postcss.config.js"
+          "package.json"
+          ".git"
+        ];
         cmd = [
           (lib.getExe pkgs.tailwindcss-language-server)
           "--stdio"

@@ -2,10 +2,18 @@
   plugins = {
     lspsaga = {
       enable = true;
+
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = "LspAttach";
+        };
+      };
+
       settings = {
         beacon.enable = true;
-        ui.border = "rounded"; # One of none, single, double, rounded, solid, shadow
         ui = {
+          border = "rounded";
           signatureHelp = false;
         };
         hover = {
@@ -14,28 +22,24 @@
           openLink = "gx";
         };
         symbolInWinbar = {
-          enable = true; # Breadcrumbs
+          enable = true;
           showFile = false;
         };
-
         codeAction = {
           showServerName = true;
           numShortcut = false;
           onlyInCursor = false;
           keys = {
-            exec = "<CR>";
             quit = [
               "<Esc>"
               "q"
             ];
           };
         };
-
         lightbulb = {
-          enable = true;
+          enable = false;
           sign = true;
         };
-
         rename.keys = {
           exec = "<CR>";
           quit = [
@@ -44,18 +48,16 @@
           ];
           select = "x";
         };
-
         outline = {
           closeAfterJump = true;
-          layout = "normal"; # normal or float
-          winPosition = "right"; # left or right
+          layout = "normal";
+          winPosition = "right";
           keys = {
             jump = "e";
             quit = "q";
             toggleOrJump = "o";
           };
         };
-
         scrollPreview = {
           scrollUp = "<C-d>";
           scrollDown = "<C-u>";
@@ -76,7 +78,6 @@
     {
       mode = "n";
       key = "K";
-      # action = "<cmd>Lspsaga hover_doc<CR>";
       action.__raw = ''
         function()
           local winid = require("ufo").peekFoldedLinesUnderCursor()
@@ -110,7 +111,7 @@
     }
     {
       mode = "n";
-      key = "<leader>ca";
+      key = "<leader>a";
       action = "<cmd>Lspsaga code_action<CR>";
       options = {
         desc = "Code Action";
@@ -171,7 +172,6 @@
         silent = true;
       };
     }
-
     {
       mode = "n";
       key = "gr";

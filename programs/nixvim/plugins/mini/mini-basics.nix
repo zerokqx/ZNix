@@ -6,7 +6,7 @@
       options = {
         basic = true; # Базовые опции - оставь true
         extra_ui = true; # Включи это для красивого UI
-        win_borders = "single"; # Или "single"  "double"
+        win_borders = "rounded"; # Или "single"  "double"
       };
       mappings = {
         basic = true;

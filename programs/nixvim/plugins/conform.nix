@@ -1,68 +1,28 @@
-{ pkgs, lib, ... }:
+{ lib, config, ... }:
 {
   plugins.conform-nvim = {
     enable = true;
     settings = {
       format_on_save = {
-        lspFallback = true;
-        timeoutMs = 2000;
+        lsp_fallback = true;
+        timeout_ms = 5000;
       };
-
-      # Привязка форматтеров к типам файлов
-      formatters_by_ft = {
-        "_" = [
-          "squeeze_blanks"
-          "trim_whitespace"
-          "trim_newlines"
-        ];
-
-        nix = [ "nixfmt" ];
-        lua = [ "stylua" ];
-        json = [ "jq" ];
-        yaml = [ "yamlfmt" ];
-      };
-
-      # Определение самих форматтеров
-      formatters = {
-        _ = {
-          command = "${pkgs.gawk}/bin/gawk";
-        };
-
-        squeeze_blanks = {
-          command = lib.getExe' pkgs.coreutils "cat";
-        };
-
-        nixfmt = {
-          command = lib.getExe pkgs.nixfmt-rfc-style;
-        };
-
-        stylua = {
-          command = lib.getExe pkgs.stylua;
-        };
-
-        jq = {
-          command = lib.getExe pkgs.jq;
-          args = [ "." ]; # форматирует JSON
-        };
-
-        yamlfmt = {
-          command = lib.getExe pkgs.yamlfmt;
-        };
-      };
+      formatters_by_ft = { };
+      formatters = { };
     };
   };
 
-  keymaps = [
+  keymaps = lib.mkIf config.plugins.conform-nvim.enable [
     {
       mode = [
         "n"
         "v"
       ];
       key = "<leader>cf";
-      action = "<cmd>lua require('conform').format()<cr>";
+      action = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true })<CR>";
       options = {
         silent = true;
-        desc = "Format";
+        desc = "Format (Conform)";
       };
     }
   ];
