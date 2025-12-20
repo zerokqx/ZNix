@@ -1,20 +1,14 @@
 { pkgs, inputs, ... }:
 {
-  programs.steam.package = pkgs.steam.override {
-    extraEnv = {
-      LD_AUDIT = "${inputs.sls-steam.packages.${pkgs.system}.sls-steam}/SLSsteam.so";
-    };
-  };
 
   # =======================================================================
   # 📦 СИСТЕМНЫЕ ПАКЕТЫ
   # =======================================================================
   environment.systemPackages = with pkgs; [
     # --- Разработка и Утилиты ---
-    inputs.znvim.packages.${system}.default
 
     nix-ld
-    inputs.sls-steam.packages.${system}.wrapped
+    inputs.znvim.packages.${system}.default
     inputs.rofishot.packages.${system}.default
     antigravity
     alacritty
@@ -44,7 +38,6 @@
     unrar
     p7zip
 
-    inputs.zen-browser.packages."${system}".default # beta
     chromium
     firefox-devedition # Браузер для разработки
     qbittorrent
@@ -80,8 +73,11 @@
     bluetuith # Консольный Bluetooth-менеджер
     gnupg
     gemini-cli # Клиент Gemini (консольный)
+    virtualbox
     wf-recorder
     vscode
+
+    freerdp
     nixd
     # --- Шрифты ---
     maple-mono.CN
@@ -93,6 +89,8 @@
     rofi
     rofi-calc
     rofi-bluetooth
+
+    prismlauncher
     rofi-power-menu
     rofi-network-manager
     bc

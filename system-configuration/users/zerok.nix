@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   users.users.zerok = {
     isNormalUser = true;
     description = "zerok";

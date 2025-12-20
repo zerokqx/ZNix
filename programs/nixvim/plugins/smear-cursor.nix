@@ -1,4 +1,4 @@
 { config, ... }:
 {
-  plugins.smear-cursor.enable = config.animations;
+  plugins.smear-cursor.enable = false;
 }
