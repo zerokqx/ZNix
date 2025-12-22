@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   config = {
     extraConfigLuaPre = ''
@@ -49,8 +50,6 @@
       grepformat = "%f:%l:%c:%m";
 
       termguicolors = true;
-
-      updatetime = 50; # faster completion (4000ms default)
 
       signcolumn = "no";
 

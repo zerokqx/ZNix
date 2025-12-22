@@ -3,6 +3,7 @@
   plugins.mini-basics = {
     enable = true;
     settings = {
+
       options = {
         basic = true; # Базовые опции - оставь true
         extra_ui = true; # Включи это для красивого UI
@@ -15,7 +16,8 @@
       };
       autocommands = {
         basic = true;
-        relnum_in_visual_mode = true; # Релативные номера в visual режиме
+
+        relnum_in_visual_mode = true;
       };
       silent = false;
     };

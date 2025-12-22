@@ -4,30 +4,30 @@
     settings = {
       logger = {
         level = "warn";
-        float_precision = 0.01;  # ← исправлено
+        float_precision = 0.01; # ← исправлено
       };
       progress = {
-        poll_rate = 0;  # ← исправлено
-        suppress_on_insert = true;  # ← исправлено
+        poll_rate = 0; # ← исправлено
+        suppress_on_insert = true; # ← исправлено
         ignore_done_already = false;
         ignore_empty_message = false;
-        clear_on_detach =  # ← исправлено (ключ тут уже был правильный)
+        clear_on_detach = # ← исправлено (ключ тут уже был правильный)
           ''
             function(client_id)
               local client = vim.lsp.get_client_by_id(client_id)
               return client and client.name or nil
             end
           '';
-        notification_group =  # ← исправлено
+        notification_group = # ← исправлено
           ''
             function(msg) return msg.lsp_client.name end
           '';
         ignore = [ ];
         lsp = {
-          progress_ringbuf_size = 0;  # ← исправлено
+          progress_ringbuf_size = 0; # ← исправлено
         };
         display = {
-          render_limit = 16;  # ← исправлено
+          render_limit = 16; # ← исправлено
           done_ttl = 3;
           done_icon = "✔";
           done_style = "Constant";
@@ -57,24 +57,25 @@
         };
       };
       notification = {
-        poll_rate = 10;  # ← исправлено
+        poll_rate = 10; # ← исправлено
         filter = "info";
-        history_size = 128;  # ← исправлено
-        override_vim_notify = true;  # ← исправлено
+        history_size = 128; # ← исправлено
+        override_vim_notify = false; # ← исправлено
         window = {
-          normal_hl = "Comment";  # ← исправлено
-          winblend = 0;
-          border = "none";
+          normal_hl = "Comment"; # ← исправлено
+          winblend = 1;
+          border = "rounded";
           zindex = 45;
-          max_width = 0;  # ← исправлено
-          max_height = 0;  # ← исправлено
-          x_padding = 1;  # ← исправлено
-          y_padding = 0;  # ← исправлено
+          max_width = 0; # ← исправлено
+          max_height = 0; # ← исправлено
+          x_padding = 1; # ← исправлено
+          y_padding = 0; # ← исправлено
           align = "bottom";
           relative = "editor";
         };
-        view = {  # ← добавлена секция view
-          group_separator = "--";
+        view = {
+          # ← добавлена секция view
+          group_separator = "──";
           group_separator_hl = "Comment";
           icon_separator = " ";
           stack_upwards = true;

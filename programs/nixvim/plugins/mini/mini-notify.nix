@@ -1,6 +1,7 @@
-{ ... }: {
+{ ... }:
+{
   plugins.mini-notify = {
-    enable = true;
+    enable = false;
 
   };
 }

@@ -4,6 +4,7 @@
 
     conform-nvim = {
       settings = {
+
         formatters.prettier = {
           command = lib.getExe pkgs.nodePackages.prettier;
         };
@@ -28,6 +29,7 @@
 
       extraOptions = {
         settings = {
+
           complete_function_calls = false;
           javascript = {
             inlayHints = {
@@ -41,6 +43,7 @@
             };
           };
           typescript = {
+            exclude = [ "**/node_modules/**" ];
             inlayHints = {
               includeInlayEnumMemberValueHints = true;
               includeInlayFunctionLikeReturnTypeHints = true;
