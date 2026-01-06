@@ -1,20 +1,60 @@
-{ lib, config, ... }:
 {
+  lib,
+  config,
+  icons,
+  ...
+}:
+
+{
+
   plugins.snacks = {
     enable = true;
 
     settings = {
       indent.enabled = true;
       quckfiles.enabled = true;
+      dim.enabled = true;
       toggle.enabled = true;
-      words.enabled = true;
-
+      bufdelete.enabled = true;
+      scroll.enabled = true;
       explorer = {
         enabled = true;
       };
+      statuscolumn = {
+        enabled = true;
+        left = [
+          "mark"
+          "sign"
+        ];
+        right = [
+          "fold"
+          "git"
+        ];
+        folds = {
+          open = false;
+          git_hl = false;
+        };
+        refresh = 200;
+        git = {
+          patterns = [
+            "GitSign"
+            "MiniDiffSign"
+          ];
+        };
+      };
+      scope = {
+        enbled = true;
+      };
+      notifier = {
+        enabled = true;
 
-      animate = { };
-
+        icons = {
+          error = icons.error;
+          warn = icons.warn;
+          info = icons.info;
+          debug = icons.debug;
+        };
+      };
       terminal = {
         enabled = true;
         win = {
@@ -182,5 +222,26 @@
         desc = "Terminal";
       };
     }
+    ++ lib.optionals (config.plugins.snacks.settings.bufdelete.enabled) [
+
+      {
+        mode = "n";
+        key = "<leader>bd";
+        action = "<cmd>lua Snacks.bufdelete.delete()<cr>";
+        options.desc = "Close buffer";
+      }
+      {
+        mode = "n";
+        key = "<leader>bo";
+        action = ''<cmd>lua Snacks.bufdelete.other()<cr>'';
+        options.desc = "Close all buffers but current";
+      }
+      {
+        mode = "n";
+        key = "<leader>bO";
+        action = ''<cmd>lua Snacks.bufdelete.all()<cr>'';
+        options.desc = "Close all buffers";
+      }
+    ]
   );
 }

@@ -6,7 +6,7 @@
       settings = {
         lsp = {
           signature = {
-            enabled = false; # Отключаем signature help в Noice
+            enabled = false;
           };
         };
         default_mappings = false;

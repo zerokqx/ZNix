@@ -1,12 +1,12 @@
-{ lib, ... }:
+{ lib, config, ... }:
 {
   plugins.mini-bufremove = {
-    enable = true;
+    enable = false;
     settings = {
       silent = true;
     };
   };
-  keymaps = [
+  keymaps = lib.mkIf config.plugins.mini-bufremove.enable [
 
     {
       mode = "n";

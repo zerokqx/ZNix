@@ -8,6 +8,7 @@
       icons = {
         mockDevIcons = true;
       };
+
     };
   };
 

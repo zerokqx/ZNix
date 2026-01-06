@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./firefox.nix
     ./wofi
     ./kitty.nix
     ./zathura.nix

@@ -22,6 +22,15 @@
       };
     }
     {
+      mode = "n";
+      key = "<leader>wa";
+      action = ":wa! | echo 'Все сохранено!'<cr>";
+      options = {
+        silent = true;
+        desc = "Write all";
+      };
+    }
+    {
 
       mode = "n";
       key = "<leader>cn";

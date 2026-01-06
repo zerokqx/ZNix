@@ -7,7 +7,8 @@ in
 
   imports = [
     ./mini
-    ./ui ./blink
+    ./ui
+    ./blink
 
   ]
   ++ importFilesDir ./.;

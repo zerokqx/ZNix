@@ -3,6 +3,13 @@
   plugins.conform-nvim = {
     enable = true;
     settings = {
+
+      filter = ''
+        function(bufnr)
+          local ft = vim.bo[bufnr].filetype
+          return ft ~= "markdown"
+        end
+      '';
       format_on_save = {
         lsp_fallback = true;
         timeout_ms = 5000;

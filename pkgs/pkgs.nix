@@ -5,11 +5,11 @@
   # 📦 СИСТЕМНЫЕ ПАКЕТЫ
   # =======================================================================
   environment.systemPackages = with pkgs; [
-    # --- Разработка и Утилиты ---
-
-    nix-ld
     inputs.znvim.packages.${system}.default
     inputs.rofishot.packages.${system}.default
+    nix-ld
+    quickshell
+    prismlauncher
     antigravity
     alacritty
     typescript # Для ваших React Typescript проектов

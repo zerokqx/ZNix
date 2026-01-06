@@ -4,6 +4,7 @@
   virtualisation.docker.enable = true;
   security.polkit.enable = true;
 
+  documentation.man.generateCaches = false;
   programs.command-not-found.enable = false;
   programs.sway.enable = true;
   security.pam.services.swaylock = { };

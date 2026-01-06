@@ -1,5 +1,4 @@
 {
-
   outputs =
     {
       nixpkgs,
@@ -8,10 +7,6 @@
       ...
     }:
     let
-      system = "x86_64-linux";
-      keymaps = import ./keymaps.nix;
-
-      pkgs = import nixpkgs { inherit system; };
 
       systems = [
         "x86_64-linux"
@@ -30,8 +25,12 @@
         let
           nixvim' = nixvim.legacyPackages.${system};
           nvim = nixvim'.makeNixvimWithModule {
+            extraSpecialArgs = {
+              icons = import ./utils/icons.nix;
+            };
             pkgs = import nixpkgs { inherit system; };
             module = {
+
               imports = [
                 {
                   _module.args = {

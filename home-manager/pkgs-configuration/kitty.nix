@@ -1,7 +1,8 @@
-{ ... }: {
+{ ... }:
+{
 
   programs.kitty = {
-    enable = true;
+    enable = false;
     enableGitIntegration = true;
     settings = {
       font_family = "MapleMono NF";

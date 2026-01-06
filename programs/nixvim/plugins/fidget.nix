@@ -1,6 +1,6 @@
 {
   plugins.fidget = {
-    enable = true;
+    enable = false;
     settings = {
       logger = {
         level = "warn";

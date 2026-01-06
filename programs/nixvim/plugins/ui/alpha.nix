@@ -1,7 +1,7 @@
 { lib, ... }:
 {
   plugins.alpha = {
-    enable = true;
+    enable = false;
     settings.layout = [
       {
         type = "padding";

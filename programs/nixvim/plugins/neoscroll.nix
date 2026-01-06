@@ -1,7 +1,7 @@
 { config, ... }:
 {
   plugins.neoscroll = {
-    enable = config.animations;
+    enable = false;
     settings = {
       cursor_scrolls_alone = true;
       easing_function = "quadratic";

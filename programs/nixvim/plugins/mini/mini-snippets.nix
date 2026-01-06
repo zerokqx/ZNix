@@ -1,5 +1,5 @@
 {
-  plugins.mini-snippets= {
+  plugins.mini-snippets = {
     enable = true;
   };
 }

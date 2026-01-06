@@ -16,7 +16,7 @@
   ];
   home.username = "zerok";
   home.homeDirectory = "/home/zerok";
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
   home.enableNixpkgsReleaseCheck = false;
   home.language = {
     numeric = "en_US.UTF-8";
@@ -33,7 +33,7 @@
   ];
   home.sessionVariables = {
     TERM = "alacritty";
-    BROWSER = "firefox-devedition";
+    BROWSER = "firefox";
     XDG_MIME_DEFAULTS = ''
       application/pdf=zathura
       application/x-pdf=zathura

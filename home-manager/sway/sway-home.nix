@@ -24,15 +24,14 @@
 
       config = rec {
         modifier = "Mod4";
-
         terminal = "$TERM";
         menu = "rofi -show drun";
         defaultWorkspace = "1";
         bindkeysToCode = true;
+        window = { inherit commands; };
         inherit input;
         inherit output;
         inherit assigns;
-        window = { inherit commands; };
         inherit startup;
 
         workspaceOutputAssign = [
@@ -69,25 +68,15 @@
             "XF86AudioRaiseVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
             "XF86AudioLowerVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
             "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
-
-            # Медиа
             "Prior" = "exec playerctl next";
             "Next" = "exec playerctl play-pause";
             "End" = "exec playerctl previous";
-
             "${m}+Shift+b" = "exec ${rofi.bluetooth}";
-
             "${m}+Shift+p" = "exec rofi -show power-menu -modi power-menu:${rofi.power}";
-
             "${m}+Shift+m" = "exec swaylock";
             "${m}+Shift+n" = "exec ${nr}";
-
-            # File manager
             "${m}+e" = "exec ${terminal} -e yazi";
-
-            # WiFi manager
             "${m}+i" = "exec  rofi-network-manager";
-
             "XF86MonBrightnessDown" = "exec brightnessctl s 10%-";
             "XF86MonBrightnessUp" = "exec brightnessctl s 10%+";
             "${m}+Shift+v" = "exec ${terminal} --class volume -e ncpamixer";

@@ -17,7 +17,6 @@
       };
 
       spec = [
-        # General Mappings
         {
           __unkeyed-1 = "<leader>c";
           mode = [
@@ -25,6 +24,15 @@
             "v"
           ];
           group = "Code";
+        }
+
+        {
+          __unkeyed-1 = "<leader>o";
+          mode = [
+            "n"
+          ];
+          icon = "󱞁";
+          group = "Obsidian";
         }
 
         {

@@ -21,6 +21,7 @@
           enable = true;
           package = pkgs.prisma-language-server;
         };
+        qmlls.enable = true;
         html = {
 
           enable = true;

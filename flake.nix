@@ -2,13 +2,10 @@
   description = "flake-parts configuration for NixOS";
 
   inputs = {
-    stylix = {
-      url = "github:nix-community/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    home-manager.url = "github:nix-community/home-manager";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    # stylix.url = "github:nix-community/stylix/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
     znvim = {
@@ -36,6 +33,7 @@
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ system ];
+
       imports = [
         home-manager.flakeModules.home-manager
 
