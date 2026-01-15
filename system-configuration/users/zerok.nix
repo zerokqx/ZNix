@@ -12,6 +12,7 @@
       "docker"
       "wheel"
       "video"
+      "adbusers"
       "input"
       "audio"
       "render"

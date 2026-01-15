@@ -1,12 +1,18 @@
 { config, pkgs, ... }:
 {
-  # imports = [ ./hardware-configuration.nix ];
+  imports = [ ./pkgs ];
   virtualisation.docker.enable = true;
   security.polkit.enable = true;
 
+  services.upower.enable = true;
   documentation.man.generateCaches = false;
   programs.command-not-found.enable = false;
-  programs.sway.enable = true;
+  services.udisks2.enable = true;
+  services.gvfs.enable = true; # для thumbnail, trash, сетевых дисков и т.д.
+  programs.sway = {
+    enable = true;
+    package = pkgs.swayfx;
+  };
   security.pam.services.swaylock = { };
   nix = {
     package = pkgs.nix;

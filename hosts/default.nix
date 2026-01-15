@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 let
   desktop = import ./desktop { inherit inputs; };
   laptop = import ./laptop { inherit inputs; };
