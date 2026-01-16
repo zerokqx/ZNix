@@ -15,7 +15,7 @@
     package = pkgs.swayfx;
     checkConfig = false;
     extraConfig = ''
-      corner_radius 10
+      corner_radius 25
       shadows enable
       shadow_blur_radius 20
       blur_radius 5
@@ -40,7 +40,7 @@
         outer = 12;
       };
 
-      window.border = 1;
+      window.border = 0;
       window = {
         titlebar = false;
       };

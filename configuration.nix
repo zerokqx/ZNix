@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 {
-  imports = [ ./pkgs ];
+  imports = [
+    ./core
+    ./configs
+  ];
   virtualisation.docker.enable = true;
   security.polkit.enable = true;
 
@@ -21,7 +24,6 @@
       "flakes"
     ];
   };
-  nixpkgs.config.allowUnfree = true;
 
   environment.variables.EDITOR = "nvim";
   programs.gnupg.agent.enable = true;

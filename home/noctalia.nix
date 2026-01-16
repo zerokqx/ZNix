@@ -3,7 +3,21 @@
   programs.noctalia-shell = {
     enable = true;
     settings = {
+      dock = {
+        enabled = false;
+      };
+      location = {
+        name = "Moscow";
+      };
+      wallpaper = {
+        recursiveSearch = true;
+      };
+      notifications = {
+
+        enableKeyboardLayoutToast = false;
+      };
       bar = {
+        showCapsule = false;
         density = "comfortable";
         position = "left";
         widgets = {

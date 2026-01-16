@@ -1,27 +1,21 @@
 { inputs, ... }:
-let
-  gAttr = import ../general-attr.nix;
-in
 inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = { inherit inputs; };
   modules = [
+    ../../configuration.nix
 
     inputs.home-manager.nixosModules.home-manager
     {
+      home-manager.users.zerok.imports = [
 
-      home-manager = {
-        users.zerok.imports = [ ../../home-manager ];
-        useUserPackages = true;
-        useGlobalPkgs = true;
-        backupFileExtension = "backup";
-        extraSpecialArgs = {
-          inherit inputs;
-        };
-      };
+        ../../home
+
+        inputs.nixvim.homeManagerModules.nixvim
+        inputs.stylix.homeModules.stylix
+        inputs.noctalia.homeModules.default
+      ];
     }
     ./hardware-configuration.nix
-    ./pkgs.nix
-  ]
-  ++ gAttr.general-path;
+  ];
 }

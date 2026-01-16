@@ -24,9 +24,9 @@ in
     "${m}+b" = "exec $BROWSER";
     "${m}+e" = "exec thunar";
     "${m}+r" = "exec ${menu}";
-    "${m}+Shift+s" = "exec grimshot --notify save screen";
-    "${m}+Shift+a" = "exec grimshot --notify save area";
-    "${m}+Shift+w" = "exec grimshot --notify save window";
+    "${m}+Shift+s" = "exec grimshot --notify savecopy screen";
+    "${m}+Shift+a" = "exec grimshot --notify savecopy area";
+    "${m}+Shift+w" = "exec grimshot --notify savecopy window";
     "${m}+Shift+c" = "exec noctalia-shell ipc call controlCenter toggle";
     "${m}+Shift+h" = "exec noctalia-shell ipc call launcher clipboard";
     "${m}+Shift+b" = "exec noctalia-shell ipc call bluetooth togglePanel";

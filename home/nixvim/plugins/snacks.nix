@@ -10,7 +10,6 @@
     enable = true;
 
     settings = {
-      indent.enabled = true;
       quckfiles.enabled = true;
       dim.enabled = true;
       toggle.enabled = true;

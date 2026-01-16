@@ -9,11 +9,10 @@
       cursorline = true; # Highlight the line where the cursor is located
       cmdheight = 2; # more space in the neovim command line for displaying messages
       showmode = false; # Dont show the editor mode in status line
-      langmap = "ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz";
       number = true;
       relativenumber = true;
-      signcolumn = "auto:1-3";
-      numberwidth = 4;
+      signcolumn = "no";
+      numberwidth = 2;
 
       tabstop = 2;
       softtabstop = 2;

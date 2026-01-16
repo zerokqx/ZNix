@@ -1,7 +1,5 @@
 {
   config,
-  pkgs,
-  inputs,
   ...
 }:
 
@@ -12,8 +10,7 @@
     ./git.nix
     ./alacritty.nix
     ./noctalia.nix
-    ./stylix
-    ./gtk.nix
+    ./stylix.nix
     ./firefox.nix
     ./zoxide.nix
     ./fish.nix
@@ -23,7 +20,7 @@
     ./dir-file-create.nix
 
   ];
-
+  nixpkgs.config.allowUnfree = true; # ← ВАЖНО: внутри home-manager!
   home.username = "zerok";
   home.homeDirectory = "/home/zerok";
   home.stateVersion = "25.11";
@@ -33,7 +30,7 @@
     time = "en_US.UTF-8";
     base = "en_US.UTF-8";
     address = "en_US.UTF-8";
-    messages = "en_US.UTF-8";
+    messages = "en_US<D-R>UTF-8";
     telephone = "en_US.UTF-8";
   };
 

@@ -1,11 +1,9 @@
 { inputs, ... }:
-let
-  gAttr = import ../general-attr.nix;
-in
 inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = { inherit inputs; };
   modules = [
+    ../../configuration.nix
     ./hardware-configuration.nix
 
     inputs.home-manager.nixosModules.home-manager
@@ -22,11 +20,10 @@ inputs.nixpkgs.lib.nixosSystem {
             };
           };
         }
-        inputs.nixvim.homeManagerModules.nixvim
+        inputs.nixvim.homeModules.nixvim
         inputs.stylix.homeModules.stylix
         inputs.noctalia.homeModules.default
       ];
     }
-  ]
-  ++ gAttr.general-path;
+  ];
 }

@@ -1,4 +1,4 @@
-{ lib, helpers, ... }:
+{ lib, ... }:
 {
   plugins.blink-cmp = {
     enable = true;
