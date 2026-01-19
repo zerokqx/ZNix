@@ -75,5 +75,10 @@
     maple-mono."NF-CN"
   ];
 
+  nix.gc = {
+    automatic = true;
+    dates = "03:15";
+    options = "--delete-older-than 7d";
+  };
   system.stateVersion = "25.05";
 }

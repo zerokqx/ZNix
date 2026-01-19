@@ -38,10 +38,5 @@
         home-manager.flakeModules.home-manager
         ./hosts
       ];
-      flake = {
-        homeModules = [
-          spicetify-nix.nixosModules.spicetify
-        ];
-      };
     };
 }

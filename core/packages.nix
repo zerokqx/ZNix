@@ -1,6 +1,7 @@
 { pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    autotiling-rs
     alacritty
     atool
     bat
@@ -19,7 +20,6 @@
     interception-tools
     keybinder3
     libnotify
-    mako
     nix-ld
     ntfs3g
     pavucontrol

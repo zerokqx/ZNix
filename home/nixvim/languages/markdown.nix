@@ -29,7 +29,7 @@
     };
 
     lsp.servers = {
-      marksman.enable = true;
+      marksman.enable = false;
 
       ltex = {
 

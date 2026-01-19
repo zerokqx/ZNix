@@ -1,9 +1,5 @@
+{ pkgs, config, ... }:
 {
-  pkgs,
-  ...
-}:
-{
-
   stylix = {
     enable = true;
     polarity = "dark";
@@ -13,27 +9,21 @@
       package = pkgs.apple-cursor;
     };
     icons = {
+      enable = true;
+      package = pkgs.whitesur-icon-theme;
       dark = "WhiteSur-dark";
       light = "WhiteSur-light";
-      package = pkgs.whitesur-icon-theme;
-      enable = true;
     };
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-
     autoEnable = true;
     targets = {
+      zathura.enable = true;
       noctalia-shell.enable = true;
       firefox.enable = true;
-      firefox.profileNames = [
-        "default"
-      ];
+      firefox.profileNames = [ "default" ];
       alacritty = {
-        colors = {
-          enable = true;
-        };
-        fonts = {
-          enable = false;
-        };
+        colors.enable = true;
+        fonts.enable = false;
       };
       spicetify.colors.enable = true;
       gtk.colors.enable = true;
@@ -46,23 +36,5 @@
         };
       };
     };
-
-    # fonts = {
-    #   serif = {
-    #     package = pkgs.maple-mono.NF;
-    #     name = "Maple Mono NF";
-    #   };
-    #
-    #   sansSerif = {
-    #     package = pkgs.maple-mono.NF;
-    #     name = "Maple Mono NF";
-    #   };
-    #
-    #   monospace = {
-    #     package = pkgs.maple-mono."NF-CN";
-    #     name = "Maple Mono NF CN";
-    #   };
-    #
-    # };
   };
 }

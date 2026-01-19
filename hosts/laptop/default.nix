@@ -20,6 +20,8 @@ inputs.nixpkgs.lib.nixosSystem {
             };
           };
         }
+
+        inputs.spicetify-nix.homeManagerModules.default
         inputs.nixvim.homeModules.nixvim
         inputs.stylix.homeModules.stylix
         inputs.noctalia.homeModules.default

@@ -13,7 +13,6 @@
         recursiveSearch = true;
       };
       notifications = {
-
         enableKeyboardLayoutToast = false;
       };
       bar = {

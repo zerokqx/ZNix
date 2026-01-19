@@ -30,11 +30,13 @@
       event = [ "VimEnter" ];
       pattern = "*";
       desc = "Remove Alacritty padding on startup";
-      callback = ''
-        function()
-              vim.fn.system('alacritty msg config window.padding.x=0 window.padding.y=0')
-            end
-      '';
+      callback = {
+        __raw = ''
+          function()
+            vim.fn.system("alacritty msg config window.padding.x=0 window.padding.y=0")
+          end
+        '';
+      };
     }
   ];
 }
