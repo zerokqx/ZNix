@@ -35,6 +35,7 @@
           enable = false;
         };
       };
+      spicetify.colors.enable = true;
       gtk.colors.enable = true;
       nixvim = {
         opacity.enable = true;

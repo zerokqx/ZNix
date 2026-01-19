@@ -8,14 +8,15 @@
   imports = [
 
     ./git.nix
-    ./alacritty.nix
     ./noctalia.nix
     ./stylix.nix
     ./firefox.nix
     ./zoxide.nix
+    ./alacritty.nix
     ./fish.nix
     ./nixvim
     ./sway
+    ./spicetify.nix
     ./packages.nix
     ./dir-file-create.nix
 
@@ -58,6 +59,9 @@
       image/webp=org.gnome.Loupe.desktop
       image/svg+xml=org.gnome.Loupe.desktop
       image/tiff=org.gnome.Loupe.desktop
+      video/mp4=org.gnome.Totem.desktop
+      video/mkv=org.gnome.Totem.desktop
+      video/avi=org.gnome.Totem.desktop
     '';
     MICRO_TRUECOLOR = 1;
     NIXPKGS_ALLOW_UNFREE = 1;

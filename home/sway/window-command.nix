@@ -8,12 +8,20 @@ let
 
 in
 {
-  wayland.windowManager.sway.config.window.commands = (
-    map (program: {
+  wayland.windowManager.sway.config.window.commands =
+    (map (program: {
       command = center;
       criteria = {
         app_id = program;
       };
-    }) centerApps
-  );
+    }) centerApps)
+    ++ [
+      {
+        command = center;
+        criteria = {
+
+          title = "Extension:.*";
+        };
+      }
+    ];
 }

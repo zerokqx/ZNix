@@ -1,0 +1,4 @@
+{
+
+  programs.spicetify.enable = true;
+}

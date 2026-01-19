@@ -28,7 +28,7 @@
       for_window [class=".*"] opacity $window_opacity
 
     '';
-    config = rec {
+    config = {
       bars = [ ];
       modifier = "Mod4";
       terminal = "$TERM";
@@ -39,7 +39,6 @@
         inner = 8;
         outer = 12;
       };
-
       window.border = 0;
       window = {
         titlebar = false;

@@ -2,7 +2,7 @@
   description = "flake-parts configuration for NixOS";
 
   inputs = {
-
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,6 +23,7 @@
       flake-parts,
       home-manager,
       nixvim,
+      spicetify-nix,
       ...
     }:
     let
@@ -37,5 +38,10 @@
         home-manager.flakeModules.home-manager
         ./hosts
       ];
+      flake = {
+        homeModules = [
+          spicetify-nix.nixosModules.spicetify
+        ];
+      };
     };
 }

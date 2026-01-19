@@ -2,10 +2,26 @@
 {
 
   home.packages = with pkgs; [
-    cargo
+    spicetify-cli
+    typescript
+    nixd
+    lazygit
+    ayugram-desktop
+    yazi
+    zathura
+    vtsls
+    sqlite
+    nodejs_22
+    libreoffice
+    steam
+    qbittorrent
+    prismlauncher
+    obsidian
+    matugen
+    insomnia
+    spotify
     git-crypt
     bun
-    loupe
     fastfetch
     devenv
     xdg-user-dirs
