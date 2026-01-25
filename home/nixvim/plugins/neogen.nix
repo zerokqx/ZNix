@@ -1,3 +1,4 @@
+{ config, lib, ... }:
 {
   plugins.neogen = {
     enable = true;
@@ -27,4 +28,17 @@
       snippet_engine = "mini";
     };
   };
+  keymaps = lib.mkIf config.plugins.neogen.enable [
+
+    {
+
+      mode = "n";
+      key = "<leader>cn";
+      action = "<cmd>Neogen<cr>";
+      options = {
+        silent = true;
+        desc = "Neogen";
+      };
+    }
+  ];
 }

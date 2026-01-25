@@ -30,16 +30,6 @@
         desc = "Write all";
       };
     }
-    {
-
-      mode = "n";
-      key = "<leader>cn";
-      action = "<cmd>Neogen<cr>";
-      options = {
-        silent = true;
-        desc = "Neogen";
-      };
-    }
 
     {
       mode = "n";

@@ -18,7 +18,7 @@
             '';
         };
 
-        incremental_selection.enable = true;
+        incremental_selection.enable = false;
         indent.enable = true;
       };
       nixvimInjections = true;
