@@ -5,6 +5,7 @@ inputs.nixpkgs.lib.nixosSystem {
   modules = [
     ../../configuration.nix
     ./hardware-configuration.nix
+    ./fprintd.nix
 
     inputs.home-manager.nixosModules.home-manager
     {

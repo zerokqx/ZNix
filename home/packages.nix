@@ -17,7 +17,6 @@
     qbittorrent
     prismlauncher
     obsidian
-    matugen
     nerd-fonts.jetbrains-mono
     antigravity
     insomnia

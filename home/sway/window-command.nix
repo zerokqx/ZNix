@@ -23,5 +23,12 @@ in
           title = "Extension:.*";
         };
       }
+      {
+        command = "floating enable, resize set width 600 px height 300 px, move position 830 px 565 px, sticky on
+          ";
+        criteria = {
+          title = "Picture-in-Picture";
+        };
+      }
     ];
 }

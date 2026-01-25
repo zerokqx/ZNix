@@ -6,7 +6,6 @@
   ];
   virtualisation.docker.enable = true;
   security.polkit.enable = true;
-
   services.upower.enable = true;
   documentation.man.generateCaches = false;
   programs.command-not-found.enable = false;
