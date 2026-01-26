@@ -1,3 +1,4 @@
+{ config, lib, ... }:
 {
   plugins = {
     bufferline = {
@@ -24,7 +25,7 @@
     };
   };
 
-  keymaps = [
+  keymaps = lib.mkIf config.plugins.bufferline.enable [
     {
       mode = "n";
       key = "]b";

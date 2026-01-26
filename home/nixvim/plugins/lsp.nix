@@ -57,39 +57,37 @@
 
       keymaps = {
         silent = true;
-        extra = [
-        ];
+        #     extra = [
+        #     ];
         lspBuf = {
-          "K" = {
-            action = "hover";
-            desc = "LSP hover";
-          };
-
-          "gd" = {
-            action = "definition";
-            desc = "LSP definition";
-          };
-
-          "gD" = {
-            action = "declaration";
-            desc = "LSP declaration";
-          };
-
-          "gi" = {
-            action = "implementation";
-            desc = "LSP implementation";
-          };
-
-          "gr" = {
-            action = "references";
-            desc = "LSP references";
-          };
-
+          #       "K" = {
+          #         action = "hover";
+          #         desc = "LSP hover";
+          #       };
+          #
+          #       "gd" = {
+          #         action = "definition";
+          #         desc = "LSP definition"; };
+          #       "gD" = {
+          #         action = "declaration";
+          #         desc = "LSP declaration";
+          #       };
+          #
+          #       "gi" = {
+          #         action = "implementation";
+          #         desc = "LSP implementation";
+          #       };
+          #
+          #       "gr" = {
+          #         action = "references";
+          #         desc = "LSP references";
+          #       };
+          #
           "<leader>ca" = {
             action = "code_action";
             desc = "LSP code action";
           };
-
+          #
           "<leader>rn" = {
             action = "rename";
             desc = "LSP rename";

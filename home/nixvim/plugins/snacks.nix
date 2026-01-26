@@ -17,6 +17,10 @@
       bufdelete.enabled = true;
       scroll.enabled = false;
       words.enabled = true;
+      indent = {
+        enabled = true;
+    char = "│";
+      };
       input.enabled = true;
       explorer = {
         enabled = true;
@@ -25,7 +29,7 @@
         enabled = true;
       };
       statuscolumn = {
-        enabled = true;
+        enabled = false;
         left = [
           "mark"
           "sign"

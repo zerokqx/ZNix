@@ -1,4 +1,4 @@
 { ... }:
 {
-  plugins.mini-indentscope.enable = true;
+  plugins.mini-indentscope.enable = false;
 }

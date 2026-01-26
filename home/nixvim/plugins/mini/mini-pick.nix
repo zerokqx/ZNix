@@ -1,9 +1,9 @@
+{ config, lib, ... }:
 {
   plugins.mini-pick = {
     enable = true;
 
     settings = {
-
       window = {
         prompt_prefix = "➤ ";
         config = {
@@ -15,7 +15,7 @@
     };
   };
 
-  keymaps = [
+  keymaps = lib.mkIf config.plugins.mini-pick.enable [
 
     {
       mode = "n";

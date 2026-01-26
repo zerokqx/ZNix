@@ -1,14 +1,54 @@
+{ config, lib, ... }:
 {
   plugins = {
     trouble = {
-      enable = false;
+      enable = true;
 
       settings = {
         auto_close = true;
+        focus = true;
+        icons = {
+          folder_closed = " ";
+          folder_open = " ";
+          indent = {
+            fold_closed = " ";
+            fold_open = " ";
+            last = "└╴";
+            middle = "├╴";
+            top = "│ ";
+            ws = "  ";
+          };
+          kinds = {
+            Array = " ";
+            Boolean = "󰨙 ";
+            Class = " ";
+            Constant = "󰏿 ";
+            Constructor = " ";
+            Enum = " ";
+            EnumMember = " ";
+            Event = " ";
+            Field = " ";
+            File = " ";
+            Function = "󰊕 ";
+            Interface = " ";
+            Key = " ";
+            Method = "󰊕 ";
+            Module = " ";
+            Namespace = "󰦮 ";
+            Null = " ";
+            Number = "󰎠 ";
+            Object = " ";
+            Operator = " ";
+            Package = " ";
+            Property = " ";
+            String = " ";
+            Struct = "󰆼 ";
+            TypeParameter = " ";
+            Variable = "󰀫 ";
+          };
+        };
         modes = {
           preview_split = {
-            # NOTE: can automatically open when diagnostics exist
-            # auto_open = true;
             mode = "diagnostics";
             preview = {
               type = "split";
@@ -31,7 +71,7 @@
     ];
   };
 
-  keymaps = [
+  keymaps = lib.mkIf config.plugins.trouble.enable [
     {
       mode = "n";
       key = "<leader>xx";
@@ -51,34 +91,64 @@
     {
       mode = "n";
       key = "<leader>us";
-      action = "<cmd>Trouble symbols toggle focus=false<cr>";
+      action = "<cmd>Trouble symbols toggle<cr>";
       options = {
         desc = "Symbols toggle";
       };
     }
     {
       mode = "n";
+      key = "<leader>xd";
+      action = "<cmd>Trouble lsp_definitions toggle<cr>";
+      options.desc = "Trouble: Definitions";
+    }
+    {
+      mode = "n";
+      key = "<leader>xr";
+      action = "<cmd>Trouble lsp_references toggle<cr>";
+      options.desc = "Trouble: References";
+    }
+    {
+      mode = "n";
+      key = "<leader>xt"; # t → type definition
+      action = "<cmd>Trouble lsp_type_definitions toggle<cr>";
+      options.desc = "Trouble: Type Definitions";
+    }
+    {
+      mode = "n";
+      key = "<leader>xi"; # i → implementations
+      action = "<cmd>Trouble lsp_implementations toggle<cr>";
+      options.desc = "Trouble: Implementations";
+    }
+    {
+      mode = "n";
+      key = "<leader>xD"; # Shift+D → declarations
+      action = "<cmd>Trouble lsp_declarations toggle<cr>";
+      options.desc = "Trouble: Declarations";
+    }
+    {
+      mode = "n";
       key = "<leader>xl";
-      action = "<cmd>Trouble lsp toggle focus=false win.position=right<cr>";
+      action = "<cmd>Trouble lsp toggle focus=true win.position=right<cr>";
       options = {
         desc = "LSP Definitions / references / ... toggle";
       };
     }
-    {
-      mode = "n";
-      key = "<leader>xL";
-      action = "<cmd>Trouble loclist toggle<cr>";
-      options = {
-        desc = "Location List toggle";
-      };
-    }
-    {
-      mode = "n";
-      key = "<leader>xQ";
-      action = "<cmd>Trouble qflist toggle<cr>";
-      options = {
-        desc = "Quickfix List toggle";
-      };
-    }
+    # {
+    #   mode = "n";
+    #   key = "<leader>xL";
+    #   action = "<cmd>Trouble loclist toggle<cr>";
+    #   options = {
+    #     desc = "Location List toggle";
+    #   };
+    # }
+    # {
+    #   mode = "n";
+    #   key = "<leader>xQ";
+    #   action = "<cmd>Trouble qflist toggle<cr>";
+    #   options = {
+    #     desc = "Quickfix List toggle";
+    #   };
+    # }
   ];
 }
