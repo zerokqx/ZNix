@@ -14,7 +14,7 @@
       dark = "WhiteSur-dark";
       light = "WhiteSur-light";
     };
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
     autoEnable = true;
     targets = {
       zathura.enable = true;
@@ -26,15 +26,8 @@
         fonts.enable = false;
       };
       spicetify.colors.enable = true;
-      gtk.colors.enable = true;
-      nixvim = {
-        opacity.enable = true;
-        transparentBackground = {
-          main = true;
-          numberLine = true;
-          signColumn = true;
-        };
-      };
+      gtk.enable = true;
+
     };
   };
 }

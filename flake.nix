@@ -2,6 +2,8 @@
   description = "flake-parts configuration for NixOS";
 
   inputs = {
+    firefox.url = "github:nix-community/flake-firefox-nightly";
+    firefox.inputs.nixpkgs.follows = "nixpkgs";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
@@ -22,6 +24,7 @@
     inputs@{
       flake-parts,
       home-manager,
+      firefox,
       nixvim,
       spicetify-nix,
       ...
@@ -38,5 +41,6 @@
         home-manager.flakeModules.home-manager
         ./hosts
       ];
+
     };
 }

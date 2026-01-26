@@ -1,7 +1,8 @@
+{ lib, config, ... }:
 {
   plugins = {
     lspsaga = {
-      enable = true;
+      enable = false;
 
       lazyLoad = {
         enable = true;
@@ -74,7 +75,7 @@
     ];
   };
 
-  keymaps = [
+  keymaps = lib.mkIf config.plugins.lspsaga.enable [
     {
       mode = "n";
       key = "K";

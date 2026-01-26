@@ -14,7 +14,6 @@
     fd
     ffmpeg
     fzf
-    gemini-cli
     gnupg
     grim
     interception-tools

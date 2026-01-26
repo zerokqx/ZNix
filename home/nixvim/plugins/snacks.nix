@@ -7,6 +7,7 @@
 {
 
   plugins.snacks = {
+
     enable = true;
 
     settings = {
@@ -15,7 +16,12 @@
       toggle.enabled = true;
       bufdelete.enabled = true;
       scroll.enabled = false;
+      words.enabled = true;
+      input.enabled = true;
       explorer = {
+        enabled = true;
+      };
+      lazygit = {
         enabled = true;
       };
       statuscolumn = {

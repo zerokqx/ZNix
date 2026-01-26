@@ -5,7 +5,6 @@
     treesitter = {
       enable = true;
       folding.enable = true;
-
       settings = {
         highlight = {
           additional_vim_regex_highlighting = true;
@@ -25,7 +24,8 @@
     };
 
     treesitter-context = {
-      inherit (config.plugins.treesitter) enable;
+
+      enable = false;
       settings = {
         max_lines = 4;
         min_window_height = 40;

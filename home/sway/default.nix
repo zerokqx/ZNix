@@ -17,15 +17,7 @@
       corner_radius 25
       shadows enable
       shadow_blur_radius 20
-      blur_radius 5
-      blur enable
-      layer_effects "waybar" blur enable; corner_radius 10
       default_dim_inactive 0.1
-
-      set $window_opacity 0.9
-      for_window [app_id=".*"] opacity $window_opacity
-      for_window [class=".*"] opacity $window_opacity
-
     '';
     config = {
       bars = [ ];

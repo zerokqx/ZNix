@@ -15,7 +15,6 @@
       key = "<C-s>";
       action = ":w<cr>";
       options = {
-
         silent = true;
         desc = "Save";
 

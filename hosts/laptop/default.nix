@@ -10,10 +10,16 @@ inputs.nixpkgs.lib.nixosSystem {
     inputs.home-manager.nixosModules.home-manager
     {
 
+      home-manager = {
+        extraSpecialArgs = { inherit inputs; };
+      };
       home-manager.users.zerok.imports = [
+
+        inputs.stylix.homeModules.stylix
         ../../home
 
         {
+          programs.alacritty.settings.font.size = 14;
           wayland.windowManager.sway.config.output = {
             eDP-1 = {
               mode = "1920x1080@60Hz";
@@ -24,7 +30,6 @@ inputs.nixpkgs.lib.nixosSystem {
 
         inputs.spicetify-nix.homeManagerModules.default
         inputs.nixvim.homeModules.nixvim
-        inputs.stylix.homeModules.stylix
         inputs.noctalia.homeModules.default
       ];
     }

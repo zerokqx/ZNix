@@ -13,6 +13,7 @@ in
     "XF86AudioLowerVolume" = "exec noctalia-shell ipc call volume decrease";
     "XF86AudioMute" = "exec noctalia-shell ipc call volume muteOutput";
     "XF86AudioNext" = "exec noctalia-shell ipc call media next";
+
     "XF86AudioPrev" = "exec noctalia-shell ipc call media previous";
     "Prior" = "exec noctalia-shell ipc call media next";
     "Next" = "exec noctalia-shell ipc call media playPause";
@@ -25,18 +26,17 @@ in
     "${m}+c" = "exec swaymsg kill";
     "${m}+v" = "exec cliphist list | rofi -dmenu | cliphist decode | wl-copy";
     "${m}+n" = "exec ${terminal} -T $EDITOR -e $EDITOR";
-    "${m}+b" = "exec $BROWSER";
+    "${m}+b" = "exec firefox-nightly";
     "${m}+e" = "exec thunar";
     "${m}+r" = "exec ${menu}";
     "${m}+Shift+s" = "exec grimshot --notify savecopy screen";
     "${m}+Shift+a" = "exec grimshot --notify savecopy area";
     "${m}+Shift+w" = "exec grimshot --notify savecopy window";
     "${m}+Shift+c" = "exec noctalia-shell ipc call controlCenter toggle";
-    "${m}+Shift+h" = "exec noctalia-shell ipc call launcher clipboard";
+    "${m}+Shift+v" = "exec noctalia-shell ipc call launcher clipboard";
     "${m}+Shift+b" = "exec noctalia-shell ipc call bluetooth togglePanel";
     "${m}+Shift+n" = "exec noctalia-shell ipc call network togglePanel";
     "${m}+Shift+p" = "exec noctalia-shell ipc call sessionMenu toggle";
-    "${m}+Shift+l" = "exec noctalia-shell ipc call lockScreen lock";
-    "${m}+Shift+v" = "exec ${terminal} --class volume -e ncpamixer";
+    # "${m}+Shift+l" = "exec noctalia-shell ipc call lockScreen lock";
   };
 }

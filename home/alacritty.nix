@@ -3,9 +3,10 @@
   programs.alacritty = {
     enable = true;
     settings = {
+
       window = {
-        padding.x = 20;
-        padding.y = 20;
+        padding.x = 10;
+        padding.y = 10;
       };
     };
   };

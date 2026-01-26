@@ -9,9 +9,6 @@
     lsp-format = {
       enable = false;
     };
-    helm = {
-      enable = false;
-    };
     lsp-signature.enable = true;
     lsp = {
       enable = true;
@@ -21,12 +18,7 @@
           enable = true;
           package = pkgs.prisma-language-server;
         };
-        qmlls.enable = true;
         html = {
-
-          enable = true;
-        };
-        lua_ls = {
           enable = true;
         };
         nil_ls = {
@@ -63,87 +55,67 @@
         };
       };
 
-      # Ключевые биндинги с интеграцией Snacks
       keymaps = {
         silent = true;
         extra = [
-          # {
-          #   mode = "n";
-          #   key = "gr";
-          #   action = "<cmd> lua Snacks.picker.lsp_references()<cr>";
-          #   options = {
-          #     unique = true;
-          #     nowait = true;
-          #     desc = "Snacks: LSP References";
-          #   };
-          # }
-          # {
-          #   mode = "n";
-          #   key = "gii";
-          #   action = "<cmd>lua Snacks.picker.lsp_implementations()<cr>";
-          #   options = {
-          #     unique = true;
-          #     nowait = true;
-          #     desc = "Snacks: LSP Implementations";
-          #   };
-          # }
         ];
         lspBuf = {
-          # "gi" = "implementation";
-          #   gd = {
-          #     action = "definition";
-          #     desc = "LSP: Go to Definition";
-          #   };
-          #   gD = {
-          #     action = "declaration";
-          #     desc = "LSP: Go to Declaration";
-          #   };
-          #   gt = {
-          #     action = "type_definition";
-          #     desc = "LSP: Type Definition";
-          #   };
-          #   K = {
-          #     action = "hover";
-          #     desc = "LSP: Hover";
-          #   };
-          #   "<leader>ca" = {
-          #     action = "code_action";
-          #     desc = "LSP: Code Action";
-          #   };
-          #   "<leader>cf" = {
-          #     action = "format";
-          #     desc = "LSP: Format";
-          #   };
-          #   "<leader>cw" = {
-          #     action = "workspace_symbol";
-          #     desc = "LSP: Workspace Symbol";
-          #   };
-          #   "<leader>cr" = {
-          #     action = "rename";
-          #     desc = "LSP: Rename";
-          #   };
+          "K" = {
+            action = "hover";
+            desc = "LSP hover";
+          };
+
+          "gd" = {
+            action = "definition";
+            desc = "LSP definition";
+          };
+
+          "gD" = {
+            action = "declaration";
+            desc = "LSP declaration";
+          };
+
+          "gi" = {
+            action = "implementation";
+            desc = "LSP implementation";
+          };
+
+          "gr" = {
+            action = "references";
+            desc = "LSP references";
+          };
+
+          "<leader>ca" = {
+            action = "code_action";
+            desc = "LSP code action";
+          };
+
+          "<leader>rn" = {
+            action = "rename";
+            desc = "LSP rename";
+          };
         };
       };
     };
 
-    trouble = {
-      enable = true;
-    };
+    # trouble = {
+    #   enable = ;
+    # };
   };
 
-  extraConfigLua = ''
+  extraconfiglua = ''
     local _border = "rounded"
 
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+    vim.lsp.handlers["textdocument/hover"] = vim.lsp.with(
       vim.lsp.handlers.hover, { border = _border }
     )
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+    vim.lsp.handlers["textdocument/signaturehelp"] = vim.lsp.with(
       vim.lsp.handlers.signature_help, { border = _border }
     )
     vim.diagnostic.config {
       float = { border = _border },
       underline = true,
-      virtual_text = { spacing = 5, severity_limit = "Warning" },
+      virtual_text = { spacing = 5, severity_limit = "warning" },
       update_in_insert = false,
     }
 
@@ -151,13 +123,13 @@
       border = _border,
     }
 
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.handlers["textdocument/publishdiagnostics"] = vim.lsp.with(
       vim.lsp.diagnostic.on_publish_diagnostics,
       {
         underline = true,
         virtual_text = {
           spacing = 5,
-          severity_limit = "Warning",
+          severity_limit = "warning",
         },
         update_in_insert = true,
       }
