@@ -7,9 +7,8 @@
         options = {
           diagnostics = "nvim_lsp";
           mode = "buffers";
-
           close_icon = " ";
-          buffer_close_icon = "󰱝 ";
+          buffer_close_icon = "󰅙 ";
           modified_icon = "󰔯 ";
 
           offsets = [
@@ -18,6 +17,24 @@
               text = "Neo-tree";
               highlight = "Directory";
               text_align = "left";
+            }
+
+            {
+              buftype = "nofile";
+              filetype = "snacks_layout_box";
+              text = "Snacks";
+              highlight = "Directory";
+              text_align = "left";
+              separator = true;
+            }
+
+            {
+              buftype = "nofile";
+              filetype = "trouble";
+              text = "Trouble";
+              highlight = "Directory";
+              text_align = "right";
+              separator = true;
             }
           ];
         };

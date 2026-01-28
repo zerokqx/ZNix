@@ -1,4 +1,0 @@
-{
-  plugins.rainbow.enable = true;
-
-}

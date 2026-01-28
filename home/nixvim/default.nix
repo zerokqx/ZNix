@@ -2,10 +2,9 @@
 {
 
   programs.nixvim = {
-    fileManager = "snacks";
     enable = true;
     imports = [
-      ./options.nix
+      ./autocmds.nix
       ./languages
       ./plugins
       ./keymaps.nix

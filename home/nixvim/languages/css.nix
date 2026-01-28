@@ -27,7 +27,6 @@
       tailwindcss = {
         enable = true;
 
-        # только то, где реально есть классы tailwind
         filetypes = [
           "html"
           "css"
@@ -35,8 +34,6 @@
           "typescriptreact"
           "javascriptreact"
         ];
-
-        # опционально: не автозапускать, а включать руками
 
         rootMarkers = [
           "tailwind.config.js"

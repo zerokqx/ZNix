@@ -4,7 +4,7 @@
     enable = true;
     settings = {
       autoopen = true;
-      footer = ""; # Убираем подсказки внизу
+      footer = ""; 
       content_hooks = [
         (lib.nixvim.mkRaw "require(\"mini.starter\").gen_hook.adding_bullet('')")
         (lib.nixvim.mkRaw "require(\"mini.starter\").gen_hook.aligning('center', 'center')")

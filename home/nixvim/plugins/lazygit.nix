@@ -2,7 +2,6 @@
 {
 
   plugins.lazygit.enable = true;
-
   keymaps = lib.mkIf config.plugins.lazygit.enable [
     {
 

@@ -1,5 +1,6 @@
 { lib, ... }:
 {
+
   plugins.mini-diff = {
     enable = true;
     settings = {

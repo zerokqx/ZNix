@@ -2,6 +2,21 @@
 {
   plugins = {
     trouble = {
+      lazyLoad = {
+        enable = true;
+        settings.cmd = "Trouble";
+        # settings.keys = [
+        #   "<leader>xx"
+        #   "<leader>xX"
+        #   "<leader>us"
+        #   "<leader>xd"
+        #   "<leader>xr"
+        #   "<leader>xt"
+        #   "<leader>xi"
+        #   "<leader>xD"
+        #   "<leader>xl"
+        # ];
+      };
       enable = true;
 
       settings = {

@@ -1,8 +1,12 @@
 { pkgs, lib, ... }:
 {
   plugins = {
+
     lsp.servers.yamlls = {
       enable = true;
+      filetypes=[
+        "yaml"
+      ];
       extraOptions = {
         capabilities = {
           textDocument = {

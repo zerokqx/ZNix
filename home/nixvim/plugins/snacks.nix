@@ -3,11 +3,9 @@
   config,
   ...
 }:
-
 {
 
   plugins.snacks = {
-
     enable = true;
 
     settings = {
@@ -19,17 +17,18 @@
       words.enabled = true;
       indent = {
         enabled = true;
-    char = "│";
+        char = "│";
       };
       input.enabled = true;
       explorer = {
+        border = "none";
         enabled = true;
       };
       lazygit = {
         enabled = true;
       };
       statuscolumn = {
-        enabled = false;
+        enabled = true;
         left = [
           "mark"
           "sign"
@@ -56,17 +55,11 @@
       notifier = {
         enabled = true;
 
-        # icons = {
-        #   error = icons.error;
-        #   warn = icons.warn;
-        #   info = icons.info;
-        #   debug = icons.debug;
-        # };
       };
       terminal = {
         enabled = true;
         win = {
-          position = "float";
+          position = "bottom";
           width = 100;
           height = 20;
           border = "rounded";
@@ -217,7 +210,15 @@
         };
       }
     ]
-    # добавляем хоткей на терминал ТОЛЬКО если terminal.enable == false
+    ++ lib.optional (config.plugins.snacks.settings.explorer.enabled) {
+      mode = "n";
+      key = "<leader>e";
+      action = ":lua Snacks.explorer()<CR>";
+      options = {
+        silent = true;
+        desc = "Explorer";
+      };
+    }
     ++ lib.optional (config.plugins.snacks.settings.terminal.enabled) {
       mode = [
         "n"

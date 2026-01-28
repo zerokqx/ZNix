@@ -6,7 +6,6 @@
     luaLoader.enable = true;
     opts = {
       clipboard = "unnamedplus";
-
       virtualedit = "block"; # Allow cursor to move where there is no text in visual block mode
       cursorline = true; # Highlight the line where the cursor is located
       cmdheight = 2; # more space in the neovim command line for displaying messages
@@ -38,10 +37,13 @@
       conceallevel = 2;
       termguicolors = true;
       fillchars = {
-        vert = "│"; # обычная тонкая вертикальная черта (U+2502)
-        vertright = "│";
+        vert = "│";
         vertleft = "│";
-        # можно также vert = " " чтобы вообще убрать символ (но остаётся столбец)
+        vertright = "│";
+        horiz = "─";
+        horizup = "─";
+        horizdown = "─";
+        verthoriz = "┼";
       };
 
       # Важно: убираем фон у разделителя

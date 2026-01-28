@@ -2,6 +2,13 @@
 {
   plugins.neogen = {
     enable = true;
+    lazyLoad = {
+      enable = true;
+      settings.cmd = "Neogen";
+      settings.keys = [
+        "<leader>cn"
+      ];
+    };
     settings = {
       languages = {
         lua = {
@@ -34,7 +41,7 @@
 
       mode = "n";
       key = "<leader>cn";
-      action = "<cmd>Neogen<cr>";
+      action = ":Neogen<cr>";
       options = {
         silent = true;
         desc = "Neogen";

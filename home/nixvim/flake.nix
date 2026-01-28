@@ -47,12 +47,6 @@
               animations = true;
               fileManager = "snacks";
               waylandSupport = true;
-              globals = {
-                mapleader = " ";
-                formaters = {
-                  typescript = [ "prettier" ];
-                };
-              };
             };
           };
         in
