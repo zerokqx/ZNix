@@ -1,4 +1,4 @@
 { lib, ... }:
 {
-  web-devicons.enable = lib.mkDefault true;
+  # web-devicons.enable = lib.mkDefault true;
 }

@@ -8,10 +8,8 @@
       clipboard = "unnamedplus";
       virtualedit = "block"; # Allow cursor to move where there is no text in visual block mode
       cursorline = true; # Highlight the line where the cursor is located
-      cmdheight = 2; # more space in the neovim command line for displaying messages
+      cmdheight = 0; # more space in the neovim command line for displaying messages
       showmode = false; # Dont show the editor mode in status line
-      number = true;
-      relativenumber = true;
       signcolumn = "no";
       numberwidth = 2;
 

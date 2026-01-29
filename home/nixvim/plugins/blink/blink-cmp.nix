@@ -4,6 +4,7 @@
     enable = true;
     settings = {
       completion = {
+        ghost_text.enabled = true;
         menu = {
           border = "rounded";
         };
@@ -29,6 +30,7 @@
         ];
       };
       appearance = {
+        use_nvim_cmp_as_default = true;
         kind_icons = {
           Class = "󱡠";
           Color = "󰏘";
@@ -60,11 +62,8 @@
       fuzzy = {
         sorts = [
           "exact"
-
           "score"
-
           "sort_text"
-
           "label"
         ];
       };

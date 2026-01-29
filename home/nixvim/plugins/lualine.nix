@@ -13,7 +13,6 @@
           "dashboard"
           "ministarter"
           "snacks_dashboard"
-          "snacks_terminal"
         ];
       };
     };

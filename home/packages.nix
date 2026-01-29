@@ -2,7 +2,9 @@
 {
 
   home.packages = with pkgs; [
+    opencode
     spicetify-cli
+    statix
     typescript
     nixd
     lazygit

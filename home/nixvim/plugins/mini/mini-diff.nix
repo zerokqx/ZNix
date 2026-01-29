@@ -27,9 +27,9 @@
       view = {
         priority = 199;
         signs = {
-          add = "▒";
-          change = "▒";
-          delete = "▒";
+          add = "▎";
+          change = "▎";
+          delete = "▎";
         };
         style = lib.nixvim.mkRaw "vim.go.number and 'number' or 'sign'";
       };

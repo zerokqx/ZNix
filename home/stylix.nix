@@ -17,6 +17,7 @@
     base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
     autoEnable = true;
     targets = {
+      opencode.enable = true;
       zathura.enable = true;
       noctalia-shell.enable = true;
       firefox.enable = true;
