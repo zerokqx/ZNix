@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   services.nextjs-ollama-llm-ui = {
-    enable = true;
+    enable = false;
     port = 3123;
   };
 

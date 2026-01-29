@@ -22,6 +22,10 @@
           hl = "MiniIconsGreen";
         };
 
+        "default.nix" = {
+          hl = "MiniIconsGreen";
+        };
+
         "index.js" = {
           hl = "MiniIconsGreen";
         };
@@ -33,7 +37,7 @@
           hl = "MiniIconsGreen";
         };
         "bun.lock" = {
-          gyph = "";
+          glyph = "";
           hl = "MiniIconsYellow";
         };
         "vite.config.ts" = {
@@ -46,7 +50,7 @@
         };
         "postcss.config.cjs" = {
           glyph = "";
-          hl = "MIniIconsRed";
+          hl = "MiniIconsRed";
         };
         "tsconfig.json" = {
           glyph = "";

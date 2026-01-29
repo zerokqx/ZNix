@@ -1,7 +1,7 @@
 {
 
   programs.opencode = {
-    enable = true;
+    enable = false;
     settings = {
       provider = {
         ollama = {
