@@ -4,6 +4,14 @@
     noice = {
       enable = true;
       settings = {
+        views = {
+          hover = {
+            winoptions = {
+              winblend = 100;
+            };
+            border = "rounded";
+          };
+        };
         lsp = {
           signature = {
             enabled = false;

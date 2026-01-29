@@ -4,18 +4,6 @@
     trouble = {
       lazyLoad = {
         enable = true;
-        settings.cmd = "Trouble";
-        # settings.keys = [
-        #   "<leader>xx"
-        #   "<leader>xX"
-        #   "<leader>us"
-        #   "<leader>xd"
-        #   "<leader>xr"
-        #   "<leader>xt"
-        #   "<leader>xi"
-        #   "<leader>xD"
-        #   "<leader>xl"
-        # ];
       };
       enable = true;
 
@@ -32,34 +20,6 @@
             middle = "├╴";
             top = "│ ";
             ws = "  ";
-          };
-          kinds = {
-            Array = " ";
-            Boolean = "󰨙 ";
-            Class = " ";
-            Constant = "󰏿 ";
-            Constructor = " ";
-            Enum = " ";
-            EnumMember = " ";
-            Event = " ";
-            Field = " ";
-            File = " ";
-            Function = "󰊕 ";
-            Interface = " ";
-            Key = " ";
-            Method = "󰊕 ";
-            Module = " ";
-            Namespace = "󰦮 ";
-            Null = " ";
-            Number = "󰎠 ";
-            Object = " ";
-            Operator = " ";
-            Package = " ";
-            Property = " ";
-            String = " ";
-            Struct = "󰆼 ";
-            TypeParameter = " ";
-            Variable = "󰀫 ";
           };
         };
         modes = {
