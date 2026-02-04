@@ -27,8 +27,8 @@
       lazygit = {
         enabled = true;
       };
-        statuscolumn = {
-          enabled = true;
+      statuscolumn = {
+        enabled = true;
         left = [
           "mark"
           "sign"
