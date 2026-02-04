@@ -13,6 +13,22 @@
       command = "!alacritty msg config window.padding.x=0 window.padding.y=0";
     }
     {
+      event = [ "ModeChanged" ];
+      pattern = [ "*" ];
+      desc = "Keep relative numbers when returning to Normal";
+      callback = {
+        __raw = ''
+          function(args)
+            local new_mode = args.new_mode
+            if new_mode:sub(1, 1) == "n" then
+              vim.opt.relativenumber = true
+              vim.opt.number = true
+            end
+          end
+        '';
+      };
+    }
+    {
       event = [ "VimEnter" ];
       pattern = "*";
       desc = "Clear border on snacks picker list";
