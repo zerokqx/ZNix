@@ -6,42 +6,57 @@
     settings = {
       cursor = {
         enable = true;
-        timing = {
-          unit = "total";
-          total = 120;
-        };
+        timing = lib.nixvim.mkRaw ''
+          require("mini.animate").gen_timing.linear({
+            unit = "total",
+            duration = 120,
+          })
+        '';
+        path = lib.nixvim.mkRaw ''require("mini.animate").gen_path.line()'';
       };
       scroll = {
         enable = false; # smooth scroll handled by Snacks to avoid double animation
-        timing = {
-          unit = "total";
-          total = 140;
-        };
-        subscroll = 15;
+        timing = lib.nixvim.mkRaw ''
+          require("mini.animate").gen_timing.linear({
+            unit = "total",
+            duration = 140,
+          })
+        '';
+        subscroll = lib.nixvim.mkRaw ''
+          require("mini.animate").gen_subscroll.equal({
+            max_output_steps = 30,
+          })
+        '';
       };
       resize = {
         enable = true;
-        timing = {
-          unit = "total";
-          total = 120;
-        };
+        timing = lib.nixvim.mkRaw ''
+          require("mini.animate").gen_timing.linear({
+            unit = "total",
+            duration = 120,
+          })
+        '';
       };
       open = {
         enable = true;
-        timing = {
-          unit = "total";
-          total = 160;
-        };
+        timing = lib.nixvim.mkRaw ''
+          require("mini.animate").gen_timing.linear({
+            unit = "total",
+            duration = 160,
+          })
+        '';
         winconfig = {
           border = "rounded";
         };
       };
       close = {
         enable = true;
-        timing = {
-          unit = "total";
-          total = 120;
-        };
+        timing = lib.nixvim.mkRaw ''
+          require("mini.animate").gen_timing.linear({
+            unit = "total",
+            duration = 120,
+          })
+        '';
       };
       predicate = lib.nixvim.mkRaw ''
         function(buf_id)
