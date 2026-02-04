@@ -66,31 +66,9 @@
   extraconfiglua = ''
     local _border = "rounded"
 
-    local function has_markdown(lines)
-      if not lines or vim.tbl_isempty(lines) then
-        return false
-      end
-      for _, l in ipairs(lines) do
-        if type(l) == "string" and l:match("%S") then
-          return true
-        end
-      end
-      return false
-    end
-
-    local hover_with_border = vim.lsp.with(vim.lsp.handlers.hover, { border = _border })
-    local function handle_hover(err, result, ctx, config)
-      if err then return end
-      if not (result and result.contents) then return end
-      local lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
-      if not has_markdown(lines) then return end
-      result.contents = lines
-      return hover_with_border(err, result, ctx, config)
-    end
-
-    vim.lsp.handlers["textDocument/hover"] = handle_hover
-    vim.lsp.handlers["textdocument/hover"] = handle_hover -- some servers use lowercase
-
+    vim.lsp.handlers["textdocument/hover"] = vim.lsp.with(
+      vim.lsp.handlers.hover, { border = _border }
+    )
     vim.lsp.handlers["textdocument/signaturehelp"] = vim.lsp.with(
       vim.lsp.handlers.signature_help, { border = _border }
     )
