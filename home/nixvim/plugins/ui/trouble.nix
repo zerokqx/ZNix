@@ -4,6 +4,7 @@
     trouble = {
       lazyLoad = {
         enable = true;
+        settings.cmd = "Trouble";
       };
       enable = true;
 

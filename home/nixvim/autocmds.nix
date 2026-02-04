@@ -66,33 +66,23 @@
       desc = "Restore Alacritty padding on exit";
       command = "!alacritty msg config window.padding.x=10 window.padding.y=10";
     }
-
-    {
-      event = [
-        "InsertEnter"
-        "InsertLeave"
-      ];
-      pattern = "*";
-      desc = "Relative number after leave from inserte mode";
-      command = "set number relativenumber";
-    }
-    {
-      event = [
-        "VimEnter"
-      ];
-      pattern = "*";
-      desc = "Change bg number line";
-      callback = {
-        __raw = ''
-          function()
-            local c = vim.api.nvim_get_hl(0, {name="LineNr"}).fg and "#"..("%06x"):format(c.fg) or "#cdd6f4"
-            local r,g,b = tonumber(c:sub(2,3),16), tonumber(c:sub(4,5),16), tonumber(c:sub(6,7),16)
-            for _,h in ipairs{"LineNrBelow","LineNrAbove"} do
-              vim.api.nvim_set_hl(0, h, {fg=string.format("#%02x%02x%02x", r*0.4, g*0.4, b*0.4), bg="", italic=true})
-            end
-          end
-        '';
-      };
-    }
+    # {
+    #   event = [
+    #     "VimEnter"
+    #   ];
+    #   pattern = "*";
+    #   desc = "Change bg number line";
+    #   callback = {
+    #     __raw = ''
+    #       function()
+    #         local c = vim.api.nvim_get_hl(0, {name="LineNr"}).fg and "#"..("%06x"):format(c.fg) or "#cdd6f4"
+    #         local r,g,b = tonumber(c:sub(2,3),16), tonumber(c:sub(4,5),16), tonumber(c:sub(6,7),16)
+    #         for _,h in ipairs{"LineNrBelow","LineNrAbove"} do
+    #           vim.api.nvim_set_hl(0, h, {fg=string.format("#%02x%02x%02x", r*0.4, g*0.4, b*0.4), bg="", italic=true})
+    #         end
+    #       end
+    #     '';
+    #   };
+    # }
   ];
 }

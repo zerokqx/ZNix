@@ -2,7 +2,9 @@
 {
 
   home.packages = with pkgs; [
+    scrcpy
     opencode
+    codex
     spicetify-cli
     statix
     typescript

@@ -4,6 +4,7 @@
     ./core
     ./configs
   ];
+  programs.bash.enable = true;
   virtualisation.docker.enable = true;
   security.polkit.enable = true;
   services.upower.enable = true;

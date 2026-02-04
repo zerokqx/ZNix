@@ -21,7 +21,7 @@
     ./dir-file-create.nix
 
   ];
-  nixpkgs.config.allowUnfree = true; # ← ВАЖНО: внутри home-manager!
+  nixpkgs.config.allowUnfree = true;
   home.username = "zerok";
   home.homeDirectory = "/home/zerok";
   home.stateVersion = "25.11";
@@ -67,6 +67,5 @@
     NIXPKGS_ALLOW_UNFREE = 1;
   };
 
-  programs.bash.enable = true;
   programs.home-manager.enable = true;
 }

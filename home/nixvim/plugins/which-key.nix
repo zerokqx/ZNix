@@ -6,7 +6,7 @@
       icons = {
         breadcrumb = "»";
         group = "+";
-        separator = ""; # ➜
+        separator = "";
       };
       win = {
         border = "rounded";

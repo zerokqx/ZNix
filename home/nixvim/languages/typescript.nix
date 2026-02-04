@@ -19,14 +19,12 @@
 
     lsp.servers.vtsls = {
       enable = true;
-
       filetypes = [
         "javascript"
         "javascriptreact"
         "typescript"
         "typescriptreact"
       ];
-
       extraOptions = {
         settings = {
 
@@ -91,7 +89,6 @@
       lazyLoad = {
         enable = true;
         settings.ft = [
-
           "javascript"
           "javascriptreact"
           "typescript"
@@ -102,12 +99,12 @@
       settings = {
         opts = {
           enable_close = true;
-          enable_close_on_slash = false;
+          enable_close_on_slash = true;
           enable_rename = true;
         };
         per_filetype = {
           html = {
-            enable_close = false;
+            enable_close = true;
           };
         };
       };
