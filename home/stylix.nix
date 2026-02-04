@@ -26,7 +26,6 @@
         colors.enable = true;
         fonts.enable = false;
       };
-      spicetify.colors.enable = true;
       gtk.enable = true;
 
     };

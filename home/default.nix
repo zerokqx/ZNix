@@ -6,7 +6,6 @@
 {
 
   imports = [
-
     ./git.nix
     ./noctalia.nix
     ./stylix.nix
@@ -16,11 +15,12 @@
     ./fish.nix
     ./nixvim
     ./sway
-    ./spicetify.nix
     ./packages.nix
     ./dir-file-create.nix
+    ./flatpak.nix
 
   ];
+  programs.codex.enable = true;
   nixpkgs.config.allowUnfree = true;
   home.username = "zerok";
   home.homeDirectory = "/home/zerok";

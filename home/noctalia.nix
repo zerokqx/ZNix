@@ -18,7 +18,7 @@
       bar = {
         showCapsule = false;
         density = "comfortable";
-        position = "left";
+        position = "top";
         widgets = {
           left = [
 

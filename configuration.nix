@@ -49,7 +49,6 @@
   };
 
   services = {
-    touchegg.enable = true;
     displayManager.ly.enable = true;
     playerctld.enable = true;
     flatpak.enable = true;

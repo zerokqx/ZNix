@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  wayland.windowManager.sway.config.output = lib.mkDefault {
+  wayland.windowManager.sway.config.output = {
     DP-1 = {
       mode = "1920x1080@165Hz";
       pos = "0 0";

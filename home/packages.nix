@@ -4,7 +4,6 @@
   home.packages = with pkgs; [
     opencode
     codex
-    spicetify-cli
     statix
     typescript
     nixd

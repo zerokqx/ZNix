@@ -15,11 +15,11 @@ inputs.nixpkgs.lib.nixosSystem {
       home-manager.extraSpecialArgs = { inherit inputs; };
 
       home-manager.users.zerok.imports = [
-        ./opencode.nix
 
+        ./opencode.nix
+        inputs.nix-flatpak.homeManagerModules.nix-flatpak
         inputs.stylix.homeModules.stylix
         inputs.noctalia.homeModules.default
-        inputs.spicetify-nix.homeManagerModules.default
         inputs.nixvim.homeModules.nixvim
 
         ../../home

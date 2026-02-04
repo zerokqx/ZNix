@@ -7,18 +7,6 @@
 
   autoCmd = [
     {
-      event = [ "VimResized" ];
-      pattern = "*";
-      desc = "Auto reequals windows after resize";
-      callback = {
-        __raw = ''
-          function()
-            vim.cmd("wincmd =")
-          end
-        '';
-      };
-    }
-    {
       event = [ "VimEnter" ];
       pattern = "*";
       desc = "Remove Alacritty padding on startup";

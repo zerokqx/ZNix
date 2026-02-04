@@ -7,9 +7,7 @@
     "2" = [ { title = "nvim"; } ];
     "10" = [
       { app_id = "Throne"; }
-      {
-        class = "Spotify";
-      }
+      { app_id = "meridius"; }
     ];
 
   };
