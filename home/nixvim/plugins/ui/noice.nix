@@ -5,6 +5,7 @@
       enable = true;
       settings = {
         views = {
+
           hover = {
             winoptions = {
               winblend = 100;
@@ -24,7 +25,6 @@
           bottom_search = true;
         };
         commands = {
-
           errors = {
             filter = {
               error = true;

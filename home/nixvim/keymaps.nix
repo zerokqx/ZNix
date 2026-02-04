@@ -7,6 +7,15 @@
     }
 
     {
+      mode = "n";
+      key = "<leader>cd";
+      action = ":CustomDiagnosticCommand<cr>";
+      options = {
+        silent = true;
+        desc = "Diagnostic Float";
+      };
+    }
+    {
 
       mode = [
         "n"
