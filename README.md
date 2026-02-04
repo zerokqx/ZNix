@@ -9,9 +9,9 @@
    клонируете этот репозиторий коммандой
    `git clone https://github.com/zerokqx/ZNix`.
 4. Затем заходим в склонированый репозиторий и прописываем комманду
-   `sudo nixos-rebuild switch --flake .`
+   `sudo nixos-rebuild switch --flake.`
 
 ---
 
-> [!danger] Не забудте поменять `hardware-configuration.nix` на свой. Он по
+> Не забудте поменять `hardware-configuration.nix` на свой. Он по
 > дефолту лежит в `/etc/nixos`

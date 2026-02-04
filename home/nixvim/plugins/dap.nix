@@ -1,3 +1,4 @@
+{ lib, config, ... }:
 {
   plugins = {
     dap-virtual-text.enable = true;
@@ -85,7 +86,7 @@
     ];
   };
 
-  keymaps = [
+  keymaps = lib.mkIf config.plugins.dap.enable [
     {
       mode = [ "n" ];
       action = ":DapContinue<cr>";
