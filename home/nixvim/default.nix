@@ -26,10 +26,10 @@
         virtual_text = {
           prefix = function(d)
             return ({
-              [vim.diagnostic.severity.ERROR] = "",
-              [vim.diagnostic.severity.WARN]  = "",
-              [vim.diagnostic.severity.INFO]  = "",
-              [vim.diagnostic.severity.HINT]  = "󰌵",
+              [vim.diagnostic.severity.ERROR] = "",
+              [vim.diagnostic.severity.WARN]  = "",
+              [vim.diagnostic.severity.INFO]  = "",
+              [vim.diagnostic.severity.HINT]  = "",
             })[d.severity]
           end,
           spacing = 2,

@@ -15,8 +15,12 @@
       notifications = {
         enableKeyboardLayoutToast = false;
       };
+      general = {
+        enableShadows = false;
+      };
       bar = {
         showCapsule = false;
+        monitors = [ "DP-1" ];
         density = "comfortable";
         position = "top";
         widgets = {
