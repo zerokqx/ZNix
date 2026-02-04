@@ -19,8 +19,8 @@
       callback = {
         __raw = ''
           function(args)
-            local new_mode = args.new_mode
-            if new_mode:sub(1, 1) == "n" then
+            local new_mode = args and args.new_mode or ""
+            if type(new_mode) == "string" and new_mode:sub(1, 1) == "n" then
               vim.opt.relativenumber = true
               vim.opt.number = true
             end
