@@ -45,9 +45,11 @@
             duration = 160,
           })
         '';
-        winconfig = {
-          border = "rounded";
-        };
+        winconfig = lib.nixvim.mkRaw ''
+          function()
+            return { border = "rounded" }
+          end
+        '';
       };
       close = {
         enable = true;
