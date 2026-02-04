@@ -12,7 +12,7 @@
         };
       };
       scroll = {
-        enable = true;
+        enable = false; # smooth scroll handled by Snacks to avoid double animation
         timing = {
           unit = "total";
           total = 140;
