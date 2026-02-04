@@ -68,6 +68,97 @@
     };
   };
 
+  extraConfigLua = ''
+    -- Animated slide-in for Snacks Explorer (only when it opens as a floating window)
+    local function snacks_explorer_animate(win, cfg)
+      local function to_number(val)
+        if type(val) == "table" then
+          return val[false] or val[1] or 0
+        end
+        return val or 0
+      end
+
+      local width = cfg.width or 40
+      local target_col = to_number(cfg.col)
+      local start_col = -math.max(width, math.abs(target_col) + width)
+
+      local steps = 12
+      local interval = 10
+      local delta = (target_col - start_col) / steps
+
+      local function set_col(winid, col)
+        local new_cfg = vim.deepcopy(cfg)
+        new_cfg.col = col
+        pcall(vim.api.nvim_win_set_config, winid, new_cfg)
+      end
+
+      set_col(win, start_col)
+      local timer = vim.loop.new_timer()
+      local i = 0
+      timer:start(0, interval, function()
+        i = i + 1
+        if not vim.api.nvim_win_is_valid(win) then
+          timer:stop()
+          timer:close()
+          return
+        end
+        local col = start_col + delta * i
+        vim.schedule(function()
+          if vim.api.nvim_win_is_valid(win) then
+            set_col(win, col)
+          end
+        end)
+        if i >= steps then
+          timer:stop()
+          timer:close()
+          vim.schedule(function()
+            if vim.api.nvim_win_is_valid(win) then
+              set_col(win, target_col)
+            end
+          end)
+        end
+      end)
+    end
+
+    function _G.SnacksExplorerAnimated()
+      local ok, snacks = pcall(require, "snacks")
+      if not ok or not snacks.explorer then
+        vim.notify("Snacks explorer not available", vim.log.levels.WARN)
+        return
+      end
+
+      -- Toggle off if already open
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local ft = vim.api.nvim_get_option_value("filetype", { win = win })
+        if ft == "snacks_explorer" then
+          pcall(vim.api.nvim_win_close, win, true)
+          return
+        end
+      end
+
+      snacks.explorer()
+
+      vim.schedule(function()
+        local target
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          local ft = vim.api.nvim_get_option_value("filetype", { win = win })
+          if ft == "snacks_explorer" then
+            target = win
+            break
+          end
+        end
+        if not target then
+          return
+        end
+        local cfg = vim.api.nvim_win_get_config(target)
+        if cfg.relative == "" or not cfg.col then
+          return
+        end
+        snacks_explorer_animate(target, cfg)
+      end)
+    end
+  '';
+
   keymaps = lib.mkIf config.plugins.snacks.enable (
     [
       {
@@ -213,7 +304,7 @@
     ++ lib.optional (config.plugins.snacks.settings.explorer.enabled) {
       mode = "n";
       key = "<leader>e";
-      action = ":lua Snacks.explorer()<CR>";
+      action = ":lua SnacksExplorerAnimated()<CR>";
       options = {
         silent = true;
         desc = "Explorer";
