@@ -27,8 +27,8 @@
       lazygit = {
         enabled = true;
       };
-      statuscolumn = {
-        enabled = true;
+        statuscolumn = {
+          enabled = true;
         left = [
           "mark"
           "sign"
@@ -41,7 +41,7 @@
           open = false;
           git_hl = false;
         };
-        refresh = 200;
+        refresh = 500;
         git = {
           patterns = [
             "GitSign"

@@ -10,7 +10,7 @@
       cursorline = true; # Highlight the line where the cursor is located
       cmdheight = 0; # more space in the neovim command line for displaying messages
       showmode = false; # Dont show the editor mode in status line
-      signcolumn = "no";
+      signcolumn = "yes";
       numberwidth = 2;
 
       tabstop = 2;

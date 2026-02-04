@@ -36,6 +36,12 @@
 
           -- Disable mini animate
           vim.b.minianimate_disable = true
+
+          -- Stop heavy subsystems on large files
+          pcall(vim.treesitter.stop, ctx.buf)
+          for _, client in ipairs(vim.lsp.get_clients({ bufnr = ctx.buf })) do
+            vim.lsp.stop_client(client.id)
+          end
         end
       '';
     };
