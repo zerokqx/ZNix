@@ -7,11 +7,6 @@
     lsp = {
       enable = true;
       inlayHints = false;
-      capabilities = lib.nixvim.mkRaw ''
-        require("blink.cmp").get_lsp_capabilities(
-          vim.lsp.protocol.make_client_capabilities()
-        )
-      '';
       servers = {
         prismals = {
           enable = true;
