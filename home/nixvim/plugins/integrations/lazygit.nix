@@ -1,7 +1,7 @@
 { config, lib, ... }:
 {
 
-  plugins.lazygit.enable = true;
+  plugins.lazygit.enable = false;
   keymaps = lib.mkIf config.plugins.lazygit.enable [
     {
 

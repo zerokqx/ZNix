@@ -9,7 +9,7 @@
     enable = true;
 
     settings = {
-      quckfiles.enabled = true;
+      quickfiles.enabled = true;
       dim.enabled = true;
       toggle.enabled = true;
       bufdelete.enabled = true;
@@ -26,6 +26,12 @@
       };
       lazygit = {
         enabled = true;
+        win = {
+          position = "float";
+          width = 0.95;
+          height = 0.9;
+          border = "rounded";
+        };
       };
       statuscolumn = {
         enabled = true;
@@ -50,7 +56,7 @@
         };
       };
       scope = {
-        enbled = true;
+        enabled = true;
       };
       notifier = {
         enabled = true;
@@ -129,7 +135,6 @@
           desc = "Git Log";
         };
       }
-
       {
         mode = "n";
         key = "<leader>gs";
@@ -229,6 +234,15 @@
       options = {
         silent = true;
         desc = "Terminal";
+      };
+    }
+    ++ lib.optional (config.plugins.snacks.settings.lazygit.enabled) {
+      action = ":lua Snacks.lazygit()<CR>";
+      key = "<leader>gz";
+      mode = "n";
+      options = {
+        desc = "Lazygit";
+        silent = true;
       };
     }
     ++ lib.optionals (config.plugins.snacks.settings.bufdelete.enabled) [

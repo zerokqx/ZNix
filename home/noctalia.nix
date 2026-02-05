@@ -1,3 +1,4 @@
+{ lib, ... }:
 {
 
   programs.noctalia-shell = {
@@ -22,7 +23,7 @@
         showCapsule = false;
         monitors = [ "DP-1" ];
         density = "comfortable";
-        position = "top";
+        position = lib.mkDefault "top";
         widgets = {
           left = [
 

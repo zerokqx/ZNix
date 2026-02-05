@@ -19,58 +19,27 @@
 
       keymaps = {
         silent = true;
-
-        #     extra = [
-        #     ];
         lspBuf = {
-          #       "K" = {
-          #         action = "hover";
-          #         desc = "LSP hover";
-          #       };
-          #
-          #       "gd" = {
-          #         action = "definition";
-          #         desc = "LSP definition"; };
-          #       "gD" = {
-          #         action = "declaration";
-          #         desc = "LSP declaration";
-          #       };
-          #
-          #       "gi" = {
-          #         action = "implementation";
-          #         desc = "LSP implementation";
-          #       };
-          #
-          #       "gr" = {
-          #         action = "references";
-          #         desc = "LSP references";
-          #       };
-          #
           "<leader>ca" = {
             action = "code_action";
             desc = "LSP code action";
           };
-          #
-          "<leader>rn" = {
+          "<leader>cr" = {
             action = "rename";
             desc = "LSP rename";
           };
         };
       };
     };
-
-    # trouble = {
-    #   enable = ;
-    # };
   };
 
   extraconfiglua = ''
     local _border = "rounded"
 
-    vim.lsp.handlers["textdocument/hover"] = vim.lsp.with(
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
       vim.lsp.handlers.hover, { border = _border }
     )
-    vim.lsp.handlers["textdocument/signaturehelp"] = vim.lsp.with(
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
       vim.lsp.handlers.signature_help, { border = _border }
     )
     vim.diagnostic.config {
@@ -84,7 +53,7 @@
       border = _border,
     }
 
-    vim.lsp.handlers["textdocument/publishdiagnostics"] = vim.lsp.with(
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
       vim.lsp.diagnostic.on_publish_diagnostics,
       {
         underline = true,

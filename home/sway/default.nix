@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./assigns.nix
@@ -18,6 +18,12 @@
       shadows enable
       shadow_blur_radius 20
       default_dim_inactive 0.1
+      blur enable
+      blur_xray disable
+      blur_radius 8
+      blur_passes 3
+      for_window [app_id=".*"] opacity 0.92
+      for_window [floating] border normal
     '';
     config = {
       bars = [ ];

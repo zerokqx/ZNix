@@ -25,6 +25,9 @@ inputs.nixpkgs.lib.nixosSystem {
         ../../home
 
         {
+
+          programs.noctalia-shell.settings.bar.position = "left";
+          programs.noctalia-shell.settings.bar.monitors = [ "eDP-1" ];
           programs.alacritty.settings.font.size = 14;
           wayland.windowManager.sway.config.output = {
             eDP-1 = {
