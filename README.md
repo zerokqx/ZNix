@@ -1,38 +1,97 @@
-# Документация по ZNix
+# ZNix Documentation
+<div class="lang-switch">
+  <a href="README.md">English</a> |
+  <a href="docs/ru.md">Русский</a> |
+  <a href="docs/uk.md">Українська</a> |
+  <a href="docs/es.md">Español</a> |
+  <a href="docs/de.md">Deutsch</a> |
+  <a href="docs/fr.md">Français</a> |
+  <a href="docs/pt-br.md">Português (BR)</a> |
+  <a href="docs/zh-CN.md">中文</a>
+</div>
 
-Набор NixOS/ home-manager конфигов с разделением на хосты. Ниже указано, что где лежит, какие есть кастомные опции, и что нужно сделать перед использованием на своём железе.
+<style>
+:root {
+  --znix-bg: #1a1b26;
+  --znix-accent: #7aa2f7;
+  --znix-accent-soft: #7dcfff;
+  --znix-border: #3b4261;
+}
+a {
+  color: var(--znix-accent);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--znix-border);
+  padding-bottom: 1px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  border-radius: 0;
+}
+a:hover {
+  color: var(--znix-accent-soft);
+  border-color: var(--znix-accent-soft);
+}
+img {
+  border-radius: 0;
+  border: 1px solid var(--znix-border);
+  box-shadow: 0 6px 30px rgba(26, 27, 38, 0.45);
+}
+.lang-switch a {
+  display: inline-block;
+  padding: 6px 10px;
+  background: var(--znix-bg);
+  border: 1px solid var(--znix-border);
+  border-radius: 0;
+  margin-right: 6px;
+}
+</style>
 
-## Структура
-- `flake.nix`: входная точка; подтягивает nixpkgs 25.11, home-manager, nixvim, stylix, nix-flatpak, noctalia, firefox-nightly, flake-parts.
-- `hosts/desktop`, `hosts/laptop`: точки входа для сборки (`nixosSystem`); подключают `configuration.nix`, свой `hardware-configuration.nix`, локальные модули (ollama, fprintd, opencode) и home-manager пользователя `zerok`.
-- `configuration.nix`: базовый системный стек; подключает `core/` и `configs/`.
-- `core/`: системные модули (boot, nixpkgs, сети, звук, графика, пользователи и т.д.) + дополнительные `dev/`, `silly-tavern.nix`, `hardware/`.
-- `configs/`: дополнительные настройки (например, `throne.nix`, `zapret.nix`).
-- `home/`: home-manager конфиги для `zerok`; включает swayfx (`home/sway/`), пакеты, темы, nixvim (`home/nixvim/`), и т.д.
+![Banner](assets/banner.jpg)
 
-## Кастомные опции
-- Система:
-  - `dev.ports.*` (`core/dev/ports.nix`): включает проброс dev-портов на выбранном интерфейсе (`interface`, `tcpPorts`).
-  - `ai.sillytavern.*` (`core/silly-tavern.nix`): включение SillyTavern и Ollama (`enable`, `ollamaEnable`, `mobileServer`, `name`).
+NixOS + home-manager configuration set with per-host layouts. Below: what lives where, custom options, hardware notes, and how to reuse or add a host.
+
+## Highlights
+- SwayFX preconfigured with Noctalia Shell (panel/bar, outputs, autostart).
+- Neovim via nixvim with plugins for LSP, completion, Treesitter UI, DAP.
+- Stylix theme with custom cursors/icons and GTK/fzf/lazygit/noctalia targets.
+- Flatpak integration through nix-flatpak plus HM-managed packages/fonts.
+- Optional SillyTavern + Ollama module and a ready LAN dev-ports module.
+
+## Examples
+
+- `fastfetch` + nixvim: ![Example 1](assets/example-1-fastfetch-nixvim.png)
+- Firefox + Bluetooth + Noctalia: ![Example 2](assets/example-2-firefox-and-bluetooth-noctalia.png)
+
+## Layout
+- `flake.nix`: entry; pulls nixpkgs 25.11, home-manager, nixvim, stylix, nix-flatpak, noctalia, firefox-nightly, flake-parts.
+- `hosts/desktop`, `hosts/laptop`: nixosSystem entry points; import `configuration.nix`, host `hardware-configuration.nix`, host modules (ollama, fprintd/opencode) and HM for user `zerok`.
+- `configuration.nix`: base system stack; imports `core/` and `configs/`.
+- `core/`: system modules (boot, nixpkgs, networking, audio, graphics, users, etc.) plus `dev/`, `silly-tavern.nix`, `hardware/`.
+- `configs/`: extra tweaks (e.g., `throne.nix`, `zapret.nix`).
+- `home/`: home-manager config for `zerok`; includes swayfx (`home/sway/`), packages, themes, nixvim (`home/nixvim/`), etc.
+
+## Custom options
+- System:
+  - `dev.ports.*` (`core/dev/ports.nix`): open dev TCP ports on a chosen interface (`interface`, `tcpPorts`).
+  - `ai.sillytavern.*` (`core/silly-tavern.nix`): toggle SillyTavern and Ollama (`enable`, `ollamaEnable`, `mobileServer`, `name`).
 - Home:
-  - `theme.*` (`home/stylix.nix`): полярность темы, курсоры и иконки (пакеты и названия тем для stylix).
+  - `theme.*` (`home/stylix.nix`): theme polarity, cursor package, icon package/names for stylix.
 
-## Предостережение по hardware-configuration
-- Файлы `hosts/*/hardware-configuration.nix` сгенерированы под конкретное железо; их **нужно заменить** на свои (обычно лежат в `/etc/nixos/hardware-configuration.nix` после установки).
-- Не коммитьте чужие hardware-configuration в основной репозиторий; держите свои копии локально или в приватных оверлеях.
+## Hardware-configuration warning
+- `hosts/*/hardware-configuration.nix` files are machine-specific; **replace them** with your own (typically from `/etc/nixos/hardware-configuration.nix` after install).
+- Avoid committing foreign hardware configs; keep yours local or private.
 
-## Как использовать существующий хост
-1) Установите NixOS, включите flakes (`nix.settings.experimental-features = [ "nix-command" "flakes" ];`).
-2) Склонируйте репозиторий и подмените `hosts/<target>/hardware-configuration.nix` на свой.
-3) Соберите: `sudo nixos-rebuild switch --flake .#desktop` (или `.#laptop`).
-4) Для быстрой проверки сборки без переключения: `nix build .#nixosConfigurations.desktop.config.system.build.toplevel --no-link`.
+## Using existing hosts
+1) Install NixOS and enable flakes (`nix.settings.experimental-features = [ "nix-command" "flakes" ];`).
+2) Clone the repo and swap `hosts/<target>/hardware-configuration.nix` with yours.
+3) Build: `sudo nixos-rebuild switch --flake .#desktop` (or `.#laptop`).
+4) Quick build check without switching: `nix build .#nixosConfigurations.desktop.config.system.build.toplevel --no-link`.
 
-## Как добавить новый хост
-1) Скопируйте один из существующих каталогов `hosts/<name>/`, подставьте свой `hardware-configuration.nix`.
-2) В новом `default.nix` смените имя системы (`system = "x86_64-linux"` при необходимости) и подключите нужные модули/оверлеи.
-3) Обновите специфичные настройки HM (позиция бара noctalia, масштабы шрифтов, layout дисплеев и т.д.).
-4) Сборка: `nix build .#nixosConfigurations.<name>.config.system.build.toplevel --no-link` или `sudo nixos-rebuild switch --flake .#<name>`.
+## Adding a new host
+1) Copy an existing `hosts/<name>/` directory and drop in your `hardware-configuration.nix`.
+2) In the new `default.nix`, set the right `system` and enable needed modules/overlays.
+3) Adjust HM specifics (noctalia bar position, font scale, display layout, etc.).
+4) Build: `nix build .#nixosConfigurations.<name>.config.system.build.toplevel --no-link` or `sudo nixos-rebuild switch --flake .#<name>`.
 
-## Дополнительно
-- home-manager конфиги живут внутри модулей NixOS (нет отдельного `homeConfigurations` в output).
-- При добавлении новых модулей их нужно явно прописать в соответствующих `default.nix` (авто-импортов нет).
+## Notes
+- home-manager lives inside the NixOS modules (no separate `homeConfigurations` output).
+- New modules must be added explicitly to the relevant `default.nix` files (no auto-import).
