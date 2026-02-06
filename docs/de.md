@@ -10,41 +10,6 @@
   <a href="zh-CN.md">中文</a>
 </div>
 
-<style>
-:root {
-  --znix-bg: #1a1b26;
-  --znix-accent: #7aa2f7;
-  --znix-accent-soft: #7dcfff;
-  --znix-border: #3b4261;
-}
-a {
-  color: var(--znix-accent);
-  font-weight: 600;
-  text-decoration: none;
-  border-bottom: 1px solid var(--znix-border);
-  padding-bottom: 1px;
-  transition: color 0.2s ease, border-color 0.2s ease;
-  border-radius: 0;
-}
-a:hover {
-  color: var(--znix-accent-soft);
-  border-color: var(--znix-accent-soft);
-}
-img {
-  border-radius: 0;
-  border: 1px solid var(--znix-border);
-  box-shadow: 0 6px 30px rgba(26, 27, 38, 0.45);
-}
-.lang-switch a {
-  display: inline-block;
-  padding: 6px 10px;
-  background: var(--znix-bg);
-  border: 1px solid var(--znix-border);
-  border-radius: 0;
-  margin-right: 6px;
-}
-</style>
-
 ![Banner](../assets/banner.jpg)
 
 NixOS/home-manager Konfigurationssatz mit Host-Trennung. Unten: Struktur, eigene Optionen, Hinweis zu hardware-configuration und wie man Hosts nutzt oder hinzufügt.
