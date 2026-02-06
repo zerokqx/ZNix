@@ -5,13 +5,14 @@
     ./configs
   ];
   programs.bash.enable = true;
+  dev.ports.enable = true;
   virtualisation.docker.enable = true;
   security.polkit.enable = true;
   services.upower.enable = true;
   documentation.man.generateCaches = false;
   programs.command-not-found.enable = false;
   services.udisks2.enable = true;
-  services.gvfs.enable = true; # для thumbnail, trash, сетевых дисков и т.д.
+  services.gvfs.enable = true;
   programs.sway = {
     enable = true;
     package = pkgs.swayfx;
@@ -25,6 +26,7 @@
     ];
   };
 
+  programs.kdeconnect.enable = true;
   environment.variables.EDITOR = "nvim";
   programs.gnupg.agent.enable = true;
   programs = {
@@ -50,6 +52,7 @@
 
   services = {
     displayManager.ly.enable = true;
+    dbus.enable = true;
     playerctld.enable = true;
     flatpak.enable = true;
   };

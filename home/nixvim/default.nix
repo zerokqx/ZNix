@@ -22,6 +22,7 @@
       vim.api.nvim_set_hl(0,"DiagnosticVirtualTextHint",{fg="#C5E1A5",bg="#1E2B1A"})
 
       vim.diagnostic.config({
+      underline = false,
         signs=false,
         virtual_text = {
           prefix = function(d)
@@ -51,17 +52,15 @@
           focusable = false,
           prefix = function(d)
             return ({
-              [vim.diagnostic.severity.ERROR] = " ",
-              [vim.diagnostic.severity.WARN]  = " ",
-              [vim.diagnostic.severity.INFO]  = " ",
-              [vim.diagnostic.severity.HINT]  = "󰌵 ",
+              [vim.diagnostic.severity.ERROR] = "  ",
+              [vim.diagnostic.severity.WARN]  = "  ",
+              [vim.diagnostic.severity.INFO]  = "  ",
+              [vim.diagnostic.severity.HINT]  = "󰌵  ",
             })[d.severity]
           end,
         })
       end
 
-      -- Команда для вызова из Cmd:
-      -- :CustomDiagnosticCommand
       vim.api.nvim_create_user_command("CustomDiagnosticCommand", diag_float_cursor, {})
 
     '';

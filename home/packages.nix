@@ -3,6 +3,7 @@
 
   home.packages = with pkgs; [
     opencode
+    valent
     codex
     statix
     typescript
@@ -23,6 +24,7 @@
     antigravity
     insomnia
     git-crypt
+    cartridges
     bun
     fastfetch
     devenv

@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 {
 
   networking = {
@@ -8,10 +8,6 @@
     ];
     hostName = "nixos";
     networkmanager.enable = true;
-    firewall.allowedTCPPorts = [
-      5173
-      3000
-    ];
     firewall.enable = true;
     wireless.iwd.enable = false;
   };

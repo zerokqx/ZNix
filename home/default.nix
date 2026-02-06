@@ -31,7 +31,7 @@
     time = "en_US.UTF-8";
     base = "en_US.UTF-8";
     address = "en_US.UTF-8";
-    messages = "en_US<D-R>UTF-8";
+    messages = "en_US.UTF-8";
     telephone = "en_US.UTF-8";
   };
 

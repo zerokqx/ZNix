@@ -38,6 +38,7 @@
             }
           ];
         };
+
       };
     };
   };
@@ -68,6 +69,7 @@
       options = {
         desc = "Cycle to next buffer";
       };
+
     }
 
     {

@@ -1,6 +1,9 @@
 {
   imports = [
+    ./hardware
+    ./dev
     ./packages.nix
+    ./silly-tavern.nix
     ./pipewire.nix
     ./graphics.nix
     ./bluetooth.nix

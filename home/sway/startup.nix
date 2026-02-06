@@ -8,6 +8,5 @@
     { command = "exec flatpak run io.github.purplehorrorrus.Meridius"; }
     { command = "exec noctalia-shell"; }
     { command = "exec autotiling-rs"; }
-
   ];
 }
