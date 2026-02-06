@@ -12,7 +12,7 @@ inputs.nixpkgs.lib.nixosSystem {
     inputs.home-manager.nixosModules.home-manager
 
     {
-      hardware.fingerPring.enable = true;
+      hardware.fingerprint.enable = true;
       home-manager.extraSpecialArgs = { inherit inputs; };
       home-manager.backupFileExtension = "hm-bak";
 

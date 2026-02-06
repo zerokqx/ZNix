@@ -34,10 +34,12 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages =
       with pkgs;
-      lib.mkIf cfg.mobileServer [ sillytavern ]
-      ++ lib.optional pkgs.writeShellScriptBin "stMobile" ''
-        syllytavern --listen --port 8000 --whitelist
-      '';
+      lib.optionals cfg.mobileServer [
+        sillytavern
+        (writeShellScriptBin "stMobile" ''
+          sillytavern --listen --port 8000 --whitelist
+        '')
+      ];
 
     services = {
       ollama.enable = lib.mkDefault cfg.ollamaEnable;
