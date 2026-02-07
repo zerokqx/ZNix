@@ -8,8 +8,7 @@
   imports = [
     ./git.nix
     ./noctalia.nix
-    ./stylix.nix
-    ./firefox.nix
+    ./znix
     ./zoxide.nix
     ./alacritty.nix
     ./fish.nix
@@ -17,7 +16,6 @@
     ./sway
     ./packages.nix
     ./dir-file-create.nix
-    ./flatpak.nix
 
   ];
   programs.codex.enable = true;

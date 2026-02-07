@@ -5,7 +5,7 @@
     ./configs
   ];
   programs.bash.enable = true;
-  dev.ports.enable = true;
+  znix.dev.ports.enable = true;
   virtualisation.docker.enable = true;
   security.polkit.enable = true;
   services.upower.enable = true;
@@ -54,7 +54,6 @@
     displayManager.ly.enable = true;
     dbus.enable = true;
     playerctld.enable = true;
-    flatpak.enable = true;
   };
 
   systemd.user.services.polkit-gnome-authentication-agent-1 = {

@@ -10,7 +10,7 @@ inputs.nixpkgs.lib.nixosSystem {
     ./ollama.nix
     {
 
-      ai.sillytavern.enable = true;
+      znix.ai.sillytavern.enable = true;
     }
     inputs.home-manager.nixosModules.home-manager
     {
@@ -21,13 +21,28 @@ inputs.nixpkgs.lib.nixosSystem {
         (
           { ... }:
           {
+            znix.monitors = {
+              noctaliaMonitors = [ "DP-1" ];
+              list = {
+                "DP-1" = {
+                  mode = "1920x1080@165Hz";
+                  pos = "0 0";
+                };
+                "HDMI-A-1" = {
+                  mode = "1920x1080@75Hz";
+                  pos = "1920 0";
+                };
+              };
+            };
+          }
+        )
+        (
+          { ... }:
+          {
+            znix.browser.enable = true;
             programs.noctalia-shell.settings.bar.position = "bottom";
           }
         )
-        {
-
-        }
-        inputs.nix-flatpak.homeManagerModules.nix-flatpak
         inputs.stylix.homeModules.stylix
         inputs.noctalia.homeModules.default
         inputs.nixvim.homeModules.nixvim

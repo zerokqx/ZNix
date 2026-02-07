@@ -18,7 +18,6 @@
 - SwayFX с заранее настроенным Noctalia Shell (панель, бар, выводы, автозапуски).
 - Neovim через nixvim со сборкой плагинов (LSP, автодополнение, UI/Treesitter, DAP).
 - Stylix тема с кастомными курсорами/иконками и интеграцией в GTK, fzf, lazygit, noctalia.
-- Flatpak интеграция через nix-flatpak и набор пользовательских пакетов/шрифтов из home-manager.
 - Опциональный SillyTavern + Ollama модуль и готовый модуль dev-портов для LAN.
 
 ## Примеры
@@ -27,19 +26,22 @@
 - Firefox + Bluetooth + Noctalia: ![Пример 2](../assets/example-2-firefox-and-bluetooth-noctalia.png)
 
 ## Структура
-- `flake.nix`: входная точка; подтягивает nixpkgs 25.11, home-manager, nixvim, stylix, nix-flatpak, noctalia, firefox-nightly, flake-parts.
+- `flake.nix`: входная точка; подтягивает nixpkgs 25.11, home-manager, nixvim, stylix, noctalia, firefox-nightly, flake-parts.
 - `hosts/desktop`, `hosts/laptop`: точки входа для сборки (`nixosSystem`); подключают `configuration.nix`, свой `hardware-configuration.nix`, локальные модули (ollama, fprintd/opencode) и home-manager пользователя `zerok`.
 - `configuration.nix`: базовый системный стек; подключает `core/` и `configs/`.
-- `core/`: системные модули (boot, nixpkgs, сети, звук, графика, пользователи и т.д.) плюс `dev/`, `silly-tavern.nix`, `hardware/`.
+- `core/`: системные модули (boot, nixpkgs, сети, звук, графика, пользователи и т.д.) плюс `znix/` для кастомных опций.
 - `configs/`: дополнительные настройки (например, `throne.nix`, `zapret.nix`).
 - `home/`: home-manager конфиги для `zerok`; включает swayfx (`home/sway/`), пакеты, темы, nixvim (`home/nixvim/`) и т.д.
 
 ## Кастомные опции
 - Система:
-  - `dev.ports.*` (`core/dev/ports.nix`): открывает dev TCP-порты на выбранном интерфейсе (`interface`, `tcpPorts`).
-  - `ai.sillytavern.*` (`core/silly-tavern.nix`): включение SillyTavern и Ollama (`enable`, `ollamaEnable`, `mobileServer`, `name`).
+  - `znix.monitors.*` (`home/znix/monitors.nix`): карта мониторов (режим/позиция) и выбор для панели Noctalia.
+  - `znix.dev.ports.*` (`core/znix/ports.nix`): открывает dev TCP-порты на выбранном интерфейсе (`interface`, `tcpPorts`).
+  - `znix.ai.sillytavern.*` (`core/znix/silly-tavern.nix`): включение SillyTavern и Ollama (`enable`, `ollamaEnable`, `mobileServer`, `name`).
+  - `znix.hardware.fingerprint.goodix.*` (`core/znix/finger-print.nix`): включает Goodix (fprintd/TOD).
 - Home:
-  - `theme.*` (`home/stylix.nix`): полярность темы, курсоры и иконки (пакеты и названия тем для stylix).
+  - `znix.browser.*` (`home/znix/browser.nix`): настройки Firefox (профиль, расширения, закладки).
+  - `znix.theme.*` (`home/znix/theme.nix`): полярность темы, курсоры и иконки (пакеты и названия тем для stylix).
 
 ## Предостережение по hardware-configuration
 - Файлы `hosts/*/hardware-configuration.nix` сгенерированы под конкретное железо; их **нужно заменить** на свои (обычно лежат в `/etc/nixos/hardware-configuration.nix` после установки).
