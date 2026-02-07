@@ -1,5 +1,4 @@
 {
   imports = [
-    ./finger-print.nix
   ];
 }

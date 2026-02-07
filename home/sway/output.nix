@@ -1,13 +1,11 @@
-{ lib, ... }:
-{
-  wayland.windowManager.sway.config.output = {
-    DP-1 = {
-      mode = "1920x1080@165Hz";
-      pos = "0 0";
-    };
-    HDMI-A-1 = {
-      mode = "1920x1080@75Hz";
-      pos = "1920 0";
-    };
+{ lib, config, ... }:
+let
+  monitors = config.znix.monitors.list;
+  mkOutput = name: spec: {
+    inherit (spec) mode pos;
   };
+in
+{
+  wayland.windowManager.sway.config.output =
+    lib.mkIf (monitors != { }) (lib.mapAttrs mkOutput monitors);
 }

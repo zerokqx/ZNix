@@ -5,10 +5,10 @@
   ...
 }:
 let
-  cfg = config.hardware.fingerprint.goodix;
+  cfg = config.znix.hardware.fingerprint.goodix;
 in
 {
-  options.hardware.fingerprint.goodix = {
+  options.znix.hardware.fingerprint.goodix = {
     enable = lib.mkEnableOption "Enable Goodix fingerprint (fprintd + TOD driver)";
   };
 

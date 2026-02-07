@@ -5,10 +5,10 @@
   ...
 }:
 let
-  cfg = config.theme;
+  cfg = config.znix.theme;
 in
 {
-  options.theme = {
+  options.znix.theme = {
     polarity = lib.mkOption {
       type = lib.types.enum [
         "dark"

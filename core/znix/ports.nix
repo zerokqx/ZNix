@@ -1,9 +1,9 @@
 { lib, config, ... }:
 let
-  cfg = config.dev.ports;
+  cfg = config.znix.dev.ports;
 in
 {
-  options.dev.ports = {
+  options.znix.dev.ports = {
     enable = lib.mkEnableOption "Enable default dev ports";
 
     interface = lib.mkOption {

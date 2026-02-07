@@ -1,4 +1,9 @@
-{ lib, ... }:
+{ lib, config, ... }:
+let
+  noctaliaMonitorsRaw = lib.attrByPath [ "znix" "monitors" "noctaliaMonitors" ] null config;
+  noctaliaMonitors =
+    if noctaliaMonitorsRaw == null then null else if lib.isList noctaliaMonitorsRaw then noctaliaMonitorsRaw else [ noctaliaMonitorsRaw ];
+in
 {
   programs.noctalia-shell = {
     enable = true;
@@ -20,7 +25,6 @@
       };
       bar = {
         showCapsule = false;
-        monitors = [ "DP-1" ];
         density = "comfortable";
         position = lib.mkDefault "top";
         widgets = {
@@ -60,12 +64,12 @@
             {
               id = "SystemMonitor";
             }
-            {
-              id = "Clock";
-            }
-          ];
-        };
-
+          {
+            id = "Clock";
+          }
+        ];
+      };
+        monitors = noctaliaMonitors;
       };
       appLauncher = {
         enableClipboardHistory = true;

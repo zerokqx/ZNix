@@ -21,6 +21,12 @@
 
   scripts.rebuild-desktop-test.exec = "git add . && sudo nixos-rebuild test --flake .#desktop --show-trace";
   scripts.rebuild-laptop-test.exec = "git add . && sudo nixos-rebuild test --flake .#laptop --show-trace";
+  scripts.rebuild-desktop-vm.exec = ''
+    git add .
+    sudo nixos-rebuild build-vm --flake .#desktop --show-trace
+    ./result/bin/run-nixos-vm
+  '';
+  scripts.flake-check.exec = "nix flake check --show-trace";
   enterTest = ''
     echo $GREET
   '';

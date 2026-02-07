@@ -6,10 +6,10 @@
 }:
 let
 
-  cfg = config.ai.sillytavern;
+  cfg = config.znix.ai.sillytavern;
 in
 {
-  options.ai.sillytavern = {
+  options.znix.ai.sillytavern = {
     enable = lib.mkEnableOption "Silly Tavern enable";
     ollamaEnable = lib.mkOption {
       type = lib.types.bool;

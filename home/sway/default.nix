@@ -1,4 +1,26 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, ... }:
+let
+  monitorNames = lib.sort builtins.lessThan (builtins.attrNames config.znix.monitors.list);
+  primary = if monitorNames == [ ] then null else builtins.head monitorNames;
+  secondary = if (lib.length monitorNames > 1) then builtins.elemAt monitorNames 1 else null;
+  workspaceAssignments =
+    lib.optionals (primary != null) [
+      {
+        workspace = "2";
+        output = primary;
+      }
+    ]
+    ++ lib.optionals (secondary != null) [
+      {
+        workspace = "3";
+        output = secondary;
+      }
+      {
+        workspace = "9";
+        output = secondary;
+      }
+    ];
+in
 {
   imports = [
     ./assigns.nix
@@ -41,20 +63,7 @@
         titlebar = false;
       };
 
-      workspaceOutputAssign = [
-        {
-          workspace = "2";
-          output = "DP-1";
-        }
-        {
-          workspace = "3";
-          output = "HDMI-A-1";
-        }
-        {
-          workspace = "9";
-          output = "HDMI-A-1";
-        }
-      ];
+      workspaceOutputAssign = workspaceAssignments;
 
     };
   };
