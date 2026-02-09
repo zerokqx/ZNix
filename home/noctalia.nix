@@ -2,7 +2,12 @@
 let
   noctaliaMonitorsRaw = lib.attrByPath [ "znix" "monitors" "noctaliaMonitors" ] null config;
   noctaliaMonitors =
-    if noctaliaMonitorsRaw == null then null else if lib.isList noctaliaMonitorsRaw then noctaliaMonitorsRaw else [ noctaliaMonitorsRaw ];
+    if noctaliaMonitorsRaw == null then
+      null
+    else if lib.isList noctaliaMonitorsRaw then
+      noctaliaMonitorsRaw
+    else
+      [ noctaliaMonitorsRaw ];
 in
 {
   programs.noctalia-shell = {
@@ -41,6 +46,10 @@ in
             {
               id = "Bluetooth";
             }
+
+            {
+              id = "NotifactionHistory";
+            }
             {
               id = "KeyboardLayout";
               showIcon = false;
@@ -57,6 +66,9 @@ in
           ];
           right = [
             {
+              id = "Tray";
+            }
+            {
               alwaysShowPercentage = true;
               id = "Battery";
               warningThreshold = 30;
@@ -64,11 +76,11 @@ in
             {
               id = "SystemMonitor";
             }
-          {
-            id = "Clock";
-          }
-        ];
-      };
+            {
+              id = "Clock";
+            }
+          ];
+        };
         monitors = noctaliaMonitors;
       };
       appLauncher = {
