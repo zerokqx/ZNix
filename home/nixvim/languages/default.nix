@@ -2,6 +2,7 @@
 {
 
   imports = [
+    ./omnisharp.nix
     ./css.nix
     ./docker.nix
     ./html.nix
