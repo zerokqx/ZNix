@@ -8,6 +8,12 @@
     interactiveShellInit = ''
       set fish_greeting ""
     '';
+    plugins = [
+      {
+        name = "plugin-git";
+        src = pkgs.fishPlugins.plugin-git.src;
+      }
+    ];
     shellAliases = {
       n = "nvim";
       cl = "clear";
@@ -25,7 +31,6 @@
     };
   };
   home.packages = with pkgs; [
-    fishPlugins.plugin-git
     fishPlugins.done
     fishPlugins.autopair
 
