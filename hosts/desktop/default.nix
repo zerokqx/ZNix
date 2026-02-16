@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = { inherit inputs; };
@@ -21,6 +21,7 @@ inputs.nixpkgs.lib.nixosSystem {
         (
           { ... }:
           {
+
             znix.monitors = {
               noctaliaMonitors = [ "DP-1" ];
               list = {

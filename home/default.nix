@@ -18,7 +18,6 @@
     ./dir-file-create.nix
 
   ];
-  programs.codex.enable = true;
   nixpkgs.config.allowUnfree = true;
   home.username = "zerok";
   home.homeDirectory = "/home/zerok";

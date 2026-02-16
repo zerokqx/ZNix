@@ -61,7 +61,7 @@ in
         light = cfg.icons.light;
       };
 
-      base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
+      base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/everforest-dark-hard.yaml";
 
       autoEnable = true;
 

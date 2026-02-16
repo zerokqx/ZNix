@@ -1,10 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
 
   home.packages = with pkgs; [
+
+    inputs.codex-cli-nix.packages.${pkgs.system}.default
     opencode
     valent
-    codex
     statix
     typescript
     nixd

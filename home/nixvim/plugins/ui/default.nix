@@ -2,6 +2,7 @@
 {
 
   imports = [
+    ./animations.nix
     ./bufferline.nix
     ./colorizer.nix
     ./lualine.nix

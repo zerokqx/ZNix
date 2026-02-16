@@ -13,7 +13,7 @@
       dim.enabled = true;
       toggle.enabled = true;
       bufdelete.enabled = true;
-      scroll.enabled = true;
+      scroll.enabled = false;
       words.enabled = true;
       indent = {
         enabled = true;

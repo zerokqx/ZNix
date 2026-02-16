@@ -1,12 +1,13 @@
 { inputs, ... }:
 let
-  desktop = import ./desktop { inherit inputs; };
-  laptop = import ./laptop { inherit inputs; };
+  system = "x86_64-linux";
+  pkgs = inputs.nixpkgs.legacyPackages.${system};
+
+  args = { inherit inputs pkgs system; };
+
+  desktop = import ./desktop args;
+  laptop = import ./laptop args;
 in
 {
-  flake.nixosConfigurations = {
-
-    inherit desktop;
-    inherit laptop;
-  };
+  flake.nixosConfigurations = { inherit desktop laptop; };
 }
