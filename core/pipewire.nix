@@ -1,14 +1,12 @@
-{ config, pkgs, ... }:
 {
 
-  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
-    pulse.enable = true; # Включает эмуляцию PulseAudio (важно для большинства софта)
+    pulse.enable = true;
   };
 
 }

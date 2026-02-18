@@ -2,8 +2,8 @@
 {
   environment.systemPackages = with pkgs; [
     autotiling-rs
+    tig
     alacritty
-    delta
     atool
     bat
     bc
