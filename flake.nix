@@ -15,7 +15,7 @@
       url = "github:nix-community/stylix/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim.url = "github:nix-community/nixvim";
+    nixvim.url = "github:nix-community/nixvim/nixos-25.11";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -29,13 +29,8 @@
       home-manager,
       ...
     }:
-    let
-
-      system = "x86_64-linux";
-
-    in
     flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ system ];
+      systems = [ "x86_64-linux" ];
 
       imports = [
         home-manager.flakeModules.home-manager

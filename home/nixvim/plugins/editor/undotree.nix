@@ -2,11 +2,7 @@
 {
   plugins.undotree = {
 
-    enable = true;
-    lazyLoad = {
-      enable = true;
-      settings.cmd = "UndotreeToggle";
-    };
+    enable = false;
   };
   keymaps = lib.mkIf config.plugins.undotree.enable [
     {

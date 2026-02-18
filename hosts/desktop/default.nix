@@ -5,12 +5,11 @@ inputs.nixpkgs.lib.nixosSystem {
   modules = [
 
     ../../configuration.nix
-    ../../configuration.nix
     ./hardware-configuration.nix
     ./ollama.nix
     {
 
-      znix.ai.sillytavern.enable = true;
+      znix.ai.sillytavern.enable = false;
     }
     inputs.home-manager.nixosModules.home-manager
     {
