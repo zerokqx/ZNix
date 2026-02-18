@@ -30,5 +30,20 @@ in
           title = "Picture-in-Picture";
         };
       }
+
+      {
+        command = "floating enable, move position center, resize set 900px 500px";
+        criteria = {
+          app_id = "imv";
+        };
+      }
+
+      {
+        command = "floating enable, move position center, resize set 500px 400px";
+        criteria = {
+          app_id = "mpv";
+        };
+      }
+
     ];
 }

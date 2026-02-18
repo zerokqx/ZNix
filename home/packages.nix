@@ -4,9 +4,8 @@
   home.packages = with pkgs; [
 
     inputs.codex-cli-nix.packages.${pkgs.system}.default
-    
+    gh
     opencode
-    valent
     statix
     typescript
     nixd
@@ -23,10 +22,8 @@
     prismlauncher
     obsidian
     nerd-fonts.jetbrains-mono
-    antigravity
     insomnia
     git-crypt
-    cartridges
     bun
     fastfetch
     devenv

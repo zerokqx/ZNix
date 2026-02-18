@@ -23,7 +23,7 @@ inputs.nixpkgs.lib.nixosSystem {
           {
 
             znix.monitors = {
-              noctaliaMonitors = [ "DP-1" ];
+              noctaliaMonitors = [ ];
               list = {
                 "DP-1" = {
                   mode = "1920x1080@165Hz";

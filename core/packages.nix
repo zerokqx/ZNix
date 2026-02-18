@@ -3,12 +3,13 @@
   environment.systemPackages = with pkgs; [
     autotiling-rs
     alacritty
+    delta
     atool
     bat
     bc
-    bluez
     btop
     cliphist
+    imv
     eza
     exfat
     fd
@@ -16,17 +17,14 @@
     fzf
     gnupg
     grim
+    mpv
     interception-tools
-    keybinder3
     libnotify
     nix-ld
-    ntfs3g
     pavucontrol
     p7zip
-    pipewire
     playerctl
     polkit_gnome
-    pulseaudio
     ripgrep
     slurp
     sway-contrib.grimshot
@@ -44,10 +42,6 @@
     xfce.thunar-volman
     xfce.tumbler
     xdg-utils
-    xorg.libxkbfile
-    xorg.xrandr
-    totem
-    loupe
   ];
 
   environment.shells = with pkgs; [ fish ];
