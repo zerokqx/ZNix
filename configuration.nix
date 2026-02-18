@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./core
@@ -26,7 +26,6 @@
     ];
   };
 
-  programs.kdeconnect.enable = true;
   environment.variables.EDITOR = "nvim";
   programs.gnupg.agent.enable = true;
   programs = {

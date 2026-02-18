@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
 
     inputs.codex-cli-nix.packages.${pkgs.system}.default
+    
     opencode
     valent
     statix
