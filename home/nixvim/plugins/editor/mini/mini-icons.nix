@@ -3,7 +3,32 @@
     enable = true;
     mockDevIcons = true;
     settings = {
+      directory = {
+        "__tests__" = {
+          hl = "MiniIconsAzure";
+          glyph = "";
+        };
+      };
       extension = {
+        "test.ts" = {
+          hl = "MiniIconsAzure";
+          glyph = "󰙨";
+        };
+
+        "test.tsx" = {
+          hl = "MiniIconsAzure";
+          glyph = "󰙨";
+        };
+
+        "test.js" = {
+          hl = "MiniIconsAzure";
+          glyph = "󰙨";
+        };
+        "test.jsx" = {
+          hl = "MiniIconsAzure";
+          glyph = "󰙨";
+        };
+
         js = {
           hl = "MiniIconsYellow";
         };

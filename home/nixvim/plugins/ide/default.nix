@@ -7,6 +7,7 @@
     ./goto-preview.nix
     ./lsp.nix
     ./lspsaga.nix
+    ./neotest.nix
     ./neogen.nix
   ];
 }
