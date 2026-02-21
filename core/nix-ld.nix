@@ -1,0 +1,45 @@
+{ pkgs, ... }:
+{
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    fuse3
+    icu
+    nss
+    openssl
+    curl
+    expat
+    at-spi2-atk
+    atk
+    cairo
+    cups
+    dbus
+    fontconfig
+    freetype
+    gdk-pixbuf
+    glib
+    gtk3
+    libGL
+    libuuid
+    libxkbcommon
+    mesa
+    nspr
+    pango
+    pipewire
+    udev
+    xorg.libX11
+    xorg.libXcomposite
+    xorg.libXcursor
+    xorg.libXdamage
+    xorg.libXext
+    xorg.libXfixes
+    xorg.libXi
+    xorg.libXrandr
+    xorg.libXrender
+    xorg.libXtst
+    xorg.libxcb
+    xorg.xcbutilkeysyms
+    alsa-lib
+  ];
+}

@@ -1,5 +1,6 @@
 {
   imports = [
+    ./nix-ld.nix
     ./znix
     ./packages.nix
     ./pipewire.nix

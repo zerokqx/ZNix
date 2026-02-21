@@ -1,7 +1,7 @@
 {
-  plugins.smear-cursor.enable = true;
+  plugins.smear-cursor.enable = false;
   plugins.neoscroll = {
-    enable = true;
+    enable = false;
     settings = {
       cursor_scrolls_alone = true;
       easing_function = "sine";
