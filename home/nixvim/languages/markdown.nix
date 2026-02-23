@@ -15,13 +15,7 @@
     };
 
     image = {
-      enable = lib.nixvim.enableExceptInTests;
-      settings = {
-        integrations.markdown = {
-          clearInInsertMode = true;
-          onlyRenderImageAtCursor = true;
-        };
-      };
+      enable = false;
     };
 
     markdown-preview = {
@@ -41,7 +35,7 @@
 
         settings = {
           ltex = {
-            checkFrequency = "save"; # или "manual"
+            checkFrequency = "save";
             language = "en-GB";
             completionEnabled = true;
           };

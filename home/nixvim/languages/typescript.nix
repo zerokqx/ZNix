@@ -4,7 +4,6 @@
 
     conform-nvim = {
       settings = {
-
         formatters.prettier = {
           command = lib.getExe pkgs.nodePackages.prettier;
         };
@@ -85,7 +84,7 @@
     };
 
     ts-autotag = {
-      enable = true;
+      enable = false;
       lazyLoad = {
         enable = true;
         settings.ft = [

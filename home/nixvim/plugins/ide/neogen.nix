@@ -16,11 +16,6 @@
             annotation_convention = "emmylua";
           };
         };
-        python = {
-          template = {
-            annotation_convention = "numpydoc";
-          };
-        };
         typescript = {
           template = {
             annotation_convention = "tsdoc";

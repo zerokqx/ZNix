@@ -1,17 +1,10 @@
 { lib, ... }:
 {
   autoGroups = {
-    alacritty_padding = { };
     snacks_picker_border = { };
   };
 
   autoCmd = [
-    {
-      event = [ "VimEnter" ];
-      pattern = "*";
-      desc = "Remove Alacritty padding on startup";
-      command = "!alacritty msg config window.padding.x=0 window.padding.y=0";
-    }
     {
       event = [ "VimEnter" ];
       pattern = "*";

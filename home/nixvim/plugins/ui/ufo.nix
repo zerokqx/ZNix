@@ -32,6 +32,14 @@
 
     nvim-ufo = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings.keys = [
+          "zR"
+          "zM"
+          "zK"
+        ];
+      };
       settings = {
         provider_selector = # lua
           ''

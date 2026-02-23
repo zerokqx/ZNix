@@ -1,15 +1,8 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
   plugins = {
     lspkind.enable = true;
-    rustaceanvim = {
-      enable = true;
-      lazyLoad = {
-        enable = true;
-        settings.ft = "rust";
-      };
-    };
     lsp-signature.enable = true;
     lsp = {
       enable = true;
@@ -23,7 +16,6 @@
           enable = true;
         };
       };
-
       keymaps = {
         silent = true;
         lspBuf = {

@@ -9,7 +9,7 @@ lib.mkIf config.plugins.blink-cmp.enable {
     score_offset = 100;
     opts = {
       commit = { };
-      git_centers.github = { }; # было git_hub → исправил
+      git_centers.github = { };
     };
   };
 }
