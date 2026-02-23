@@ -84,7 +84,7 @@
     };
 
     ts-autotag = {
-      enable = false;
+      enable = true;
       lazyLoad = {
         enable = true;
         settings.ft = [
