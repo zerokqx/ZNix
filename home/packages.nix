@@ -2,10 +2,8 @@
 {
 
   home.packages = with pkgs; [
-
     waypipe
     inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
-    rustdesk
     gh
     opencode
     statix
