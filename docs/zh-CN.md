@@ -62,3 +62,19 @@
 ## 备注
 - home-manager 嵌入在 NixOS 模块中（无独立 `homeConfigurations` 输出）。
 - 新模块需在对应的 `default.nix` 中显式添加（无自动导入）。
+
+## Nixvim：Tree-sitter 默认关闭
+- 在 `home/nixvim/plugins/ui/treesitter.nix` 中，`treesitter` 插件已启用，但其功能默认关闭：
+  - `highlight.enable = false`
+  - `indent.enable = false`
+  - `incremental_selection.enable = false`
+  - `autotag.enable = false`
+- 当前语法高亮由 `vim-polyglot`（`home/nixvim/plugins/ui/polyglot.nix`）提供，因为 Tree-sitter 在这套配置下更慢。
+
+### 如何重新启用 Tree-sitter
+1) 在 `home/nixvim/plugins/ui/treesitter.nix` 中启用高亮：
+`highlight.enable = true;`
+2) 禁用 `vim-polyglot`：
+   - 从 `home/nixvim/plugins/ui/default.nix` 的 `imports` 中移除 `./polyglot.nix`，或
+   - 从 `home/nixvim/plugins/ui/polyglot.nix` 中移除 `vimPlugins.vim-polyglot`。
+3) 应用配置（`home-manager switch` 或 `sudo nixos-rebuild switch --flake .#<host>`）。

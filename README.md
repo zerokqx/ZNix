@@ -62,3 +62,19 @@ NixOS/home-manager configuration set split by host. Below: what lives where, cus
 ## Notes
 - home-manager lives inside the NixOS modules (no separate `homeConfigurations` output).
 - New modules must be added explicitly to the relevant `default.nix` files (no auto-import).
+
+## Nixvim: Tree-sitter is disabled by default
+- In `home/nixvim/plugins/ui/treesitter.nix`, the `treesitter` plugin is present, but its features are disabled by default:
+  - `highlight.enable = false`
+  - `indent.enable = false`
+  - `incremental_selection.enable = false`
+  - `autotag.enable = false`
+- Syntax highlighting currently comes from `vim-polyglot` (`home/nixvim/plugins/ui/polyglot.nix`) because Tree-sitter is slower in this setup.
+
+### How to enable Tree-sitter again
+1) Enable highlighting in `home/nixvim/plugins/ui/treesitter.nix`:
+`highlight.enable = true;`
+2) Disable `vim-polyglot`:
+   - remove `./polyglot.nix` from `imports` in `home/nixvim/plugins/ui/default.nix`, or
+   - remove `vimPlugins.vim-polyglot` from `home/nixvim/plugins/ui/polyglot.nix`.
+3) Apply the config (`home-manager switch` or `sudo nixos-rebuild switch --flake .#<host>`).

@@ -62,3 +62,19 @@
 ## Нотатки
 - home-manager живе всередині модулів NixOS (нема окремого output `homeConfigurations`).
 - Нові модулі потрібно явно додавати у відповідні `default.nix` (автоімпорту немає).
+
+## Nixvim: Tree-sitter за замовчуванням вимкнений
+- У `home/nixvim/plugins/ui/treesitter.nix` плагін `treesitter` підключений, але його функції вимкнені за замовчуванням:
+  - `highlight.enable = false`
+  - `indent.enable = false`
+  - `incremental_selection.enable = false`
+  - `autotag.enable = false`
+- Підсвітка синтаксису зараз працює через `vim-polyglot` (`home/nixvim/plugins/ui/polyglot.nix`), бо Tree-sitter у цій конфігурації повільніший.
+
+### Як увімкнути Tree-sitter назад
+1) Увімкніть підсвітку в `home/nixvim/plugins/ui/treesitter.nix`:
+`highlight.enable = true;`
+2) Вимкніть `vim-polyglot`:
+   - приберіть `./polyglot.nix` з `imports` у `home/nixvim/plugins/ui/default.nix`, або
+   - приберіть `vimPlugins.vim-polyglot` з `home/nixvim/plugins/ui/polyglot.nix`.
+3) Застосуйте конфіг (`home-manager switch` або `sudo nixos-rebuild switch --flake .#<host>`).
