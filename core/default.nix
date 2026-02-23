@@ -1,5 +1,6 @@
 {
   imports = [
+    ./openssh.nix
     ./nix-ld.nix
     ./znix
     ./packages.nix
