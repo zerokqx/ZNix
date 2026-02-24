@@ -2,6 +2,8 @@
 {
 
   imports = [
+    ./angularls.nix
+    ./vue.nix
     ./omnisharp.nix
     ./css.nix
     ./docker.nix

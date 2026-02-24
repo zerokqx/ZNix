@@ -23,6 +23,7 @@
         "javascriptreact"
         "typescript"
         "typescriptreact"
+
       ];
       extraOptions = {
         settings = {
@@ -64,7 +65,6 @@
         "typescript"
         "typescriptreact"
         "typescript.tsx"
-        "vue"
         "html"
         "markdown"
         "json"
@@ -89,9 +89,11 @@
         enable = true;
         settings.ft = [
           "javascript"
+          "vue"
           "javascriptreact"
           "typescript"
           "typescriptreact"
+          "html"
         ];
 
       };
