@@ -2,7 +2,6 @@
 {
 
   imports = [
-    ./polyglot.nix
     ./animations.nix
     ./bufferline.nix
     ./colorizer.nix

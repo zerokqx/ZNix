@@ -43,10 +43,11 @@
   home.sessionPath = [
     "${config.home.homeDirectory}/.cargo/bin"
     "${config.home.homeDirectory}/.bun/bin"
+    "${config.home.homeDirectory}/.dotnet/tools"
   ];
   home.sessionVariables = {
     TERM = "alacritty";
-    BROWSER = "firefox";
+    BROWSER = "firefox-nightly";
     XDG_MIME_DEFAULTS = ''
       application/pdf=zathura
       application/x-pdf=zathura
