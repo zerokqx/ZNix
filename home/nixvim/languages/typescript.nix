@@ -23,6 +23,7 @@
         "javascriptreact"
         "typescript"
         "typescriptreact"
+        "vue"
       ];
       extraOptions = {
         settings = {
@@ -101,6 +102,7 @@
           enable_close_on_slash = true;
           enable_rename = true;
         };
+
         per_filetype = {
           html = {
             enable_close = true;

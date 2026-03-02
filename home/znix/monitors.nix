@@ -4,9 +4,12 @@ let
   names = builtins.attrNames monitors;
   namesSorted = lib.sort builtins.lessThan names;
   defaultNoctalia =
-    if namesSorted == [ ] then null else [
-      (builtins.elemAt namesSorted 0)
-    ];
+    if namesSorted == [ ] then
+      null
+    else
+      [
+        (builtins.elemAt namesSorted 0)
+      ];
 in
 {
   options.znix.monitors.list = lib.mkOption {
@@ -18,10 +21,17 @@ in
             mode = lib.mkOption {
               type = lib.types.str;
               example = "1920x1080@165Hz";
+
             };
             pos = lib.mkOption {
               type = lib.types.str;
               example = "0 0";
+            };
+            scale = lib.mkOption {
+              type = lib.types.str;
+              default = "1";
+              example = "1";
+
             };
           };
         }
@@ -32,10 +42,7 @@ in
   };
 
   options.znix.monitors.noctaliaMonitors = lib.mkOption {
-    type =
-      lib.types.nullOr (
-        lib.types.either lib.types.str (lib.types.listOf lib.types.str)
-      );
+    type = lib.types.nullOr (lib.types.either lib.types.str (lib.types.listOf lib.types.str));
     default = defaultNoctalia;
 
     description = "Список мониторов из znix.monitors.list для панели Noctalia (или null). Может быть строкой (один выход) или списком.";
@@ -46,8 +53,12 @@ in
       let
         noctaliaMonitors = config.znix.monitors.noctaliaMonitors;
         monitorList =
-          if noctaliaMonitors == null then [ ]
-          else if lib.isList noctaliaMonitors then noctaliaMonitors else [ noctaliaMonitors ];
+          if noctaliaMonitors == null then
+            [ ]
+          else if lib.isList noctaliaMonitors then
+            noctaliaMonitors
+          else
+            [ noctaliaMonitors ];
       in
       [
         {

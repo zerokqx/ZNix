@@ -29,6 +29,7 @@
 
         filetypes = [
           "html"
+          "vue"
           "css"
           "scss"
           "typescriptreact"

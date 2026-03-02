@@ -3,6 +3,8 @@
 
   home.packages = with pkgs; [
     waypipe
+    dotnet-sdk_8
+    dotnet-aspnetcore_8
     inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     gh
     opencode

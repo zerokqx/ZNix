@@ -3,8 +3,7 @@
 {
   plugins = {
     lspkind.enable = true;
-    lsp-signature.enable = true;
-    lsp = {
+    lsp-signature.enable = true; lsp = {
       enable = true;
       inlayHints = false;
       servers = {
@@ -81,6 +80,10 @@
       if disable_format[client.name] or is_large then
         client.server_capabilities.documentFormattingProvider = false
         client.server_capabilities.documentRangeFormattingProvider = false
+      end
+
+      if client.name == "vtsls" then
+        client.server_capabilities.documentHighlightProvider = false
       end
 
       if is_large and client.server_capabilities.semanticTokensProvider then

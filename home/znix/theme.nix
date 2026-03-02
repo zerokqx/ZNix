@@ -61,11 +61,12 @@ in
         light = cfg.icons.light;
       };
 
-      base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/everforest-dark-hard.yaml";
+      base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
 
       autoEnable = true;
 
       targets = {
+        zen-browser.profileNames = [ "Default Profile" ];
         lazygit.enable = true;
         fzf.enable = true;
         btop.enable = true;
