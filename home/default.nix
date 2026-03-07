@@ -6,6 +6,7 @@
 {
 
   imports = [
+    ./niri
     ./mimes.nix
     ./git.nix
     ./noctalia.nix

@@ -7,6 +7,7 @@
     dotnet-aspnetcore_8
     inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     gh
+    beekeeper-studio
     opencode
     statix
     typescript
@@ -30,5 +31,9 @@
     fastfetch
     devenv
     xdg-user-dirs
+  ];
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "beekeeper-studio-5.3.4"
   ];
 }
