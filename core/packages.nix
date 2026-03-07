@@ -1,6 +1,8 @@
 { pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    nftables
+    quickshell
     waypipe
     autotiling-rs
     tig
@@ -23,6 +25,7 @@
     libnotify
     nix-ld
     pavucontrol
+    qpwgraph
     p7zip
     playerctl
     polkit_gnome

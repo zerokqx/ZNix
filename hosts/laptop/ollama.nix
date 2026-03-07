@@ -4,9 +4,7 @@
     enable = config.services.ollama.enable;
     port = 3123;
   };
-
   services.ollama = {
-
     syncModels = true;
     enable = false;
     loadModels = [
