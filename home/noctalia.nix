@@ -44,10 +44,18 @@ in
         enableKeyboardLayoutToast = false;
       };
       general = {
-        enableShadows = false;
+        enableShadows = true;
+        radiusRatio = 0;
+        iRadiusRatio = 0;
+        boxRadiusRatio = 0;
+        screenRadiusRatio = 0;
       };
-      bar = {
-        showCapsule = false;
+      bar = rec {
+        showCapsule = true;
+        capsuleOpacity = lib.mkForce 0.4;
+        floating = true;
+        marginVertical = 10;
+        marginHorizontal = marginVertical;
         density = "comfortable";
         position = lib.mkDefault "top";
         widgets = {

@@ -49,8 +49,8 @@ in
       polarity = cfg.polarity;
 
       cursor = {
-        name = "MacOS";
-        size = 16;
+        name = "macOS";
+        size = 24;
         package = cfg.cursorPackage;
       };
 
@@ -66,6 +66,8 @@ in
       autoEnable = true;
 
       targets = {
+        xresources.enable = false;
+
         zen-browser.profileNames = [ "Default Profile" ];
         lazygit.enable = true;
         fzf.enable = true;
@@ -87,5 +89,6 @@ in
         gtk.enable = true;
       };
     };
+
   };
 }

@@ -1,4 +1,12 @@
-{ config, ... }:
 {
-  home.file."${config.home.homeDirectory}/.config/niri/config.kdl".source = ./config.kdl;
+  imports = [
+    ./ui.nix
+    ./layout.nix
+    ./assigns.nix
+    ./rules.nix
+    ./startup.nix
+    ./binds.nix
+    ./input.nix
+    ./outputs.nix
+  ];
 }

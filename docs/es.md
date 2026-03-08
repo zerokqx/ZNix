@@ -15,7 +15,7 @@
 Conjunto de configuraciones NixOS/home-manager por host. Aquí: qué hay en cada lugar, opciones personalizadas, aviso sobre hardware-configuration y cómo usar o añadir un host.
 
 ## Destacados
-- SwayFX con Noctalia Shell preconfigurado (panel/barra, salidas, autostart).
+- SwayFX con Noctalia Shell preconfigurado (panel/barra, salidas, autostart); también se puede habilitar `niri`.
 - Neovim vía nixvim con plugins para LSP, autocompletado, UI/Treesitter, DAP.
 - Tema Stylix con cursores/íconos personalizados e integración en GTK, fzf, lazygit, noctalia.
 - Módulo opcional SillyTavern + Ollama y módulo de puertos dev para LAN.
