@@ -10,7 +10,7 @@
   <a href="zh-CN.md">中文</a>
 </div>
 
-![Banner](../assets/banner.jpg)
+![Banner](../assets/banner.png)
 
 NixOS/home-manager Konfigurationssatz mit Host-Trennung. Unten: Struktur, eigene Optionen, Hinweis zu hardware-configuration und wie man Hosts nutzt oder hinzufügt.
 

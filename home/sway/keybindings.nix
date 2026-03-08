@@ -37,7 +37,6 @@ in
     "${m}+e" = "exec thunar";
     "${m}+v" = "exec ${noctaliaIpc} launcher clipboard";
     "${m}+q" = "exec ${terminal}";
-    "${m}+d" = "exec ${menu}";
 
     "${m}+Left" = "focus left";
     "${m}+Down" = "focus down";

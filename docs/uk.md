@@ -10,7 +10,7 @@
   <a href="zh-CN.md">中文</a>
 </div>
 
-![Банер](../assets/banner.jpg)
+![Банер](../assets/banner.png)
 
 Набір конфігів NixOS/home-manager з поділом на хости. Нижче — що де лежить, кастомні опції, попередження щодо hardware-configuration і як використати або додати хост.
 

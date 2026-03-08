@@ -10,7 +10,7 @@
   <a href="zh-CN.md">中文</a>
 </div>
 
-![Banner](../assets/banner.jpg)
+![Banner](../assets/banner.png)
 
 Conjunto de configuraciones NixOS/home-manager por host. Aquí: qué hay en cada lugar, opciones personalizadas, aviso sobre hardware-configuration y cómo usar o añadir un host.
 
