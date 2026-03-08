@@ -2,18 +2,19 @@
 
 let
   browserExe = lib.getExe config.znix.browser.package;
+  noctaliaIpc = "noctalia-shell ipc call";
 in
 {
   programs.niri.settings.binds = {
     "Mod+Shift+Slash" = {
       action.show-hotkey-overlay = [ ];
     };
-    "Mod+Return" = {
+    "Mod+Shift+Return" = {
       action.spawn = "alacritty";
       hotkey-overlay.title = "Open a Terminal: alacritty";
     };
     "Mod+D" = {
-      action.spawn-sh = "noctalia-shell ipc call launcher toggle";
+      action.spawn-sh = noctaliaIpc + " launcher toggle";
       hotkey-overlay.title = "Run an Application: Noctalia launcher";
     };
     "Mod+B" = {
@@ -21,23 +22,22 @@ in
       hotkey-overlay.title = "Run an Application: Firefox";
     };
     "Mod+Cyrillic_ve" = {
-      action.spawn-sh = "noctalia-shell ipc call launcher toggle";
+      action.spawn-sh = noctaliaIpc + " launcher toggle";
     };
     "Super+Alt+S" = {
       action.spawn-sh = "pkill orca || exec orca";
       allow-when-locked = true;
-      hotkey-overlay.hidden = true;
-    };
+      hotkey-overlay.hidden = true; };
     "XF86AudioRaiseVolume" = {
-      action.spawn-sh = "noctalia-shell ipc call volume increase";
+      action.spawn-sh = noctaliaIpc + " volume increase";
       allow-when-locked = true;
     };
     "XF86AudioLowerVolume" = {
-      action.spawn-sh = "noctalia-shell ipc call volume decrease";
+      action.spawn-sh = noctaliaIpc + " volume decrease";
       allow-when-locked = true;
     };
     "XF86AudioMute" = {
-      action.spawn-sh = "noctalia-shell ipc call volume muteOutput";
+      action.spawn-sh = noctaliaIpc + " volume muteOutput";
       allow-when-locked = true;
     };
     "XF86AudioMicMute" = {
@@ -45,11 +45,11 @@ in
       allow-when-locked = true;
     };
     "XF86AudioPlay" = {
-      action.spawn-sh = "noctalia-shell ipc call media play";
+      action.spawn-sh = noctaliaIpc + " media play";
       allow-when-locked = true;
     };
     "XF86AudioPause" = {
-      action.spawn-sh = "noctalia-shell ipc call media pause";
+      action.spawn-sh = noctaliaIpc + " media pause";
       allow-when-locked = true;
     };
     "XF86AudioStop" = {
@@ -57,31 +57,31 @@ in
       allow-when-locked = true;
     };
     "XF86AudioPrev" = {
-      action.spawn-sh = "noctalia-shell ipc call media previous";
+      action.spawn-sh = noctaliaIpc + " media previous";
       allow-when-locked = true;
     };
     "XF86AudioNext" = {
-      action.spawn-sh = "noctalia-shell ipc call media next";
+      action.spawn-sh = noctaliaIpc + " media next";
       allow-when-locked = true;
     };
     "Prior" = {
-      action.spawn-sh = "noctalia-shell ipc call media next";
+      action.spawn-sh = noctaliaIpc + " media next";
       allow-when-locked = true;
     };
     "Next" = {
-      action.spawn-sh = "noctalia-shell ipc call media playPause";
+      action.spawn-sh = noctaliaIpc + " media playPause";
       allow-when-locked = true;
     };
     "End" = {
-      action.spawn-sh = "noctalia-shell ipc call media previous";
+      action.spawn-sh = noctaliaIpc + " media previous";
       allow-when-locked = true;
     };
     "XF86MonBrightnessUp" = {
-      action.spawn-sh = "noctalia-shell ipc call brightness increase";
+      action.spawn-sh = noctaliaIpc + " brightness increase";
       allow-when-locked = true;
     };
     "XF86MonBrightnessDown" = {
-      action.spawn-sh = "noctalia-shell ipc call brightness decrease";
+      action.spawn-sh = noctaliaIpc + " brightness decrease";
       allow-when-locked = true;
     };
     "Mod+O" = {
@@ -89,6 +89,10 @@ in
       repeat = false;
     };
     "Mod+X" = {
+      action.close-window = [ ];
+      repeat = false;
+    };
+    "Mod+Shift+C" = {
       action.close-window = [ ];
       repeat = false;
     };
@@ -132,16 +136,16 @@ in
       action.move-column-right = [ ];
     };
     "Mod+Ctrl+H" = {
-      action.move-column-left = [ ];
+      action.set-column-width = "-5%";
     };
     "Mod+Ctrl+J" = {
-      action.move-window-down = [ ];
+      action.set-window-height = "+5%";
     };
     "Mod+Ctrl+K" = {
-      action.move-window-up = [ ];
+      action.set-window-height = "-5%";
     };
     "Mod+Ctrl+L" = {
-      action.move-column-right = [ ];
+      action.set-column-width = "+5%";
     };
     "Mod+Home" = {
       action.focus-column-first = [ ];
@@ -168,16 +172,16 @@ in
       action.focus-monitor-right = [ ];
     };
     "Mod+Shift+H" = {
-      action.focus-monitor-left = [ ];
+      action.move-column-left = [ ];
     };
     "Mod+Shift+J" = {
-      action.focus-monitor-down = [ ];
+      action.move-window-down = [ ];
     };
     "Mod+Shift+K" = {
-      action.focus-monitor-up = [ ];
+      action.move-window-up = [ ];
     };
     "Mod+Shift+L" = {
-      action.focus-monitor-right = [ ];
+      action.move-column-right = [ ];
     };
     "Mod+Shift+Ctrl+Left" = {
       action.move-column-to-monitor-left = [ ];
@@ -306,6 +310,18 @@ in
     "Mod+5" = {
       action.focus-workspace = 5;
     };
+    "Mod+Shift+1" = {
+      action.move-column-to-workspace = 1;
+    };
+    "Mod+Shift+2" = {
+      action.move-column-to-workspace = 2;
+    };
+    "Mod+Shift+3" = {
+      action.move-column-to-workspace = 3;
+    };
+    "Mod+Shift+4" = {
+      action.move-column-to-workspace = 4;
+    };
     "Mod+6" = {
       action.focus-workspace = 6;
     };
@@ -394,7 +410,7 @@ in
       action.set-window-height = "+10%";
     };
     "Mod+V" = {
-      action.spawn-sh = "noctalia-shell ipc call launcher clipboard";
+      action.spawn-sh = noctaliaIpc + " launcher clipboard";
     };
     "Mod+W" = {
       action.toggle-column-tabbed-display = [ ];
@@ -415,17 +431,17 @@ in
       action.toggle-keyboard-shortcuts-inhibit = [ ];
       allow-inhibiting = false;
     };
-    "Mod+Shift+C" = {
-      action.spawn-sh = "noctalia-shell ipc call controlCenter toggle";
+    "Mod+Shift+BracketRight" = {
+      action.spawn-sh = noctaliaIpc + " controlCenter toggle";
     };
     "Mod+Shift+B" = {
-      action.spawn-sh = "noctalia-shell ipc call bluetooth togglePanel";
+      action.spawn-sh = noctaliaIpc + " bluetooth togglePanel";
     };
     "Mod+Shift+N" = {
-      action.spawn-sh = "noctalia-shell ipc call network togglePanel";
+      action.spawn-sh = noctaliaIpc + " network togglePanel";
     };
     "Mod+Shift+P" = {
-      action.spawn-sh = "noctalia-shell ipc call sessionMenu toggle";
+      action.spawn-sh = noctaliaIpc + " sessionMenu toggle";
     };
     "Mod+Shift+E" = {
       action.quit = [ ];
