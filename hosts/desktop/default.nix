@@ -1,16 +1,15 @@
-{ inputs, pkgs, ... }:
+{ inputs, ... }:
 inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = { inherit inputs; };
   modules = [
-
     ../../configuration.nix
     ./hardware-configuration.nix
     ./ollama.nix
     {
-
       znix.ai.sillytavern.enable = false;
     }
+    inputs.niri.nixosModules.niri
     inputs.home-manager.nixosModules.home-manager
     {
       home-manager.extraSpecialArgs = { inherit inputs; };
@@ -43,6 +42,7 @@ inputs.nixpkgs.lib.nixosSystem {
             programs.noctalia-shell.settings.bar.position = "bottom";
           }
         )
+        inputs.niri.homeModules.stylix
         inputs.stylix.homeModules.stylix
         inputs.noctalia.homeModules.default
         inputs.nixvim.homeModules.nixvim

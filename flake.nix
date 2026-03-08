@@ -2,12 +2,20 @@
   description = "flake-parts configuration for NixOS";
 
   inputs = {
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     firefox.url = "github:nix-community/flake-firefox-nightly";
     # nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     firefox.inputs.nixpkgs.follows = "nixpkgs";
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    dgop = {
+      url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";

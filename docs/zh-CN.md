@@ -15,7 +15,7 @@
 按主机拆分的 NixOS/home-manager 配置集。下面介绍：目录结构、自定义选项、硬件配置警告，以及如何使用或添加主机。
 
 ## 特性
-- 预配置的 SwayFX + Noctalia Shell（面板/栏、输出、自动启动）。
+- 预配置的 SwayFX + Noctalia Shell（面板/栏、输出、自动启动）；也可以启用 `niri`。
 - 通过 nixvim 配置的 Neovim，包含 LSP、补全、UI/Treesitter、DAP 插件。
 - Stylix 主题，自定义光标/图标，并集成 GTK、fzf、lazygit、noctalia。
 - 可选 SillyTavern + Ollama 模块，以及 LAN 开发端口模块。
