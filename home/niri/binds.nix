@@ -88,10 +88,6 @@ in
       action.toggle-overview = [ ];
       repeat = false;
     };
-    "Mod+X" = {
-      action.close-window = [ ];
-      repeat = false;
-    };
     "Mod+Shift+C" = {
       action.close-window = [ ];
       repeat = false;
