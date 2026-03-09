@@ -7,9 +7,7 @@ let
     lib.optionals (primary != null) [
       {
         workspace = "2";
-        output = primary;
-      }
-    ]
+        output = primary; } ]
     ++ lib.optionals (secondary != null) [
       {
         workspace = "3";
@@ -33,20 +31,6 @@ in
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
-    package = pkgs.swayfx;
-    checkConfig = false;
-    extraConfig = ''
-      corner_radius 25
-      shadows enable
-      shadow_blur_radius 20
-      default_dim_inactive 0.1
-      blur enable
-      blur_xray disable
-      blur_radius 8
-      blur_passes 3
-      for_window [app_id=".*"] opacity 0.92
-      for_window [floating] border normal
-    '';
     config = {
       bars = [ ];
       modifier = "Mod4";
@@ -58,7 +42,7 @@ in
         inner = 8;
         outer = 12;
       };
-      window.border = 0;
+      window.border = 4;
       window = {
         titlebar = false;
       };
