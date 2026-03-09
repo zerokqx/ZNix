@@ -17,6 +17,8 @@
         .
   '';
   scripts.rebuild-desktop.exec = "git add . && sudo nixos-rebuild switch --flake .#desktop --show-trace";
+  scripts.theme-link-git.exec = "firefox-nightly https://github.com/tinted-theming/base16-schemes";
+  scripts.theme-link-galery.exec = "firefox-nightly https://dt.iki.fi/base16-previews";
   scripts.rebuild-laptop.exec = "git add . && sudo nixos-rebuild switch --flake .#laptop --show-trace";
   scripts.rebuild-desktop-test.exec = "git add . && sudo nixos-rebuild test --flake .#desktop --show-trace";
   scripts.rebuild-laptop-test.exec = "git add . && sudo nixos-rebuild test --flake .#laptop --show-trace";
