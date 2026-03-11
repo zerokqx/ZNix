@@ -24,8 +24,7 @@
         dapStopped = {
           text = "󰁕 ";
           texthl = "DiagnosticWarn";
-          linehl = "DapStoppedLine";
-          numhl = "DapStoppedLine";
+          linehl = "DapStoppedLine"; numhl = "DapStoppedLine";
         };
       };
     };
