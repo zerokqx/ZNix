@@ -2,6 +2,9 @@
 {
 
   home.packages = with pkgs; [
+    rustc
+    gcc
+    cargo
     waypipe
     dotnet-sdk_8
     dotnet-aspnetcore_8

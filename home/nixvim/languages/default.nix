@@ -2,6 +2,7 @@
 {
 
   imports = [
+    ./rust.nix
     ./omnisharp.nix
     ./css.nix
     ./docker.nix
