@@ -37,16 +37,7 @@
                     inherit self;
                   };
                 }
-                ./options.nix
-                ./languages
-                ./plugins
-                ./keymaps.nix
-                ./opts.nix
               ];
-
-              animations = true;
-              fileManager = "snacks";
-              waylandSupport = true;
             };
           };
         in

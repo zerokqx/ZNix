@@ -2,13 +2,16 @@
 {
 
   home.packages = with pkgs; [
+    google-chrome
+    rustc
+    gcc
+    cargo
     waypipe
     dotnet-sdk_8
     dotnet-aspnetcore_8
     inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     gh
     beekeeper-studio
-    opencode
     statix
     typescript
     nixd
@@ -23,9 +26,9 @@
     steam
     qbittorrent
     prismlauncher
-    obsidian
     nerd-fonts.jetbrains-mono
     insomnia
+    obsidian
     git-crypt
     bun
     fastfetch

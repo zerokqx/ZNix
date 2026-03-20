@@ -1,10 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [
     ./core
     ./configs
   ];
   programs.bash.enable = true;
+
+  services.gnome.gcr-ssh-agent.enable = false;
   znix.dev.ports.enable = true;
   virtualisation.docker.enable = true;
   security.polkit.enable = true;
@@ -55,6 +57,7 @@
     playerctld.enable = true;
   };
 
+  programs.ssh.startAgent = lib.mkForce true;
   systemd.user.services.polkit-gnome-authentication-agent-1 = {
     description = "polkit-gnome-authentication-agent-1";
     wantedBy = [ "graphical-session.target" ];

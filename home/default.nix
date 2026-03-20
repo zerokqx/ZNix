@@ -18,7 +18,6 @@
     ./sway
     ./packages.nix
     ./dir-file-create.nix
-
   ];
   nixpkgs.config.allowUnfree = true;
   home.username = "zerok";
@@ -34,6 +33,8 @@
     telephone = "en_US.UTF-8";
   };
 
+
+  services.ssh-agent.enable = true;
   services.udiskie = {
     enable = true;
     settings = {

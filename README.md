@@ -10,7 +10,7 @@
   <a href="docs/zh-CN.md">中文</a>
 </div>
 
-![Banner](assets/banner.jpg)
+![Banner](assets/banner.png)
 
 NixOS/home-manager configuration set split by host. Below: what lives where, custom options, hardware notes, and how to reuse or add a host.
 

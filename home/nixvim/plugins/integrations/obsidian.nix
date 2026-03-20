@@ -1,7 +1,7 @@
 { lib, config, ... }:
 {
   plugins.obsidian = {
-    enable = true;
+    enable = false;
     lazyLoad = {
       enable = true;
       settings.ft = [

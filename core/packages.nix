@@ -3,7 +3,6 @@
   environment.systemPackages = with pkgs; [
     nftables
     quickshell
-    waypipe
     autotiling-rs
     tig
     alacritty

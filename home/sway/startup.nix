@@ -1,11 +1,10 @@
 {
 
   wayland.windowManager.sway.config.startup = [
+    { command = "exec dbus-update-activation-environment --systemd SSH_AUTH_SOCK"; }
     { command = "exec wl-paste --watch cliphist store"; }
     { command = "exec Throne"; }
-    { command = "exec firefox-nightly"; }
     { command = "exec AyuGram"; }
-    { command = "exec flatpak run io.github.purplehorrorrus.Meridius"; }
     { command = "exec noctalia-shell"; }
     { command = "exec autotiling-rs"; }
   ];

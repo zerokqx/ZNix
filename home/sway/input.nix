@@ -7,11 +7,11 @@
 
     };
     "type:touchpad" = {
-      tap = "enabled"; # включить тап
-      tap_button_map = "lrm"; # кнопки маппинга тапов
-      dwt = "enabled"; # отключать тачпад при наборе
+      tap = "enabled";
+      tap_button_map = "lrm";
+      dwt = "enabled";
       dwtp = "enabled";
-      natural_scroll = "enabled"; # инвертировать скролл
+      natural_scroll = "enabled";
     };
   };
 }

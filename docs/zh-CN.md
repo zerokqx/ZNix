@@ -10,7 +10,7 @@
   <a href="zh-CN.md">中文</a>
 </div>
 
-![横幅](../assets/banner.jpg)
+![横幅](../assets/banner.png)
 
 按主机拆分的 NixOS/home-manager 配置集。下面介绍：目录结构、自定义选项、硬件配置警告，以及如何使用或添加主机。
 

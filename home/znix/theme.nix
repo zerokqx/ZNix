@@ -67,18 +67,16 @@ in
 
       targets = {
         xresources.enable = false;
-
-        zen-browser.profileNames = [ "Default Profile" ];
         lazygit.enable = true;
+        obsidian.vaultNames = ["Obsidian"];
         fzf.enable = true;
         btop.enable = true;
         opencode.enable = true;
         zathura.enable = true;
         noctalia-shell.enable = true;
-
         firefox = {
           enable = true;
-          profileNames = [ "default" ];
+          colors.enable = true;
         };
 
         alacritty = {

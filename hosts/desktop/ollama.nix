@@ -7,7 +7,7 @@
   services.nextjs-ollama-llm-ui.enable = config.services.ollama.enable;
   services.ollama = {
     package = pkgs.ollama-vulkan;
-    enable = false;
+    enable = true;
     loadModels = [
       "wizardlm-uncensored"
       "granite4:3b"

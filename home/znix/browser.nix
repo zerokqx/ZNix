@@ -20,9 +20,7 @@ in
       type = types.bool;
       default = true;
       description = "Install default extensions";
-    };
-
-    target = mkOption {
+    }; target = mkOption {
       type = types.enum [ "firefox" ];
       default = "firefox";
       description = "Browser for setting. Support - firefox";
