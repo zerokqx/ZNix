@@ -15,6 +15,10 @@
       }
     ];
     shellAliases = {
+      rm = "trash-put";
+      undo = "trash-restore";
+      trash = "trash-list";
+      trash-clear = "trash-empty";
       n = "nvim";
       cl = "clear";
       s = "sudo";
