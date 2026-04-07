@@ -8,6 +8,12 @@
 
   services.gnome.gcr-ssh-agent.enable = false;
   znix.dev.ports.enable = true;
+  virtualisation.docker.daemon.settings = {
+    dns = [
+      "1.1.1.1"
+      "8.8.8.8"
+    ];
+  };
   virtualisation.docker.enable = true;
   security.polkit.enable = true;
   services.upower.enable = true;

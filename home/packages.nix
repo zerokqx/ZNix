@@ -3,6 +3,7 @@
 
   home.packages = with pkgs; [
     google-chrome
+    drawio
     rustc
     gcc
     cargo

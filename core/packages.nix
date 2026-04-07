@@ -1,6 +1,7 @@
 { pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    trash-cli
     nftables
     quickshell
     autotiling-rs
