@@ -15,6 +15,7 @@
     beekeeper-studio
     statix
     typescript
+    cloudflared
     nixd
     lazygit
     ayugram-desktop

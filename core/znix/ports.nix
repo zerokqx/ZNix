@@ -16,6 +16,7 @@ in
       type = lib.types.listOf lib.types.port;
       default = [
         3000
+        3001
         5173
         8000
       ];

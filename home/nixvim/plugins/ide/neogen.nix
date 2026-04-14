@@ -27,7 +27,7 @@
           };
         };
       };
-      snippet_engine = "mini";
+      snippet_engine = "luasnip";
     };
   };
   keymaps = lib.mkIf config.plugins.neogen.enable [

@@ -2,6 +2,8 @@
 {
 
   imports = [
+    ./python.nix
+    ./nginx.nix
     ./rust.nix
     ./omnisharp.nix
     ./css.nix
