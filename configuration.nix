@@ -78,6 +78,7 @@
     };
   };
   fonts.packages = with pkgs; [
+    corefonts
     maple-mono.CN
     maple-mono."CN-unhinted"
     maple-mono.NF
