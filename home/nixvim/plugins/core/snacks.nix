@@ -23,6 +23,7 @@
       explorer = {
         border = "none";
         enabled = true;
+        ignored = true;
       };
       lazygit = {
         enabled = true;

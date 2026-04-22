@@ -2,6 +2,11 @@
 {
 
   home.packages = with pkgs; [
+    httpie
+    lazydocker
+    lazyssh
+    lazyjournal
+    lazysql
     google-chrome
     drawio
     rustc
@@ -15,7 +20,9 @@
     beekeeper-studio
     statix
     typescript
+    cloudflared
     nixd
+
     lazygit
     ayugram-desktop
     yazi
