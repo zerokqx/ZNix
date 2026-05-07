@@ -31,25 +31,29 @@
           complete_function_calls = false;
           javascript = {
             inlayHints = {
-              includeInlayEnumMemberValueHints = true;
-              includeInlayFunctionLikeReturnTypeHints = true;
-              includeInlayFunctionParameterTypeHints = true;
-              includeInlayParameterNameHints = "all";
-              includeInlayParameterNameHintsWhenArgumentMatchesName = true;
-              includeInlayPropertyDeclarationTypeHints = true;
-              includeInlayVariableTypeHints = true;
+              parameterNames = {
+                enabled = "all";
+                suppressWhenArgumentMatchesName = true;
+              };
+              parameterTypes.enabled = true;
+              variableTypes.enabled = true;
+              propertyDeclarationTypes.enabled = true;
+              functionLikeReturnTypes.enabled = true;
+              enumMemberValues.enabled = true;
             };
           };
           typescript = {
             exclude = [ "**/node_modules/**" ];
             inlayHints = {
-              includeInlayEnumMemberValueHints = true;
-              includeInlayFunctionLikeReturnTypeHints = true;
-              includeInlayFunctionParameterTypeHints = true;
-              includeInlayParameterNameHints = "all";
-              includeInlayParameterNameHintsWhenArgumentMatchesName = true;
-              includeInlayPropertyDeclarationTypeHints = true;
-              includeInlayVariableTypeHints = true;
+              parameterNames = {
+                enabled = "all";
+                suppressWhenArgumentMatchesName = true;
+              };
+              parameterTypes.enabled = true;
+              variableTypes.enabled = true;
+              propertyDeclarationTypes.enabled = true;
+              functionLikeReturnTypes.enabled = true;
+              enumMemberValues.enabled = true;
             };
           };
         };

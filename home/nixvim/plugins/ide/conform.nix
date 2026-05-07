@@ -2,6 +2,13 @@
 {
   plugins.conform-nvim = {
     enable = true;
+    lazyLoad = {
+      enable = true;
+      settings.event = [
+        "BufReadPre"
+        "BufNewFile"
+      ];
+    };
     settings = {
 
       filter = ''

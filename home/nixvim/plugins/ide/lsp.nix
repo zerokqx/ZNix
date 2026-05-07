@@ -3,7 +3,8 @@
 {
   plugins = {
     lspkind.enable = true;
-    lsp-signature.enable = true; lsp = {
+    lsp-signature.enable = false;
+    lsp = {
       enable = true;
       inlayHints = false;
       servers = {
@@ -35,33 +36,16 @@
     local _border = "rounded"
 
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-      vim.lsp.handlers.hover, { border = _border }
+      vim.lsp.handlers.hover, { border = _border, winblend = 0 }
     )
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-      vim.lsp.handlers.signature_help, { border = _border }
+      vim.lsp.handlers.signature_help, { border = _border, winblend = 0 }
     )
-    vim.diagnostic.config {
-      float = { border = _border },
-      underline = true,
-      virtual_text = { spacing = 5, severity_limit = "warning" },
-      update_in_insert = false,
-    }
-
-    require("lspconfig.ui.windows").default_options = {
-      border = _border,
-    }
-
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-      vim.lsp.diagnostic.on_publish_diagnostics,
-      {
-        underline = true,
-        virtual_text = {
-          spacing = 5,
-          severity_limit = "warning",
-        },
-        update_in_insert = true,
+    pcall(function()
+      require("lspconfig.ui.windows").default_options = {
+        border = _border,
       }
-    )
+    end)
 
     local function nixvim_on_attach(args)
       local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -88,6 +72,13 @@
 
       if is_large and client.server_capabilities.semanticTokensProvider then
         client.server_capabilities.semanticTokensProvider = nil
+      end
+
+      if vim.lsp.inlay_hint and type(vim.lsp.inlay_hint.enable) == "function" then
+        local ok_new = pcall(vim.lsp.inlay_hint.enable, false, { bufnr = bufnr })
+        if not ok_new then
+          pcall(vim.lsp.inlay_hint.enable, bufnr, false)
+        end
       end
     end
 

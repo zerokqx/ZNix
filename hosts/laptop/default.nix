@@ -37,7 +37,6 @@ inputs.nixpkgs.lib.nixosSystem {
             noctaliaMonitors = [ "eDP-1" ];
           };
           programs.noctalia-shell.settings.bar.position = "left";
-          programs.alacritty.settings.font.size = 14;
         }
       ];
     }

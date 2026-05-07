@@ -19,7 +19,7 @@
         };
         hover = {
           silent = true;
-          openCmd = "!firfox";
+          openCmd = "!firefox";
           openLink = "gx";
         };
         symbolInWinbar = {

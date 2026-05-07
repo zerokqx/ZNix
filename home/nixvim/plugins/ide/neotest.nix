@@ -3,6 +3,21 @@
   plugins = {
 
     neotest = {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          cmd = "Neotest";
+          keys = [
+            "<leader>tt"
+            "<leader>tn"
+            "<leader>ts"
+            "<leader>to"
+            "<leader>tO"
+            "<leader>ta"
+            "<leader>tS"
+          ];
+        };
+      };
       adapters = {
         jest.enable = true;
         jest.settings.jestCommand = "npm test --";

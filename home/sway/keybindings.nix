@@ -6,7 +6,6 @@ let
   noctaliaIpc = "noctalia-shell ipc call";
   m = sway.modifier;
   terminal = sway.terminal;
-  menu = sway.menu;
 in
 {
 

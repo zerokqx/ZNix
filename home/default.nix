@@ -6,6 +6,7 @@
 {
 
   imports = [
+    ./zed.nix
     ./niri
     ./mimes.nix
     ./git.nix

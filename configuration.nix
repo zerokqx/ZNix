@@ -6,6 +6,10 @@
   ];
   programs.bash.enable = true;
 
+
+
+  # nixGL.vulkan.enable = true;
+  programs.mango.enable = true;
   services.gnome.gcr-ssh-agent.enable = false;
   znix.dev.ports.enable = true;
   virtualisation.docker.daemon.settings = {
@@ -35,6 +39,10 @@
   };
 
   environment.variables.EDITOR = "nvim";
+  environment.sessionVariables = {
+    # Workaround for occasional pointer stutter/flicker in wlroots compositors.
+    WLR_NO_HARDWARE_CURSORS = "1";
+  };
   programs.gnupg.agent.enable = true;
   programs = {
     nix-ld.enable = true;

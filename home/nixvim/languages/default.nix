@@ -2,6 +2,7 @@
 {
 
   imports = [
+    ./kotlin.nix
     ./python.nix
     ./nginx.nix
     ./rust.nix

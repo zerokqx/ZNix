@@ -4,6 +4,25 @@
     dap-virtual-text.enable = true;
     dap = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings.keys = [
+          "<leader>dc"
+          "<leader>dO"
+          "<leader>di"
+          "<leader>do"
+          "<leader>dp"
+          "<leader>db"
+          "<leader>dB"
+          "<leader>dR"
+          "<leader>dr"
+          "<leader>ds"
+          "<leader>dt"
+          "<leader>dw"
+          "<leader>du"
+          "<leader>de"
+        ];
+      };
       signs = {
         dapBreakpoint = {
           text = " ";

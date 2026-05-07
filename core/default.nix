@@ -9,7 +9,6 @@
     ./bluetooth.nix
     ./users
     ./timezone.nix
-    ./pipewire.nix
     ./networking.nix
     ./nixpkgs.nix
     ./boot.nix
