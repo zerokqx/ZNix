@@ -4,7 +4,7 @@
     enable = true;
     settings.bigfile = {
       enabled = true;
-      size = 1024 * 1024; # 1MB
+      size = 512 * 1024; # 512KB
       setup.__raw = ''
         function(ctx)
           ${lib.optionalString config.plugins.indent-blankline.enable ''require("ibl").setup_buffer(0, { enabled = false })''}
@@ -40,7 +40,7 @@
           -- Stop heavy subsystems on large files
           pcall(vim.treesitter.stop, ctx.buf)
           for _, client in ipairs(vim.lsp.get_clients({ bufnr = ctx.buf })) do
-            vim.lsp.stop_client(client.id)
+            pcall(vim.lsp.buf_detach_client, ctx.buf, client.id)
           end
         end
       '';

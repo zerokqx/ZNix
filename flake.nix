@@ -2,11 +2,19 @@
   description = "flake-parts configuration for NixOS";
 
   inputs = {
+    helium = {
+      url = "github:schembriaiden/helium-browser-nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    mangowm = {
+      url = "github:mangowm/mango";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     firefox.url = "github:nix-community/flake-firefox-nightly";
     # nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     firefox.inputs.nixpkgs.follows = "nixpkgs";
@@ -38,7 +46,6 @@
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
-
       imports = [
         home-manager.flakeModules.home-manager
         ./hosts

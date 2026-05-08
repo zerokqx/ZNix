@@ -12,6 +12,8 @@
       showmode = false; # Dont show the editor mode in status line
       signcolumn = "yes";
       numberwidth = 2;
+      laststatus = 3;
+      showtabline = 2;
 
       tabstop = 2;
       softtabstop = 2;
@@ -35,6 +37,7 @@
       conceallevel = 2;
       termguicolors = true;
       fillchars = {
+        eob = " ";
         vert = "│";
         vertleft = "│";
         vertright = "│";
@@ -42,16 +45,31 @@
         horizup = "─";
         horizdown = "─";
         verthoriz = "┼";
+        fold = " ";
+        foldopen = "";
+        foldsep = " ";
+        foldclose = "";
       };
 
       # Важно: убираем фон у разделителя
       winhighlight = "WinSeparator:Normal";
+      winbar = "";
       timeoutlen = 250;
       scrolloff = 8;
       mouse = "a";
       encoding = "utf-8";
       fileencoding = "utf-8";
-      pumheight = 0;
+      pumheight = 12;
+      pumblend = 0;
+      winblend = 0;
+      ttimeoutlen = 10;
+      updatetime = 200;
+      redrawtime = 1500;
+      synmaxcol = 300;
+      lazyredraw = false;
+      completeopt = "menu,menuone,noselect";
+      shortmess = "filnxtToOFIcC";
+      inccommand = "split";
 
     };
 

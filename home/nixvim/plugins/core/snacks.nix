@@ -10,18 +10,44 @@
 
     settings = {
       quickfiles.enabled = true;
-      dim.enabled = true;
+      dim.enabled = false;
       toggle.enabled = true;
       bufdelete.enabled = true;
       scroll.enabled = false;
-      words.enabled = true;
+      words.enabled = false;
+      styles = {
+        notification = {
+          backdrop = false;
+          wo.winblend = 0;
+        };
+        notification_history = {
+          backdrop = false;
+          wo.winblend = 0;
+        };
+        input = {
+          backdrop = false;
+          wo.winblend = 0;
+        };
+        select = {
+          backdrop = false;
+          wo.winblend = 0;
+        };
+        float = {
+          backdrop = false;
+          wo.winblend = 0;
+        };
+        terminal = {
+          backdrop = false;
+          wo.winblend = 0;
+        };
+      };
       indent = {
         enabled = true;
         char = "│";
       };
       input.enabled = true;
       explorer = {
-        border = "none";
+        border = "rounded";
         enabled = true;
         ignored = true;
       };
@@ -32,6 +58,14 @@
           width = 0.95;
           height = 0.9;
           border = "rounded";
+          wo.winblend = 0;
+        };
+      };
+      picker = {
+        win = {
+          input.wo.winblend = 0;
+          list.wo.winblend = 0;
+          preview.wo.winblend = 0;
         };
       };
       statuscolumn = {
@@ -42,34 +76,27 @@
         ];
         right = [
           "fold"
-          "git"
         ];
         folds = {
           open = false;
           git_hl = false;
         };
         refresh = 500;
-        git = {
-          patterns = [
-            "GitSign"
-            "MiniDiffSign"
-          ];
-        };
       };
       scope = {
         enabled = true;
       };
       notifier = {
         enabled = true;
-
       };
       terminal = {
         enabled = true;
         win = {
           position = "bottom";
           width = 100;
-          height = 20;
+          height = 18;
           border = "rounded";
+          wo.winblend = 0;
         };
       };
     };
@@ -94,6 +121,60 @@
         options = {
           silent = true;
           desc = "Hotkeys";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>/";
+        action = "<cmd>lua Snacks.picker.grep({ layout = { preset = 'dropdown', preview = false, layout = { width = 0.62, height = 0.50 } } })<CR>";
+        options = {
+          silent = true;
+          desc = "Поиск по файлам с grep";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>,";
+        action = "<cmd>lua Snacks.picker.buffers()<CR>";
+        options = {
+          silent = true;
+          desc = "Поиск по буфферам";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader><space>";
+        action = "<cmd>lua Snacks.picker.files({ layout = { preset = 'dropdown', preview = false, layout = { width = 0.62, height = 0.50 } } })<CR>";
+        options = {
+          silent = true;
+          desc = "Поиск по файлам (alt)";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>sf";
+        action = "<cmd>lua Snacks.picker.files({ layout = { preset = 'dropdown', preview = false, layout = { width = 0.62, height = 0.50 } } })<CR>";
+        options = {
+          silent = true;
+          desc = "Файлы";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>sg";
+        action = "<cmd>lua Snacks.picker.grep({ layout = { preset = 'dropdown', preview = false, layout = { width = 0.62, height = 0.50 } } })<CR>";
+        options = {
+          silent = true;
+          desc = "Grep";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>sb";
+        action = "<cmd>lua Snacks.picker.buffers()<CR>";
+        options = {
+          silent = true;
+          desc = "Буфферы";
         };
       }
 

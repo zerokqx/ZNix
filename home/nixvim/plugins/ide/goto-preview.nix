@@ -4,6 +4,10 @@ lib.mkIf (config.plugins.lspsaga.enable == false) {
 
   plugins.goto-preview = {
     enable = true;
+    lazyLoad = {
+      enable = true;
+      settings.event = "LspAttach";
+    };
     settings = {
       border = "rounded";
       relative = "editor";

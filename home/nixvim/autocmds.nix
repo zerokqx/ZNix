@@ -61,7 +61,21 @@
       event = [ "VimLeave" ];
       pattern = "*";
       desc = "Restore Alacritty padding on exit";
-      command = "!alacritty msg config window.padding.x=10 window.padding.y=10";
+      callback = {
+        __raw = ''
+          function()
+            if vim.fn.executable("alacritty") == 1 and vim.env.TERM == "alacritty" then
+              vim.system({
+                "alacritty",
+                "msg",
+                "config",
+                "window.padding.x=10",
+                "window.padding.y=10",
+              }, { detach = true })
+            end
+          end
+        '';
+      };
     }
     # {
     #   event = [

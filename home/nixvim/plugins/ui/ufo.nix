@@ -2,34 +2,6 @@
 {
 
   plugins = {
-    statuscol = {
-      enable = true;
-      settings = {
-        relculright = true;
-        ft_ignore = [
-          "dashboard"
-          "neo-tree"
-        ];
-        segments = [
-          {
-            click = "v:lua.ScFa";
-            text = [ (lib.nixvim.mkRaw "require('statuscol.builtin').foldfunc") ];
-          }
-          {
-            click = "v:lua.ScSa";
-            text = [ " %s" ];
-          }
-          {
-            click = "v:lua.ScLa";
-            text = [
-              (lib.nixvim.mkRaw "require('statuscol.builtin').lnumfunc")
-              " "
-            ];
-          }
-        ];
-      };
-    };
-
     nvim-ufo = {
       enable = true;
       lazyLoad = {
@@ -44,7 +16,7 @@
         provider_selector = # lua
           ''
             function()
-              return { "lsp", "indent" }
+              return { "treesitter", "indent" }
             end
           '';
         preview.mappings = {
@@ -60,7 +32,6 @@
     foldlevel = 99;
     foldlevelstart = 99;
     foldenable = true;
-    fillchars = lib.nixvim.mkRaw "[[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]";
   };
 
   keymaps = [

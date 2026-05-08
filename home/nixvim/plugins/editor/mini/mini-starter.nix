@@ -2,8 +2,12 @@
 {
   plugins.mini-starter = {
     enable = true;
+    lazyLoad = {
+      enable = true;
+      settings.event = "VimEnter";
+    };
     settings = {
-      autoopen = true;
+      autoopen = false;
       footer = ""; 
       content_hooks = [
         (lib.nixvim.mkRaw "require(\"mini.starter\").gen_hook.adding_bullet('')")
@@ -16,8 +20,8 @@
           (function()
             return {
               { name = 'New File ',      action = 'enew',                         section = "" },
-              { name = 'Find File ',     action = ':Pick files',                  section = "" },
-              { name = 'Recent Files ',  action = ':Pick buffers',                section = "" },
+              { name = 'Find File ',     action = 'lua Snacks.picker.files()',   section = "" },
+              { name = 'Recent Files ',  action = 'lua Snacks.picker.buffers()', section = "" },
               { name = 'Projects ',      action = 'lua Snacks.picker.projects()', section = "" },
               { name = 'Quit Neovim 󰈆',   action = 'qa',                           section = "" },
             }

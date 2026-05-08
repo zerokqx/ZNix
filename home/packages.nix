@@ -2,6 +2,9 @@
 {
 
   home.packages = with pkgs; [
+    lsof
+    redisinsight
+    sshfs
     httpie
     lazydocker
     lazyssh
@@ -14,6 +17,7 @@
     cargo
     waypipe
     dotnet-sdk_8
+    nil
     dotnet-aspnetcore_8
     inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     gh
@@ -32,6 +36,7 @@
     nodejs_22
     libreoffice
     steam
+    osu-lazer
     qbittorrent
     prismlauncher
     nerd-fonts.jetbrains-mono

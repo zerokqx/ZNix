@@ -3,6 +3,13 @@
 
   plugins.mini-diff = {
     enable = true;
+    lazyLoad = {
+      enable = true;
+      settings.event = [
+        "BufReadPost"
+        "BufNewFile"
+      ];
+    };
     settings = {
 
       delay = {
@@ -31,7 +38,7 @@
           change = "▎";
           delete = "▎";
         };
-        style = lib.nixvim.mkRaw "vim.go.number and 'number' or 'sign'";
+        style = "sign";
       };
     };
   };

@@ -11,6 +11,7 @@ inputs.nixpkgs.lib.nixosSystem {
     }
     inputs.niri.nixosModules.niri
     inputs.home-manager.nixosModules.home-manager
+    inputs.mangowm.nixosModules.mango
     {
       home-manager.extraSpecialArgs = { inherit inputs; };
       home-manager.backupFileExtension = "hm-bak";

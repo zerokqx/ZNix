@@ -11,7 +11,7 @@
           keys = lib.mkIf config.plugins.lz-n.enable [
             {
               __unkeyed-1 = "<leader>fy";
-              __unkeyed-2 = "<cmd>Telescope yank_history<cr>";
+              __unkeyed-2 = "<cmd>lua Snacks.picker.cliphist()<cr>";
               desc = "Paste from yanky history";
             }
             {

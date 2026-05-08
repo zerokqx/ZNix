@@ -45,6 +45,13 @@ in
 
   config = {
     stylix = {
+      fonts = {
+        monospace = {
+          package = pkgs.nerd-fonts.jetbrains-mono;
+          name = "JetBrainsMono Nerd Font";
+        };
+      };
+
       enable = true;
       polarity = cfg.polarity;
 
@@ -77,11 +84,12 @@ in
         firefox = {
           enable = true;
           colors.enable = true;
+          profileNames = [ config.znix.browser.profile ];
         };
 
         alacritty = {
           colors.enable = true;
-          fonts.enable = false;
+          fonts.enable = true;
         };
 
         gtk.enable = true;

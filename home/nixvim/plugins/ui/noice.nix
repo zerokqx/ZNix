@@ -3,11 +3,34 @@
   plugins = {
     noice = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings.event = "VimEnter";
+      };
       settings = {
+        throttle = 1000 / 45;
         views = {
+          popup = {
+            win_options = {
+              winblend = 0;
+            };
+          };
+          cmdline_popup = {
+            win_options = {
+              winblend = 0;
+            };
+          };
+          popupmenu = {
+            win_options = {
+              winblend = 0;
+            };
+          };
 
           hover = {
             winoptions = {
+              winblend = 0;
+            };
+            win_options = {
               winblend = 0;
             };
             border = "rounded";
@@ -17,12 +40,16 @@
           signature = {
             enabled = false;
           };
+          progress = {
+            enabled = false;
+          };
         };
         default_mappings = false;
         presets = {
           command_palette = true;
           long_message_to_split = true;
           bottom_search = true;
+          lsp_doc_border = true;
         };
         commands = {
           errors = {
