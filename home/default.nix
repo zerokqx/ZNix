@@ -6,8 +6,9 @@
 {
 
   imports = [
-    ./zed.nix
-    ./niri
+    # ./zed.nix
+    # ./niri
+    ./hyprland
     ./mimes.nix
     ./git.nix
     ./noctalia.nix
@@ -33,7 +34,6 @@
     messages = "en_US.UTF-8";
     telephone = "en_US.UTF-8";
   };
-
 
   services.ssh-agent.enable = true;
   services.udiskie = {

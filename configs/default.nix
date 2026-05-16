@@ -1,7 +1,7 @@
 {
   imports = [
-    ./niri
     ./throne.nix
+    ./tailscale.nix
     ./zapret.nix
   ];
 }

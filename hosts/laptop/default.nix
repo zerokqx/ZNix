@@ -6,9 +6,7 @@ inputs.nixpkgs.lib.nixosSystem {
   modules = [
     ../../configuration.nix
     ./hardware-configuration.nix
-    ./ollama.nix
 
-    inputs.niri.nixosModules.niri
     inputs.home-manager.nixosModules.home-manager
 
     {
@@ -19,8 +17,6 @@ inputs.nixpkgs.lib.nixosSystem {
       home-manager.backupFileExtension = "hm-bak";
       home-manager.users.zerok.imports = [
 
-        ./opencode.nix
-        inputs.niri.homeModules.stylix
         inputs.stylix.homeModules.stylix
         inputs.noctalia.homeModules.default
         inputs.nixvim.homeModules.nixvim

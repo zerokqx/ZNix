@@ -5,18 +5,17 @@ inputs.nixpkgs.lib.nixosSystem {
   modules = [
     ../../configuration.nix
     ./hardware-configuration.nix
-    ./ollama.nix
+    # ./ollama.nix
     {
       znix.ai.sillytavern.enable = false;
     }
-    inputs.niri.nixosModules.niri
+    # inputs.niri.nixosModules.niri
     inputs.home-manager.nixosModules.home-manager
-    inputs.mangowm.nixosModules.mango
     {
       home-manager.extraSpecialArgs = { inherit inputs; };
       home-manager.backupFileExtension = "hm-bak";
       home-manager.users.zerok.imports = [
-        ./opencode.nix
+        # ./opencode.nix
         (
           { ... }:
           {
@@ -43,7 +42,7 @@ inputs.nixpkgs.lib.nixosSystem {
             programs.noctalia-shell.settings.bar.position = "bottom";
           }
         )
-        inputs.niri.homeModules.stylix
+        # inputs.niri.homeModules.stylix
         inputs.stylix.homeModules.stylix
         inputs.noctalia.homeModules.default
         inputs.nixvim.homeModules.nixvim

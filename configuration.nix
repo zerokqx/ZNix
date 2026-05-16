@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 {
   imports = [
     ./core
@@ -6,10 +11,16 @@
   ];
   programs.bash.enable = true;
 
-
-
+  programs.hyprland = {
+    enable = true;
+    # ly + xsession-wrapper pre-activates graphical-session.target, which
+    # conflicts with UWSM startup and causes a DM login loop.
+    withUWSM = false;
+    # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    # portalPackage =
+    #   inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  };
   # nixGL.vulkan.enable = true;
-  programs.mango.enable = true;
   services.gnome.gcr-ssh-agent.enable = false;
   znix.dev.ports.enable = true;
   virtualisation.docker.daemon.settings = {

@@ -47,6 +47,7 @@
     fastfetch
     devenv
     xdg-user-dirs
+    wl-clipboard
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
