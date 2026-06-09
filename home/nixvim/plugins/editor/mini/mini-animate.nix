@@ -2,7 +2,7 @@
 {
 
   plugins.mini-animate = {
-    enable = false;
+    enable = true;
     settings = {
       cursor = {
         enable = true;

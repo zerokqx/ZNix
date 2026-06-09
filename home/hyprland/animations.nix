@@ -1,7 +1,6 @@
 {
   wayland.windowManager.hyprland.settings.animations = {
     enabled = true;
-
     bezier = [
       "spring, 0.18, 0.89, 0.22, 1.08"
       "snap, 0.22, 1.0, 0.36, 1.0"

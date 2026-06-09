@@ -1,6 +1,5 @@
 {
   pkgs,
-  inputs,
   lib,
   ...
 }:
@@ -10,26 +9,17 @@
     ./configs
   ];
   programs.bash.enable = true;
-
+  zramSwap.enable = true;
   programs.hyprland = {
     enable = true;
-    # ly + xsession-wrapper pre-activates graphical-session.target, which
-    # conflicts with UWSM startup and causes a DM login loop.
     withUWSM = false;
-    # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    # portalPackage =
-    #   inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
-  # nixGL.vulkan.enable = true;
+  networking.firewall = {
+    allowedTCPPorts = [ 27015 ];
+    allowedUDPPorts = [ 27015 ];
+  };
   services.gnome.gcr-ssh-agent.enable = false;
   znix.dev.ports.enable = true;
-  virtualisation.docker.daemon.settings = {
-    dns = [
-      "1.1.1.1"
-      "8.8.8.8"
-    ];
-  };
-  virtualisation.docker.enable = true;
   security.polkit.enable = true;
   services.upower.enable = true;
   documentation.man.generateCaches = false;
@@ -40,7 +30,6 @@
     enable = true;
     package = pkgs.swayfx;
   };
-  security.pam.services.swaylock = { };
   nix = {
     package = pkgs.nix;
     settings.experimental-features = [
@@ -50,10 +39,6 @@
   };
 
   environment.variables.EDITOR = "nvim";
-  environment.sessionVariables = {
-    # Workaround for occasional pointer stutter/flicker in wlroots compositors.
-    WLR_NO_HARDWARE_CURSORS = "1";
-  };
   programs.gnupg.agent.enable = true;
   programs = {
     nix-ld.enable = true;
