@@ -2,20 +2,21 @@
 {
 
   imports = [
-    ./kotlin.nix
-    ./python.nix
+    ./proto.nix
     ./nginx.nix
-    ./rust.nix
-    ./omnisharp.nix
+    ./yaml.nix
+    ./typescript.nix
     ./css.nix
     ./docker.nix
     ./html.nix
     ./json.nix
-    ./lua.nix
     ./markdown.nix
     ./nix.nix
     ./shell.nix
-    ./typescript.nix
-    ./yaml.nix
+    # ./omnisharp.nix
+    # ./lua.nix
+    # ./rust.nix
+    # ./kotlin.nix
+    # ./python.nix
   ];
 }

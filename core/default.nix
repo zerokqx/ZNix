@@ -1,5 +1,7 @@
 {
   imports = [
+    ./docker.nix
+    ./waydroid.nix
     ./openssh.nix
     ./nix-ld.nix
     ./znix

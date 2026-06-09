@@ -27,6 +27,7 @@ in
     ./window-command.nix
     ./startup.nix
     ./keybindings.nix
+    ./package.nix
   ];
   wayland.windowManager.sway = {
     enable = true;

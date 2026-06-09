@@ -2,21 +2,9 @@
   description = "flake-parts configuration for NixOS";
 
   inputs = {
-    helium = {
-      url = "github:schembriaiden/helium-browser-nix-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    hyprland.url = "github:hyprwm/Hyprland";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-    mangowm = {
-      url = "github:mangowm/mango";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     firefox.url = "github:nix-community/flake-firefox-nightly";
-    # nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     firefox.inputs.nixpkgs.follows = "nixpkgs";
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";

@@ -2,6 +2,7 @@
 {
 
   home.packages = with pkgs; [
+    nest-cli
     lsof
     redisinsight
     sshfs
@@ -11,7 +12,6 @@
     lazyjournal
     lazysql
     google-chrome
-    drawio
     rustc
     gcc
     cargo
@@ -24,7 +24,6 @@
     beekeeper-studio
     statix
     typescript
-    cloudflared
     nixd
 
     lazygit
@@ -32,13 +31,10 @@
     yazi
     zathura
     vtsls
-    sqlite
     nodejs_22
     libreoffice
     steam
-    osu-lazer
     qbittorrent
-    prismlauncher
     nerd-fonts.jetbrains-mono
     insomnia
     obsidian
@@ -47,6 +43,7 @@
     fastfetch
     devenv
     xdg-user-dirs
+    wl-clipboard
   ];
 
   nixpkgs.config.permittedInsecurePackages = [

@@ -1,17 +1,16 @@
 { pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    rustdesk
     trash-cli
     nftables
     quickshell
-    autotiling-rs
     tig
     alacritty
     atool
     bat
     bc
     btop
-    cliphist
     imv
     eza
     exfat

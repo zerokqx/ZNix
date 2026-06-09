@@ -54,7 +54,7 @@ in
         showCapsule = true;
         capsuleOpacity = lib.mkForce 0.4;
         floating = true;
-        marginVertical = 10;
+        marginVertical = 0;
         marginHorizontal = marginVertical;
         density = "comfortable";
         position = lib.mkDefault "top";

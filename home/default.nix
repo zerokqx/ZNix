@@ -6,8 +6,9 @@
 {
 
   imports = [
-    ./zed.nix
-    ./niri
+    # ./zed.nix
+    # ./niri
+    ./hyprland
     ./mimes.nix
     ./git.nix
     ./noctalia.nix
@@ -16,24 +17,23 @@
     ./alacritty.nix
     ./fish.nix
     ./nixvim
-    ./sway
     ./packages.nix
     ./dir-file-create.nix
   ];
+
   nixpkgs.config.allowUnfree = true;
   home.username = "zerok";
   home.homeDirectory = "/home/zerok";
   home.stateVersion = "25.11";
   home.enableNixpkgsReleaseCheck = false;
   home.language = {
-    numeric = "en_US.UTF-8";
-    time = "en_US.UTF-8";
+    numeric = "ru_RU.UTF-8";
+    time = "ru_RU.UTF-8";
     base = "en_US.UTF-8";
     address = "en_US.UTF-8";
     messages = "en_US.UTF-8";
     telephone = "en_US.UTF-8";
   };
-
 
   services.ssh-agent.enable = true;
   services.udiskie = {
@@ -51,21 +51,6 @@
   home.sessionVariables = {
     TERM = "alacritty";
     BROWSER = "firefox-nightly";
-    XDG_MIME_DEFAULTS = ''
-      application/pdf=zathura
-      application/x-pdf=zathura
-      image/jpeg=org.gnome.Loupe.desktop
-      image/png=org.gnome.Loupe.desktop
-      image/gif=org.gnome.Loupe.desktop
-      image/bmp=org.gnome.Loupe.desktop
-      image/webp=org.gnome.Loupe.desktop
-      image/svg+xml=org.gnome.Loupe.desktop
-      image/tiff=org.gnome.Loupe.desktop
-      video/mp4=org.gnome.Totem.desktop
-      video/mkv=org.gnome.Totem.desktop
-      video/avi=org.gnome.Totem.desktop
-    '';
-    MICRO_TRUECOLOR = 1;
     NIXPKGS_ALLOW_UNFREE = 1;
   };
 
