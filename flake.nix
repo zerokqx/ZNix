@@ -14,7 +14,7 @@
       url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    codex-cli-nix.url = "github:sadjow/codex-cli-nix";
+    # codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     stylix = {
       url = "github:nix-community/stylix/release-25.11";
     };
