@@ -2,6 +2,9 @@
 {
 
   home.packages = with pkgs; [
+    scrcpy
+    android-tools
+    pnpm
     nest-cli
     lsof
     redisinsight
@@ -19,9 +22,9 @@
     dotnet-sdk_8
     nil
     dotnet-aspnetcore_8
-    inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    # inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     gh
-    beekeeper-studio
+    # beekeeper-studio
     statix
     typescript
     nixd

@@ -47,6 +47,7 @@
     "${config.home.homeDirectory}/.cargo/bin"
     "${config.home.homeDirectory}/.bun/bin"
     "${config.home.homeDirectory}/.dotnet/tools"
+    "${config.home.homeDirectory}/.local/bin"
   ];
   home.sessionVariables = {
     TERM = "alacritty";
