@@ -1,7 +1,7 @@
 { pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    rustdesk
+    # rustdesk
     trash-cli
     nftables
     quickshell
@@ -24,7 +24,7 @@
     libnotify
     nix-ld
     pavucontrol
-    qpwgraph
+    # qpwgraph
     p7zip
     playerctl
     polkit_gnome
@@ -40,10 +40,10 @@
     wget
     wf-recorder
     wl-clipboard
-    xfce.thunar
-    xfce.thunar-archive-plugin
-    xfce.thunar-volman
-    xfce.tumbler
+    thunar
+    thunar-archive-plugin
+    thunar-volman
+    tumbler
     xdg-utils
   ];
 

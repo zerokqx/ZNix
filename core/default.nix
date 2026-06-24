@@ -1,5 +1,6 @@
 {
   imports = [
+    ./nixpkgs.nix
     ./docker.nix
     ./waydroid.nix
     ./openssh.nix
@@ -12,7 +13,6 @@
     ./users
     ./timezone.nix
     ./networking.nix
-    ./nixpkgs.nix
     ./boot.nix
   ];
 }

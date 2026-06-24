@@ -13,6 +13,8 @@ inputs.nixpkgs.lib.nixosSystem {
       services.power-profiles-daemon.enable = true;
       services.upower.enable = true;
       znix.hardware.fingerprint.goodix.enable = true;
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
       home-manager.extraSpecialArgs = { inherit inputs; };
       home-manager.backupFileExtension = "hm-bak";
       home-manager.users.zerok.imports = [

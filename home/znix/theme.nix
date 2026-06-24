@@ -45,12 +45,12 @@ in
 
   config = {
     stylix = {
-      fonts = {
-        monospace = {
-          package = pkgs.nerd-fonts.jetbrains-mono;
-          name = "JetBrainsMono Nerd Font";
-        };
-      };
+      # fonts = {
+      #   monospace = {
+      #     package = pkgs.nerd-fonts.jetbrains-mono;
+      #     name = "JetBrainsMono Nerd Font";
+      #   };
+      # };
 
       enable = true;
       polarity = cfg.polarity;

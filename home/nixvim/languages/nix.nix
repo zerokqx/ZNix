@@ -12,7 +12,7 @@
         nix = [ "nixfmt" ];
       };
       formatters = {
-        nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
+        nixfmt.command = lib.getExe pkgs.nixfmt;
       };
     };
 
@@ -30,7 +30,7 @@
       enable = true;
       settings = {
         formatting = {
-          command = [ "${lib.getExe pkgs.nixfmt-rfc-style}" ];
+          command = [ "${lib.getExe pkgs.nixfmt}" ];
         };
       };
     };

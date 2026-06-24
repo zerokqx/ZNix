@@ -2,6 +2,8 @@
 {
   programs.nixvim = {
     enable = true;
+    nixpkgs.source = inputs.nixpkgs;
+    nixpkgs.config.allowUnfree = true;
 
     imports = [
       ./autocmds.nix

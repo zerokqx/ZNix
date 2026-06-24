@@ -22,7 +22,7 @@
   znix.dev.ports.enable = true;
   security.polkit.enable = true;
   services.upower.enable = true;
-  documentation.man.generateCaches = false;
+  documentation.man.cache.enable = false;
   programs.command-not-found.enable = false;
   services.udisks2.enable = true;
   services.gvfs.enable = true;
@@ -42,7 +42,7 @@
   programs.gnupg.agent.enable = true;
   programs = {
     nix-ld.enable = true;
-    light.enable = true;
+    # light.enable = true;
     fish.enable = true;
     direnv.enable = true;
     steam = {
@@ -95,4 +95,6 @@
     options = "--delete-older-than 7d";
   };
   system.stateVersion = "25.05";
+
+
 }

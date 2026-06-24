@@ -2,6 +2,9 @@
 {
 
   home.packages = with pkgs; [
+    vesktop
+    beekeeper-studio
+    mongodb-compass
     scrcpy
     android-tools
     pnpm
@@ -17,11 +20,11 @@
     google-chrome
     rustc
     gcc
-    cargo
-    waypipe
-    dotnet-sdk_8
+    # cargo
+    # waypipe
+    # dotnet-sdk_8
     nil
-    dotnet-aspnetcore_8
+    # dotnet-aspnetcore_8
     # inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     gh
     # beekeeper-studio
@@ -41,15 +44,12 @@
     nerd-fonts.jetbrains-mono
     insomnia
     obsidian
-    git-crypt
+    # git-crypt
     bun
     fastfetch
     devenv
     xdg-user-dirs
     wl-clipboard
   ];
-
-  nixpkgs.config.permittedInsecurePackages = [
-    "beekeeper-studio-5.3.4"
-  ];
 }
+

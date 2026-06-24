@@ -5,7 +5,7 @@
     conform-nvim = {
       settings = {
         formatters.prettier = {
-          command = lib.getExe pkgs.nodePackages.prettier;
+          command = lib.getExe pkgs.prettier;
         };
         formatters_by_ft = {
           javascript = [ "prettier" ];
