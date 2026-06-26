@@ -49,6 +49,7 @@ in
     programs.firefox = mkIf (cfg.target == "firefox") {
       package = cfg.package;
       enable = true;
+      configPath = ".mozilla/firefox";
 
       profiles.${cfg.profile} = {
         isDefault = true;

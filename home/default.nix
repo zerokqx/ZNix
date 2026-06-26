@@ -21,7 +21,6 @@
     ./dir-file-create.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
   home.username = "zerok";
   home.homeDirectory = "/home/zerok";
   home.stateVersion = "25.11";
