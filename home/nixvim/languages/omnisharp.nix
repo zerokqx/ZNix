@@ -1,9 +1,9 @@
 { pkgs, ... }:
 {
-  plugins.roslyn.enable = true;
-  plugins.rzls.enable = true;
-  extraPackages = with pkgs; [
-    dotnetCorePackages.sdk_9_0-bin
-  ];
+  plugins.roslyn.enable = false;
+  plugins.rzls.enable = false;
+  # extraPackages = with pkgs; [
+  #   dotnetCorePackages.sdk_9_0-bin
+  # ];
 
 }

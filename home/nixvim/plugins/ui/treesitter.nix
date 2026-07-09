@@ -9,7 +9,7 @@
           additional_vim_regex_highlighting = false;
         };
         incremental_selection.enable = true;
-        indent.enable = true;
+        indent.enable = false;
         sync_install = false;
       };
       highlight = {

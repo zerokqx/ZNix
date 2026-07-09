@@ -1,6 +1,6 @@
 {pkgs,...}:{
   plugins.rustaceanvim = {
-    enable = true;
+    enable = false;
 
     settings = {
       server = {

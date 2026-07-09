@@ -5,6 +5,7 @@ inputs.nixpkgs.lib.nixosSystem {
   modules = [
     ../../configuration.nix
     ./hardware-configuration.nix
+    inputs.nix-flatpak.nixosModules.nix-flatpak
     # ./ollama.nix
     {
       znix.ai.sillytavern.enable = false;
@@ -27,11 +28,11 @@ inputs.nixpkgs.lib.nixosSystem {
               list = {
                 "DP-1" = {
                   mode = "1920x1080@165Hz";
-                  pos = "0 0";
+                  pos = "1920 0";
                 };
                 "HDMI-A-1" = {
                   mode = "1920x1080@75Hz";
-                  pos = "1920 0";
+                  pos = "0 0";
                 };
               };
             };

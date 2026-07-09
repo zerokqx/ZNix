@@ -9,6 +9,6 @@
     ./treesitter.nix
     ./trouble.nix
     ./ufo.nix
-    ./web-dev-icons.nix
+    ./transparent.nix
   ];
 }

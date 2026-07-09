@@ -2,8 +2,14 @@
 {
   plugins = {
     lsp.servers = {
-      dockerls.enable = true;
-      docker_compose_language_service.enable = true;
+      dockerls = {
+        enable = true;
+        filetypes = [ "dockerfile" ];
+      };
+      docker_compose_language_service = {
+        enable = true;
+        filetypes = [ "yaml.docker-compose" ];
+      };
     };
 
     lint = {

@@ -1,3 +1,0 @@
-{
-  plugins.numbertoggle.enable = true;
-}

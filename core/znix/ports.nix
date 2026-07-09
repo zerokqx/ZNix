@@ -15,6 +15,7 @@ in
     tcpPorts = lib.mkOption {
       type = lib.types.listOf lib.types.port;
       default = [
+        6003
         4200
         3000
         3001

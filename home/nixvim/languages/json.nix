@@ -13,9 +13,20 @@
       };
     };
 
-
+    # Включаем JSON-сервер
     lsp.servers.jsonls = {
       enable = true;
+      filetypes = [
+        "json"
+        "jsonc"
+      ];
+    };
+
+    schemastore = {
+      enable = true;
+      json = {
+        enable = true;
+      };
     };
   };
 }

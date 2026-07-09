@@ -1,7 +1,12 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 {
+  extraPackages = [
+    pkgs.nodejs
+    pkgs.vscode-js-debug
+  ];
+
   plugins = {
-    dap-virtual-text.enable = true;
+    dap-virtual-text.enable = false;
     dap = {
       enable = true;
       lazyLoad = {
@@ -45,6 +50,106 @@
           texthl = "DiagnosticWarn";
           linehl = "DapStoppedLine"; numhl = "DapStoppedLine";
         };
+      };
+      adapters = {
+        servers = {
+          "pwa-node" = {
+            host = "127.0.0.1";
+            port = "\${port}";
+            executable = {
+              command = "${pkgs.nodejs}/bin/node";
+              args = [
+                "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/dist/src/dapDebugServer.js"
+                "\${port}"
+              ];
+            };
+          };
+          "pwa-chrome" = {
+            host = "127.0.0.1";
+            port = "\${port}";
+            executable = {
+              command = "${pkgs.nodejs}/bin/node";
+              args = [
+                "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/dist/src/dapDebugServer.js"
+                "\${port}"
+              ];
+            };
+          };
+          "node" = {
+            host = "127.0.0.1";
+            port = "\${port}";
+            executable = {
+              command = "${pkgs.nodejs}/bin/node";
+              args = [
+                "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/dist/src/dapDebugServer.js"
+                "\${port}"
+              ];
+            };
+          };
+          "chrome" = {
+            host = "127.0.0.1";
+            port = "\${port}";
+            executable = {
+              command = "${pkgs.nodejs}/bin/node";
+              args = [
+                "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/dist/src/dapDebugServer.js"
+                "\${port}"
+              ];
+            };
+          };
+        };
+      };
+      configurations = {
+        javascript = [
+          {
+            type = "pwa-node";
+            request = "launch";
+            name = "Launch current file (Node.js)";
+            program = "\${file}";
+            cwd = "\${workspaceFolder}";
+          }
+          {
+            type = "pwa-node";
+            request = "attach";
+            name = "Attach to Node.js process";
+            processId = { __raw = "require('dap.utils').pick_process"; };
+            cwd = "\${workspaceFolder}";
+          }
+        ];
+        typescript = [
+          {
+            type = "pwa-node";
+            request = "launch";
+            name = "Launch current file (Node.js)";
+            program = "\${file}";
+            cwd = "\${workspaceFolder}";
+          }
+          {
+            type = "pwa-node";
+            request = "attach";
+            name = "Attach to Node.js process";
+            processId = { __raw = "require('dap.utils').pick_process"; };
+            cwd = "\${workspaceFolder}";
+          }
+        ];
+        javascriptreact = [
+          {
+            type = "pwa-chrome";
+            request = "launch";
+            name = "Debug React App (Chrome)";
+            url = "http://localhost:5173";
+            webRoot = "\${workspaceFolder}";
+          }
+        ];
+        typescriptreact = [
+          {
+            type = "pwa-chrome";
+            request = "launch";
+            name = "Debug React App (Chrome)";
+            url = "http://localhost:5173";
+            webRoot = "\${workspaceFolder}";
+          }
+        ];
       };
     };
 

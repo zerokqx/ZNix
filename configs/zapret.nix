@@ -66,6 +66,26 @@ let
     "localizeapi.com"
     "klipy.com"
     "live-video.net"
+    # Roblox
+    "roblox.com"
+    "rbxcdn.com"
+    "robloxlabs.com"
+    "rbxtrk.com"
+    "roblox.co.uk"
+    # Steam
+    "steampowered.com"
+    "steamcommunity.com"
+    "steamgames.com"
+    "steamusercontent.com"
+    "steamcontent.com"
+    "steamstatic.com"
+    "akamaihd.net"
+    "edgecast.net"
+    "steamcdn-a.akamaihd.net"
+    "cs.steampipe.net"
+    "l.steamchina.com"
+    "valve.net"
+    "valvesoftware.com"
   ]);
 in
 {
@@ -108,7 +128,37 @@ in
       "50000:65535"
     ];
 
-    configureFirewall = true;
+    configureFirewall = false; # Модуль использует POSTROUTING (для роутеров), нам нужен OUTPUT
   };
+
+  # Правильные правила для локального хоста: OUTPUT (не POSTROUTING)
+  networking.firewall.extraCommands = ''
+    iptables -t mangle -I OUTPUT -p tcp -m multiport --dports 80,443 \
+      -m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:6 \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num 200 --queue-bypass
+    iptables -t mangle -I OUTPUT -p udp --dport 443 \
+      -m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:6 \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num 200 --queue-bypass
+    iptables -t mangle -I OUTPUT -p udp -m multiport --dports 49152:65535 \
+      -m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:6 \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num 200 --queue-bypass
+  '';
+  networking.firewall.extraStopCommands = ''
+    iptables -t mangle -D OUTPUT -p tcp -m multiport --dports 80,443 \
+      -m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:6 \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num 200 --queue-bypass 2>/dev/null || true
+    iptables -t mangle -D OUTPUT -p udp --dport 443 \
+      -m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:6 \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num 200 --queue-bypass 2>/dev/null || true
+    iptables -t mangle -D OUTPUT -p udp -m multiport --dports 49152:65535 \
+      -m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:6 \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num 200 --queue-bypass 2>/dev/null || true
+  '';
 }
 
