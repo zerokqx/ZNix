@@ -18,27 +18,27 @@ Docs: README.md in the repo root is the English copy; other languages live in `d
 - `hosts/*/ollama.nix` / `opencode.nix` / `fprintd.nix`: host-specific feature toggles.
 
 ## System modules
-- `configuration.nix`: top-level NixOS config importing `./core` and `./configs`, enabling swayfx, docker, polkit, gvfs/udisks2, nix flakes, gc schedule, and base programs (fish, direnv, steam/gamescope, nix-ld, etc.). `system.stateVersion = "25.05"`; `znix.dev.ports.enable = true` by default.
+- `configuration.nix`: top-level NixOS config importing `./core` and `./configs`, enabling Hyprland WM, swayfx, docker, polkit, gvfs/udisks2, nix flakes, gc schedule, and base programs (fish, direnv, steam/gamescope, nix-ld, etc.). `system.stateVersion = "25.05"`; `znix.dev.ports.enable = true` by default.
 - `core/`: reusable system pieces (imports via `core/default.nix`):
   - `znix/` (custom options: monitors, dev ports, SillyTavern, Goodix fingerprint)
   - `packages.nix`, `pipewire.nix`, `graphics.nix`, `bluetooth.nix`, `users/`, `timezone.nix`, `networking.nix`, `nixpkgs.nix`, `boot.nix`. (Pipewire listed twice in default import; currently harmless.)
 - `configs/`: bundle of extra system tweaks (`throne.nix`, `zapret.nix`), loaded by `configs/default.nix`.
 
 ## Home-manager stack
-- `home/default.nix`: main user config for `zerok`. Imports app/services modules (`git.nix`, `znix/`, `zoxide.nix`, `alacritty.nix`, `fish.nix`, `sway/`, `packages.nix`, `dir-file-create.nix`, `noctalia.nix`, `nixvim`). Sets session vars, PATH entries for cargo/bun, enables udiskie, codex, allows unfree, and home stateVersion `25.11`. `znix/` now also includes monitor options consumed by sway/noctalia.
-- `home/sway/`: swayfx configuration split into `assigns.nix`, `input.nix`, `output.nix`, `window-command.nix`, `startup.nix`, `keybindings.nix`, `swaylock.nix`.
+- `home/default.nix`: main user config for `zerok`. Imports app/services modules (`git.nix`, `znix/`, `zoxide.nix`, `alacritty.nix`, `fish.nix`, `hyprland`, `packages.nix`, `dir-file-create.nix`, `noctalia.nix`, `nixvim`). Sets session vars, PATH entries for cargo/bun, enables udiskie, codex, allows unfree, and home stateVersion `25.11`. `znix/` now also includes monitor options.
+- `home/hyprland/`: Hyprland configuration split into `animations.nix`, `base.nix`, `binds.nix`, `default.nix`, `exec.nix`, `general.nix`, `input.nix`, `monitors.nix`, `package.nix`, and `rules.nix`.
 - Other `home/*.nix` files are single-purpose modules for the imported programs/options.
 
 ## Nixvim layout (refactored)
 - Entry: `home/nixvim/default.nix` imports `autocmds.nix`, `languages/`, `plugins/`, `keymaps.nix`, `opts.nix`.
-- `home/nixvim/languages/default.nix`: manual list of language modules (css, docker, html, json, lua, markdown, nix, shell, typescript, yaml).
+- `home/nixvim/languages/default.nix`: manual list of language modules (css, docker, html, json, markdown, nix, shell, typescript, yaml, proto, nginx). Languages like `omnisharp`, `lua`, `rust`, `kotlin`, and `python` are currently commented out / disabled in the default import.
 - `home/nixvim/plugins/default.nix`: groups:
   - `completion/` (blink with git/ripgrep/spell providers, friendly-snippets, luaship)
   - `core/` (lz-n loader, snacks core + bigfile, which-key, perfomance)
-  - `editor/` (mini/* suite, autosave/session, flash, yanky, undotree, numbertoggle, autolist)
+  - `editor/` (mini/* suite, autosave/session, flash, yanky, autolist) [Note: `numbertoggle` and `undotree` are removed]
   - `ide/` (lsp, lspsaga, conform, dap + ui, fidget, goto-preview, neogen)
   - `integrations/` (lazygit, obsidian, wakatime)
-  - `ui/` (treesitter, noice, trouble, bufferline, lualine, ufo, colorizer, web-dev-icons)
+  - `ui/` (treesitter, noice, trouble, bufferline, lualine, ufo, colorizer, transparent) [Note: `web-dev-icons` is removed, `transparent` is added]
 - No auto-import helper remains; each `default.nix` lists its modules explicitly.
 
 ## Tips for agents

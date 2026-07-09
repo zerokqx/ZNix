@@ -1,8 +1,7 @@
 { pkgs, lib, ... }:
 {
   plugins = {
-    lsp.servers.lua_ls.enable = true;
-
+    lsp.servers.lua_ls.enable = false;
     conform-nvim.settings = {
       formatters_by_ft = {
         lua = [ "stylua" ];

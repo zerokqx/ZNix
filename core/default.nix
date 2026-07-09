@@ -14,5 +14,6 @@
     ./timezone.nix
     ./networking.nix
     ./boot.nix
+    ./flatpak.nix
   ];
 }

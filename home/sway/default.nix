@@ -1,4 +1,10 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+
 let
   monitorNames = lib.sort builtins.lessThan (builtins.attrNames config.znix.monitors.list);
   primary = if monitorNames == [ ] then null else builtins.head monitorNames;
@@ -7,7 +13,9 @@ let
     lib.optionals (primary != null) [
       {
         workspace = "2";
-        output = primary; } ]
+        output = primary;
+      }
+    ]
     ++ lib.optionals (secondary != null) [
       {
         workspace = "3";
@@ -29,10 +37,14 @@ in
     ./keybindings.nix
     ./package.nix
   ];
+
+  programs.sway = {
+    enable = true;
+    package = pkgs.swayfx;
+  };
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
-
 
     config = {
 

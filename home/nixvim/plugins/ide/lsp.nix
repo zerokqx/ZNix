@@ -11,9 +11,14 @@
         prismals = {
           enable = true;
           package = pkgs.prisma-language-server;
+          filetypes = [ "prisma" ];
         };
         jsonls = {
           enable = true;
+          filetypes = [
+            "json"
+            "jsonc"
+          ];
         };
       };
       keymaps = {
@@ -35,12 +40,22 @@
   extraConfigLua = ''
     local _border = "rounded"
 
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-      vim.lsp.handlers.hover, { border = _border, winblend = 0 }
-    )
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-      vim.lsp.handlers.signature_help, { border = _border, winblend = 0 }
-    )
+    vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+      return vim.lsp.handlers.hover(
+        err,
+        result,
+        ctx,
+        vim.tbl_deep_extend("force", { border = _border, winblend = 0 }, config or {})
+      )
+    end
+    vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
+      return vim.lsp.handlers.signature_help(
+        err,
+        result,
+        ctx,
+        vim.tbl_deep_extend("force", { border = _border, winblend = 0 }, config or {})
+      )
+    end
     pcall(function()
       require("lspconfig.ui.windows").default_options = {
         border = _border,

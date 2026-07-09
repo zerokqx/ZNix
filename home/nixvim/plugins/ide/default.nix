@@ -9,5 +9,6 @@
     ./lspsaga.nix
     ./neotest.nix
     ./neogen.nix
+    ./grug-far.nix
   ];
 }

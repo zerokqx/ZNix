@@ -6,7 +6,7 @@
 {
   plugins = {
     nix.enable = true;
-    hmts.enable = true;
+    hmts.enable = false;
     conform-nvim.settings = {
       formatters_by_ft = {
         nix = [ "nixfmt" ];
@@ -28,6 +28,7 @@
 
     lsp.servers.nixd = {
       enable = true;
+      filetypes = [ "nix" ];
       settings = {
         formatting = {
           command = [ "${lib.getExe pkgs.nixfmt}" ];

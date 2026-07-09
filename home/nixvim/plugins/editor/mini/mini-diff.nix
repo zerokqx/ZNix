@@ -3,13 +3,7 @@
 
   plugins.mini-diff = {
     enable = true;
-    lazyLoad = {
-      enable = true;
-      settings.event = [
-        "BufReadPost"
-        "BufNewFile"
-      ];
-    };
+    lazyLoad.enable = false;
     settings = {
 
       delay = {
@@ -42,4 +36,16 @@
       };
     };
   };
+
+  keymaps = [
+    {
+      mode = "n";
+      key = "<leader>go";
+      action = "<cmd>lua require('mini.diff').toggle_overlay()<cr>";
+      options = {
+        silent = true;
+        desc = "Toggle Git Diff overlay";
+      };
+    }
+  ];
 }

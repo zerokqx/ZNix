@@ -67,12 +67,21 @@
           list.wo.winblend = 0;
           preview.wo.winblend = 0;
         };
+        sources = {
+          explorer = {
+            exclude = [
+              "*.module.d.css.ts"
+              "*.d.css.ts"
+            ];
+          };
+        };
       };
       statuscolumn = {
         enabled = true;
         left = [
           "mark"
           "sign"
+          "git"
         ];
         right = [
           "fold"
@@ -338,13 +347,13 @@
       {
         mode = "n";
         key = "<leader>bo";
-        action = ''<cmd>lua Snacks.bufdelete.other()<cr>'';
+        action = "<cmd>lua Snacks.bufdelete.other()<cr>";
         options.desc = "Close all buffers but current";
       }
       {
         mode = "n";
         key = "<leader>bO";
-        action = ''<cmd>lua Snacks.bufdelete.all()<cr>'';
+        action = "<cmd>lua Snacks.bufdelete.all()<cr>";
         options.desc = "Close all buffers";
       }
     ]

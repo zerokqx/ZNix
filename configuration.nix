@@ -26,10 +26,10 @@
   programs.command-not-found.enable = false;
   services.udisks2.enable = true;
   services.gvfs.enable = true;
-  programs.sway = {
-    enable = true;
-    package = pkgs.swayfx;
-  };
+  # programs.sway = {
+  #   enable = true;
+  #   package = pkgs.swayfx;
+  # };
   nix = {
     package = pkgs.nix;
     settings.experimental-features = [
@@ -81,6 +81,8 @@
       TimeoutStopSec = 10;
     };
   };
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
   fonts.packages = with pkgs; [
     corefonts
     maple-mono.CN
@@ -95,6 +97,5 @@
     options = "--delete-older-than 7d";
   };
   system.stateVersion = "25.05";
-
 
 }

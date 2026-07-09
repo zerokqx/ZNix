@@ -8,9 +8,9 @@
     imports = [
       ./autocmds.nix
       ./languages
-      ./plugins
       ./keymaps.nix
       ./opts.nix
+      ./plugins
     ];
 
     extraConfigLua = ''

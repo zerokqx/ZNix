@@ -1,7 +1,6 @@
 { pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    # rustdesk
     trash-cli
     nftables
     quickshell
@@ -31,7 +30,7 @@
     ripgrep
     slurp
     sway-contrib.grimshot
-    swaylock
+    # swaylock
     tree
     udiskie
     unrar

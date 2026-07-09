@@ -1,4 +1,6 @@
 {
-
-  plugins.lsp.servers.protols.enable = true;
+  plugins.lsp.servers.protols = {
+    enable = true;
+    filetypes = [ "proto" ];
+  };
 }

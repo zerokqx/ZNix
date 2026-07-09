@@ -12,6 +12,7 @@
       "docker"
       "wheel"
       "video"
+      "flatpak"
       "adbusers"
       "input"
       "audio"

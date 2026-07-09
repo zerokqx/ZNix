@@ -12,24 +12,6 @@ in
 {
   programs.noctalia-shell = {
     enable = true;
-    plugins = {
-      sources = [
-        {
-          enabled = true;
-          name = "Official Noctalia Plugins";
-          url = "https://github.com/noctalia-dev/noctalia-plugins";
-        }
-      ];
-
-      states = {
-        pomodoro = {
-          enabled = true;
-          sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-        };
-      };
-
-      version = 2;
-    };
     settings = {
       dock = {
         enabled = false;
@@ -45,8 +27,8 @@ in
       };
       general = {
         enableShadows = true;
-        radiusRatio = 0;
-        iRadiusRatio = 0;
+        radiusRatio = 0.66;
+        iRadiusRatio = 0.57;
         boxRadiusRatio = 0;
         screenRadiusRatio = 0;
       };
@@ -54,7 +36,7 @@ in
         showCapsule = true;
         capsuleOpacity = lib.mkForce 0.4;
         floating = true;
-        marginVertical = 0;
+        marginVertical = 15;
         marginHorizontal = marginVertical;
         density = "comfortable";
         position = lib.mkDefault "top";

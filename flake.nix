@@ -4,6 +4,7 @@
   inputs = {
     hyprland.url = "github:hyprwm/Hyprland";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     firefox.url = "github:nix-community/flake-firefox-nightly";
     firefox.inputs.nixpkgs.follows = "nixpkgs";
     noctalia = {
