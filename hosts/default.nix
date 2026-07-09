@@ -1,9 +1,5 @@
-{ inputs, ... }:
+{ inputs, lib, ... }@args:
 let
-  system = "x86_64-linux";
-  pkgs = inputs.nixpkgs.legacyPackages.${system};
-
-  args = { inherit inputs pkgs system; };
 
   desktop = import ./desktop args;
   laptop = import ./laptop args;

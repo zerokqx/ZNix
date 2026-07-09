@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, lib, ... }:
 inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = { inherit inputs; };
@@ -10,9 +10,11 @@ inputs.nixpkgs.lib.nixosSystem {
     inputs.home-manager.nixosModules.home-manager
 
     {
+
+      services.tailscale.enable = lib.mkForce false;
       services.power-profiles-daemon.enable = true;
       services.upower.enable = true;
-      znix.hardware.fingerprint.goodix.enable = true;
+      znix.hardware.fingerprint.goodix.enable = false;
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.extraSpecialArgs = { inherit inputs; };
@@ -34,7 +36,7 @@ inputs.nixpkgs.lib.nixosSystem {
             };
             noctaliaMonitors = [ "eDP-1" ];
           };
-          programs.noctalia-shell.settings.bar.position = "left";
+          programs.noctalia-shell.settings.bar.position = "bottom";
         }
       ];
     }
