@@ -2,23 +2,25 @@
 {
 
   home.packages = with pkgs; [
-    tridactyl-native
+    dive
+    ripgrep
+    psmisc
+    file
+    gh
     vesktop
     beekeeper-studio
     mongodb-compass
     scrcpy
     android-tools
-    pnpm
+    pnpm_11
     lsof
     redisinsight
     sshfs
-    httpie
+    # httpie
     lazydocker
     lazyssh
-    lazyjournal
-    lazysql
     google-chrome
-    gh
+    # gh
     lazygit
     ayugram-desktop
     yazi

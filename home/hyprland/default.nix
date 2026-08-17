@@ -10,5 +10,5 @@
     ./general.nix
     ./rules.nix
   ];
-  services.hyprpolkitagent.enable = true;
+  services.hyprpolkitagent.enable = false;
 }

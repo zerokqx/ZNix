@@ -7,6 +7,7 @@
     initialPassword = "1";
     extraGroups = [
       "nixosvmtest"
+      "wireshark"
       "networkmanager"
       "kvm"
       "docker"

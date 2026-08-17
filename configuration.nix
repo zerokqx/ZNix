@@ -8,6 +8,7 @@
     ./core
     ./configs
   ];
+  programs.wireshark.enable = true;
   programs.bash.enable = true;
   zramSwap.enable = true;
   programs.hyprland = {
@@ -15,8 +16,15 @@
     withUWSM = false;
   };
   networking.firewall = {
-    allowedTCPPorts = [ 27015 ];
-    allowedUDPPorts = [ 27015 ];
+    enable = lib.mkForce false;
+    allowedTCPPorts = [
+      27015
+      52385
+    ];
+    allowedUDPPorts = [
+      27015
+      5353
+    ];
   };
   services.gnome.gcr-ssh-agent.enable = false;
   znix.dev.ports.enable = true;
@@ -47,6 +55,8 @@
     direnv.enable = true;
     steam = {
       enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
       gamescopeSession = {
         enable = true;
         args = [
@@ -62,25 +72,11 @@
   };
 
   services = {
-    displayManager.ly.enable = true;
     dbus.enable = true;
     playerctld.enable = true;
   };
 
   programs.ssh.startAgent = lib.mkForce true;
-  systemd.user.services.polkit-gnome-authentication-agent-1 = {
-    description = "polkit-gnome-authentication-agent-1";
-    wantedBy = [ "graphical-session.target" ];
-    wants = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutStopSec = 10;
-    };
-  };
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
   fonts.packages = with pkgs; [
@@ -98,4 +94,6 @@
   };
   system.stateVersion = "25.05";
 
+  programs.localsend.enable = true;
+  environment.systemPackages = with pkgs; [ ];
 }

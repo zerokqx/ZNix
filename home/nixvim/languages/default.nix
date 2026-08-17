@@ -15,7 +15,7 @@
     ./shell.nix
     # ./omnisharp.nix
     # ./lua.nix
-    # ./rust.nix
+    ./rust.nix
     # ./kotlin.nix
     # ./python.nix
   ];

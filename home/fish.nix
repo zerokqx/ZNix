@@ -10,11 +10,58 @@
     '';
     plugins = [
       {
+        name = "hydro";
+        src = pkgs.fishPlugins.hydro.src;
+      }
+      {
         name = "plugin-git";
         src = pkgs.fishPlugins.plugin-git.src;
       }
+      {
+        name = "puffer";
+        src = pkgs.fishPlugins.puffer.src;
+      }
+      {
+        name = "fzf-fish";
+        src = pkgs.fishPlugins.fzf-fish.src;
+      }
     ];
+    shellAbbrs = {
+      p = "pnpm";
+      d = "docker";
+      dcp = "docker compose";
+      dr = "docker run";
+      xmod = "chmod +x";
+      dps = "docker ps";
+      di = "docker images";
+      pf = "pnpm --filter";
+      pcl = "pnpm store prune";
+      pi = "pnpm install";
+      pa = "pnpm add";
+      pad = "pnpm add -D";
+      paw = "pnpm add -w";
+      prm = "pnpm remove";
+      pup = "pnpm update";
+      pr = "pnpm run";
+      px = "pnpm dlx";
+      pawd = "pnpm add  -wD";
+      nx = "pnpm nx";
+      nxm = "pnpm nx run-many -t";
+      nxs = "pnpm nx serve";
+      nxg = "pnpm nx g";
+      nxr = "pnpm nx run";
+      nxb = "pnpm nx build";
+      nxt = "pnpm nx test";
+      nxl = "pnpm nx lint";
+      nxmt = "pnpm nx run-many -t test";
+      nxrs = "pnpm nx reset";
+      nxms = "pnpm nx run-many -t serve";
+      nxmb = "pnpm nx run-many -t build";
+      nxml = "pnpm nx run-many -t lint";
+      nxmf = "pnpm nx run-many -t format:write";
+    };
     shellAliases = {
+      rmdir = "rm -rf";
       rm = "trash-put";
       undo = "trash-restore";
       trash = "trash-list";
@@ -23,9 +70,7 @@
       cl = "clear";
       s = "sudo";
       cd = "z";
-      sn = "sudo -e";
       ls = "eza";
-      p = "pnpm";
       b = "bun";
       "cat" = "bat";
       bkp-sync = "rsync -avh --delete";
@@ -35,8 +80,11 @@
     };
   };
   home.packages = with pkgs; [
+    grc
+    fzf
     fishPlugins.done
     fishPlugins.autopair
+    fishPlugins.hydro
 
   ];
 }

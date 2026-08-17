@@ -3,7 +3,7 @@ let
   sway = config.wayland.windowManager.sway.config;
 
   browserExe = lib.getExe config.znix.browser.package;
-  noctaliaIpc = "noctalia-shell ipc call";
+  dmsIpc = "dms ipc call";
   m = sway.modifier;
   terminal = sway.terminal;
 in
@@ -12,28 +12,28 @@ in
   wayland.windowManager.sway.config.keybindings = lib.mkOptionDefault {
 
     "${m}+Shift+Return" = "exec ${terminal}";
-    "${m}+d" = "exec ${noctaliaIpc} launcher toggle";
-    "${m}+Cyrillic_ve" = "exec ${noctaliaIpc} launcher toggle";
+    "${m}+d" = "exec ${dmsIpc} launcher toggle";
+    "${m}+Cyrillic_ve" = "exec ${dmsIpc} launcher toggle";
 
-    "XF86AudioRaiseVolume" = "exec ${noctaliaIpc} volume increase";
-    "XF86AudioLowerVolume" = "exec ${noctaliaIpc} volume decrease";
-    "XF86AudioMute" = "exec ${noctaliaIpc} volume muteOutput";
+    "XF86AudioRaiseVolume" = "exec ${dmsIpc} audio increment";
+    "XF86AudioLowerVolume" = "exec ${dmsIpc} audio decrement";
+    "XF86AudioMute" = "exec ${dmsIpc} audio mute";
     "XF86AudioMicMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-    "XF86AudioNext" = "exec ${noctaliaIpc} media next";
-    "XF86AudioPrev" = "exec ${noctaliaIpc} media previous";
+    "XF86AudioNext" = "exec ${dmsIpc} mpris next";
+    "XF86AudioPrev" = "exec ${dmsIpc} mpris previous";
     "XF86AudioStop" = "exec playerctl stop";
-    "Prior" = "exec ${noctaliaIpc} media next";
-    "Next" = "exec ${noctaliaIpc} media playPause";
-    "End" = "exec ${noctaliaIpc} media previous";
-    "XF86AudioPlay" = "exec ${noctaliaIpc} media play";
-    "XF86AudioPause" = "exec ${noctaliaIpc} media pause";
-    "XF86MonBrightnessUp" = "exec ${noctaliaIpc} brightness increase";
-    "XF86MonBrightnessDown" = "exec ${noctaliaIpc} brightness decrease";
+    "Prior" = "exec ${dmsIpc} mpris next";
+    "Next" = "exec ${dmsIpc} mpris playPause";
+    "End" = "exec ${dmsIpc} mpris previous";
+    "XF86AudioPlay" = "exec ${dmsIpc} mpris play";
+    "XF86AudioPause" = "exec ${dmsIpc} mpris pause";
+    "XF86MonBrightnessUp" = "exec ${dmsIpc} brightness increment";
+    "XF86MonBrightnessDown" = "exec ${dmsIpc} brightness decrement";
 
     "${m}+Shift+c" = "kill";
     "${m}+b" = "exec ${browserExe}";
     "${m}+e" = "exec thunar";
-    "${m}+v" = "exec ${noctaliaIpc} launcher clipboard";
+    "${m}+v" = "exec ${dmsIpc} clipboard toggle";
     "${m}+q" = "exec ${terminal}";
 
     "${m}+h" = "focus left";
@@ -83,14 +83,14 @@ in
     "${m}+Shift+s" = "exec grimshot --notify savecopy screen";
     "${m}+Shift+a" = "exec grimshot --notify savecopy area";
     "${m}+Shift+w" = "exec grimshot --notify savecopy window";
-    "${m}+Shift+BracketRight" = "exec ${noctaliaIpc} controlCenter toggle";
-    "${m}+Shift+v" = "exec ${noctaliaIpc} launcher clipboard";
-    "${m}+Shift+b" = "exec ${noctaliaIpc} bluetooth togglePanel";
-    "${m}+Shift+n" = "exec ${noctaliaIpc} network togglePanel";
-    "${m}+Shift+p" = "exec ${noctaliaIpc} sessionMenu toggle";
+    "${m}+Shift+BracketRight" = "exec ${dmsIpc} control-center toggle";
+    "${m}+Shift+v" = "exec ${dmsIpc} clipboard toggle";
+    "${m}+Shift+b" = "exec ${dmsIpc} control-center toggle";
+    "${m}+Shift+n" = "exec ${dmsIpc} settings toggleWith network";
+    "${m}+Shift+p" = "exec ${dmsIpc} powermenu toggle";
     "${m}+Shift+e" = "exec swaymsg exit";
     "Ctrl+Alt+Delete" = "exec swaymsg exit";
     "${m}+Shift+Pause" = "output * power off";
-    # "${m}+Shift+l" = "exec ${noctaliaIpc} lockScreen lock";
+    # "${m}+Shift+l" = "exec ${dmsIpc} lockScreen lock";
   };
 }

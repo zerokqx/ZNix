@@ -6,7 +6,7 @@
     touchpad = {
       tap-to-click = true;
       tap_button_map = "lrm";
-      disable_while_typing = true;
+      disable_while_typing = false;
       natural_scroll = true;
     };
   };

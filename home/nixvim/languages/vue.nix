@@ -1,3 +1,3 @@
 {
-  plugins.lsp.servers.vue_ls.enable = true;
+  plugins.lsp.servers.vue_ls.enable = false;
 }

@@ -1,6 +1,8 @@
 {
   imports = [
+    ./ly.nix
     ./nixpkgs.nix
+    ./avahi.nix
     ./docker.nix
     ./waydroid.nix
     ./openssh.nix

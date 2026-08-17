@@ -10,7 +10,6 @@ inputs.nixpkgs.lib.nixosSystem {
     {
       znix.ai.sillytavern.enable = false;
     }
-    # inputs.niri.nixosModules.niri
     inputs.home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;
@@ -45,8 +44,8 @@ inputs.nixpkgs.lib.nixosSystem {
             programs.noctalia-shell.settings.bar.position = "bottom";
           }
         )
-        # inputs.niri.homeModules.stylix
         inputs.stylix.homeModules.stylix
+        inputs.dms.homeModules.dank-material-shell
         inputs.noctalia.homeModules.default
         inputs.nixvim.homeModules.nixvim
         ../../home

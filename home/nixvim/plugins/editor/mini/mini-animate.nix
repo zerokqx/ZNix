@@ -5,7 +5,7 @@
     enable = true;
     settings = {
       cursor = {
-        enable = true;
+        enable = false;
         timing = lib.nixvim.mkRaw ''
           require("mini.animate").gen_timing.linear({
             unit = "total",

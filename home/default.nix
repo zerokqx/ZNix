@@ -11,6 +11,7 @@
     ./mimes.nix
     ./git.nix
     ./noctalia.nix
+    ./dms.nix
     ./znix
     ./zoxide.nix
     ./alacritty.nix

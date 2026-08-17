@@ -1,4 +1,4 @@
 {
 
-plugins.lsp.servers.angularls.enable=true;
+plugins.lsp.servers.angularls.enable=false;
 }

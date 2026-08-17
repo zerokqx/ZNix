@@ -11,7 +11,7 @@ let
 in
 {
   programs.noctalia-shell = {
-    enable = true;
+    enable = false;
     settings = {
       dock = {
         enabled = false;

@@ -27,15 +27,15 @@ in
         options = {
           package = lib.mkOption {
             type = lib.types.package;
-            default = pkgs.whitesur-icon-theme;
+            default = pkgs.papirus-icon-theme;
           };
           dark = lib.mkOption {
             type = lib.types.str;
-            default = "WhiteSur-dark";
+            default = "Papirus-Dark";
           };
           light = lib.mkOption {
             type = lib.types.str;
-            default = "WhiteSur-light";
+            default = "Papirus-Light";
           };
         };
       };
@@ -44,6 +44,8 @@ in
   };
 
   config = {
+    home.packages = [ cfg.icons.package ];
+
     stylix = {
       # fonts = {
       #   monospace = {
@@ -68,14 +70,13 @@ in
         light = cfg.icons.light;
       };
 
-      base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
+      base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes//tokyo-night-dark.yaml";
 
       autoEnable = true;
 
       targets = {
         xresources.enable = false;
         lazygit.enable = true;
-        obsidian.vaultNames = ["Obsidian"];
         fzf.enable = true;
         btop.enable = true;
         opencode.enable = true;

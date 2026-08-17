@@ -15,7 +15,7 @@
 NixOS/home-manager configuration set split by host. Below: what lives where, custom options, hardware notes, and how to reuse or add a host.
 
 ## Highlights
-- Hyprland (default WM) and SwayFX preconfigured with Noctalia Shell (panel/bar, outputs, autostart); `niri` can also be enabled.
+- Hyprland (default WM) and SwayFX preconfigured with Noctalia Shell (panel/bar, outputs, autostart).
 - Neovim via nixvim with plugins for LSP, completion, Treesitter UI, DAP.
 - Stylix theme with custom cursors/icons and GTK/fzf/lazygit/noctalia targets.
 - Optional SillyTavern + Ollama module and a ready LAN dev-ports module.

@@ -51,7 +51,7 @@ in
       bars = [ ];
       modifier = "Mod4";
       terminal = "$TERM";
-      menu = "noctalia-shell ipc call launcher toggle";
+      menu = "dms ipc call launcher toggle";
       defaultWorkspace = "1";
       bindkeysToCode = true;
       gaps = {

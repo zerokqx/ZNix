@@ -4,7 +4,7 @@
     lsp.servers = {
       dockerls = {
         enable = true;
-        filetypes = [ "dockerfile" ];
+        filetypes = [ "dockerfile" "Dockerfile" ];
       };
       docker_compose_language_service = {
         enable = true;

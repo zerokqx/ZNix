@@ -63,7 +63,7 @@
       pumblend = 0;
       winblend = 0;
       ttimeoutlen = 10;
-      updatetime = 200;
+      updatetime = 300;
       redrawtime = 1500;
       synmaxcol = 300;
       lazyredraw = false;
