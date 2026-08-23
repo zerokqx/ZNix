@@ -67,17 +67,9 @@ pub fn handle_smart_install(repo_url: &str) -> Result<(), Box<dyn Error>> {
         _ => unreachable!(),
     };
 
-    // 4. Клонируем или обновляем репозиторий
-    let sp = cliclack::spinner();
-    if dest_path.exists() && dest_path.join(".git").exists() {
-        sp.start(format!("Repository already exists at {}. Updating...", dest_path.display()));
-        let _ = Command::new("git")
-            .arg("-C")
-            .arg(&dest_path)
-            .arg("pull")
-            .output();
-        sp.stop("Repository up to date");
-    } else {
+    // 4. Клонируем репозиторий (если еще не склонирован)
+    if !dest_path.exists() {
+        let sp = cliclack::spinner();
         sp.start(format!("Cloning {repo_url} into {}...", dest_path.display()));
         if let Some(parent) = dest_path.parent() {
             fs::create_dir_all(parent)?;
