@@ -57,6 +57,7 @@
         {
           packages = {
             inherit nvim;
+            nixvim = nvim;
             default = nvim;
           };
           apps = {
@@ -65,6 +66,10 @@
               program = "${nvim}/bin/nvim";
             };
             nvim = {
+              type = "app";
+              program = "${nvim}/bin/nvim";
+            };
+            nixvim = {
               type = "app";
               program = "${nvim}/bin/nvim";
             };
