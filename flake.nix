@@ -53,11 +53,20 @@
         { pkgs, system, ... }:
         let
           nvim = inputs.self.nixosConfigurations.desktop.config.home-manager.users.zerok.programs.nixvim.build.package;
+
+          menuPkg = pkgs.rustPlatform.buildRustPackage {
+            pname = "znix-menu";
+            version = "0.1.0";
+            src = ./rust/znix-menu;
+            cargoLock.lockFile = ./rust/znix-menu/Cargo.lock;
+          };
         in
         {
           packages = {
             inherit nvim;
             nixvim = nvim;
+            menu = menuPkg;
+            znix-menu = menuPkg;
             default = nvim;
           };
           apps = {
@@ -72,6 +81,14 @@
             nixvim = {
               type = "app";
               program = "${nvim}/bin/nvim";
+            };
+            menu = {
+              type = "app";
+              program = "${menuPkg}/bin/znix-menu";
+            };
+            znix-menu = {
+              type = "app";
+              program = "${menuPkg}/bin/znix-menu";
             };
           };
         };

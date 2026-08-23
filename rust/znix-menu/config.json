@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "type": "link",
+      "label": "GitHub Profile",
+      "url": "https://github.com/zerokqx"
+    },
+    {
+      "type": "link",
+      "label": "Portfolio",
+      "url": "https://zerokqx-portfolio.vercel.app/"
+    },
+    {
+      "type": "link",
+      "label": "ZNix Repository",
+      "url": "https://github.com/zerokqx/ZNix"
+    },
+    {
+      "type": "nix_run",
+      "label": "Run NixVim",
+      "target": "git+https://github.com/zerokqx/ZNix#nixvim"
+    }
+  ]
+}
