@@ -16,7 +16,7 @@ let
 
   browserExe = lib.getExe config.znix.browser.package;
   dmsIpc = "dms ipc call";
-  terminal = config.home.sessionVariables.TERMINAL or "kitty";
+  terminal = config.home.sessionVariables.TERMINAL or "alacritty";
 in
 {
   wayland.windowManager.hyprland.settings.bind = workspaceNumberBinds ++ [

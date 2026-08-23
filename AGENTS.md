@@ -25,7 +25,7 @@ Docs: README.md in the repo root is the English copy; other languages live in `d
 - `configs/`: bundle of extra system tweaks (`throne.nix`, `zapret.nix`), loaded by `configs/default.nix`.
 
 ## Home-manager stack
-- `home/zerokqx/default.nix`: main user config for `zerok`. Imports app/services modules (`git.nix`, `znix/`, `zoxide.nix`, `kitty.nix`, `fish.nix`, `hyprland/`, `packages.nix`, `dir-file-create.nix`, `noctalia.nix`, `dms.nix`, `nixvim/`). Sets session vars, PATH entries for cargo/bun/dotnet, enables udiskie, allows unfree.
+- `home/zerokqx/default.nix`: main user config for `zerok`. Imports app/services modules (`git.nix`, `znix/`, `zoxide.nix`, `alacritty.nix`, `fish.nix`, `hyprland/`, `packages.nix`, `dir-file-create.nix`, `noctalia.nix`, `dms.nix`, `nixvim/`). Sets session vars, PATH entries for cargo/bun/dotnet, enables udiskie, allows unfree.
 - `home/zerokqx/hyprland/`: Hyprland configuration split into `animations.nix`, `base.nix`, `binds.nix`, `default.nix`, `exec.nix`, `general.nix`, `input.nix`, `monitors.nix`, `package.nix`, and `rules.nix`.
 - Other `home/zerokqx/*.nix` files are single-purpose modules for the imported programs/options.
 

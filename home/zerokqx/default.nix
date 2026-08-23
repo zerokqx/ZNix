@@ -12,7 +12,7 @@
     ./dms.nix
     ./znix
     ./zoxide.nix
-    ./kitty.nix
+    ./alacritty.nix
     ./fish.nix
     ./starship.nix
     ./nixvim
@@ -48,7 +48,8 @@
     "${config.home.homeDirectory}/.local/bin"
   ];
   home.sessionVariables = {
-    TERMINAL = "kitty";
+    TERMINAL = "alacritty";
+    TERM = "alacritty";
     BROWSER = "firefox-nightly";
     NIXPKGS_ALLOW_UNFREE = 1;
   };

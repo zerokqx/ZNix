@@ -88,8 +88,8 @@ in
           profileNames = [ config.znix.browser.profile ];
         };
 
-        kitty = {
-          enable = true;
+        alacritty = {
+          colors.enable = true;
           fonts.enable = true;
         };
 
