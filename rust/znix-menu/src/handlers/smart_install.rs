@@ -33,20 +33,33 @@ pub fn handle_smart_install(repo_url: &str) -> Result<(), Box<dyn Error>> {
 
     let hw_content: String = match hw_choice {
         "auto" => {
+            // Запрашиваем sudo интерактивно, чтобы пользователь мог ввести пароль
+            let _ = Command::new("sudo")
+                .arg("-v")
+                .stdin(Stdio::inherit())
+                .stdout(Stdio::inherit())
+                .stderr(Stdio::inherit())
+                .status();
+
             let sp = cliclack::spinner();
-            sp.start("Generating hardware-configuration.nix via sudo...");
+            sp.start("Generating hardware-configuration.nix via nixos-generate-config...");
             let output = Command::new("sudo")
                 .arg("nixos-generate-config")
                 .arg("--show-hardware-config")
-                .output();
+                .output()
+                .or_else(|_| {
+                    Command::new("nixos-generate-config")
+                        .arg("--show-hardware-config")
+                        .output()
+                });
 
             match output {
-                Ok(out) if out.status.success() => {
+                Ok(out) if !out.stdout.is_empty() => {
                     sp.stop("Hardware configuration generated successfully");
                     String::from_utf8_lossy(&out.stdout).to_string()
                 }
                 _ => {
-                    sp.error("Failed to generate with sudo. Falling back to /etc/nixos...");
+                    sp.error("Failed to auto-generate. Falling back to /etc/nixos/hardware-configuration.nix...");
                     fs::read_to_string("/etc/nixos/hardware-configuration.nix")
                         .map_err(|e| format!("Could not read /etc/nixos/hardware-configuration.nix: {e}"))?
                 }
