@@ -22,6 +22,11 @@
     "center on, match:class ^(mpv)$"
     "size 500 400, match:class ^(mpv)$"
 
+    "float on, match:class ^(openscreen)$"
+    "noborder on, match:class ^(openscreen)$"
+    "noshadow on, match:class ^(openscreen)$"
+    "noblur on, match:class ^(openscreen)$"
+
     "match:class ^(com\\.ayugram\\.desktop|AyuGram|ayugram)$, workspace special:ayugram silent"
     "match:initial_class ^(com\\.ayugram\\.desktop|AyuGram|ayugram)$, workspace special:ayugram silent"
     "match:class ^(Throne|throne)$, workspace 10 silent"

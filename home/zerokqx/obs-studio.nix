@@ -10,6 +10,12 @@
       obs-vaapi
       obs-gstreamer
       obs-vkcapture
+      obs-move-transition
+      input-overlay
+      obs-advanced-masks
+      obs-stroke-glow-shadow
+      obs-gradient-source
+      obs-composite-blur
     ];
   };
 }
