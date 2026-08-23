@@ -1,5 +1,4 @@
-{
-  description = "flake-parts configuration for NixOS";
+{ description = "flake-parts configuration for NixOS";
 
   inputs = {
     bundlers.url = "github:ralismark/nix-appimage";
@@ -50,5 +49,26 @@
         ./hosts
       ];
 
+      perSystem =
+        { pkgs, system, ... }:
+        let
+          nvim = inputs.self.nixosConfigurations.desktop.config.home-manager.users.zerok.programs.nixvim.build.package;
+        in
+        {
+          packages = {
+            inherit nvim;
+            default = nvim;
+          };
+          apps = {
+            default = {
+              type = "app";
+              program = "${nvim}/bin/nvim";
+            };
+            nvim = {
+              type = "app";
+              program = "${nvim}/bin/nvim";
+            };
+          };
+        };
     };
 }
