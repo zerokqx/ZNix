@@ -18,10 +18,10 @@ pub fn handle_smart_install(repo_url: &str) -> Result<(), Box<dyn Error>> {
         .interact()?;
     let dest_path = expand_path(&dest_input);
 
-    // 2. Спрашиваем целевой хост (desktop / laptop)
-    let host: &str = cliclack::select("Select Target Host profile")
-        .item("desktop", "🖥️  Desktop (PC / Dual Monitor)", "DP-1 @ 165Hz & HDMI @ 75Hz")
-        .item("laptop", "💻 Laptop (Battery & Goodix Fingerprint)", "1080p @ 60Hz & power savings")
+    // 2. Спрашиваем имя хоста (машины)
+    let host_name: String = cliclack::input("Enter hostname for this machine:")
+        .placeholder("my-pc")
+        .default_input("desktop")
         .interact()?;
 
     // 3. Спрашиваем где брать hardware-configuration.nix
@@ -67,7 +67,7 @@ pub fn handle_smart_install(repo_url: &str) -> Result<(), Box<dyn Error>> {
         _ => unreachable!(),
     };
 
-    // 4. Клонируем репозиторий
+    // 4. Клонируем или обновляем репозиторий
     let sp = cliclack::spinner();
     if dest_path.exists() && dest_path.join(".git").exists() {
         sp.start(format!("Repository already exists at {}. Updating...", dest_path.display()));
@@ -94,36 +94,45 @@ pub fn handle_smart_install(repo_url: &str) -> Result<(), Box<dyn Error>> {
         sp.stop("Repository cloned successfully");
     }
 
-    // 5. Записываем hardware-configuration.nix в целевой хост
-    let target_hw_file = dest_path.join("hosts").join(host).join("hardware-configuration.nix");
-    if let Some(parent) = target_hw_file.parent() {
-        fs::create_dir_all(parent)?;
-    }
-    fs::write(&target_hw_file, hw_content)?;
-    log::success(format!("Wrote hardware configuration to {}", target_hw_file.display()))?;
+    // 5. Создаем хост на основе шаблона hosts/noop
+    let target_host_dir = dest_path.join("hosts").join(&host_name);
+    fs::create_dir_all(&target_host_dir)?;
 
-    // 6. Уведомление и предложение переключиться
+    let noop_default = dest_path.join("hosts").join("noop").join("default.nix");
+    let target_default = target_host_dir.join("default.nix");
+    if noop_default.exists() {
+        fs::copy(&noop_default, &target_default)?;
+    }
+
+    // 6. Записываем hardware-configuration.nix
+    let target_hw_file = target_host_dir.join("hardware-configuration.nix");
+    fs::write(&target_hw_file, hw_content)?;
+    log::success(format!("Host '{}' configured with hardware config at {}", host_name, target_hw_file.display()))?;
+
+    // 7. Уведомление и предложение переключиться
     note(
         "Installation Ready!",
         format!(
-            "ZNix repository is set up at {}\nHost: {}\nHardware config: {}",
+            "ZNix repository is ready at {}\nTarget Host: {}\nConfig file: {}",
             dest_path.display(),
-            host,
-            target_hw_file.display()
+            host_name,
+            target_default.display()
         ),
     )?;
 
-    let should_switch = cliclack::confirm("Do you want to build and switch to ZNix now?")
+    let should_switch = cliclack::confirm(format!("Do you want to build and switch to host '{}' now?", host_name))
         .initial_value(true)
         .interact()?;
 
     if should_switch {
         let sp = cliclack::spinner();
-        sp.start("Building and activating ZNix...");
+        sp.start(format!("Building and activating host '{}'...", host_name));
         let mut cmd = Command::new("nh");
         cmd.arg("os")
             .arg("switch")
-            .arg(&dest_path);
+            .arg(&dest_path)
+            .arg("--hostname")
+            .arg(&host_name);
 
         let status = cmd
             .stdin(Stdio::inherit())
@@ -134,14 +143,14 @@ pub fn handle_smart_install(repo_url: &str) -> Result<(), Box<dyn Error>> {
         match status {
             Ok(s) if s.success() => {
                 sp.stop("ZNix activated successfully!");
-                log::success("Welcome to ZNix! 🎉")?;
+                log::success(format!("Welcome to ZNix on '{}'! 🎉", host_name))?;
             }
             _ => {
-                sp.error("nh os switch failed. Try running 'nh os switch .' manually inside the repo");
+                sp.error(format!("nh os switch failed. Try running 'nh os switch . --hostname {}' manually inside the repo", host_name));
             }
         }
     } else {
-        log::info(format!("To activate later, run: cd {} && nh os switch .", dest_path.display()))?;
+        log::info(format!("To activate later, run: cd {} && nh os switch . --hostname {}", dest_path.display(), host_name))?;
     }
 
     sleep(Duration::from_millis(2000));

@@ -1,10 +1,21 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
+let
+  hostsDir = ./.;
+  entries = builtins.readDir hostsDir;
+  hostNames = builtins.filter (
+    name: entries.${name} == "directory" && builtins.pathExists (hostsDir + "/${name}/default.nix")
+  ) (builtins.attrNames entries);
+
+  nixosConfigs = builtins.listToAttrs (
+    map (name: {
+      inherit name;
+      value = import (hostsDir + "/${name}") { inherit inputs; };
+    }) hostNames
+  );
+in
 {
   flake = {
-    nixosConfigurations = {
-      desktop = import ./desktop { inherit inputs; };
-      laptop = import ./laptop { inherit inputs; };
-    };
+    nixosConfigurations = nixosConfigs;
 
     homeConfigurations = {
       "zerok" = inputs.home-manager.lib.homeManagerConfiguration {
