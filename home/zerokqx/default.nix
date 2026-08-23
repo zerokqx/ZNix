@@ -4,11 +4,10 @@
 }:
 {
   imports = [
-    ./zed.nix
+    ./obs-studio.nix
     ./hyprland
     ./mimes.nix
     ./git.nix
-    ./noctalia.nix
     ./dms.nix
     ./znix
     ./zoxide.nix

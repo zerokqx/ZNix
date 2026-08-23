@@ -2,7 +2,6 @@
 {
 
   home.packages = with pkgs; [
-    android-studio
     dive
     ripgrep
     psmisc
