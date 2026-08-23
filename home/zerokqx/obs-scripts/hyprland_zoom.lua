@@ -5,18 +5,12 @@ local zoom_factor = 2.0
 local speed = 0.15
 local zoom_enabled = false
 
-local target_crop_l = 0
-local target_crop_t = 0
-local target_crop_r = 0
-local target_crop_b = 0
+local current_zoom = 1.0
+local current_x = 960.0
+local current_y = 540.0
 
-local current_crop_l = 0
-local current_crop_t = 0
-local current_crop_r = 0
-local current_crop_b = 0
-
-local base_width = 1920
-local base_height = 1080
+local base_width = 1920.0
+local base_height = 1080.0
 
 local hotkey_id = obs.OBS_INVALID_HOTKEY_ID
 
@@ -40,7 +34,7 @@ local function clamp(val, min_val, max_val)
   return val
 end
 
-local function update_crop()
+local function update_zoom()
   if source_name == "" then return end
 
   local current_scene_source = obs.obs_frontend_get_current_scene()
@@ -52,45 +46,50 @@ local function update_crop()
   local scene_item = obs.obs_scene_find_source(scene, source_name)
   if not scene_item then return end
 
+  local target_zoom = zoom_enabled and zoom_factor or 1.0
+  local target_x = base_width / 2.0
+  local target_y = base_height / 2.0
+
   if zoom_enabled then
     local cx, cy = get_cursor_pos()
-    if not cx or not cy then
-      cx = base_width / 2
-      cy = base_height / 2
+    if cx and cy then
+      target_x = cx
+      target_y = cy
     end
-
-    local vis_w = base_width / zoom_factor
-    local vis_h = base_height / zoom_factor
-
-    local l = clamp(cx - vis_w / 2, 0, base_width - vis_w)
-    local t = clamp(cy - vis_h / 2, 0, base_height - vis_h)
-    local r = base_width - (l + vis_w)
-    local b = base_height - (t + vis_h)
-
-    target_crop_l = l
-    target_crop_t = t
-    target_crop_r = r
-    target_crop_b = b
-  else
-    target_crop_l = 0
-    target_crop_t = 0
-    target_crop_r = 0
-    target_crop_b = 0
   end
 
-  -- Плавная интерполяция (lerp)
-  current_crop_l = current_crop_l + (target_crop_l - current_crop_l) * speed
-  current_crop_t = current_crop_t + (target_crop_t - current_crop_t) * speed
-  current_crop_r = current_crop_r + (target_crop_r - current_crop_r) * speed
-  current_crop_b = current_crop_b + (target_crop_b - current_crop_b) * speed
+  -- Плавная интерполяция зума и координат мыши
+  current_zoom = current_zoom + (target_zoom - current_zoom) * speed
+  current_x = current_x + (target_x - current_x) * speed
+  current_y = current_y + (target_y - current_y) * speed
 
+  -- 1. Сбрасываем обрезку (crop), чтобы не было черных полос
   local crop = obs.obs_sceneitem_crop()
-  crop.left = math.floor(current_crop_l)
-  crop.top = math.floor(current_crop_t)
-  crop.right = math.floor(current_crop_r)
-  crop.bottom = math.floor(current_crop_b)
-
+  crop.left = 0
+  crop.top = 0
+  crop.right = 0
+  crop.bottom = 0
   obs.obs_sceneitem_set_crop(scene_item, crop)
+
+  -- 2. Устанавливаем масштаб (Scale)
+  local scale = obs.vec2()
+  scale.x = current_zoom
+  scale.y = current_zoom
+  obs.obs_sceneitem_set_scale(scene_item, scale)
+
+  -- 3. Вычисляем смещение позиции камеры, чтобы фокус был на курсоре
+  local target_pos_x = (base_width / 2.0) - (current_x * current_zoom)
+  local target_pos_y = (base_height / 2.0) - (current_y * current_zoom)
+
+  -- Ограничиваем координаты, чтобы экран не улетал за границы видео
+  local min_x = base_width * (1.0 - current_zoom)
+  local min_y = base_height * (1.0 - current_zoom)
+
+  local pos = obs.vec2()
+  pos.x = clamp(target_pos_x, min_x, 0.0)
+  pos.y = clamp(target_pos_y, min_y, 0.0)
+
+  obs.obs_sceneitem_set_pos(scene_item, pos)
 end
 
 function toggle_zoom(pressed)
@@ -100,7 +99,7 @@ function toggle_zoom(pressed)
 end
 
 function script_description()
-  return "Плавный зум и автоматическое слежение за курсором для Hyprland (Screen Studio style)."
+  return "Плавный зум на курсор без черных рамок для Hyprland (Screen Studio style)."
 end
 
 function script_properties()
@@ -118,8 +117,8 @@ function script_properties()
 
   obs.obs_properties_add_float(props, "zoom_factor", "Кратность зума", 1.2, 5.0, 0.1)
   obs.obs_properties_add_float_slider(props, "speed", "Плавность слежения", 0.05, 0.5, 0.01)
-  obs.obs_properties_add_int(props, "width", "Ширина экрана (px)", 640, 3840, 10)
-  obs.obs_properties_add_int(props, "height", "Высота экрана (px)", 480, 2160, 10)
+  obs.obs_properties_add_float(props, "width", "Ширина экрана (px)", 640.0, 3840.0, 10.0)
+  obs.obs_properties_add_float(props, "height", "Высота экрана (px)", 480.0, 2160.0, 10.0)
   
   return props
 end
@@ -128,15 +127,15 @@ function script_update(settings)
   source_name = obs.obs_data_get_string(settings, "source")
   zoom_factor = obs.obs_data_get_double(settings, "zoom_factor")
   speed = obs.obs_data_get_double(settings, "speed")
-  base_width = obs.obs_data_get_int(settings, "width")
-  base_height = obs.obs_data_get_int(settings, "height")
+  base_width = obs.obs_data_get_double(settings, "width")
+  base_height = obs.obs_data_get_double(settings, "height")
 end
 
 function script_defaults(settings)
   obs.obs_data_set_default_double(settings, "zoom_factor", 2.0)
   obs.obs_data_set_default_double(settings, "speed", 0.15)
-  obs.obs_data_set_default_int(settings, "width", 1920)
-  obs.obs_data_set_default_int(settings, "height", 1080)
+  obs.obs_data_set_default_double(settings, "width", 1920.0)
+  obs.obs_data_set_default_double(settings, "height", 1080.0)
 end
 
 function script_load(settings)
@@ -144,7 +143,7 @@ function script_load(settings)
   local hotkey_save_array = obs.obs_data_get_array(settings, "hyprland_zoom_toggle")
   obs.obs_data_array_release(hotkey_save_array)
 
-  obs.timer_add(update_crop, 16)
+  obs.timer_add(update_zoom, 16)
 end
 
 function script_save(settings)
