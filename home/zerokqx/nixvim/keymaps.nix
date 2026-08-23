@@ -426,5 +426,88 @@
         desc = "Hover Documentation (Документация)";
       };
     }
+
+    # Git Signs (навигация по изменениям и хукам)
+    {
+      mode = "n";
+      key = "]h";
+      action = "<cmd>Gitsigns next_hunk<CR>";
+      options = {
+        silent = true;
+        desc = "Следующий Git Hunk";
+      };
+    }
+    {
+      mode = "n";
+      key = "[h";
+      action = "<cmd>Gitsigns prev_hunk<CR>";
+      options = {
+        silent = true;
+        desc = "Предыдущий Git Hunk";
+      };
+    }
+    {
+      mode = "n";
+      key = "]c";
+      action = "<cmd>Gitsigns next_hunk<CR>";
+      options = {
+        silent = true;
+        desc = "Следующий Git Hunk";
+      };
+    }
+    {
+      mode = "n";
+      key = "[c";
+      action = "<cmd>Gitsigns prev_hunk<CR>";
+      options = {
+        silent = true;
+        desc = "Предыдущий Git Hunk";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>gh";
+      action = "<cmd>Gitsigns preview_hunk<CR>";
+      options = {
+        silent = true;
+        desc = "Превью Git Hunk";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>hp";
+      action = "<cmd>Gitsigns preview_hunk<CR>";
+      options = {
+        silent = true;
+        desc = "Превью Git Hunk";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>hs";
+      action = "<cmd>Gitsigns stage_hunk<CR>";
+      options = {
+        silent = true;
+        desc = "Застейджить Hunk";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>hr";
+      action = "<cmd>Gitsigns reset_hunk<CR>";
+      options = {
+        silent = true;
+        desc = "Сбросить Hunk";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>gb";
+      action = "<cmd>Gitsigns toggle_current_line_blame<CR>";
+      options = {
+        silent = true;
+        desc = "Переключить Git Blame строки";
+      };
+    }
   ];
 }
