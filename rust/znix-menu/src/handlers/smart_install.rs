@@ -86,8 +86,24 @@ pub fn handle_smart_install(repo_url: &str) -> Result<(), Box<dyn Error>> {
         sp.stop("Repository cloned successfully");
     }
 
-    // 5. Создаем хост на основе шаблона hosts/noop
+    // 5. Проверяем, существует ли уже такой хост (защита от случайного затирания)
     let target_host_dir = dest_path.join("hosts").join(&host_name);
+    if target_host_dir.exists() && target_host_dir.join("default.nix").exists() {
+        let overwrite = cliclack::confirm(format!(
+            "⚠️ Host '{}' already exists in {}/hosts/. Overwrite host files?",
+            host_name,
+            dest_path.display()
+        ))
+        .initial_value(false)
+        .interact()?;
+
+        if !overwrite {
+            log::warning("Installation aborted to protect your existing host configuration.")?;
+            sleep(Duration::from_millis(1500));
+            return Ok(());
+        }
+    }
+
     fs::create_dir_all(&target_host_dir)?;
 
     let noop_default = dest_path.join("hosts").join("noop").join("default.nix");
