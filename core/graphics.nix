@@ -12,6 +12,7 @@
       mesa
       intel-media-driver
       intel-vaapi-driver
+      onevpl-intel-gpu
       libva-vdpau-driver
       libvdpau-va-gl
     ];
