@@ -58,6 +58,36 @@
       # 7. Стартовый дашборд (замена mini.starter)
       dashboard = {
         enabled = true;
+        sections = [
+          { section = "header"; }
+          {
+            icon = " ";
+            title = "Быстрый доступ";
+            section = "keys";
+            indent = 2;
+            padding = 1;
+            gap = 1;
+          }
+          {
+            icon = " ";
+            title = "Недавние файлы";
+            section = "recent_files";
+            indent = 2;
+            padding = 1;
+          }
+          {
+            icon = " ";
+            title = "Проекты";
+            section = "projects";
+            indent = 2;
+            padding = 1;
+          }
+          {
+            align = "center";
+            padding = 1;
+            text.__raw = ''{ { "⚡ ZNix • Neovim Pure Environment", hl = "footer" } }'';
+          }
+        ];
         preset = {
           header = ''
   ███████╗███╗   ██╗██╗██╗  ██╗
@@ -67,6 +97,44 @@
   ███████╗██║ ╚████║██║██╔╝ ██╗
   ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
           '';
+          keys = [
+            {
+              icon = " ";
+              key = "f";
+              desc = "Найти файл";
+              action = ":lua Snacks.dashboard.pick('files')";
+            }
+            {
+              icon = " ";
+              key = "n";
+              desc = "Новый файл";
+              action = ":ene | startinsert";
+            }
+            {
+              icon = " ";
+              key = "g";
+              desc = "Найти текст (Grep)";
+              action = ":lua Snacks.dashboard.pick('live_grep')";
+            }
+            {
+              icon = " ";
+              key = "r";
+              desc = "Недавние файлы";
+              action = ":lua Snacks.dashboard.pick('oldfiles')";
+            }
+            {
+              icon = " ";
+              key = "c";
+              desc = "Конфигурация ZNix";
+              action = ":lua Snacks.dashboard.pick('files', { cwd = '/home/zerok/projects/ZNix' })";
+            }
+            {
+              icon = " ";
+              key = "q";
+              desc = "Выход";
+              action = ":qa";
+            }
+          ];
         };
       };
 
