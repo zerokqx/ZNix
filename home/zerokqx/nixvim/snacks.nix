@@ -212,10 +212,10 @@
     {
       mode = "n";
       key = "<leader><space>";
-      action = "<cmd>lua Snacks.picker.smart()<CR>";
+      action = "<cmd>lua Snacks.picker.files()<CR>";
       options = {
         silent = true;
-        desc = "Умный поиск файлов";
+        desc = "Поиск файлов в проекте";
       };
     }
     {
