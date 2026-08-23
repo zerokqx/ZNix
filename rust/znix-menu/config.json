@@ -19,6 +19,11 @@
       "type": "nix_run",
       "label": "Run NixVim",
       "target": "git+https://github.com/zerokqx/ZNix#nixvim"
+    },
+    {
+      "type": "command",
+      "label": "Clone ZNix Dotfiles",
+      "target": "git clone https://github.com/zerokqx/ZNix.git"
     }
   ]
 }

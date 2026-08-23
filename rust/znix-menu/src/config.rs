@@ -13,6 +13,13 @@ pub enum Action {
         #[serde(default)]
         args: Vec<String>,
     },
+    Command {
+        label: String,
+        #[serde(alias = "command")]
+        target: String,
+        #[serde(default)]
+        args: Vec<String>,
+    },
 }
 
 #[derive(Debug, Deserialize)]
