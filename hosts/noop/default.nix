@@ -7,7 +7,11 @@ inputs.nixpkgs.lib.nixosSystem {
     ./hardware-configuration.nix
     {
       home-manager.users.zerok = {
+        imports = [
+          ../../home/noop
+        ];
         znix.browser.enable = true;
+        programs.dank-material-shell.enable = true;
       };
     }
   ];
