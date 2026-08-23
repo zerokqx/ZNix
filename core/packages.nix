@@ -5,7 +5,7 @@
     nftables
     quickshell
     tig
-    alacritty
+    kitty
     atool
     bat
     bc

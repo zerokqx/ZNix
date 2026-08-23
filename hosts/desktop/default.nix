@@ -5,51 +5,24 @@ inputs.nixpkgs.lib.nixosSystem {
   modules = [
     ../../configuration.nix
     ./hardware-configuration.nix
-    inputs.nix-flatpak.nixosModules.nix-flatpak
-    # ./ollama.nix
     {
-      znix.ai.sillytavern.enable = false;
-    }
-    inputs.home-manager.nixosModules.home-manager
-    {
-      home-manager.useGlobalPkgs = true;
-      home-manager.useUserPackages = true;
-      home-manager.extraSpecialArgs = { inherit inputs; };
-      home-manager.backupFileExtension = "hm-bak";
-      home-manager.users.zerok.imports = [
-        # ./opencode.nix
-        (
-          { ... }:
-          {
-
-            znix.monitors = {
-              noctaliaMonitors = [ ];
-              list = {
-                "DP-1" = {
-                  mode = "1920x1080@165Hz";
-                  pos = "1920 0";
-                };
-                "HDMI-A-1" = {
-                  mode = "1920x1080@75Hz";
-                  pos = "0 0";
-                };
-              };
+      home-manager.users.zerok = {
+        znix.browser.enable = true;
+        znix.monitors = {
+          noctaliaMonitors = [ ];
+          list = {
+            "DP-1" = {
+              mode = "1920x1080@165Hz";
+              pos = "1920 0";
             };
-          }
-        )
-        (
-          { ... }:
-          {
-            znix.browser.enable = true;
-            programs.noctalia-shell.settings.bar.position = "bottom";
-          }
-        )
-        inputs.stylix.homeModules.stylix
-        inputs.dms.homeModules.dank-material-shell
-        inputs.noctalia.homeModules.default
-        inputs.nixvim.homeModules.nixvim
-        ../../home
-      ];
+            "HDMI-A-1" = {
+              mode = "1920x1080@75Hz";
+              pos = "0 0";
+            };
+          };
+        };
+        programs.noctalia-shell.settings.bar.position = "bottom";
+      };
     }
   ];
 }

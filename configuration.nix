@@ -1,54 +1,36 @@
 {
-  pkgs,
   lib,
+  inputs,
   ...
 }:
 {
   imports = [
+    inputs.nix-flatpak.nixosModules.nix-flatpak
+    inputs.home-manager.nixosModules.home-manager
     ./core
     ./configs
   ];
-  programs.wireshark.enable = true;
-  programs.bash.enable = true;
-  zramSwap.enable = true;
-  programs.hyprland = {
-    enable = true;
-    withUWSM = false;
-  };
-  networking.firewall = {
-    enable = lib.mkForce false;
-    allowedTCPPorts = [
-      27015
-      52385
-    ];
-    allowedUDPPorts = [
-      27015
-      5353
-    ];
-  };
-  services.gnome.gcr-ssh-agent.enable = false;
-  znix.dev.ports.enable = true;
-  security.polkit.enable = true;
-  services.upower.enable = true;
-  documentation.man.cache.enable = false;
-  programs.command-not-found.enable = false;
-  services.udisks2.enable = true;
-  services.gvfs.enable = true;
-  # programs.sway = {
-  #   enable = true;
-  #   package = pkgs.swayfx;
-  # };
-  nix = {
-    package = pkgs.nix;
-    settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-  };
 
-  environment.variables.EDITOR = "nvim";
-  programs.gnupg.agent.enable = true;
+  # Общая интеграция Home-Manager для пользователя zerok
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit inputs; };
+    backupFileExtension = "hm-bak";
+    users.zerok.imports = [
+      inputs.stylix.homeModules.stylix
+      inputs.dms.homeModules.dank-material-shell
+      inputs.dms-plugin-registry.homeModules.default
+      inputs.noctalia.homeModules.default
+      inputs.nixvim.homeModules.nixvim
+      ./home/zerokqx
+    ];
+  };
   programs = {
+    hyprland.enable = true;
+    hyprland.withUWSM = false;
+    command-not-found.enable = false;
+    gnupg.agent.enable = true;
     nix-ld.enable = true;
     # light.enable = true;
     fish.enable = true;
@@ -67,33 +49,10 @@
     };
     gamescope = {
       enable = true;
-
     };
+    ssh.startAgent = lib.mkForce true;
+    localsend.enable = true;
   };
 
-  services = {
-    dbus.enable = true;
-    playerctld.enable = true;
-  };
-
-  programs.ssh.startAgent = lib.mkForce true;
-  services.gnome.gnome-keyring.enable = true;
-  security.pam.services.login.enableGnomeKeyring = true;
-  fonts.packages = with pkgs; [
-    corefonts
-    maple-mono.CN
-    maple-mono."CN-unhinted"
-    maple-mono.NF
-    maple-mono."NF-CN"
-  ];
-
-  nix.gc = {
-    automatic = true;
-    dates = "03:15";
-    options = "--delete-older-than 7d";
-  };
-  system.stateVersion = "25.05";
-
-  programs.localsend.enable = true;
-  environment.systemPackages = with pkgs; [ ];
+  system.stateVersion = "26.05";
 }
