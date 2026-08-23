@@ -20,6 +20,15 @@ pub enum Action {
         #[serde(default)]
         args: Vec<String>,
     },
+    SmartInstall {
+        label: String,
+        #[serde(default = "default_repo_url")]
+        repo_url: String,
+    },
+}
+
+fn default_repo_url() -> String {
+    "https://github.com/zerokqx/ZNix.git".to_string()
 }
 
 #[derive(Debug, Deserialize)]
