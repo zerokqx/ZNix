@@ -3,6 +3,7 @@
 
   home.packages = with pkgs; [
     dive
+    openscreen
     ripgrep
     psmisc
     file

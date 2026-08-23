@@ -187,6 +187,14 @@ pub fn handle_smart_install(repo_url: &str) -> Result<(), Box<dyn Error>> {
         .interact()?;
 
     if should_switch {
+        // Добавляем все новые файлы в git, чтобы Flakes их увидел
+        let _ = Command::new("git")
+            .arg("-C")
+            .arg(&dest_path)
+            .arg("add")
+            .arg("-A")
+            .output();
+
         let sp = cliclack::spinner();
         sp.start(format!("Building and activating host '{}'...", host_name));
         let mut cmd = Command::new("nh");
