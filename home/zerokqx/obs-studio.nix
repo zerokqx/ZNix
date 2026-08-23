@@ -18,4 +18,6 @@
       obs-composite-blur
     ];
   };
+
+  xdg.configFile."obs-studio/scripts/hyprland_zoom.lua".source = ./obs-scripts/hyprland_zoom.lua;
 }
