@@ -104,12 +104,26 @@ pub fn handle_smart_install(repo_url: &str) -> Result<(), Box<dyn Error>> {
         }
     }
 
+    // 5. Создаем хост на основе шаблона hosts/noop
     fs::create_dir_all(&target_host_dir)?;
+
+    // Копируем Home-Manager профиль из home/noop в home/<host_name>
+    let target_home_dir = dest_path.join("home").join(&host_name);
+    fs::create_dir_all(&target_home_dir)?;
+
+    let noop_home_default = dest_path.join("home").join("noop").join("default.nix");
+    let target_home_default = target_home_dir.join("default.nix");
+    if noop_home_default.exists() {
+        fs::copy(&noop_home_default, &target_home_default)?;
+        log::success(format!("Created Home-Manager config at {}", target_home_default.display()))?;
+    }
 
     let noop_default = dest_path.join("hosts").join("noop").join("default.nix");
     let target_default = target_host_dir.join("default.nix");
     if noop_default.exists() {
-        fs::copy(&noop_default, &target_default)?;
+        let content = fs::read_to_string(&noop_default)?;
+        let updated_content = content.replace("../../home/noop", &format!("../../home/{host_name}"));
+        fs::write(&target_default, updated_content)?;
     }
 
     // 6. Записываем hardware-configuration.nix
@@ -121,10 +135,11 @@ pub fn handle_smart_install(repo_url: &str) -> Result<(), Box<dyn Error>> {
     note(
         "Installation Ready!",
         format!(
-            "ZNix repository is ready at {}\nTarget Host: {}\nConfig file: {}",
+            "ZNix repository is ready at {}\nTarget Host: {}\nHost config: {}\nHome config: {}",
             dest_path.display(),
             host_name,
-            target_default.display()
+            target_default.display(),
+            target_home_default.display()
         ),
     )?;
 

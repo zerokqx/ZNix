@@ -24,6 +24,7 @@
   home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
   home.stateVersion = "26.05";
   home.enableNixpkgsReleaseCheck = false;
+  home.packages = with pkgs; [ ];
 
   services.ssh-agent.enable = true;
   services.udiskie = {
