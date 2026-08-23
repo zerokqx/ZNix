@@ -144,7 +144,33 @@ pub fn handle_smart_install(repo_url: &str) -> Result<(), Box<dyn Error>> {
     fs::write(&target_hw_file, hw_content)?;
     log::success(format!("Host '{}' configured with hardware config at {}", host_name, target_hw_file.display()))?;
 
-    // 7. Уведомление и предложение переключиться
+    // 7. Добавляем скрипты ребилда в devenv.nix
+    let devenv_file = dest_path.join("devenv.nix");
+    if devenv_file.exists() {
+        if let Ok(content) = fs::read_to_string(&devenv_file) {
+            let script_target = format!("scripts.rebuild-{host_name}.exec");
+            if !content.contains(&script_target) {
+                let new_script_lines = format!(
+                    "  scripts.rebuild-{host_name}.exec = \"git add . && sudo nixos-rebuild switch --flake .#{host_name} --show-trace\";\n  scripts.rebuild-{host_name}-test.exec = \"git add . && sudo nixos-rebuild test --flake .#{host_name} --show-trace\";\n"
+                );
+                let updated = if let Some(pos) = content.find("scripts.theme-link-git") {
+                    let mut s = content.clone();
+                    s.insert_str(pos, &new_script_lines);
+                    s
+                } else if let Some(pos) = content.find("enterShell") {
+                    let mut s = content.clone();
+                    s.insert_str(pos, &new_script_lines);
+                    s
+                } else {
+                    content
+                };
+                let _ = fs::write(&devenv_file, updated);
+                log::success(format!("Added 'rebuild-{host_name}' to devenv.nix"))?;
+            }
+        }
+    }
+
+    // 8. Уведомление и предложение переключиться
     note(
         "Installation Ready!",
         format!(
