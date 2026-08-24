@@ -11,7 +11,7 @@
     ./dms.nix
     ./znix
     ./zoxide.nix
-    ./ghostty.nix
+    ./foot.nix
     ./fish.nix
     ./starship.nix
     ./nixvim
@@ -47,7 +47,7 @@
     "${config.home.homeDirectory}/.local/bin"
   ];
   home.sessionVariables = {
-    TERMINAL = "ghostty";
+    TERMINAL = "foot";
     TERM = "xterm-256color";
     BROWSER = "firefox-nightly";
     NIXPKGS_ALLOW_UNFREE = 1;

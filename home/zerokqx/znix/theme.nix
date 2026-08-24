@@ -107,7 +107,7 @@ in
           profileNames = [ config.znix.browser.profile ];
         };
 
-        ghostty = {
+        foot = {
           enable = true;
         };
 
