@@ -132,6 +132,8 @@ in
 
         settings = {
           "intl.accept_languages" = "ru, en-US, en";
+          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+          "svg.context-properties.content.enabled" = true;
         };
       };
 

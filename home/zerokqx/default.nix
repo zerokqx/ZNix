@@ -11,7 +11,7 @@
     ./dms.nix
     ./znix
     ./zoxide.nix
-    ./alacritty.nix
+    ./ghostty.nix
     ./fish.nix
     ./starship.nix
     ./nixvim
@@ -47,8 +47,8 @@
     "${config.home.homeDirectory}/.local/bin"
   ];
   home.sessionVariables = {
-    TERMINAL = "alacritty";
-    TERM = "alacritty";
+    TERMINAL = "ghostty";
+    TERM = "xterm-256color";
     BROWSER = "firefox-nightly";
     NIXPKGS_ALLOW_UNFREE = 1;
   };

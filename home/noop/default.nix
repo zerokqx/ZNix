@@ -10,7 +10,7 @@
     ../zerokqx/nixvim
     ../zerokqx/dms.nix
     ../zerokqx/znix
-    ../zerokqx/alacritty.nix
+    ../zerokqx/ghostty.nix
     ../zerokqx/fish.nix
     ../zerokqx/starship.nix
     ../zerokqx/zoxide.nix
@@ -42,8 +42,8 @@
   ];
 
   home.sessionVariables = {
-    TERMINAL = "alacritty";
-    TERM = "alacritty";
+    TERMINAL = "ghostty";
+    TERM = "xterm-256color";
     BROWSER = "firefox-nightly";
     NIXPKGS_ALLOW_UNFREE = 1;
   };

@@ -106,9 +106,8 @@ in
           profileNames = [ config.znix.browser.profile ];
         };
 
-        alacritty = {
-          colors.enable = true;
-          fonts.enable = true;
+        ghostty = {
+          enable = true;
         };
 
         gtk.enable = true;
