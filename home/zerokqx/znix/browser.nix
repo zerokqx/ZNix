@@ -179,6 +179,32 @@ in
           # 6. Отключение телеметрии поиска и адресной строки
           "browser.urlbar.eventTelemetry.enabled" = false;
           "browser.ping-centre.telemetry" = false;
+
+          # 7. Полное отключение Firefox Accounts (FxA) и Sync
+          "identity.fxaccounts.enabled" = false;
+          "identity.fxaccounts.toolbar.enabled" = false;
+          "identity.fxaccounts.toolbar.vpnPromo" = false;
+
+          # 8. Отключение Mozilla VPN, Relay и встроенного шопинга
+          "browser.vpn_promo.enabled" = false;
+          "browser.shopping.experience2025.enabled" = false;
+          "browser.shopping.experience2025.active" = false;
+          "browser.shopping.experience2025.optedIn" = 2;
+          "extensions.htmlaboutaddons.recommendations.enabled" = false;
+          "browser.discovery.enabled" = false;
+
+          # 9. Полное удаление Pocket и скриншотов
+          "extensions.pocket.enabled" = false;
+          "extensions.pocket.api" = "";
+          "extensions.pocket.site" = "";
+          "extensions.screenshots.disabled" = true;
+
+          # 10. Отключение Firefox View, онбордингов и назойливых промо-экранов
+          "browser.tabs.firefox-view" = false;
+          "browser.firefox-view.feature-tour" = "{\"screen\":\"\",\"complete\":true}";
+          "browser.aboutwelcome.enabled" = false;
+          "browser.startup.homepage_override.mstone" = "ignore";
+          "trailhead.firstrun.didSeeAboutWelcome" = true;
         };
       };
 
