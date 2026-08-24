@@ -6,16 +6,6 @@
 
     modules = {
 
-      comment = {
-        options = {
-          custom_commentstring.__raw = ''
-            function()
-              return require("ts_context_commentstring").calculate_commentstring() or vim.bo.commentstring
-            end
-          '';
-        };
-      };
-
       basics = {
         options = {
           basic = true;
@@ -26,7 +16,7 @@
           basic = true;
           option_toggle_prefix = "\\";
           windows = true;
-          move_with_alt = true;
+          move_with_alt = false;
         };
         autocommands = {
           basic = true;
@@ -71,14 +61,14 @@
 
       move = {
         mappings = {
-          left = "<M-Left>";
-          right = "<M-Right>";
-          down = "<M-Down>";
-          up = "<M-Up>";
-          line_left = "<M-Left>";
-          line_right = "<M-Right>";
-          line_down = "<M-Down>";
-          line_up = "<M-Up>";
+          left = "<M-h>";
+          right = "<M-l>";
+          down = "<M-j>";
+          up = "<M-k>";
+          line_left = "<M-h>";
+          line_right = "<M-l>";
+          line_down = "<M-j>";
+          line_up = "<M-k>";
         };
       };
 
