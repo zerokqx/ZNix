@@ -205,12 +205,33 @@ in
           "browser.aboutwelcome.enabled" = false;
           "browser.startup.homepage_override.mstone" = "ignore";
           "trailhead.firstrun.didSeeAboutWelcome" = true;
+
+          # 11. Полное отключение встроенного менеджера паролей
+          "signon.rememberSignons" = false;
+          "signon.autofillForms" = false;
+          "signon.generation.enabled" = false;
+          "signon.firefoxRelay.feature" = "disabled";
+          "signon.management.page.breach-alerts.enabled" = false;
+          "signon.formlessCapture.enabled" = false;
+          "signon.showAutoCompleteFooter" = false;
+          "signon.passwordEditCapture.enabled" = false;
+          "services.sync.prefs.sync.signon.rememberSignons" = false;
+
+          # 12. Отключение всех встроенных AI/ML интеграций и AI-чата в сайдбаре
+          "browser.ml.enable" = false;
+          "browser.ml.chat.enabled" = false;
+          "browser.ml.chat.sidebar" = false;
+          "browser.ml.chat.shortcuts" = false;
+          "browser.ml.chat.pageContext" = false;
+          "browser.tabs.search.ai.enabled" = false;
         };
       };
 
       policies = {
         DisableTelemetry = true;
         DisableFirefoxStudies = true;
+        PasswordManagerEnabled = false;
+        OfferToSaveLogins = false;
 
         EnableTrackingProtection = {
           Value = true;
