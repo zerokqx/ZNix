@@ -17,9 +17,9 @@
       "border, 1, 6, bounce"
       "borderangle, 1, 30, linear, loop"
       "fade, 1, 4, default"
-      "layers, 1, 4, rubber"
-      "layersIn, 1, 4, rubber, popin 75%"
-      "layersOut, 1, 3, snap, popin 80%"
+      "layers, 1, 2, snap"
+      "layersIn, 1, 2, snap, fade"
+      "layersOut, 1, 2, snap, fade"
       "workspaces, 1, 5, fluid, slide"
       "specialWorkspace, 1, 5, rubber, slidevert"
     ];

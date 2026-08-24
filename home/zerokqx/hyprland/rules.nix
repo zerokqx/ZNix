@@ -1,5 +1,15 @@
 {
-  wayland.windowManager.hyprland.settings.windowrule = [
+  wayland.windowManager.hyprland.settings = {
+    layerrule = [
+      "noanim, ^(dms.*)$"
+      "noanim, ^(noctalia.*)$"
+      "noanim, ^(selection)$"
+      "noanim, ^(hyprpicker)$"
+      "blur, ^(dms.*)$"
+      "ignorezero, ^(dms.*)$"
+    ];
+
+    windowrule = [
     "float on, match:title ^(Extension:.*)$"
     "center on, match:title ^(Extension:.*)$"
     "size 40% 80%, match:title ^(Extension:.*)$"
@@ -24,4 +34,5 @@
     "match:class ^(Throne|throne)$, workspace 10 silent"
     "match:initial_class ^(Throne|throne)$, workspace 10 silent"
   ];
+};
 }
