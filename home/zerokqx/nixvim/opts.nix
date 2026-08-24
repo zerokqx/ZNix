@@ -16,6 +16,7 @@
     signcolumn = lib.mkForce "yes";
     number = lib.mkForce true;
     relativenumber = lib.mkForce true;
+    laststatus = lib.mkForce 3;
 
     foldmethod = lib.mkForce "manual";
     foldexpr = lib.mkForce "";
