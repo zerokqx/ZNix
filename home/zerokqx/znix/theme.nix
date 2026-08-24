@@ -49,16 +49,16 @@ in
     stylix = {
       fonts = {
         monospace = {
-          package = pkgs.nerd-fonts.geist-mono;
-          name = "GeistMono Nerd Font";
+          package = pkgs.nerd-fonts.fira-code;
+          name = "FiraCode Nerd Font";
         };
         sansSerif = {
-          package = pkgs.geist-font;
-          name = "Geist";
+          package = pkgs.sn-pro;
+          name = "SN Pro";
         };
         serif = {
-          package = pkgs.geist-font;
-          name = "Geist";
+          package = pkgs.sn-pro;
+          name = "SN Pro";
         };
         emoji = {
           package = pkgs.noto-fonts-color-emoji;
