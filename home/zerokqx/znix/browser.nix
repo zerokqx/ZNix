@@ -16,11 +16,7 @@ in
   options.znix.browser = {
     enable = mkEnableOption "browser configuration with Firefox";
 
-    installExtensions = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Install default extensions";
-    }; target = mkOption {
+    target = mkOption {
       type = types.enum [ "firefox" ];
       default = "firefox";
       description = "Browser for setting. Support - firefox";
@@ -160,98 +156,6 @@ in
 
         DisplayMenuBar = "default-off";
         SearchBar = "unified";
-
-        ExtensionSettings = mkIf cfg.installExtensions {
-          "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
-            # Bitwarden
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "addon@darkreader.org" = {
-            # Dark Reader
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "firefox@ghostery.com" = {
-            # Ghostery
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/ghostery/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "postwoman-firefox@postwoman.io" = {
-            # Hoppscotch
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/hoppscotch/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "{cf3dba12-a848-4f68-8e2d-f9fadc0721de}" = {
-            # Lighthouse
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/lighthouse/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "@storageexplorer" = {
-            # Local Storage Explorer
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/local-storage-explorer/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "jid1-MnnxcxisBPnSXQ@jetpack" = {
-            # Privacy Badger
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "@react-devtools" = {
-            # React DevTools
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/react-devtools/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "extension@redux.devtools" = {
-            # Redux DevTools
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/reduxdevtools/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "sponsorBlocker@ajay.app" = {
-            # SponsorBlock
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "tanstack-query-devtools@borysov.dev" = {
-            # TanStack Query DevTools
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/tanstack-query-devtools/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "{036a55b4-5e72-4d05-a06c-cba2dfcc134a}" = {
-            # Traduzir
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/traduzir-paginas-web/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "uBlock0@raymondhill.net" = {
-            # uBlock Origin
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
-            # User-Agent Switcher
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/user-agent-string-switcher/latest.xpi";
-            installation_mode = "force_installed";
-          };
-
-          "{0d7cafdd-501c-49ca-8ebb-e3341caaa55e}" = {
-            # YouTube NonStop
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/youtube-nonstop/latest.xpi";
-            installation_mode = "force_installed";
-          };
-        };
 
         Preferences = {
           "browser.contentblocking.category" = {
