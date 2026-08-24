@@ -47,12 +47,30 @@ in
     home.packages = [ cfg.icons.package ];
 
     stylix = {
-      # fonts = {
-      #   monospace = {
-      #     package = pkgs.nerd-fonts.jetbrains-mono;
-      #     name = "JetBrainsMono Nerd Font";
-      #   };
-      # };
+      fonts = {
+        monospace = {
+          package = pkgs.nerd-fonts.geist-mono;
+          name = "GeistMono Nerd Font";
+        };
+        sansSerif = {
+          package = pkgs.geist-font;
+          name = "Geist";
+        };
+        serif = {
+          package = pkgs.geist-font;
+          name = "Geist";
+        };
+        emoji = {
+          package = pkgs.noto-fonts-color-emoji;
+          name = "Noto Color Emoji";
+        };
+        sizes = {
+          terminal = 13;
+          applications = 11;
+          desktop = 10;
+          popups = 11;
+        };
+      };
 
       enable = true;
       polarity = cfg.polarity;
