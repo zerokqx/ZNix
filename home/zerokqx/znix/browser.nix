@@ -131,6 +131,54 @@ in
           "intl.accept_languages" = "ru, en-US, en";
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "svg.context-properties.content.enabled" = true;
+
+          # 1. Полное отключение телеметрии и сбора данных (Mozilla Telemetry & Health Report)
+          "datareporting.policy.dataSubmissionEnabled" = false;
+          "datareporting.healthreport.uploadEnabled" = false;
+          "toolkit.telemetry.unified" = false;
+          "toolkit.telemetry.enabled" = false;
+          "toolkit.telemetry.server" = "data:,";
+          "toolkit.telemetry.archive.enabled" = false;
+          "toolkit.telemetry.newProfilePing.enabled" = false;
+          "toolkit.telemetry.shutdownPingSender.enabled" = false;
+          "toolkit.telemetry.updatePing.enabled" = false;
+          "toolkit.telemetry.bhrPing.enabled" = false;
+          "toolkit.telemetry.firstShutdownPing.enabled" = false;
+          "toolkit.telemetry.coverage.opt-out" = true;
+          "toolkit.coverage.opt-out" = true;
+          "toolkit.coverage.endpoint.base" = "";
+
+          # 2. Отключение краш-репортов и отправки дампов памяти
+          "breakpad.reportURL" = "";
+          "browser.tabs.crashReporting.sendReport" = false;
+          "browser.crashReports.unsubmittedCheck.enabled" = false;
+          "browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
+
+          # 3. Отключение Normandy / Экспериментов / Исследований (Shield / Studies)
+          "app.normandy.enabled" = false;
+          "app.normandy.api_url" = "";
+          "app.shield.optoutstudies.enabled" = false;
+          "experiments.active.enabled" = false;
+          "experiments.enabled" = false;
+          "experiments.supported" = false;
+          "network.allow-experiments" = false;
+
+          # 4. Отключение скрытого пинг-трекинга (Hyperlink Ping & Beacon API)
+          "browser.send_pings" = false;
+          "beacon.enabled" = false;
+
+          # 5. Отключение предзагрузки ссылок и DNS (Network Prefetch / Speculative Connection)
+          "network.prefetch-next" = false;
+          "network.dns.disablePrefetch" = true;
+          "network.dns.disablePrefetchFromHTTPS" = true;
+          "network.predictor.enabled" = false;
+          "network.predictor.enable-prefetch" = false;
+          "network.http.speculative-parallel-limit" = 0;
+          "browser.places.speculativeConnect.enabled" = false;
+
+          # 6. Отключение телеметрии поиска и адресной строки
+          "browser.urlbar.eventTelemetry.enabled" = false;
+          "browser.ping-centre.telemetry" = false;
         };
       };
 
