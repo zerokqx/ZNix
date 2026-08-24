@@ -103,6 +103,7 @@ in
         firefox = {
           enable = true;
           colors.enable = true;
+          colorTheme.enable = true;
           profileNames = [ config.znix.browser.profile ];
         };
 

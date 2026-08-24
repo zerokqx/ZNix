@@ -53,6 +53,7 @@ in
 
       profiles.${cfg.profile} = {
         isDefault = true;
+        extensions.force = true;
 
         bookmarks = mkIf cfg.bookmarks {
           force = true;
