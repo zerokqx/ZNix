@@ -76,11 +76,6 @@
             indent = 2;
             padding = 1;
           }
-          {
-            align = "center";
-            padding = 1;
-            text.__raw = ''{ { "⚡ ZNix • Neovim Pure Environment", hl = "footer" } }'';
-          }
         ];
         preset = {
           header = ''
@@ -117,12 +112,6 @@
               action = ":lua Snacks.dashboard.pick('oldfiles')";
             }
             {
-              icon = " ";
-              key = "c";
-              desc = "Конфигурация ZNix";
-              action = ":lua Snacks.dashboard.pick('files', { cwd = '/home/zerok/projects/ZNix' })";
-            }
-            {
               icon = " ";
               key = "q";
               desc = "Выход";
@@ -138,7 +127,7 @@
 
       words = {
         enabled = true;
-        debounce = 100;
+        debounce = 250;
       };
 
       terminal = {
@@ -146,7 +135,7 @@
       };
 
       lazygit = {
-        enabled = true;
+        enabled = false;
       };
       git = {
         enabled = true;
@@ -373,15 +362,6 @@
       };
     }
 
-    {
-      mode = "n";
-      key = "<leader>gg";
-      action = "<cmd>lua Snacks.lazygit()<CR>";
-      options = {
-        silent = true;
-        desc = "Lazygit";
-      };
-    }
     {
       mode = "n";
       key = "<leader>gl";

@@ -46,7 +46,7 @@
     {
       mode = "n";
       key = "<leader>wa";
-      action = ":wa! | echo 'Все сохранено!'<cr>";
+      action = ":wa! | lua Snacks.notify.info('Всё Сохранено!')<cr>";
       options = {
         silent = true;
         desc = "Сохранить все буферы";

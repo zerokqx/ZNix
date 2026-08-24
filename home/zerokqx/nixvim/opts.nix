@@ -17,6 +17,8 @@
     number = lib.mkForce true;
     relativenumber = lib.mkForce true;
     laststatus = lib.mkForce 3;
+    winblend = lib.mkForce 0;
+    pumblend = lib.mkForce 0;
 
     foldmethod = lib.mkForce "manual";
     foldexpr = lib.mkForce "";

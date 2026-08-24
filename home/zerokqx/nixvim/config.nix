@@ -15,11 +15,11 @@
     enable = true;
     settings = {
       style = "night";
-      transparent = true;
+      transparent = false;
       terminal_colors = true;
       styles = {
-        sidebars = "transparent";
-        floats = "transparent";
+        sidebars = "dark";
+        floats = "dark";
       };
     };
   };
