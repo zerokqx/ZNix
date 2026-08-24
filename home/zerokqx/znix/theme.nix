@@ -93,6 +93,7 @@ in
       autoEnable = true;
 
       targets = {
+        nixvim.enable = false;
         xresources.enable = false;
         lazygit.enable = true;
         fzf.enable = true;
