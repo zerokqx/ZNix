@@ -1,6 +1,5 @@
 { lib, ... }:
 {
-
   imports = [
     ./mini.nix # Текстовые движки Mini.nvim (ai, surround, pairs, splitjoin, align, move)
     ./snacks.nix # Современный UI и QoL стек Snacks.nvim
@@ -12,14 +11,33 @@
     ./autocmds.nix # Автокоманды
   ];
 
-  # Treesitter для подсветки синтаксиса
-  plugins.treesitter = {
+  # Встроенная тема Tokyo Night (по умолчанию для standalone и совместима со Stylix)
+  colorschemes.tokyonight = {
+    enable = true;
     settings = {
+      style = "night";
+      transparent = true;
+      terminal_colors = true;
+      styles = {
+        sidebars = "transparent";
+        floats = "transparent";
+      };
     };
   };
 
+  # Treesitter для подсветки синтаксиса
+  plugins.treesitter = {
+    enable = true;
+    settings = {
+      highlight.enable = true;
+      indent.enable = true;
+    };
+  };
+  plugins.ts-context-commentstring.enable = true;
+
   # Which-key с красивыми иконками и группами меню
   plugins.which-key = {
+    enable = true;
     settings = {
       preset = "modern";
       delay = 200;
@@ -89,6 +107,7 @@
 
   # Git Signs в колонке статуса и инлайн blame
   plugins.gitsigns = {
+    enable = true;
     settings = {
       signs = {
         add = { text = "▎"; };
@@ -120,8 +139,10 @@
   globals.loaded_matchparen = 1;
 
   # Нативные ускорения Nixvim
+  luaLoader.enable = true;
   performance = {
     byteCompileLua = {
+      enable = true;
       configs = true;
       initLua = true;
       plugins = true;
