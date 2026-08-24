@@ -8,6 +8,12 @@
     };
     decoration = {
       rounding = 20;
+      blur = {
+        enabled = false;
+      };
+      shadow = {
+        enabled = false;
+      };
     };
     misc = {
       disable_hyprland_logo = true;

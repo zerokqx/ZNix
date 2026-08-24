@@ -60,9 +60,9 @@
       popoutElevationEnabled = true;
       barElevationEnabled = false;
       blurEnabled = false;
-      blurForegroundLayers = true;
-      blurLayerOutlineOpacity = 0.12;
-      blurBorderEnabled = true;
+      blurForegroundLayers = false;
+      blurLayerOutlineOpacity = 0;
+      blurBorderEnabled = false;
       blurBorderColor = "outline";
       blurBorderOpacity = 0.35;
       wallpaperFillMode = "Fill";
@@ -762,7 +762,7 @@
       ];
       frameBarSize = 40;
       frameShowOnOverview = false;
-      frameBlurEnabled = true;
+      frameBlurEnabled = false;
       frameCloseGaps = true;
       frameLauncherEmergeSide = "bottom";
       frameLauncherArcExtender = false;

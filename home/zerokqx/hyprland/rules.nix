@@ -2,7 +2,6 @@
   wayland.windowManager.hyprland.settings = {
     layerrule = [
       "animation none, match:namespace ^(dms:.*|dms.*|quickshell|noctalia.*|selection|hyprpicker)$"
-      "blur on, match:namespace ^(dms:.*|dms.*|quickshell)$"
     ];
 
     windowrule = [
