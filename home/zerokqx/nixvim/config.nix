@@ -211,6 +211,10 @@
     };
   };
 
+  extraFiles = {
+    "doc/cheatsheet.txt".text = builtins.readFile ../../../docs/cheatsheet.txt;
+  };
+
   extraConfigLua = ''
     vim.o.winborder = "single"
 

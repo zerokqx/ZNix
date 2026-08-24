@@ -505,5 +505,166 @@
         desc = "Переключить Git Blame строки";
       };
     }
+
+    {
+      mode = [
+        "n"
+        "i"
+        "t"
+      ];
+      key = "<C-S-?>";
+      action.__raw = ''
+        function()
+          local file = vim.api.nvim_get_runtime_file("doc/cheatsheet.txt", false)[1]
+          if not file or file == "" or vim.fn.filereadable(file) == 0 then
+            file = vim.fn.expand("~/projects/ZNix/docs/cheatsheet.txt")
+          end
+          Snacks.win({
+            file = file,
+            width = 0.85,
+            height = 0.85,
+            border = "rounded",
+            title = " ⚡ ZNix Neovim Cheat Sheet & Keymaps ⚡ ",
+            title_pos = "center",
+            backdrop = 60,
+            wo = {
+              spell = false,
+              wrap = false,
+              signcolumn = "no",
+              statuscolumn = "",
+              number = false,
+              relativenumber = false,
+            },
+            keys = {
+              q = "close",
+              ["<Esc>"] = "close",
+            },
+          })
+        end
+      '';
+      options = {
+        silent = true;
+        desc = "Открыть Cheat Sheet (Справка по хоткеям)";
+      };
+    }
+    {
+      mode = [
+        "n"
+        "i"
+        "t"
+      ];
+      key = "<C-?>";
+      action.__raw = ''
+        function()
+          local file = vim.api.nvim_get_runtime_file("doc/cheatsheet.txt", false)[1]
+          if not file or file == "" or vim.fn.filereadable(file) == 0 then
+            file = vim.fn.expand("~/projects/ZNix/docs/cheatsheet.txt")
+          end
+          Snacks.win({
+            file = file,
+            width = 0.85,
+            height = 0.85,
+            border = "rounded",
+            title = " ⚡ ZNix Neovim Cheat Sheet & Keymaps ⚡ ",
+            title_pos = "center",
+            backdrop = 60,
+            wo = {
+              spell = false,
+              wrap = false,
+              signcolumn = "no",
+              statuscolumn = "",
+              number = false,
+              relativenumber = false,
+            },
+            keys = {
+              q = "close",
+              ["<Esc>"] = "close",
+            },
+          })
+        end
+      '';
+      options = {
+        silent = true;
+        desc = "Открыть Cheat Sheet (Справка по хоткеям)";
+      };
+    }
+    {
+      mode = [
+        "n"
+        "i"
+        "t"
+      ];
+      key = "<C-_>";
+      action.__raw = ''
+        function()
+          local file = vim.api.nvim_get_runtime_file("doc/cheatsheet.txt", false)[1]
+          if not file or file == "" or vim.fn.filereadable(file) == 0 then
+            file = vim.fn.expand("~/projects/ZNix/docs/cheatsheet.txt")
+          end
+          Snacks.win({
+            file = file,
+            width = 0.85,
+            height = 0.85,
+            border = "rounded",
+            title = " ⚡ ZNix Neovim Cheat Sheet & Keymaps ⚡ ",
+            title_pos = "center",
+            backdrop = 60,
+            wo = {
+              spell = false,
+              wrap = false,
+              signcolumn = "no",
+              statuscolumn = "",
+              number = false,
+              relativenumber = false,
+            },
+            keys = {
+              q = "close",
+              ["<Esc>"] = "close",
+            },
+          })
+        end
+      '';
+      options = {
+        silent = true;
+        desc = "Открыть Cheat Sheet (Справка по хоткеям)";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>?";
+      action.__raw = ''
+        function()
+          local file = vim.api.nvim_get_runtime_file("doc/cheatsheet.txt", false)[1]
+          if not file or file == "" or vim.fn.filereadable(file) == 0 then
+            file = vim.fn.expand("~/projects/ZNix/docs/cheatsheet.txt")
+          end
+          Snacks.win({
+            file = file,
+            width = 0.85,
+            height = 0.85,
+            border = "rounded",
+            title = " ⚡ ZNix Neovim Cheat Sheet & Keymaps ⚡ ",
+            title_pos = "center",
+            backdrop = 60,
+            wo = {
+              spell = false,
+              wrap = false,
+              signcolumn = "no",
+              statuscolumn = "",
+              number = false,
+              relativenumber = false,
+            },
+            keys = {
+              q = "close",
+              ["<Esc>"] = "close",
+            },
+          })
+        end
+      '';
+      options = {
+        silent = true;
+        desc = "Открыть Cheat Sheet (Справка по хоткеям)";
+      };
+    }
   ];
 }
