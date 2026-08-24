@@ -93,7 +93,14 @@ in
       autoEnable = true;
 
       targets = {
-        nixvim.enable = false;
+        nixvim = {
+          enable = true;
+          transparentBackground = {
+            main = false;
+            numberLine = false;
+            signColumn = false;
+          };
+        };
         xresources.enable = false;
         lazygit.enable = true;
         fzf.enable = true;
