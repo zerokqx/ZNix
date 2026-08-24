@@ -55,8 +55,6 @@
         sections = [
           { section = "header"; }
           {
-            icon = " ";
-            title = "Быстрый доступ";
             section = "keys";
             indent = 2;
             padding = 1;
