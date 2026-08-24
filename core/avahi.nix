@@ -1,12 +1,12 @@
 {
 
-services.avahi = {
-  enable = true;
-  nssmdns4 = true;
-  publish = {
+  services.avahi = {
     enable = true;
-    addresses = true;
-    domain = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      domain = true;
+    };
   };
-};
 }

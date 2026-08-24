@@ -11,7 +11,6 @@
     ./configs
   ];
 
-  # Общая интеграция Home-Manager для пользователя zerok
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -32,7 +31,7 @@
     command-not-found.enable = false;
     gnupg.agent.enable = true;
     nix-ld.enable = true;
-    # light.enable = true;
+
     fish.enable = true;
     direnv.enable = true;
     steam = {

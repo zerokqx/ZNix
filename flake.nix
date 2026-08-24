@@ -1,4 +1,5 @@
-{ description = "flake-parts configuration for NixOS";
+{
+  description = "flake-parts configuration for NixOS";
 
   inputs = {
     bundlers.url = "github:ralismark/nix-appimage";

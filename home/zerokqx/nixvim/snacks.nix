@@ -3,16 +3,15 @@
   plugins.snacks = {
     enable = true;
     settings = {
-      # 1. Файловый менеджер (замена mini.files)
+
       explorer = {
         enabled = true;
         replace_netrw = true;
       };
 
-      # 2. Нечеткий поиск (замена mini.pick & mini.extra)
       picker = {
         enabled = true;
-        ui_select = true; # Заменяет vim.ui.select
+        ui_select = true;
         sources = {
           explorer = {
             auto_close = true;
@@ -24,11 +23,10 @@
         };
       };
 
-      # 3. Индикаторы отступов и Scope (замена mini.indentscope)
       indent = {
         enabled = true;
         animate = {
-          enabled = false; # Меньше нагрузки на CPU и 0 фризов
+          enabled = false;
         };
         scope = {
           enabled = true;
@@ -39,23 +37,19 @@
         };
       };
 
-      # 4. Область видимости
       scope = {
         enabled = true;
       };
 
-      # 5. Окно ввода (замена mini.input / vim.ui.input)
       input = {
         enabled = true;
       };
 
-      # 6. Всплывающие уведомления (замена mini.notify)
       notifier = {
         enabled = true;
         timeout = 3000;
       };
 
-      # 7. Стартовый дашборд (замена mini.starter)
       dashboard = {
         enabled = true;
         sections = [
@@ -90,12 +84,12 @@
         ];
         preset = {
           header = ''
-  ███████╗███╗   ██╗██╗██╗  ██╗
-  ╚══███╔╝████╗  ██║██║╚██╗██╔╝
-    ███╔╝ ██╔██╗ ██║██║ ╚███╔╝ 
-   ███╔╝  ██║╚██╗██║██║ ██╔██╗ 
-  ███████╗██║ ╚████║██║██╔╝ ██╗
-  ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
+            ███████╗███╗   ██╗██╗██╗  ██╗
+            ╚══███╔╝████╗  ██║██║╚██╗██╔╝
+              ███╔╝ ██╔██╗ ██║██║ ╚███╔╝
+             ███╔╝  ██║╚██╗██║██║ ██╔██╗
+            ███████╗██║ ╚████║██║██╔╝ ██╗
+            ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
           '';
           keys = [
             {
@@ -138,23 +132,19 @@
         };
       };
 
-      # 8. Закрытие буферов без поломки окон (замена mini.bufremove)
       bufdelete = {
         enabled = true;
       };
 
-      # 9. Подсветка слова под курсором (замена mini.cursorword)
       words = {
         enabled = true;
         debounce = 100;
       };
 
-      # 10. Встроенный терминал (замена toggleterm)
       terminal = {
         enabled = true;
       };
 
-      # 11. Git интеграции (замена mini.git / mini.diff)
       lazygit = {
         enabled = true;
       };
@@ -165,7 +155,6 @@
         enabled = true;
       };
 
-      # 12. Оптимизации и QoL фичи
       bigfile = {
         enabled = true;
       };
@@ -197,7 +186,7 @@
   };
 
   keymaps = [
-    # Файловый проводник (Snacks Explorer)
+
     {
       mode = "n";
       key = "<leader>e";
@@ -208,7 +197,6 @@
       };
     }
 
-    # Поиск и файлы (Snacks Picker)
     {
       mode = "n";
       key = "<leader><space>";
@@ -357,7 +345,6 @@
       };
     }
 
-    # Управление буферами (Snacks Bufdelete)
     {
       mode = "n";
       key = "<leader>bd";
@@ -386,7 +373,6 @@
       };
     }
 
-    # Git (Snacks Git & Lazygit)
     {
       mode = "n";
       key = "<leader>gg";
@@ -436,7 +422,6 @@
       };
     }
 
-    # Уведомления (Snacks Notifier)
     {
       mode = "n";
       key = "<leader>n";
@@ -456,7 +441,6 @@
       };
     }
 
-    # Навигация по LSP ссылкам слов (Snacks Words)
     {
       mode = [
         "n"
@@ -482,7 +466,6 @@
       };
     }
 
-    # Терминал (Snacks Terminal)
     {
       mode = [
         "n"
@@ -505,7 +488,6 @@
       };
     }
 
-    # QoL фичи (Zen, Scratch, Rename)
     {
       mode = "n";
       key = "<leader>z";
@@ -552,7 +534,6 @@
       };
     }
 
-    # LSP Pickers
     {
       mode = "n";
       key = "gd";

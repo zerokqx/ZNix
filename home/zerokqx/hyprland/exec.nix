@@ -4,6 +4,6 @@
     "[workspace 10 silent] Throne"
     "[workspace special:ayugram silent] AyuGram"
     "dms run"
-    # "autotiling-rs"
+
   ];
 }

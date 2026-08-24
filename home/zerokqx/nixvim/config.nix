@@ -1,17 +1,16 @@
 { lib, ... }:
 {
   imports = [
-    ./mini.nix # Текстовые движки Mini.nvim (ai, surround, pairs, splitjoin, align, move)
-    ./snacks.nix # Современный UI и QoL стек Snacks.nvim
-    ./languages.nix # LSP и Conform форматтеры
-    ./completion.nix # Автокомплит
-    ./flash.nix # Flash навигация
-    ./keymaps.nix # Кастомные хоткеи
-    ./opts.nix # Опции редактора
-    ./autocmds.nix # Автокоманды
+    ./mini.nix
+    ./snacks.nix
+    ./languages.nix
+    ./completion.nix
+    ./flash.nix
+    ./keymaps.nix
+    ./opts.nix
+    ./autocmds.nix
   ];
 
-  # Встроенная тема Tokyo Night (по умолчанию для standalone и совместима со Stylix)
   colorschemes.tokyonight = {
     enable = true;
     settings = {
@@ -25,7 +24,6 @@
     };
   };
 
-  # Treesitter для подсветки синтаксиса
   plugins.treesitter = {
     enable = true;
     settings = {
@@ -35,7 +33,6 @@
   };
   plugins.ts-context-commentstring.enable = true;
 
-  # Which-key с красивыми иконками и группами меню
   plugins.which-key = {
     enable = true;
     settings = {
@@ -47,17 +44,61 @@
         group = "+";
         mappings = true;
         rules = [
-          { pattern = "code"; icon = " "; color = "cyan"; }
-          { pattern = "format"; icon = "󰉢 "; color = "cyan"; }
-          { pattern = "rename"; icon = "󰑕 "; color = "orange"; }
-          { pattern = "git"; icon = "󰊢 "; color = "orange"; }
-          { pattern = "find"; icon = " "; color = "green"; }
-          { pattern = "file"; icon = "󰈔 "; color = "azure"; }
-          { pattern = "buffer"; icon = "󰈚 "; color = "blue"; }
-          { pattern = "diagnostics"; icon = "󰒡 "; color = "red"; }
-          { pattern = "terminal"; icon = " "; color = "purple"; }
-          { pattern = "window"; icon = " "; color = "yellow"; }
-          { pattern = "goto"; icon = "󰌹 "; color = "magenta"; }
+          {
+            pattern = "code";
+            icon = " ";
+            color = "cyan";
+          }
+          {
+            pattern = "format";
+            icon = "󰉢 ";
+            color = "cyan";
+          }
+          {
+            pattern = "rename";
+            icon = "󰑕 ";
+            color = "orange";
+          }
+          {
+            pattern = "git";
+            icon = "󰊢 ";
+            color = "orange";
+          }
+          {
+            pattern = "find";
+            icon = " ";
+            color = "green";
+          }
+          {
+            pattern = "file";
+            icon = "󰈔 ";
+            color = "azure";
+          }
+          {
+            pattern = "buffer";
+            icon = "󰈚 ";
+            color = "blue";
+          }
+          {
+            pattern = "diagnostics";
+            icon = "󰒡 ";
+            color = "red";
+          }
+          {
+            pattern = "terminal";
+            icon = " ";
+            color = "purple";
+          }
+          {
+            pattern = "window";
+            icon = " ";
+            color = "yellow";
+          }
+          {
+            pattern = "goto";
+            icon = "󰌹 ";
+            color = "magenta";
+          }
         ];
       };
       spec = [
@@ -105,25 +146,48 @@
     };
   };
 
-  # Git Signs в колонке статуса и инлайн blame
   plugins.gitsigns = {
     enable = true;
     settings = {
       signs = {
-        add = { text = "▎"; };
-        change = { text = "▎"; };
-        delete = { text = ""; };
-        topdelete = { text = ""; };
-        changedelete = { text = "▎"; };
-        untracked = { text = "┆"; };
+        add = {
+          text = "▎";
+        };
+        change = {
+          text = "▎";
+        };
+        delete = {
+          text = "";
+        };
+        topdelete = {
+          text = "";
+        };
+        changedelete = {
+          text = "▎";
+        };
+        untracked = {
+          text = "┆";
+        };
       };
       signs_staged = {
-        add = { text = "▎"; };
-        change = { text = "▎"; };
-        delete = { text = ""; };
-        topdelete = { text = ""; };
-        changedelete = { text = "▎"; };
-        untracked = { text = "┆"; };
+        add = {
+          text = "▎";
+        };
+        change = {
+          text = "▎";
+        };
+        delete = {
+          text = "";
+        };
+        topdelete = {
+          text = "";
+        };
+        changedelete = {
+          text = "▎";
+        };
+        untracked = {
+          text = "┆";
+        };
       };
       current_line_blame = false;
       current_line_blame_opts = {
@@ -135,10 +199,8 @@
     };
   };
 
-  # Отключаем медленный встроенный matchparen
   globals.loaded_matchparen = 1;
 
-  # Нативные ускорения Nixvim
   luaLoader.enable = true;
   performance = {
     byteCompileLua = {

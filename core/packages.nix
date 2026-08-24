@@ -23,14 +23,14 @@
     libnotify
     nix-ld
     pavucontrol
-    # qpwgraph
+
     p7zip
     playerctl
     polkit_gnome
     ripgrep
     slurp
     sway-contrib.grimshot
-    # swaylock
+
     tree
     udiskie
     unrar

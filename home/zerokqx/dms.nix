@@ -4,7 +4,7 @@
     enable = lib.mkDefault true;
 
     systemd = {
-      enable = false; # Disabled in favor of hyprland exec-once
+      enable = false;
       restartIfChanged = false;
     };
 
@@ -12,10 +12,10 @@
       calculator.enable = true;
       dockerManager.enable = true;
     };
-    enableSystemMonitoring = true; # System monitoring widgets (dgop)
-    enableVPN = false; # VPN management widget
-    enableDynamicTheming = false; # Wallpaper-based theming (matugen)
-    enableAudioWavelength = true; # Audio visualizer (cava)
+    enableSystemMonitoring = true;
+    enableVPN = false;
+    enableDynamicTheming = false;
+    enableAudioWavelength = true;
     enableCalendarEvents = false;
 
     settings = {

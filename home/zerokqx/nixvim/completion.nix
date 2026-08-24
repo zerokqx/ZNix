@@ -1,9 +1,8 @@
 { lib, ... }:
 {
-  # Коллекция сниппетов
+
   plugins.friendly-snippets.enable = true;
 
-  # Blink.cmp — молниеносный асинхронный движок автодополнения на Rust/SIMD (без фризов и лагов)
   plugins.blink-cmp = {
     enable = true;
 
@@ -103,6 +102,5 @@
     };
   };
 
-  # Подключаем capabilities Blink к LSP для мгновенного автокомплита
   plugins.lsp.capabilities = lib.mkForce "require('blink.cmp').get_lsp_capabilities()";
 }

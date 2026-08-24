@@ -55,27 +55,12 @@ in
     "${m}+Shift+minus" = "resize shrink height 10 ppt";
     "${m}+Shift+equal" = "resize grow height 10 ppt";
 
-    # "${m}+Shift+Left" = "focus output left";
-    # "${m}+Shift+Down" = "focus output down";
-    # "${m}+Shift+Up" = "focus output up";
-    # "${m}+Shift+Right" = "focus output right";
-    # "${m}+Shift+Ctrl+Left" = "move container to output left";
-    # "${m}+Shift+Ctrl+Down" = "move container to output down";
-    # "${m}+Shift+Ctrl+Up" = "move container to output up";
-    # "${m}+Shift+Ctrl+Right" = "move container to output right";
-    # "${m}+Shift+Ctrl+h" = "move container to output left";
-    # "${m}+Shift+Ctrl+j" = "move container to output down";
-    # "${m}+Shift+Ctrl+k" = "move container to output up";
-    # "${m}+Shift+Ctrl+l" = "move container to output right";
-
     "${m}+u" = "workspace next";
     "${m}+i" = "workspace prev";
     "${m}+Alt+Down" = "workspace next";
     "${m}+Alt+Up" = "workspace prev";
     "${m}+Alt+j" = "workspace next";
     "${m}+Alt+k" = "workspace prev";
-
-
 
     "${m}+Shift+f" = "fullscreen toggle";
 
@@ -91,6 +76,6 @@ in
     "${m}+Shift+e" = "exec swaymsg exit";
     "Ctrl+Alt+Delete" = "exec swaymsg exit";
     "${m}+Shift+Pause" = "output * power off";
-    # "${m}+Shift+l" = "exec ${dmsIpc} lockScreen lock";
+
   };
 }

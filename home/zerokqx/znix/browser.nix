@@ -132,7 +132,6 @@ in
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "svg.context-properties.content.enabled" = true;
 
-          # 1. Полное отключение телеметрии и сбора данных (Mozilla Telemetry & Health Report)
           "datareporting.policy.dataSubmissionEnabled" = false;
           "datareporting.healthreport.uploadEnabled" = false;
           "toolkit.telemetry.unified" = false;
@@ -148,13 +147,11 @@ in
           "toolkit.coverage.opt-out" = true;
           "toolkit.coverage.endpoint.base" = "";
 
-          # 2. Отключение краш-репортов и отправки дампов памяти
           "breakpad.reportURL" = "";
           "browser.tabs.crashReporting.sendReport" = false;
           "browser.crashReports.unsubmittedCheck.enabled" = false;
           "browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
 
-          # 3. Отключение Normandy / Экспериментов / Исследований (Shield / Studies)
           "app.normandy.enabled" = false;
           "app.normandy.api_url" = "";
           "app.shield.optoutstudies.enabled" = false;
@@ -163,11 +160,9 @@ in
           "experiments.supported" = false;
           "network.allow-experiments" = false;
 
-          # 4. Отключение скрытого пинг-трекинга (Hyperlink Ping & Beacon API)
           "browser.send_pings" = false;
           "beacon.enabled" = false;
 
-          # 5. Отключение предзагрузки ссылок и DNS (Network Prefetch / Speculative Connection)
           "network.prefetch-next" = false;
           "network.dns.disablePrefetch" = true;
           "network.dns.disablePrefetchFromHTTPS" = true;
@@ -176,16 +171,13 @@ in
           "network.http.speculative-parallel-limit" = 0;
           "browser.places.speculativeConnect.enabled" = false;
 
-          # 6. Отключение телеметрии поиска и адресной строки
           "browser.urlbar.eventTelemetry.enabled" = false;
           "browser.ping-centre.telemetry" = false;
 
-          # 7. Полное отключение Firefox Accounts (FxA) и Sync
           "identity.fxaccounts.enabled" = false;
           "identity.fxaccounts.toolbar.enabled" = false;
           "identity.fxaccounts.toolbar.vpnPromo" = false;
 
-          # 8. Отключение Mozilla VPN, Relay и встроенного шопинга
           "browser.vpn_promo.enabled" = false;
           "browser.shopping.experience2025.enabled" = false;
           "browser.shopping.experience2025.active" = false;
@@ -193,20 +185,17 @@ in
           "extensions.htmlaboutaddons.recommendations.enabled" = false;
           "browser.discovery.enabled" = false;
 
-          # 9. Полное удаление Pocket и скриншотов
           "extensions.pocket.enabled" = false;
           "extensions.pocket.api" = "";
           "extensions.pocket.site" = "";
           "extensions.screenshots.disabled" = true;
 
-          # 10. Отключение Firefox View, онбордингов и назойливых промо-экранов
           "browser.tabs.firefox-view" = false;
           "browser.firefox-view.feature-tour" = "{\"screen\":\"\",\"complete\":true}";
           "browser.aboutwelcome.enabled" = false;
           "browser.startup.homepage_override.mstone" = "ignore";
           "trailhead.firstrun.didSeeAboutWelcome" = true;
 
-          # 11. Полное отключение встроенного менеджера паролей
           "signon.rememberSignons" = false;
           "signon.autofillForms" = false;
           "signon.generation.enabled" = false;
@@ -217,7 +206,6 @@ in
           "signon.passwordEditCapture.enabled" = false;
           "services.sync.prefs.sync.signon.rememberSignons" = false;
 
-          # 12. Отключение всех встроенных AI/ML интеграций и AI-чата в сайдбаре
           "browser.ml.enable" = false;
           "browser.ml.chat.enabled" = false;
           "browser.ml.chat.sidebar" = false;

@@ -6,6 +6,7 @@ let
   };
 in
 {
-  wayland.windowManager.sway.config.output =
-    lib.mkIf (monitors != { }) (lib.mapAttrs mkOutput monitors);
+  wayland.windowManager.sway.config.output = lib.mkIf (monitors != { }) (
+    lib.mapAttrs mkOutput monitors
+  );
 }

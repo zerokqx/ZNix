@@ -48,7 +48,6 @@
     NIXPKGS_ALLOW_UNFREE = 1;
   };
 
-  # Базовая автоматическая конфигурация мониторов (без жесткой привязки к конкретным разъемам)
   znix.monitors = {
     noctaliaMonitors = [ ];
     list = lib.mkDefault { };

@@ -5,7 +5,7 @@
     mockDevIcons = true;
 
     modules = {
-      # 1. Быстрое комментирование (gcc для строки, gc в visual)
+
       comment = {
         options = {
           custom_commentstring.__raw = ''
@@ -16,7 +16,6 @@
         };
       };
 
-      # 2. Базовые настройки редактора (Mini.basics)
       basics = {
         options = {
           basic = true;
@@ -26,8 +25,8 @@
         mappings = {
           basic = true;
           option_toggle_prefix = "\\";
-          windows = true; # Нативная навигация по сплитам Ctrl+hjkl и ресайз Ctrl+стрелки
-          move_with_alt = true; # Перемещение курсора в Insert/Cmd/Term через Alt+hjkl
+          windows = true;
+          move_with_alt = true;
         };
         autocommands = {
           basic = true;
@@ -35,17 +34,14 @@
         };
       };
 
-      # 3. Статус-бар (Mini.statusline)
       statusline = {
         use_icons = true;
       };
 
-      # 4. Верхняя панель буферов (Mini.tabline)
       tabline = {
         show_icons = true;
       };
 
-      # 5. Подсветка HEX цветов и ключевых слов TODO / FIXME / HACK / NOTE
       hipatterns = {
         highlighters = {
           hex_color.__raw = "require('mini.hipatterns').gen_highlighter.hex_color()";
@@ -68,13 +64,11 @@
         };
       };
 
-      # 6. Умные текстовые объекты (daf - вся функция, cia - изменить аргумент, cib - внутри скобок)
       ai = {
         n_lines = 500;
         search_method = "cover_or_next";
       };
 
-      # 7. Перемещение строк и блоков кода через Alt + Стрелки
       move = {
         mappings = {
           left = "<M-Left>";
@@ -88,14 +82,12 @@
         };
       };
 
-      # 8. Разворачивание/сворачивание аргументов и массивов (хоткей gS)
       splitjoin = {
         mappings = {
           toggle = "gS";
         };
       };
 
-      # 9. Интерактивное выравнивание кода по колонкам (хоткеи ga / gA)
       align = {
         mappings = {
           start = "ga";
@@ -103,7 +95,6 @@
         };
       };
 
-      # 10. Удобная навигация вперед/назад через [ и ]
       bracketed = {
         buffer = {
           suffix = "b";
@@ -139,16 +130,12 @@
         };
       };
 
-      # 11. Автоматические пары скобок и кавычек
       pairs = { };
 
-      # 12. Быстрое обрамление текста (surround)
       surround = { };
 
-      # 13. Иконки файлов
       icons = { };
 
-      # 14. Сверхлегкий движок сниппетов (Mini.snippets)
       snippets = {
         snippets.__raw = "{ require('mini.snippets').gen_loader.from_lang() }";
         mappings = {
@@ -161,7 +148,6 @@
     };
   };
 
-  # Цвета для ключевых слов MiniHipatterns
   extraConfigLua = ''
     vim.api.nvim_set_hl(0, "MiniHipatternsFixme", { fg = "#1a1b26", bg = "#f7768e", bold = true })
     vim.api.nvim_set_hl(0, "MiniHipatternsHack",  { fg = "#1a1b26", bg = "#e0af68", bold = true })

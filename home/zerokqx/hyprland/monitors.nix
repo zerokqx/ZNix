@@ -9,7 +9,7 @@ let
     name:
     let
       spec = monitors.${name};
-      # Убираем "Hz" и заменяем на ".00", чтобы получить строгий float для герцовки (например, 1920x1080@165.00)
+
       rawMode = lib.removeSuffix "Hz" spec.mode;
       mode = if lib.hasInfix "@" rawMode then "${rawMode}.00" else rawMode;
 
