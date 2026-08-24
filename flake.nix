@@ -52,7 +52,10 @@
       perSystem =
         { pkgs, system, ... }:
         let
-          nvim = inputs.self.nixosConfigurations.desktop.config.home-manager.users.zerok.programs.nixvim.build.package;
+          nvim = inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
+            inherit pkgs;
+            module = import ./home/zerokqx/nixvim/config.nix;
+          };
 
           menuPkg = pkgs.rustPlatform.buildRustPackage {
             pname = "znix-menu";

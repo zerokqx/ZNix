@@ -2,6 +2,7 @@
 {
 
   home.packages = with pkgs; [
+    davinci-resolve
     dive
     ripgrep
     psmisc
@@ -16,11 +17,8 @@
     lsof
     redisinsight
     sshfs
-    # httpie
     lazydocker
     lazyssh
-    google-chrome
-    # gh
     lazygit
     ayugram-desktop
     yazi
@@ -29,7 +27,6 @@
     libreoffice
     steam
     qbittorrent
-    nerd-fonts.jetbrains-mono
     insomnia
     obsidian
     fastfetch
