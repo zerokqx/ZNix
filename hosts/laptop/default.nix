@@ -11,6 +11,11 @@ inputs.nixpkgs.lib.nixosSystem {
       services.upower.enable = true;
       znix.hardware.fingerprint.goodix.enable = false;
 
+      boot.kernelParams = [
+        "psmouse.synaptics_intertouch=0"
+        "psmouse.elantech_smbus=0"
+      ];
+
       home-manager.users.zerok = {
         programs.dank-material-shell.enable = true;
         znix.browser.enable = true;
@@ -22,7 +27,7 @@ inputs.nixpkgs.lib.nixosSystem {
             };
             "HDMI-A-2" = {
               mode = "1920x1080@60Hz";
-              pos = "1920x0";
+              pos = "1920 0";
             };
           };
           noctaliaMonitors = [
