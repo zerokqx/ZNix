@@ -6,7 +6,6 @@
   imports = [
     ./obs-studio.nix
     ./hyprland
-    ./sway
     ./mimes.nix
     ./git.nix
     ./dms.nix

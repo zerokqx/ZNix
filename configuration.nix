@@ -29,10 +29,6 @@
   programs = {
     hyprland.enable = true;
     hyprland.withUWSM = false;
-    sway = {
-      enable = true;
-      package = pkgs.swayfx;
-    };
     command-not-found.enable = false;
     gnupg.agent.enable = true;
     nix-ld.enable = true;
