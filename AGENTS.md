@@ -31,7 +31,7 @@ Docs: README.md in the repo root is the English copy; other languages live in `d
 
 ## Nixvim layout (Hybrid Snacks.nvim + Mini.nvim Ecosystem)
 - Entry: `home/zerokqx/nixvim/default.nix` imports `autocmds.nix`, `completion.nix`, `flash.nix`, `mini.nix`, `snacks.nix`, `languages.nix`, `keymaps.nix`, `opts.nix`.
-- `home/zerokqx/nixvim/snacks.nix`: Modern UI & QoL suite (`explorer`, `picker`, `indent`, `scope`, `input`, `notifier`, `dashboard`, `bufdelete`, `words`, `terminal`, `lazygit`, `git`, `gitbrowse`, `bigfile`, `quickfile`, `scroll`, `zen`, `scratch`, `rename`, `statuscolumn`).
+- `home/zerokqx/nixvim/snacks.nix`: Modern UI & QoL suite (`explorer`, `picker`, `indent`, `scope`, `input`, `notifier`, `dashboard`, `bufdelete`, `words`, `terminal`, `lazygit`, `git`, `gitbrowse`, `bigfile`, `quickfile`, `scroll`, `zen`, `scratch`, `rename`, `image`, `statuscolumn`).
 - `home/zerokqx/nixvim/mini.nix`: Pure text-editing and syntactic power (`ai`, `align`, `basics`, `bracketed`, `comment`, `hipatterns`, `icons`, `move`, `pairs`, `snippets`, `splitjoin`, `statusline`, `surround`, `tabline`).
 - `home/zerokqx/nixvim/completion.nix`: Snippets + Mini/Blink completion switch.
 - `home/zerokqx/nixvim/languages.nix`: LSP (`nixd`, `taplo`, `yamlls`, `jsonls`, `marksman`, `dockerls`, `bashls`, `nginx_language_server`, `rust_analyzer`, `ts_ls`, `lua_ls`, `html`, `cssls`), `conform-nvim`, `schemastore`.

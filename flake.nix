@@ -67,18 +67,12 @@
         in
         {
           packages = {
-            inherit nvim;
             nixvim = nvim;
             menu = menuPkg;
-            znix-menu = menuPkg;
             default = nvim;
           };
           apps = {
             default = {
-              type = "app";
-              program = "${nvim}/bin/nvim";
-            };
-            nvim = {
               type = "app";
               program = "${nvim}/bin/nvim";
             };
@@ -87,10 +81,6 @@
               program = "${nvim}/bin/nvim";
             };
             menu = {
-              type = "app";
-              program = "${menuPkg}/bin/znix-menu";
-            };
-            znix-menu = {
               type = "app";
               program = "${menuPkg}/bin/znix-menu";
             };

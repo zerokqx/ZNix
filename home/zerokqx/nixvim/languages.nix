@@ -214,5 +214,6 @@
 
     ripgrep
     fd
+    imagemagick
   ];
 }

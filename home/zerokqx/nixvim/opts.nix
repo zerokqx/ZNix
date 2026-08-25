@@ -11,6 +11,9 @@
     wrap = lib.mkForce true;
     breakindent = lib.mkForce true;
     undofile = lib.mkForce true;
+    swapfile = lib.mkForce false;
+    backup = lib.mkForce false;
+    writebackup = lib.mkForce false;
     scrolloff = lib.mkForce 8;
     timeoutlen = lib.mkForce 250;
     signcolumn = lib.mkForce "yes";
