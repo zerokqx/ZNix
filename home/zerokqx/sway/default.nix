@@ -38,19 +38,16 @@ in
     ./package.nix
   ];
 
-  programs.sway = {
-    enable = true;
-    package = pkgs.swayfx;
-  };
   wayland.windowManager.sway = {
     enable = true;
+    package = pkgs.swayfx;
+    checkConfig = false;
     wrapperFeatures.gtk = true;
 
     config = {
-
       bars = [ ];
       modifier = "Mod4";
-      terminal = "$TERM";
+      terminal = config.home.sessionVariables.TERMINAL or "foot";
       menu = "dms ipc call launcher toggle";
       defaultWorkspace = "1";
       bindkeysToCode = true;
@@ -64,7 +61,14 @@ in
       };
 
       workspaceOutputAssign = workspaceAssignments;
-
     };
+
+    extraConfig = ''
+      corner_radius 20
+      smart_corner_radius on
+      blur disable
+      shadows disable
+      default_dim_inactive 0.0
+    '';
   };
 }
