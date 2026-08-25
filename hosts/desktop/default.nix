@@ -8,20 +8,18 @@ inputs.nixpkgs.lib.nixosSystem {
     {
       home-manager.users.zerok = {
         znix.browser.enable = true;
-        znix.monitors = {
-          noctaliaMonitors = [ ];
-          list = {
-            "DP-1" = {
-              mode = "1920x1080@165Hz";
-              pos = "1920 0";
-            };
-            "HDMI-A-1" = {
-              mode = "1920x1080@75Hz";
-              pos = "0 0";
-            };
-          };
+
+        wayland.windowManager.hyprland.settings = {
+          monitor = [
+            "DP-1,1920x1080@165,1920x0,1"
+            "HDMI-A-1,1920x1080@75,0x0,1"
+          ];
+          workspace = [
+            "2,monitor:DP-1"
+            "3,monitor:HDMI-A-1"
+            "9,monitor:HDMI-A-1"
+          ];
         };
-        programs.noctalia-shell.settings.bar.position = "bottom";
       };
     }
   ];

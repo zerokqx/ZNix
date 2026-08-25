@@ -19,22 +19,11 @@ inputs.nixpkgs.lib.nixosSystem {
       home-manager.users.zerok = {
         programs.dank-material-shell.enable = true;
         znix.browser.enable = true;
-        znix.monitors = {
-          list = {
-            "eDP-1" = {
-              mode = "1920x1080@60Hz";
-              pos = "0 0";
-            };
-            "HDMI-A-2" = {
-              mode = "1920x1080@60Hz";
-              pos = "1920 0";
-            };
-          };
-          noctaliaMonitors = [
-            "eDP-1"
-            "HDMI-A-2"
-          ];
-        };
+
+        wayland.windowManager.hyprland.settings.monitor = [
+          "eDP-1,1920x1080@60,0x0,1"
+          "HDMI-A-2,1920x1080@60,1920x0,1"
+        ];
       };
     }
   ];
