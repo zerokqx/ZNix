@@ -237,9 +237,5 @@
         scope = "cursor"
       }
     })
-
-    vim.api.nvim_set_hl(0, "SnacksDashboardHeader", { link = "Special" })
-    vim.api.nvim_set_hl(0, "SnacksDashboardIcon",   { link = "Special" })
-    vim.api.nvim_set_hl(0, "SnacksDashboardKey",    { link = "Constant" })
   '';
 }

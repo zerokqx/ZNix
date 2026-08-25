@@ -158,7 +158,7 @@
           width = 50;
         }
       ];
-      showWorkspaceIndex = false;
+      showWorkspaceIndex = true;
       showWorkspaceName = false;
       showWorkspacePadding = false;
       workspaceScrolling = false;
