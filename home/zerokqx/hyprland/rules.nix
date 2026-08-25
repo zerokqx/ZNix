@@ -24,6 +24,12 @@
     "center on, match:class ^(mpv)$"
     "size 500 400, match:class ^(mpv)$"
 
+    "float on, match:class ^(org\\.kde\\.kdenlive|kdenlive)$, match:title ^(?!.*Kdenlive).*$"
+    "center on, match:class ^(org\\.kde\\.kdenlive|kdenlive)$, match:title ^(?!.*Kdenlive).*$"
+
+    "float on, match:title ^(Параметры.*|Свойства.*|Создать проект|Настройки.*|Open File|Save File|Confirm.*|Warning.*)$"
+    "center on, match:title ^(Параметры.*|Свойства.*|Создать проект|Настройки.*|Open File|Save File|Confirm.*|Warning.*)$"
+
     "match:class ^(com\\.ayugram\\.desktop|AyuGram|ayugram)$, workspace special:ayugram silent"
     "match:initial_class ^(com\\.ayugram\\.desktop|AyuGram|ayugram)$, workspace special:ayugram silent"
     "match:class ^(Throne|throne)$, workspace 10 silent"
