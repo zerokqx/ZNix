@@ -28,7 +28,7 @@
     enable = true;
     settings = {
       highlight.enable = true;
-      indent.enable = true;
+      indent.enable = false;
     };
   };
   plugins.ts-context-commentstring.enable = true;
@@ -199,6 +199,28 @@
     };
   };
 
+  plugins.fidget = {
+    enable = true;
+    settings = {
+      notification = {
+        override_vim_notify = false;
+        window = {
+          winblend = 0;
+          border = "none";
+        };
+      };
+      progress = {
+        display = {
+          done_icon = "✔ ";
+          progress_icon = {
+            pattern = "dots";
+            period = 1;
+          };
+        };
+      };
+    };
+  };
+
   globals.loaded_matchparen = 1;
 
   luaLoader.enable = true;
@@ -217,6 +239,24 @@
 
   extraConfigLua = ''
     vim.o.winborder = "single"
+
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+      vim.lsp.handlers.hover, {
+        border = "single",
+        max_width = 80,
+        max_height = 25,
+        focusable = true,
+      }
+    )
+
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+      vim.lsp.handlers.signature_help, {
+        border = "single",
+        max_width = 80,
+        max_height = 20,
+        focusable = false,
+      }
+    )
 
     vim.diagnostic.config({
       virtual_text = {

@@ -12,6 +12,7 @@
       "1.1.1.1"
     ];
     firewall.checkReversePath = false;
+  firewall.allowedUDPPorts = [ 8888 40000 ];
     firewall.allowedUDPPortRanges = [
       {
         from = 27000;

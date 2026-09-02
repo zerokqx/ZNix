@@ -206,6 +206,26 @@
     {
       mode = "n";
       key = "<leader>ch";
+      action.__raw = ''
+        function()
+          local filter = { bufnr = 0 }
+          local is_enabled = vim.lsp.inlay_hint.is_enabled(filter)
+          vim.lsp.inlay_hint.enable(not is_enabled, filter)
+          if not is_enabled then
+            Snacks.notify.info("Inlay Hints (типы): ВКЛ", { title = "LSP Hints" })
+          else
+            Snacks.notify.info("Inlay Hints (типы): ВЫКЛ", { title = "LSP Hints" })
+          end
+        end
+      '';
+      options = {
+        silent = true;
+        desc = "Toggle Inlay Hints (Типы и подсказки)";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>ck";
       action = "<cmd>lua vim.lsp.buf.signature_help()<CR>";
       options = {
         silent = true;
@@ -237,6 +257,15 @@
       options = {
         silent = true;
         desc = "LSP Info (Информация о LSP)";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>cR";
+      action = "<cmd>LspRestart<CR>";
+      options = {
+        silent = true;
+        desc = "Restart LSP (Перезапустить языковые серверы)";
       };
     }
 

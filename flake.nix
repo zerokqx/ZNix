@@ -2,6 +2,8 @@
   description = "flake-parts configuration for NixOS";
 
   inputs = {
+    lu.url = "github:zerokqx/lu";
+    lu.inputs.nixpkgs.follows = "nixpkgs";
     bundlers.url = "github:ralismark/nix-appimage";
     hyprland.url = "github:hyprwm/Hyprland";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";

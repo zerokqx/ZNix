@@ -43,5 +43,34 @@
         vim.bo[args.buf].bufhidden = "wipe"
       end,
     })
+
+    -- Автоматическое включение inlay hints и подсветка символа под курсором при подключении LSP
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("ZnixLspAttach", { clear = true }),
+      callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if not client then return end
+
+        -- Inlay hints (типы как в RustRover)
+        if client:supports_method("textDocument/inlayHint") then
+          vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+        end
+
+        -- Подсветка всех вхождений символа под курсором
+        if client:supports_method("textDocument/documentHighlight") then
+          local hl_group = vim.api.nvim_create_augroup("ZnixLspHighlight_" .. args.buf, { clear = true })
+          vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+            group = hl_group,
+            buffer = args.buf,
+            callback = vim.lsp.buf.document_highlight,
+          })
+          vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+            group = hl_group,
+            buffer = args.buf,
+            callback = vim.lsp.buf.clear_references,
+          })
+        end
+      end,
+    })
   '';
 }

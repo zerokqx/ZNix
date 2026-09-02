@@ -28,7 +28,7 @@
   };
   programs = {
     hyprland.enable = true;
-    hyprland.withUWSM = false;
+    hyprland.withUWSM = true;
     command-not-found.enable = false;
     gnupg.agent.enable = true;
     nix-ld.enable = true;
@@ -52,6 +52,7 @@
     };
     ssh.startAgent = lib.mkForce true;
     localsend.enable = true;
+    gamemode.enable = true;
   };
 
   system.stateVersion = "26.05";

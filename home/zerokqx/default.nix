@@ -4,6 +4,7 @@
 }:
 {
   imports = [
+    ./translate-shell.nix
     ./obs-studio.nix
     ./hyprland
     ./mimes.nix

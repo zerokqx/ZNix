@@ -2,9 +2,12 @@
 {
 
   home.packages = with pkgs; [
-    davinci-resolve
+    ncpamixer
+    inputs.lu.packages.${stdenv.hostPlatform.system}.default
+    jetbrains.rust-rover
+    cargo
+    android-studio
     dive
-    ripgrep
     psmisc
     file
     gh
@@ -25,14 +28,12 @@
     zathura
     nodejs_22
     libreoffice
-    steam
     qbittorrent
     insomnia
     obsidian
     fastfetch
     devenv
     xdg-user-dirs
-    wl-clipboard
     loupe
     totem
   ];

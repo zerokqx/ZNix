@@ -21,8 +21,17 @@
         name = "fzf-fish";
         src = pkgs.fishPlugins.fzf-fish.src;
       }
+      {
+        name = "done";
+        src = pkgs.fishPlugins.done.src;
+      }
+      {
+        name = "autopair";
+        src = pkgs.fishPlugins.autopair.src;
+      }
     ];
     shellAbbrs = {
+      dal = "direnv allow";
       nsh = "nix shell";
       yz = "yazi";
       c = "cargo";
@@ -81,7 +90,5 @@
   home.packages = with pkgs; [
     grc
     fzf
-    fishPlugins.done
-    fishPlugins.autopair
   ];
 }

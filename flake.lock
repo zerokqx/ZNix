@@ -772,6 +772,26 @@
         "type": "github"
       }
     },
+    "lu": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788201236,
+        "narHash": "sha256-GiUpBxLPNcv0fRwnsxunFIcRDpRu8jULtWwz8OvK5r4=",
+        "owner": "zerokqx",
+        "repo": "lu",
+        "rev": "d84a694057901b2a3ca8b22d01f903d3baee2147",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zerokqx",
+        "repo": "lu",
+        "type": "github"
+      }
+    },
     "nix-flatpak": {
       "locked": {
         "lastModified": 1767983141,
@@ -980,6 +1000,7 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
+        "lu": "lu",
         "nix-flatpak": "nix-flatpak",
         "nixpkgs": "nixpkgs_3",
         "nixvim": "nixvim",
