@@ -7,6 +7,7 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../configuration.nix
     ./hardware-configuration.nix
     {
+      networking.hostName = "nixos-laptop";
       services.power-profiles-daemon.enable = true;
       services.upower.enable = true;
       znix.hardware.fingerprint.goodix.enable = false;

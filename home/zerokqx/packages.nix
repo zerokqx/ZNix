@@ -2,6 +2,9 @@
 {
 
   home.packages = with pkgs; [
+    kdePackages.kdenlive
+    bottom
+    davinci-resolve
     ncpamixer
     inputs.lu.packages.${stdenv.hostPlatform.system}.default
     jetbrains.rust-rover
