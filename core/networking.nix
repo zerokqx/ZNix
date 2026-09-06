@@ -48,7 +48,6 @@
         to = 3479;
       }
     ];
-    hostName = "nixos-pc";
     firewall.enable = true;
     wireless.iwd.enable = false;
   };

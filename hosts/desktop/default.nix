@@ -6,6 +6,7 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../configuration.nix
     ./hardware-configuration.nix
     {
+      networking.hostName = "nixos-pc";
       home-manager.users.zerok = {
         znix.browser.enable = true;
 
