@@ -43,6 +43,8 @@
 
   home.sessionPath = [
     "${config.home.homeDirectory}/.cargo/bin"
+
+    "${config.home.homeDirectory}/.local/share/pnpm/bin"
     "${config.home.homeDirectory}/.bun/bin"
     "${config.home.homeDirectory}/.dotnet/tools"
     "${config.home.homeDirectory}/.local/bin"

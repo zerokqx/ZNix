@@ -2,6 +2,7 @@
 {
 
   home.packages = with pkgs; [
+    python3
     kdePackages.kdenlive
     bottom
     davinci-resolve

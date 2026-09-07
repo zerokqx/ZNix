@@ -1,14 +1,5 @@
 { ... }:
 {
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true; # чтобы .local резолвился
-    publish = {
-      enable = true;
-      addresses = true;
-      workstation = true;
-    };
-  };
 
   networking = {
     networkmanager = {
@@ -29,24 +20,6 @@
     firewall.allowedUDPPorts = [
       8888
       40000
-    ];
-    firewall.allowedUDPPortRanges = [
-      {
-        from = 27000;
-        to = 27031;
-      }
-      {
-        from = 27036;
-        to = 27036;
-      }
-      {
-        from = 4380;
-        to = 4380;
-      }
-      {
-        from = 3478;
-        to = 3479;
-      }
     ];
     firewall.enable = true;
     wireless.iwd.enable = false;

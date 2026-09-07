@@ -31,6 +31,8 @@
       }
     ];
     shellAbbrs = {
+      init-commit = ''git commit -m "feat: initial commit"'';
+      m = "moon";
       dal = "direnv allow";
       nsh = "nix shell";
       yz = "yazi";

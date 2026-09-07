@@ -55,6 +55,8 @@
 
       nginx_language_server.enable = true;
 
+      ocamllsp.enable = true;
+
       rust_analyzer = {
         enable = true;
         installCargo = false;
@@ -358,6 +360,8 @@
         "black"
       ];
 
+      ocaml = [ "ocamlformat" ];
+
       markdown = [
         "prettierd"
         "prettier"
@@ -385,6 +389,9 @@
     bash-language-server
     shfmt
     shellcheck
+
+    ocamlPackages.ocaml-lsp
+    ocamlformat
 
     rust-analyzer
     rustfmt
