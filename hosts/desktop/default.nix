@@ -8,8 +8,6 @@ inputs.nixpkgs.lib.nixosSystem {
     {
       networking.hostName = "nixos-pc";
       home-manager.users.zerok = {
-        znix.browser.enable = true;
-
         wayland.windowManager.hyprland.settings = {
           monitor = [
             "DP-1,1920x1080@165,1920x0,1"

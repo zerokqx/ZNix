@@ -10,7 +10,6 @@ inputs.nixpkgs.lib.nixosSystem {
         imports = [
           ../../home/noop
         ];
-        znix.browser.enable = true;
         programs.dank-material-shell.enable = true;
       };
     }

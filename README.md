@@ -26,7 +26,7 @@ NixOS/home-manager configuration set split by host. Below: what lives where, cus
 - Firefox + Bluetooth + Noctalia: ![Example 2](assets/example-2-firefox-and-bluetooth-noctalia.png)
 
 ## Layout
-- `flake.nix`: entry; pulls nixpkgs 25.11, home-manager, nixvim, stylix, noctalia, firefox-nightly, flake-parts.
+- `flake.nix`: entry; pulls nixpkgs 25.11, home-manager, nixvim, stylix, noctalia, flake-parts.
 - `hosts/desktop`, `hosts/laptop`: nixosSystem entry points; import `configuration.nix`, host `hardware-configuration.nix`, host modules (ollama, fprintd/opencode) and HM for user `zerok`.
 - `configuration.nix`: base system stack; imports `core/` and `configs/`.
 - `core/`: system modules (boot, nixpkgs, networking, audio, graphics, users, etc.) plus `znix/` for custom options.
@@ -40,7 +40,6 @@ NixOS/home-manager configuration set split by host. Below: what lives where, cus
   - `znix.ai.sillytavern.*` (`core/znix/silly-tavern.nix`): toggle SillyTavern and Ollama (`enable`, `ollamaEnable`, `mobileServer`, `name`).
   - `znix.hardware.fingerprint.goodix.*` (`core/znix/finger-print.nix`): enable Goodix fprintd/TOD driver.
 - Home:
-  - `znix.browser.*` (`home/znix/browser.nix`): Firefox profile/extension/bookmark options.
   - `znix.theme.*` (`home/znix/theme.nix`): theme polarity, cursor package, icon package/names for stylix.
 
 ## Hardware-configuration warning

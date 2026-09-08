@@ -26,7 +26,7 @@
 - Firefox + Bluetooth + Noctalia: ![Приклад 2](../assets/example-2-firefox-and-bluetooth-noctalia.png)
 
 ## Структура
-- `flake.nix`: вхід; тягне nixpkgs 25.11, home-manager, nixvim, stylix, noctalia, firefox-nightly, flake-parts.
+- `flake.nix`: вхід; тягне nixpkgs 25.11, home-manager, nixvim, stylix, noctalia, flake-parts.
 - `hosts/desktop`, `hosts/laptop`: точки входу nixosSystem; підключають `configuration.nix`, свій `hardware-configuration.nix`, хостові модулі (ollama, fprintd/opencode) та HM для користувача `zerok`.
 - `configuration.nix`: базовий системний стек; імпортує `core/` і `configs/`.
 - `core/`: системні модулі (boot, nixpkgs, мережа, звук, графіка, користувачі тощо) плюс `znix/` для кастомних опцій.
@@ -40,7 +40,6 @@
   - `znix.ai.sillytavern.*` (`core/znix/silly-tavern.nix`): вмикає SillyTavern і Ollama (`enable`, `ollamaEnable`, `mobileServer`, `name`).
   - `znix.hardware.fingerprint.goodix.*` (`core/znix/finger-print.nix`): вмикає Goodix (fprintd/TOD).
 - Home:
-  - `znix.browser.*` (`home/znix/browser.nix`): налаштування Firefox (профіль, розширення, закладки).
   - `znix.theme.*` (`home/znix/theme.nix`): полярність теми, курсор, пакети/назви іконок для stylix.
 
 ## Попередження щодо hardware-configuration

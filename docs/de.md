@@ -26,7 +26,7 @@ NixOS/home-manager Konfigurationssatz mit Host-Trennung. Unten: Struktur, eigene
 - Firefox + Bluetooth + Noctalia: ![Beispiel 2](../assets/example-2-firefox-and-bluetooth-noctalia.png)
 
 ## Struktur
-- `flake.nix`: Einstieg; zieht nixpkgs 25.11, home-manager, nixvim, stylix, noctalia, firefox-nightly, flake-parts.
+- `flake.nix`: Einstieg; zieht nixpkgs 25.11, home-manager, nixvim, stylix, noctalia, flake-parts.
 - `hosts/desktop`, `hosts/laptop`: nixosSystem-Einstiege; importieren `configuration.nix`, eigenes `hardware-configuration.nix`, Host-Module (ollama, fprintd/opencode) und HM für `zerok`.
 - `configuration.nix`: Basisstack; importiert `core/` und `configs/`.
 - `core/`: System-Module (Boot, nixpkgs, Netzwerk, Audio, Grafik, User etc.) plus `znix/` für eigene Optionen.
@@ -40,7 +40,6 @@ NixOS/home-manager Konfigurationssatz mit Host-Trennung. Unten: Struktur, eigene
   - `znix.ai.sillytavern.*` (`core/znix/silly-tavern.nix`): schaltet SillyTavern und Ollama (`enable`, `ollamaEnable`, `mobileServer`, `name`).
   - `znix.hardware.fingerprint.goodix.*` (`core/znix/finger-print.nix`): aktiviert Goodix (fprintd/TOD).
 - Home:
-  - `znix.browser.*` (`home/znix/browser.nix`): Firefox-Optionen (Profil, Erweiterungen, Bookmarks).
   - `znix.theme.*` (`home/znix/theme.nix`): Themen-Polarity, Cursor-Paket, Icon-Paket/-Namen für stylix.
 
 ## Hinweis zu hardware-configuration

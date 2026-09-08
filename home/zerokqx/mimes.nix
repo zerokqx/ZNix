@@ -52,13 +52,13 @@
       "audio/opus" = [ "org.gnome.Totem.desktop" ];
       "audio/webm" = [ "org.gnome.Totem.desktop" ];
 
-      "text/html" = [ "firefox-nightly.desktop" ];
-      "application/xhtml+xml" = [ "firefox-nightly.desktop" ];
-      "application/xml" = [ "firefox-nightly.desktop" ];
-      "x-scheme-handler/http" = [ "firefox-nightly.desktop" ];
-      "x-scheme-handler/https" = [ "firefox-nightly.desktop" ];
-      "x-scheme-handler/about" = [ "firefox-nightly.desktop" ];
-      "x-scheme-handler/unknown" = [ "firefox-nightly.desktop" ];
+      "text/html" = [ "chromium-browser.desktop" ];
+      "application/xhtml+xml" = [ "chromium-browser.desktop" ];
+      "application/xml" = [ "chromium-browser.desktop" ];
+      "x-scheme-handler/http" = [ "chromium-browser.desktop" ];
+      "x-scheme-handler/https" = [ "chromium-browser.desktop" ];
+      "x-scheme-handler/about" = [ "chromium-browser.desktop" ];
+      "x-scheme-handler/unknown" = [ "chromium-browser.desktop" ];
 
       "application/pdf" = [ "org.pwmt.zathura-pdf-mupdf.desktop" ];
 

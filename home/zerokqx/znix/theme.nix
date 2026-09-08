@@ -102,12 +102,6 @@ in
         opencode.enable = true;
         zathura.enable = true;
         noctalia-shell.enable = true;
-        firefox = {
-          enable = true;
-          colors.enable = true;
-          colorTheme.enable = true;
-          profileNames = [ config.znix.browser.profile ];
-        };
 
         foot = {
           enable = true;

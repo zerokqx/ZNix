@@ -14,7 +14,7 @@ let
     ) 10
   );
 
-  browserExe = lib.getExe config.znix.browser.package;
+  browserExe = config.home.sessionVariables.BROWSER or "chromium";
   dmsIpc = "dms ipc call";
   terminal = config.home.sessionVariables.TERMINAL or "alacritty";
 in

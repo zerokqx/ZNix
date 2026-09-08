@@ -40,7 +40,6 @@
   - `znix.ai.sillytavern.*`（`core/znix/silly-tavern.nix`）：开关 SillyTavern 与 Ollama（`enable`、`ollamaEnable`、`mobileServer`、`name`）。
   - `znix.hardware.fingerprint.goodix.*`（`core/znix/finger-print.nix`）：启用 Goodix 指纹（fprintd/TOD）。
 - Home：
-  - `znix.browser.*`（`home/znix/browser.nix`）：Firefox 配置（配置文件、扩展、书签）。
   - `znix.theme.*`（`home/znix/theme.nix`）：主题明暗、光标包、图标包/名称（Stylix）。
 
 ## 硬件配置警告

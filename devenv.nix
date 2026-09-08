@@ -28,8 +28,8 @@
       sudo nixos-rebuild switch --flake ".#$HOST" --show-trace
     fi
   '';
-  scripts.theme-link-git.exec = "firefox-nightly https://github.com/tinted-theming/base16-schemes";
-  scripts.theme-link-galery.exec = "firefox-nightly https://dt.iki.fi/base16-previews";
+  scripts.theme-link-git.exec = "chromium https://github.com/tinted-theming/base16-schemes";
+  scripts.theme-link-galery.exec = "chromium https://dt.iki.fi/base16-previews";
   scripts.rebuild-desktop-test.exec = "git add . && sudo nixos-rebuild test --flake .#desktop --show-trace";
   scripts.rebuild-laptop-test.exec = "git add . && sudo nixos-rebuild test --flake .#laptop --show-trace";
   scripts.rebuild-noop-test.exec = "git add . && sudo nixos-rebuild test --flake .#noop --show-trace";

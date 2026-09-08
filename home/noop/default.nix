@@ -17,6 +17,7 @@
     ../zerokqx/git.nix
     ../zerokqx/mimes.nix
     ../zerokqx/packages.nix
+    ../zerokqx/chromium.nix
     ../zerokqx/dir-file-create.nix
   ];
 
@@ -44,7 +45,7 @@
   home.sessionVariables = {
     TERMINAL = "foot";
     TERM = "xterm-256color";
-    BROWSER = "firefox-nightly";
+    BROWSER = "chromium";
     NIXPKGS_ALLOW_UNFREE = 1;
   };
 

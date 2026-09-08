@@ -5,7 +5,7 @@ Quick map of this repo and how to work on it.
 Docs: README.md in the repo root is the English copy; other languages live in `docs/`.
 
 ## Flake entry points
-- `flake.nix` pulls inputs: nixpkgs (25.11), home-manager, nixvim, stylix, noctalia, firefox-nightly, flake-parts.
+- `flake.nix` pulls inputs: nixpkgs (25.11), home-manager, nixvim, stylix, noctalia, flake-parts.
 - Outputs expose NixOS configurations via `hosts/default.nix`. Target names: `desktop` and `laptop`.
 - Build examples:
   - `nix build .#nixosConfigurations.desktop.config.system.build.toplevel --no-link`
