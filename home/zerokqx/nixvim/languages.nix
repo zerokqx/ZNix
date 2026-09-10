@@ -1,4 +1,17 @@
 { pkgs, lib, ... }:
+let
+  cssmodules-language-server = pkgs.buildNpmPackage {
+    pname = "cssmodules-language-server";
+    version = "1.5.2";
+    src = pkgs.fetchFromGitHub {
+      owner = "antonk52";
+      repo = "cssmodules-language-server";
+      rev = "v1.5.2";
+      hash = "sha256-9RZNXdmBP4OK7k/0LuuvqxYGG2fESYTCFNCkAWZQapk=";
+    };
+    npmDepsHash = "sha256-1CnCgut0Knf97+YHVJGUZqnRId/BwHw+jH1YPIrDPCA=";
+  };
+in
 {
 
   plugins.schemastore = {
@@ -200,6 +213,16 @@
 
       html.enable = true;
       cssls.enable = true;
+
+      css_variables = {
+        enable = true;
+        package = pkgs.css-variables-language-server;
+      };
+
+      cssmodules_ls = {
+        enable = true;
+        package = cssmodules-language-server;
+      };
     };
   };
 
@@ -404,6 +427,8 @@
     nodejs
     prettierd
     prettier
+    css-variables-language-server
+    cssmodules-language-server
 
     lua-language-server
     stylua
