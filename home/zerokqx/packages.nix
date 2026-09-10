@@ -2,15 +2,14 @@
 {
 
   home.packages = with pkgs; [
+    ghc
+    cabal-install
     python3
     kdePackages.kdenlive
     bottom
-    davinci-resolve
     ncpamixer
     inputs.lu.packages.${stdenv.hostPlatform.system}.default
-    jetbrains.rust-rover
     cargo
-    android-studio
     dive
     psmisc
     file

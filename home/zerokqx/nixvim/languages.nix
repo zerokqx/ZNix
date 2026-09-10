@@ -7,10 +7,13 @@
     yaml.enable = true;
   };
 
+  plugins.haskell-tools = {
+    enable = true;
+  };
   plugins.lsp = {
     enable = true;
     servers = {
-
+      # hls.enable = true;
       nixd = {
         enable = true;
         settings = {
@@ -374,7 +377,9 @@
   };
 
   extraPackages = with pkgs; [
-
+    haskell-language-server
+    hlint
+    ormolu # форматировщик кода (по желанию)
     nixd
     nixfmt
 
