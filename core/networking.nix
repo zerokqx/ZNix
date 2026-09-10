@@ -11,10 +11,10 @@
       "br-+"
     ];
     nameservers = [
-      "111.88.96.50"
       "111.88.96.51"
-      "8.8.8.8"
-      "1.1.1.1"
+      "111.88.96.50"
+      # "8.8.8.8"
+      # "1.1.1.1"
     ];
     firewall.checkReversePath = false;
     firewall.allowedUDPPorts = [
