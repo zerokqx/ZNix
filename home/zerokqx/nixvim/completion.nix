@@ -15,7 +15,7 @@
           };
         };
         menu = {
-          border = "single";
+          border = "rounded";
           draw = {
             columns = [
               {
@@ -36,14 +36,14 @@
           auto_show = true;
           auto_show_delay_ms = 100;
           window = {
-            border = "single";
+            border = "rounded";
           };
         };
       };
       signature = {
         enabled = true;
         window = {
-          border = "single";
+          border = "rounded";
         };
       };
       keymap = {
@@ -72,8 +72,6 @@
         default = [
           "lsp"
           "path"
-          "snippets"
-          "buffer"
         ];
         providers = {
           lsp = {

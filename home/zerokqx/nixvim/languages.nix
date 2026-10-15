@@ -11,6 +11,17 @@ let
     };
     npmDepsHash = "sha256-1CnCgut0Knf97+YHVJGUZqnRId/BwHw+jH1YPIrDPCA=";
   };
+
+  prettierOrOxfmt = lib.nixvim.mkRaw ''
+    function(bufnr)
+      local filename = vim.api.nvim_buf_get_name(bufnr)
+      local ctx = { dirname = vim.fs.dirname(filename) }
+      if require("conform.formatters.prettierd").cwd(nil, ctx) then
+        return { "prettierd", "prettier", stop_after_first = true }
+      end
+      return { "oxfmt" }
+    end
+  '';
 in
 {
 
@@ -20,13 +31,10 @@ in
     yaml.enable = true;
   };
 
-  plugins.haskell-tools = {
-    enable = true;
-  };
   plugins.lsp = {
     enable = true;
     servers = {
-      # hls.enable = true;
+      sqls.enable = true;
       nixd = {
         enable = true;
         settings = {
@@ -62,6 +70,15 @@ in
 
       marksman = {
         enable = true;
+      };
+
+      mdx_analyzer = {
+        enable = true;
+        package = pkgs.mdx-language-server;
+        cmd = [
+          "mdx-language-server"
+          "--stdio"
+        ];
       };
 
       dockerls.enable = true;
@@ -190,6 +207,10 @@ in
         };
       };
 
+      oxlint = {
+        enable = true;
+      };
+
       lua_ls = {
         enable = true;
         extraOptions = {
@@ -214,7 +235,45 @@ in
         };
       };
 
-      html.enable = true;
+      pyright = {
+        enable = true;
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true;
+              useLibraryCodeForTypes = true;
+              diagnosticMode = "openFilesOnly";
+              inlayHints = {
+                variableTypes = true;
+                functionReturnTypes = true;
+              };
+            };
+          };
+        };
+      };
+
+      ruff = {
+        enable = true;
+        onAttach.function = ''
+          if client.name == "ruff" then
+            client.server_capabilities.hoverProvider = false
+          end
+        '';
+      };
+
+      vue_ls.enable = true;
+
+      html = {
+        enable = true;
+        filetypes = [
+          "html"
+          "templ"
+          "vue"
+        ];
+      };
+
+      emmet_language_server.enable = true;
+
       cssls.enable = true;
 
       css_variables = {
@@ -318,25 +377,35 @@ in
 
   plugins.conform-nvim = {
     enable = true;
-    settings.formatters_by_ft = lib.mkForce {
+    settings = {
+      default_format_opts = {
+        lsp_format = "fallback";
+        timeout_ms = 5000;
+        stop_after_first = true;
+      };
+      formatters = {
+        oxfmt = {
+          command = "oxfmt";
+          args = [ "--stdin-filepath" "$FILENAME" ];
+        };
+        prettier = {
+          timeout_ms = 5000;
+        };
+        prettierd = {
+          timeout_ms = 5000;
+        };
+      };
+      formatters_by_ft = lib.mkForce {
 
       nix = [ "nixfmt" ];
 
       rust = [ "rustfmt" ];
 
-      javascript = [
-        "prettierd"
-        "prettier"
-      ];
-      javascriptreact = [
-        "prettierd"
-        "prettier"
-      ];
-      typescript = [
-        "prettierd"
-        "prettier"
-      ];
-      typescriptreact = [
+      javascript = prettierOrOxfmt;
+      javascriptreact = prettierOrOxfmt;
+      typescript = prettierOrOxfmt;
+      typescriptreact = prettierOrOxfmt;
+      vue = [
         "prettierd"
         "prettier"
       ];
@@ -388,6 +457,11 @@ in
 
       ocaml = [ "ocamlformat" ];
 
+      sql = [
+        "sqlfluff"
+        "sql-formatter"
+      ];
+
       markdown = [
         "prettierd"
         "prettier"
@@ -398,11 +472,13 @@ in
       ];
     };
   };
+};
 
   extraPackages = with pkgs; [
-    haskell-language-server
-    hlint
-    ormolu # форматировщик кода (по желанию)
+    sqls
+    sqlfluff
+    sql-formatter
+
     nixd
     nixfmt
 
@@ -428,16 +504,21 @@ in
     rustc
 
     typescript-language-server
+    vue-language-server
+    emmet-language-server
     typescript
     nodejs
+    oxfmt
     prettierd
     prettier
+    oxlint
     css-variables-language-server
     cssmodules-language-server
 
     lua-language-server
     stylua
 
+    pyright
     ruff
     black
 

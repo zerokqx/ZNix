@@ -152,6 +152,11 @@
           group = "Go To";
           icon = "󰌹 ";
         }
+        {
+          __unkeyed-1 = "z";
+          group = "Folds (Сворачивание)";
+          icon = " ";
+        }
       ];
     };
   };
@@ -248,11 +253,11 @@
   };
 
   extraConfigLua = ''
-    vim.o.winborder = "single"
+    vim.o.winborder = "rounded"
 
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
       vim.lsp.handlers.hover, {
-        border = "single",
+        border = "rounded",
         max_width = 80,
         max_height = 25,
         focusable = true,
@@ -261,7 +266,7 @@
 
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
       vim.lsp.handlers.signature_help, {
-        border = "single",
+        border = "rounded",
         max_width = 80,
         max_height = 20,
         focusable = false,
@@ -279,7 +284,7 @@
       severity_sort = true,
       update_in_insert = false,
       float = {
-        border = "single",
+        border = "rounded",
         source = "always",
         header = "",
         prefix = "",

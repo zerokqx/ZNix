@@ -161,7 +161,7 @@
         "v"
       ];
       key = "<leader>cf";
-      action = "<cmd>lua require('conform').format({ lsp_fallback = true })<CR>";
+      action = "<cmd>lua require('conform').format({ timeout_ms = 5000, lsp_format = 'fallback', stop_after_first = true })<CR>";
       options = {
         silent = true;
         desc = "Format (Форматировать файл / блок)";
@@ -266,6 +266,61 @@
       options = {
         silent = true;
         desc = "Restart LSP (Перезапустить языковые серверы)";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>ct";
+      action = "<cmd>RustFoldTests<CR>";
+      options = {
+        silent = true;
+        desc = "Rust: Свернуть / развернуть тесты";
+      };
+    }
+
+    {
+      mode = "n";
+      key = "za";
+      action = "za";
+      options = {
+        silent = true;
+        desc = "Свернуть / развернуть блок (Toggle fold)";
+      };
+    }
+    {
+      mode = "n";
+      key = "zc";
+      action = "zc";
+      options = {
+        silent = true;
+        desc = "Свернуть текущий блок (Close fold)";
+      };
+    }
+    {
+      mode = "n";
+      key = "zo";
+      action = "zo";
+      options = {
+        silent = true;
+        desc = "Развернуть текущий блок (Open fold)";
+      };
+    }
+    {
+      mode = "n";
+      key = "zR";
+      action = "zR";
+      options = {
+        silent = true;
+        desc = "Развернуть все блоки в буфере (Open all folds)";
+      };
+    }
+    {
+      mode = "n";
+      key = "zM";
+      action = "zM";
+      options = {
+        silent = true;
+        desc = "Свернуть все блоки в буфере (Close all folds)";
       };
     }
 

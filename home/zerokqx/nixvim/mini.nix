@@ -10,7 +10,7 @@
         options = {
           basic = true;
           extra_ui = true;
-          win_borders = "single";
+          win_borders = "rounded";
         };
         mappings = {
           basic = true;
@@ -143,5 +143,30 @@
     vim.api.nvim_set_hl(0, "MiniHipatternsHack",  { fg = "#1a1b26", bg = "#e0af68", bold = true })
     vim.api.nvim_set_hl(0, "MiniHipatternsTodo",  { fg = "#1a1b26", bg = "#7aa2f7", bold = true })
     vim.api.nvim_set_hl(0, "MiniHipatternsNote",  { fg = "#1a1b26", bg = "#9ece6a", bold = true })
+
+    -- `mini.tabline` discards the icon highlight returned by `mini.icons`.
+    -- Restore it after tabline formatting, as Snacks picker already does.
+    local make_tabline = MiniTabline.make_tabline_string
+    MiniTabline.make_tabline_string = function()
+      local tabline = make_tabline()
+
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.bo[buf].buflisted then
+          local icon, icon_hl = MiniIcons.get("file", vim.api.nvim_buf_get_name(buf))
+          if icon and icon_hl then
+            local tab_hl = buf == vim.api.nvim_get_current_buf() and "MiniTablineCurrent"
+              or (vim.fn.bufwinnr(buf) > 0 and "MiniTablineVisible" or "MiniTablineHidden")
+            if vim.bo[buf].modified then tab_hl = "MiniTablineModified" .. tab_hl:sub(12) end
+
+            local tabfunc = "%" .. buf .. "@MiniTablineSwitchBuffer@"
+            tabline = tabline:gsub(vim.pesc(tabfunc .. " " .. icon), function()
+              return tabfunc .. " %#" .. icon_hl .. "#" .. icon .. " %#" .. tab_hl .. "#"
+            end)
+          end
+        end
+      end
+
+      return tabline
+    end
   '';
 }

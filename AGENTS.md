@@ -34,7 +34,7 @@ Docs: README.md in the repo root is the English copy; other languages live in `d
 - `home/zerokqx/nixvim/snacks.nix`: Modern UI & QoL suite (`explorer`, `picker`, `indent`, `scope`, `input`, `notifier`, `dashboard`, `bufdelete`, `words`, `terminal`, `lazygit`, `git`, `gitbrowse`, `bigfile`, `quickfile`, `scroll`, `zen`, `scratch`, `rename`, `image`, `statuscolumn`).
 - `home/zerokqx/nixvim/mini.nix`: Pure text-editing and syntactic power (`ai`, `align`, `basics`, `bracketed`, `comment`, `hipatterns`, `icons`, `move`, `pairs`, `snippets`, `splitjoin`, `statusline`, `surround`, `tabline`).
 - `home/zerokqx/nixvim/completion.nix`: Snippets + Mini/Blink completion switch.
-- `home/zerokqx/nixvim/languages.nix`: LSP (`nixd`, `taplo`, `yamlls`, `jsonls`, `marksman`, `dockerls`, `bashls`, `nginx_language_server`, `rust_analyzer`, `ts_ls`, `lua_ls`, `html`, `cssls`), `conform-nvim`, `schemastore`.
+- `home/zerokqx/nixvim/languages.nix`: LSP (`nixd`, `taplo`, `yamlls`, `jsonls`, `marksman`, `dockerls`, `bashls`, `nginx_language_server`, `rust_analyzer`, `ts_ls`, `lua_ls`, `pyright`, `ruff`, `vue_ls`, `html`, `emmet_language_server`, `cssls`), `conform-nvim`, `schemastore`.
 - `home/zerokqx/nixvim/keymaps.nix` and `opts.nix`: Core editor options and window keymaps.
 
 

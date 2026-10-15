@@ -23,9 +23,12 @@
     winblend = lib.mkForce 0;
     pumblend = lib.mkForce 0;
 
-    foldmethod = lib.mkForce "manual";
-    foldexpr = lib.mkForce "";
-    foldenable = lib.mkForce false;
+    foldmethod = lib.mkForce "expr";
+    foldexpr = lib.mkForce "v:lua.vim.treesitter.foldexpr()";
+    foldenable = lib.mkForce true;
+    foldlevel = lib.mkForce 99;
+    foldlevelstart = lib.mkForce 99;
+    foldtext = lib.mkForce "";
 
     guicursor = lib.mkForce [
       "n-v-c-sm:block"
@@ -38,6 +41,6 @@
 
     list = lib.mkForce false;
 
-    fillchars = lib.mkForce "eob: ";
+    fillchars = lib.mkForce "eob: ,fold: ,foldopen:,foldsep: ,foldclose:";
   };
 }
