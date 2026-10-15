@@ -1,7 +1,8 @@
 { pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
-
+    libqalculate
+    playwright-mcp
     trash-cli
     nftables
     quickshell

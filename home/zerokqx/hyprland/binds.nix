@@ -70,6 +70,8 @@ in
     "$mod SHIFT, e, exit"
     "CTRL ALT, Delete, exit"
     "$mod SHIFT, Pause, exec, hyprctl dispatch dpms off"
+
+    "CTRL, F9, exec, whisrs toggle"
   ];
 
   wayland.windowManager.hyprland.settings.bindel = [

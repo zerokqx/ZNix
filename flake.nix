@@ -2,6 +2,15 @@
   description = "flake-parts configuration for NixOS";
 
   inputs = {
+
+    codex-cli-nix.url = "github:sadjow/codex-cli-nix";
+    codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
+
+    # vkpl = {
+    #   url = "github:zerokqx/vkpl";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
     lu.url = "github:zerokqx/lu";
     lu.inputs.nixpkgs.follows = "nixpkgs";
     bundlers.url = "github:ralismark/nix-appimage";

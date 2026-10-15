@@ -2,8 +2,12 @@
 {
 
   home.packages = with pkgs; [
+
+    # inputs.vkpl.packages.${pkgs.stdenv.hostPlatform.system}.vkpl
+    uv
+    bun inputs.codex-cli-nix.packages.${pkgs.system}.default
     ghc
-    cabal-install
+    gnumake
     python3
     kdePackages.kdenlive
     bottom

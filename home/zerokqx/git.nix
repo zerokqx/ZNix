@@ -22,6 +22,9 @@
         name = "zerokqx";
         email = "swiftkey382@gmail.com";
       };
+      credential = {
+        helper = "store";
+      };
       init.defaultBranch = "main";
     };
   };

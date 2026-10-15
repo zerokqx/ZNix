@@ -8,7 +8,7 @@ in
 
     interface = lib.mkOption {
       type = lib.types.str;
-      default = "wlp0s20f0u2";
+      default = "wlp0s20f0u7";
       description = "Network interface name (see `ip a`).";
     };
 

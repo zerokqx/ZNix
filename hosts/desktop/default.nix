@@ -4,9 +4,13 @@ inputs.nixpkgs.lib.nixosSystem {
   specialArgs = { inherit inputs; };
   modules = [
     ../../configuration.nix
+    inputs.codex-desktop-linux.nixosModules.default
     ./hardware-configuration.nix
+    ./virtual.nix
+    ./wine.nix
     {
       networking.hostName = "nixos-pc";
+      programs.codexDesktopLinux.enable = true;
       home-manager.users.zerok = {
         wayland.windowManager.hyprland.settings = {
           monitor = [

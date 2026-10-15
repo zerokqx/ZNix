@@ -11,7 +11,12 @@
     ./core
     ./configs
   ];
-
+  znix.dev.ports.enable = true;
+  nix.settings = {
+    substituters = [ "https://cachix.org" ];
+    trusted-public-keys = [ "codex-cli.cachix.org-1:99/pSg8Gg8jBw1XvW8Dny3BfV6Z7K7c8Wb6Z7K7c8Wb=" ];
+  };
+  services.input-remapper.enable = true;
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;

@@ -4,17 +4,17 @@
   networking = {
     networkmanager = {
       enable = true;
-      dns = "none"; # не даём NM управлять resolv.conf
+      dns = "none";
     };
     firewall.trustedInterfaces = [
       "docker0"
       "br-+"
     ];
     nameservers = [
-      "111.88.96.51"
-      "111.88.96.50"
-      # "8.8.8.8"
-      # "1.1.1.1"
+      # "111.88.96.51"
+      # "111.88.96.50"
+      "8.8.8.8"
+      "1.1.1.1"
     ];
     firewall.checkReversePath = false;
     firewall.allowedUDPPorts = [
