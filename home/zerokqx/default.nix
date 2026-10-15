@@ -6,6 +6,7 @@
   imports = [
     ./translate-shell.nix
     ./obs-studio.nix
+    ./opencode.nix
     ./hyprland
     ./mimes.nix
     ./git.nix
