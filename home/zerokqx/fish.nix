@@ -29,6 +29,15 @@
         name = "autopair";
         src = pkgs.fishPlugins.autopair.src;
       }
+      {
+        name = "auto-virtualenv";
+        src = pkgs.fetchFromGitHub {
+          owner = "d3dave";
+          repo = "fish-auto-virtualenv";
+          rev = "d6fa7246c4a0ce7b8bb0ae7d0c8a614bc28951ba";
+          hash = "sha256-w3mgGzU0V11PDX0CozwVSMU6a8qVDdmvicApFieMl4U=";
+        };
+      }
     ];
     shellAbbrs = {
       init-commit = ''git commit -m "feat: initial commit"'';

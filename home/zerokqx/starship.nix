@@ -8,19 +8,26 @@
     settings = {
       add_newline = false;
 
-      format = "$directory$git_branch$character";
+      format = "$directory$git_branch$python$character";
 
       directory = {
+        format = "[󰉋 $path]($style) ";
         style = "bold blue";
         truncation_length = 4;
         truncate_to_repo = false;
-        format = "[$path]($style) ";
       };
 
       git_branch = {
-        symbol = "";
+        symbol = " ";
         style = "bold purple";
         format = "[($branch)]($style) ";
+      };
+
+      python = {
+        disabled = false;
+        symbol = " ";
+        format = "[($symbol$virtualenv)]($style) ";
+        style = "bold yellow";
       };
 
       character = {
