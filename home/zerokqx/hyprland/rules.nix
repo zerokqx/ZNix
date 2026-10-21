@@ -32,8 +32,8 @@
 
     "match:class ^(com\\.ayugram\\.desktop|AyuGram|ayugram)$, workspace special:ayugram silent"
     "match:initial_class ^(com\\.ayugram\\.desktop|AyuGram|ayugram)$, workspace special:ayugram silent"
-    "match:class ^(Throne|throne)$, workspace 10 silent"
-    "match:initial_class ^(Throne|throne)$, workspace 10 silent"
+    "match:class ^(Mullvad VPN)$, workspace 10 silent"
+    "match:initial_class ^(Mullvad VPN)$, workspace 10 silent"
   ];
 };
 }

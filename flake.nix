@@ -2,9 +2,9 @@
   description = "flake-parts configuration for NixOS";
 
   inputs = {
-
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
+    nix-claude-code.url = "github:ryoppippi/nix-claude-code";
 
     # vkpl = {
     #   url = "github:zerokqx/vkpl";

@@ -5,6 +5,8 @@
   ...
 }:
 {
+  nixpkgs.overlays = [ inputs.nix-claude-code.overlays.default ];
+
   imports = [
     inputs.nix-flatpak.nixosModules.nix-flatpak
     inputs.home-manager.nixosModules.home-manager
@@ -13,8 +15,14 @@
   ];
   znix.dev.ports.enable = true;
   nix.settings = {
-    substituters = [ "https://cachix.org" ];
-    trusted-public-keys = [ "codex-cli.cachix.org-1:99/pSg8Gg8jBw1XvW8Dny3BfV6Z7K7c8Wb6Z7K7c8Wb=" ];
+    substituters = [
+      "https://cachix.org"
+      "https://ryoppippi.cachix.org"
+    ];
+    trusted-public-keys = [
+      "codex-cli.cachix.org-1:99/pSg8Gg8jBw1XvW8Dny3BfV6Z7K7c8Wb6Z7K7c8Wb="
+      "ryoppippi.cachix.org-1:b2LbtWNvJeL/qb1B6TYOMK+apaCps4SCbzlPRfSQIms="
+    ];
   };
   services.input-remapper.enable = true;
   home-manager = {

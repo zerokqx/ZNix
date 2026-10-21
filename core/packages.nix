@@ -1,7 +1,10 @@
 { pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    sox
     libqalculate
+    cachix
+    claude-code
     playwright-mcp
     trash-cli
     nftables

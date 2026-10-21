@@ -138,7 +138,17 @@ in
 
   programs.chromium = {
     enable = true;
-    package = pkgs.chromium;
+    package = pkgs.chromium.override {
+      enableWideVine = true;
+      # nixos-26.05 ships an old CDM that license servers reject (DRM_FAILED_LICENSE_REQUEST)
+      widevine-cdm = pkgs.widevine-cdm.overrideAttrs (_: rec {
+        version = "4.10.3050.0";
+        src = pkgs.fetchurl {
+          url = "https://edgedl.me.gvt1.com/edgedl/release2/chrome_component/bywu6vkyg6gmcthxdaetzfkptm_${version}/oimompecagnajdejgnnjijobebaeigek_${version}_linux_aduyhcxcs7a2znuo6ss5tffn5jpa.crx3";
+          hash = "sha512-5Xiy7tesiH4T79VZ6RfkiOzkO+tJ20ChM8GPV7+fbtXaVDRTTnD3/Dz07v25x2YWS2VZxRPhc46JnYTXlD1Xeg==";
+        };
+      });
+    };
 
     commandLineArgs = [
       "--enable-features=UseOzonePlatform"

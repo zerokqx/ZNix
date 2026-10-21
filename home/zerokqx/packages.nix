@@ -5,7 +5,8 @@
 
     # inputs.vkpl.packages.${pkgs.stdenv.hostPlatform.system}.vkpl
     uv
-    bun inputs.codex-cli-nix.packages.${pkgs.system}.default
+    bun
+    inputs.codex-cli-nix.packages.${stdenv.hostPlatform.system}.default
     ghc
     gnumake
     python3

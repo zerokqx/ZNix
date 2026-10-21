@@ -542,6 +542,7 @@
         "poweroff"
         "lock"
         "suspend"
+        "hibernate"
         "restart"
       ];
       powerMenuDefaultAction = "logout";

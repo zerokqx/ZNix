@@ -176,11 +176,12 @@ in
         };
       };
 
-      ts_ls = {
+      vtsls = {
         enable = true;
         autostart = true;
         extraOptions = {
           settings = {
+            vtsls.autoUseWorkspaceTsdk = true;
             javascript = {
               inlayHints = {
                 includeInlayEnumMemberValueHints = true;
@@ -261,7 +262,10 @@ in
         '';
       };
 
-      vue_ls.enable = true;
+      vue_ls = {
+        enable = true;
+        tslsIntegration = false;
+      };
 
       html = {
         enable = true;
@@ -271,8 +275,6 @@ in
           "vue"
         ];
       };
-
-      emmet_language_server.enable = true;
 
       cssls.enable = true;
 
@@ -503,9 +505,8 @@ in
     cargo
     rustc
 
-    typescript-language-server
+    vtsls
     vue-language-server
-    emmet-language-server
     typescript
     nodejs
     oxfmt

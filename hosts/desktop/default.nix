@@ -8,9 +8,23 @@ inputs.nixpkgs.lib.nixosSystem {
     ./hardware-configuration.nix
     ./virtual.nix
     ./wine.nix
-    {
+    ({ pkgs, ... }: {
       networking.hostName = "nixos-pc";
+      swapDevices = [
+        {
+          device = "/home/swapfile";
+          size = 32 * 1024;
+        }
+      ];
+      boot.resumeDevice = "/dev/disk/by-uuid/1a87da15-a5a7-463b-8ded-7d0cc826b5ea";
+      boot.kernelParams = [ "resume_offset=147411171" ];
+      # logind must see /home/swapfile to allow hibernation
+      systemd.services.systemd-logind.serviceConfig.ProtectHome = "read-only";
       programs.codexDesktopLinux.enable = true;
+      environment.systemPackages = [ pkgs.mullvad-vpn ];
+      services.mullvad-vpn = {
+        enable = true;
+      };
       home-manager.users.zerok = {
         wayland.windowManager.hyprland.settings = {
           monitor = [
@@ -24,6 +38,6 @@ inputs.nixpkgs.lib.nixosSystem {
           ];
         };
       };
-    }
+    })
   ];
 }
