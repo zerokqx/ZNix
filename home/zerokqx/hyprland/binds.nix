@@ -16,7 +16,7 @@ let
 
   browserExe = config.home.sessionVariables.BROWSER or "chromium";
   dmsIpc = "dms ipc call";
-  terminal = config.home.sessionVariables.TERMINAL or "alacritty";
+  terminal = config.home.sessionVariables.TERMINAL or "foot";
 in
 {
   wayland.windowManager.hyprland.settings.bind = workspaceNumberBinds ++ [
@@ -26,7 +26,7 @@ in
 
     "$mod SHIFT, c, killactive"
     "$mod, b, exec, ${browserExe}"
-    "$mod, e, exec, thunar"
+    "$mod, e, exec, nautilus"
     "$mod, v, exec, ${dmsIpc} clipboard toggle"
     "$mod, q, exec, ${terminal}"
 

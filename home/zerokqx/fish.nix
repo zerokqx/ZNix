@@ -31,11 +31,18 @@
       }
       {
         name = "auto-virtualenv";
-        src = pkgs.fetchFromGitHub {
-          owner = "d3dave";
-          repo = "fish-auto-virtualenv";
-          rev = "d6fa7246c4a0ce7b8bb0ae7d0c8a614bc28951ba";
-          hash = "sha256-w3mgGzU0V11PDX0CozwVSMU6a8qVDdmvicApFieMl4U=";
+        src = pkgs.applyPatches {
+          src = pkgs.fetchFromGitHub {
+            owner = "d3dave";
+            repo = "fish-auto-virtualenv";
+            rev = "d6fa7246c4a0ce7b8bb0ae7d0c8a614bc28951ba";
+            hash = "sha256-w3mgGzU0V11PDX0CozwVSMU6a8qVDdmvicApFieMl4U=";
+          };
+          # VIRTUAL_ENV from direnv/devenv has no deactivate function
+          postPatch = ''
+            substituteInPlace functions/auto_virtualenv.fish \
+              --replace-fail "deactivate" "functions -q deactivate; and deactivate"
+          '';
         };
       }
     ];

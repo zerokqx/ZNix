@@ -15,6 +15,10 @@
     lu.inputs.nixpkgs.follows = "nixpkgs";
     bundlers.url = "github:ralismark/nix-appimage";
     hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-preview-share-picker = {
+      url = "git+https://github.com/WhySoBad/hyprland-preview-share-picker?submodules=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     dms-plugin-registry = {
@@ -23,10 +27,6 @@
     };
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dgop = {
@@ -40,6 +40,10 @@
     nixvim.url = "github:nix-community/nixvim/nixos-26.05";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-parts.url = "github:hercules-ci/flake-parts";

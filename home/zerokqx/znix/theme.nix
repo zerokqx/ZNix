@@ -101,7 +101,6 @@ in
         btop.enable = true;
         opencode.enable = true;
         zathura.enable = true;
-        noctalia-shell.enable = true;
 
         foot = {
           enable = true;

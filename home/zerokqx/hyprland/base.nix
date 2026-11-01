@@ -14,6 +14,12 @@
       ];
     };
   };
+  xdg.configFile."hypr/xdph.conf".text = ''
+    screencopy {
+      custom_picker_binary = ${inputs.hyprland-preview-share-picker.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/hyprland-preview-share-picker
+      allow_token_by_default = true
+    }
+  '';
   programs.swaylock.enable = true;
 
   wayland.windowManager.hyprland = {

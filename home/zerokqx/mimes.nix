@@ -74,17 +74,17 @@
       "application/rtf" = [ "writer.desktop" ];
       "text/csv" = [ "calc.desktop" ];
 
-      "inode/directory" = [ "thunar.desktop" ];
-      "x-scheme-handler/file" = [ "thunar.desktop" ];
-      "x-scheme-handler/trash" = [ "thunar.desktop" ];
+      "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
+      "x-scheme-handler/file" = [ "org.gnome.Nautilus.desktop" ];
+      "x-scheme-handler/trash" = [ "org.gnome.Nautilus.desktop" ];
 
       "text/plain" = [ "nvim.desktop" ];
     };
 
     associations.added = {
-      "inode/directory" = [ "thunar.desktop" ];
-      "x-scheme-handler/file" = [ "thunar.desktop" ];
-      "x-scheme-handler/trash" = [ "thunar.desktop" ];
+      "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
+      "x-scheme-handler/file" = [ "org.gnome.Nautilus.desktop" ];
+      "x-scheme-handler/trash" = [ "org.gnome.Nautilus.desktop" ];
     };
 
     associations.removed = {

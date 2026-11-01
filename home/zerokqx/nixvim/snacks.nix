@@ -180,7 +180,7 @@
     {
       mode = "n";
       key = "<leader>e";
-      action = "<cmd>lua Snacks.explorer()<CR>";
+      action = "<cmd>lua Snacks.explorer.reveal()<CR>";
       options = {
         silent = true;
         desc = "Файловый проводник (Snacks)";

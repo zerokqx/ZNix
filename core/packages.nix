@@ -1,53 +1,13 @@
 { pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    sox
-    libqalculate
-    cachix
-    claude-code
-    playwright-mcp
-    trash-cli
     nftables
-    quickshell
-    tig
-    alacritty
-    atool
-    bat
-    bc
-    btop
-    imv
-    eza
-    exfat
-    fd
-    ffmpeg
-    fzf
-    gnupg
-    grim
-    mpv
     interception-tools
-    libnotify
     nix-ld
-    pavucontrol
-
-    p7zip
-    playerctl
-    polkit_gnome
-    ripgrep
-    slurp
-    sway-contrib.grimshot
-
-    tree
-    udiskie
-    unrar
-    unzip
+    exfat
     usbutils
     wget
-    wf-recorder
-    wl-clipboard
-    thunar
-    thunar-archive-plugin
-    thunar-volman
-    tumbler
+    polkit_gnome
     xdg-utils
   ];
 

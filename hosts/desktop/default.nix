@@ -21,10 +21,6 @@ inputs.nixpkgs.lib.nixosSystem {
       # logind must see /home/swapfile to allow hibernation
       systemd.services.systemd-logind.serviceConfig.ProtectHome = "read-only";
       programs.codexDesktopLinux.enable = true;
-      environment.systemPackages = [ pkgs.mullvad-vpn ];
-      services.mullvad-vpn = {
-        enable = true;
-      };
       home-manager.users.zerok = {
         wayland.windowManager.hyprland.settings = {
           monitor = [

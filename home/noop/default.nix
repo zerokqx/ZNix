@@ -50,7 +50,6 @@
   };
 
   znix.monitors = {
-    noctaliaMonitors = [ ];
     list = lib.mkDefault { };
   };
 

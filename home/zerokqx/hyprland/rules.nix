@@ -1,7 +1,7 @@
 {
   wayland.windowManager.hyprland.settings = {
     layerrule = [
-      "animation none, match:namespace ^(dms:.*|dms.*|quickshell|noctalia.*|selection|hyprpicker)$"
+      "animation none, match:namespace ^(dms:.*|dms.*|quickshell|selection|hyprpicker)$"
     ];
 
     windowrule = [
@@ -20,9 +20,6 @@
     "center on, match:class ^(imv)$"
     "size 900 500, match:class ^(imv)$"
 
-    "float on, match:class ^(mpv)$"
-    "center on, match:class ^(mpv)$"
-    "size 500 400, match:class ^(mpv)$"
 
     "float on, match:class ^(org\\.kde\\.kdenlive|kdenlive)$, match:title ^(?!.*Kdenlive).*$"
     "center on, match:class ^(org\\.kde\\.kdenlive|kdenlive)$, match:title ^(?!.*Kdenlive).*$"

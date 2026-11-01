@@ -3,6 +3,7 @@
 
   home.packages = with pkgs; [
 
+    ngrok
     # inputs.vkpl.packages.${pkgs.stdenv.hostPlatform.system}.vkpl
     uv
     bun
@@ -11,8 +12,6 @@
     gnumake
     python3
     kdePackages.kdenlive
-    bottom
-    ncpamixer
     inputs.lu.packages.${stdenv.hostPlatform.system}.default
     cargo
     dive
@@ -36,7 +35,7 @@
     zathura
     nodejs_22
     libreoffice
-    qbittorrent
+    fragments
     insomnia
     obsidian
     fastfetch
@@ -44,5 +43,38 @@
     xdg-user-dirs
     loupe
     totem
+    gnome-calendar
+    sox
+    libqalculate
+    cachix
+    claude-code
+    playwright-mcp
+    trash-cli
+    quickshell
+    tig
+    atool
+    bat
+    bc
+    btop
+    imv
+    eza
+    fd
+    ffmpeg
+    fzf
+    gnupg
+    grim
+    libnotify
+    nautilus
+    pavucontrol
+    p7zip
+    playerctl
+    ripgrep
+    slurp
+    sway-contrib.grimshot
+    tree
+    unrar
+    unzip
+    wf-recorder
+    wl-clipboard
   ];
 }

@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   ...
 }:
 {
@@ -18,6 +19,7 @@
     ./starship.nix
     ./nixvim
     ./packages.nix
+    ./spicetify.nix
     ./chromium.nix
     ./dir-file-create.nix
   ];
@@ -55,6 +57,7 @@
     TERMINAL = "foot";
     TERM = "xterm-256color";
     BROWSER = "chromium";
+    QT_QPA_PLATFORMTHEME = lib.mkForce "xdgdesktopportal";
     NIXPKGS_ALLOW_UNFREE = 1;
   };
 
