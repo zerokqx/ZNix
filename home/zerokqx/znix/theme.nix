@@ -45,6 +45,7 @@ in
 
   config = {
     home.packages = [ cfg.icons.package ];
+    programs.zellij.enable = true;
 
     stylix = {
       fonts = {
@@ -101,6 +102,7 @@ in
         btop.enable = true;
         opencode.enable = true;
         zathura.enable = true;
+        zellij.enable = true;
 
         foot = {
           enable = true;

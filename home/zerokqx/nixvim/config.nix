@@ -255,31 +255,20 @@
   extraConfigLua = ''
     vim.o.winborder = "rounded"
 
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-      vim.lsp.handlers.hover, {
-        border = "rounded",
-        max_width = 80,
-        max_height = 25,
-        focusable = true,
-      }
-    )
-
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-      vim.lsp.handlers.signature_help, {
-        border = "rounded",
-        max_width = 80,
-        max_height = 20,
-        focusable = false,
-      }
-    )
-
     vim.diagnostic.config({
       virtual_text = {
         prefix = "■",
         spacing = 2,
         source = "if_many"
       },
-      signs = false,
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = "",
+          [vim.diagnostic.severity.WARN] = "",
+          [vim.diagnostic.severity.INFO] = "",
+          [vim.diagnostic.severity.HINT] = "󰌵",
+        },
+      },
       underline = true,
       severity_sort = true,
       update_in_insert = false,

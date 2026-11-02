@@ -1,8 +1,5 @@
 { lib, ... }:
 {
-
-  plugins.friendly-snippets.enable = true;
-
   plugins.blink-cmp = {
     enable = true;
 
@@ -50,12 +47,10 @@
         preset = "enter";
         "<Tab>" = [
           "select_next"
-          "snippet_forward"
           "fallback"
         ];
         "<S-Tab>" = [
           "select_prev"
-          "snippet_backward"
           "fallback"
         ];
         "<C-space>" = [
@@ -77,9 +72,6 @@
           lsp = {
             score_offset = 100;
           };
-          snippets = {
-            score_offset = -2;
-          };
           buffer = {
             score_offset = -5;
           };
@@ -100,5 +92,9 @@
     };
   };
 
-  plugins.lsp.capabilities = lib.mkForce "require('blink.cmp').get_lsp_capabilities()";
+  plugins.lsp.capabilities = lib.mkForce ''
+    capabilities = require('blink.cmp').get_lsp_capabilities({
+      textDocument = { completion = { completionItem = { snippetSupport = false } } },
+    })
+  '';
 }

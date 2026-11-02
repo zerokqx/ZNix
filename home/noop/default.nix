@@ -12,7 +12,6 @@
     ../zerokqx/znix
     ../zerokqx/foot.nix
     ../zerokqx/fish.nix
-    ../zerokqx/starship.nix
     ../zerokqx/zoxide.nix
     ../zerokqx/git.nix
     ../zerokqx/mimes.nix

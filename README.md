@@ -1,79 +1,28 @@
-# ZNix Documentation
-<div class="lang-switch">
-  <a href="README.md">English</a> |
-  <a href="docs/ru.md">Русский</a> |
-  <a href="docs/uk.md">Українська</a> |
-  <a href="docs/es.md">Español</a> |
-  <a href="docs/de.md">Deutsch</a> |
-  <a href="docs/fr.md">Français</a> |
-  <a href="docs/pt-br.md">Português (BR)</a> |
-  <a href="docs/zh-CN.md">中文</a>
-</div>
+# ZNix
 
-![Banner](assets/banner.png)
-
-NixOS/home-manager configuration set split by host. Below: what lives where, custom options, hardware notes, and how to reuse or add a host.
-
-## Highlights
-- Hyprland (default WM) and SwayFX preconfigured with Noctalia Shell (panel/bar, outputs, autostart).
-- Neovim via nixvim with plugins for LSP, completion, Treesitter UI, DAP.
-- Stylix theme with custom cursors/icons and GTK/fzf/lazygit/noctalia targets.
-- Optional SillyTavern + Ollama module and a ready LAN dev-ports module.
-
-## Examples
-
-- `fastfetch` + nixvim: ![Example 1](assets/example-1-fastfetch-nixvim.png)
-- Firefox + Bluetooth + Noctalia: ![Example 2](assets/example-2-firefox-and-bluetooth-noctalia.png)
+Personal NixOS and Home Manager configuration for x86_64 Linux, with Hyprland, Dank Material Shell, Fish and Nixvim. See [AGENTS.md](AGENTS.md) for the repository map and development conventions.
 
 ## Layout
-- `flake.nix`: entry; pulls nixpkgs 25.11, home-manager, nixvim, stylix, noctalia, flake-parts.
-- `hosts/desktop`, `hosts/laptop`: nixosSystem entry points; import `configuration.nix`, host `hardware-configuration.nix`, host modules (ollama, fprintd/opencode) and HM for user `zerok`.
-- `configuration.nix`: base system stack; imports `core/` and `configs/`.
-- `core/`: system modules (boot, nixpkgs, networking, audio, graphics, users, etc.) plus `znix/` for custom options.
-- `configs/`: extra tweaks (e.g., `throne.nix`, `zapret.nix`).
-- `home/`: home-manager config for `zerok`; includes Hyprland (`home/hyprland/`), packages, themes, nixvim (`home/nixvim/`), etc.
 
-## Custom options
-- System:
-  - `znix.monitors.*` (`home/znix/monitors.nix`): monitor mode/position map and Noctalia bar targets (defined at HM level).
-  - `znix.dev.ports.*` (`core/znix/ports.nix`): open dev TCP ports on a chosen interface (`interface`, `tcpPorts`).
-  - `znix.ai.sillytavern.*` (`core/znix/silly-tavern.nix`): toggle SillyTavern and Ollama (`enable`, `ollamaEnable`, `mobileServer`, `name`).
-  - `znix.hardware.fingerprint.goodix.*` (`core/znix/finger-print.nix`): enable Goodix fprintd/TOD driver.
-- Home:
-  - `znix.theme.*` (`home/znix/theme.nix`): theme polarity, cursor package, icon package/names for stylix.
+- `flake.nix`, `flake.lock`: inputs and pinned versions (the main NixOS stack follows 26.05).
+- `hosts/desktop`, `hosts/laptop`, `hosts/noop`: machine-specific configurations and hardware.
+- `configuration.nix`, `core/`, `configs/`: shared system configuration and modules.
+- `home/zerokqx/`, `home/noop/`: Home Manager modules; the former contains the main user configuration.
+- `rust/znix-menu/`: menu source; the flake also provides `nixvim` and `menu` packages and apps.
+- `devenv.nix`: development shell and convenience commands.
 
-## Hardware-configuration warning
-- `hosts/*/hardware-configuration.nix` files are machine-specific; **replace them** with your own (typically from `/etc/nixos/hardware-configuration.nix` after install).
-- Avoid committing foreign hardware configs; keep yours local or private.
+## Build and apply
 
-## Using existing hosts
-1) Install NixOS and enable flakes (`nix.settings.experimental-features = [ "nix-command" "flakes" ];`).
-2) Clone the repo and swap `hosts/<target>/hardware-configuration.nix` with yours.
-3) Build: `sudo nixos-rebuild switch --flake .#desktop` (or `.#laptop`).
-4) Quick build check without switching: `nix build .#nixosConfigurations.desktop.config.system.build.toplevel --no-link`.
+Hardware configurations, disk paths and monitor settings are machine-specific. Adapt them before using a host on another machine.
 
-## Adding a new host
-1) Copy an existing `hosts/<name>/` directory and drop in your `hardware-configuration.nix`.
-2) In the new `default.nix`, set the right `system` and enable needed modules/overlays.
-3) Adjust HM specifics (noctalia bar position, font scale, display layout, etc.).
-4) Build: `nix build .#nixosConfigurations.<name>.config.system.build.toplevel --no-link` or `sudo nixos-rebuild switch --flake .#<name>`.
+```sh
+nix flake check --show-trace
+nix build .#nixosConfigurations.desktop.config.system.build.toplevel --no-link
+sudo nixos-rebuild switch --flake .#desktop
+```
 
-## Notes
-- home-manager lives inside the NixOS modules (no separate `homeConfigurations` output).
-- New modules must be added explicitly to the relevant `default.nix` files (no auto-import).
+Replace `desktop` with the intended host. Building does not apply the configuration. The `rebuild*` scripts in `devenv.nix` run `git add .` before rebuilding; inspect the working tree before using them.
 
-## Nixvim: Tree-sitter is disabled by default
-- In `home/nixvim/plugins/ui/treesitter.nix`, the `treesitter` plugin is present, but its features are disabled by default:
-  - `highlight.enable = false`
-  - `indent.enable = false`
-  - `incremental_selection.enable = false`
-  - `autotag.enable = false`
-- Syntax highlighting currently comes from `vim-polyglot` (`home/nixvim/plugins/ui/polyglot.nix`) because Tree-sitter is slower in this setup.
+Home Manager is integrated into the NixOS configuration. The flake also exports standalone `homeConfigurations`; avoid activating one over the NixOS-managed profile without understanding the profile change.
 
-### How to enable Tree-sitter again
-1) Enable highlighting in `home/nixvim/plugins/ui/treesitter.nix`:
-`highlight.enable = true;`
-2) Disable `vim-polyglot`:
-   - remove `./polyglot.nix` from `imports` in `home/nixvim/plugins/ui/default.nix`, or
-   - remove `vimPlugins.vim-polyglot` from `home/nixvim/plugins/ui/polyglot.nix`.
-3) Apply the config (`home-manager switch` or `sudo nixos-rebuild switch --flake .#<host>`).
+The Fish prompt displays the current path in color. New modules must be added to the relevant `imports`; host and Home Manager directories are discovered by `hosts/default.nix`.

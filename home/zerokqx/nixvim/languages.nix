@@ -37,6 +37,7 @@ in
       sqls.enable = true;
       nixd = {
         enable = true;
+        cmd = [ "nixd" "--log=error" ];
         settings = {
           formatting.command = [ "nixfmt" ];
           nixpkgs.expr = "import <nixpkgs> { }";
@@ -113,7 +114,7 @@ in
             autoself.enable = true;
             fullFunctionSignatures.enable = true;
             postfix.enable = true;
-            callable.snippets = "fill_arguments";
+            callable.snippets = "none";
           };
           hover = {
             actions = {
@@ -255,6 +256,11 @@ in
 
       ruff = {
         enable = true;
+        extraOptions.before_init = lib.nixvim.mkRaw ''
+          function(params)
+            params.capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
+          end
+        '';
         onAttach.function = ''
           if client.name == "ruff" then
             client.server_capabilities.hoverProvider = false

@@ -110,6 +110,12 @@
               action = ":lua Snacks.dashboard.pick('oldfiles')";
             }
             {
+              icon = " ";
+              key = "p";
+              desc = "Проекты";
+              action = ":lua Snacks.dashboard.pick('projects')";
+            }
+            {
               icon = " ";
               key = "q";
               desc = "Выход";
@@ -175,7 +181,27 @@
     };
   };
 
-  keymaps = [
+  keymaps = (map (number: {
+    mode = [ "n" "t" ];
+    key = "<M-${toString number}>";
+    action.__raw = ''
+      function()
+        local selected = Snacks.terminal.get(nil, { count = ${toString number}, create = false })
+        local current = vim.api.nvim_get_current_buf()
+        for _, terminal in ipairs(Snacks.terminal.list()) do
+          if terminal.buf == current and (not selected or selected.buf ~= current) then
+            terminal:hide()
+            break
+          end
+        end
+        Snacks.terminal.toggle(nil, { count = ${toString number} })
+      end
+    '';
+    options = {
+      silent = true;
+      desc = "Терминал ${toString number}";
+    };
+  }) [ 1 2 3 ]) ++ [
 
     {
       mode = "n";
@@ -466,6 +492,15 @@
       options = {
         silent = true;
         desc = "Терминал (Toggle)";
+      };
+    }
+    {
+      mode = "t";
+      key = "<M-k>";
+      action = "<C-\\><C-n><C-w>k";
+      options = {
+        silent = true;
+        desc = "Перейти из терминала в окно выше";
       };
     }
 

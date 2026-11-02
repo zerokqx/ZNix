@@ -4,7 +4,6 @@ inputs.nixpkgs.lib.nixosSystem {
   specialArgs = { inherit inputs; };
   modules = [
     ../../configuration.nix
-    inputs.codex-desktop-linux.nixosModules.default
     ./hardware-configuration.nix
     ./virtual.nix
     ./wine.nix
@@ -20,7 +19,6 @@ inputs.nixpkgs.lib.nixosSystem {
       boot.kernelParams = [ "resume_offset=147411171" ];
       # logind must see /home/swapfile to allow hibernation
       systemd.services.systemd-logind.serviceConfig.ProtectHome = "read-only";
-      programs.codexDesktopLinux.enable = true;
       home-manager.users.zerok = {
         wayland.windowManager.hyprland.settings = {
           monitor = [

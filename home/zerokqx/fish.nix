@@ -5,6 +5,12 @@
 
   programs.fish = {
     enable = true;
+    functions.fish_prompt = ''
+      set_color blue
+      printf '%s' (prompt_pwd)
+      set_color normal
+      printf ' ❯ '
+    '';
     interactiveShellInit = ''
       set fish_greeting ""
     '';
@@ -87,6 +93,7 @@
       nxmf = "pnpm nx run-many -t format:write";
     };
     shellAliases = {
+      pwdc="pwd | wl-copy | echo 'Copied'";
       rmdir = "rm -rf";
       rm = "trash-put";
       undo = "trash-restore";

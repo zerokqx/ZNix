@@ -55,7 +55,7 @@
     {
       mode = "n";
       key = "<leader>qq";
-      action = ":qa!<CR>";
+      action = ":qa<CR>";
       options = {
         silent = true;
         desc = "Выйти из Neovim";
@@ -226,7 +226,7 @@
     {
       mode = "n";
       key = "<leader>ck";
-      action = "<cmd>lua vim.lsp.buf.signature_help()<CR>";
+      action = "<cmd>lua vim.lsp.buf.signature_help({ border = 'rounded', max_width = 80, max_height = 20, focusable = false })<CR>";
       options = {
         silent = true;
         desc = "Signature Help (Подсказка сигнатуры)";
@@ -261,8 +261,8 @@
     }
     {
       mode = "n";
-      key = "<leader>cR";
-      action = "<cmd>LspRestart<CR>";
+      key = "<leader>cL";
+      action = "<cmd>lsp restart<CR>";
       options = {
         silent = true;
         desc = "Restart LSP (Перезапустить языковые серверы)";
@@ -326,15 +326,6 @@
 
     {
       mode = "n";
-      key = "gd";
-      action = "<cmd>lua vim.lsp.buf.definition()<CR>";
-      options = {
-        silent = true;
-        desc = "Go to Definition";
-      };
-    }
-    {
-      mode = "n";
       key = "gtd";
       action = "<cmd>lua vim.lsp.buf.definition()<CR>";
       options = {
@@ -380,15 +371,6 @@
     }
     {
       mode = "n";
-      key = "gy";
-      action = "<cmd>lua vim.lsp.buf.type_definition()<CR>";
-      options = {
-        silent = true;
-        desc = "Go to Type Definition";
-      };
-    }
-    {
-      mode = "n";
       key = "gty";
       action = "<cmd>lua vim.lsp.buf.type_definition()<CR>";
       options = {
@@ -426,7 +408,7 @@
     {
       mode = "n";
       key = "K";
-      action = "<cmd>lua vim.lsp.buf.hover()<CR>";
+      action = "<cmd>lua vim.lsp.buf.hover({ border = 'rounded', max_width = 80, max_height = 25, focusable = true })<CR>";
       options = {
         silent = true;
         desc = "Hover Documentation (Документация)";
@@ -507,7 +489,7 @@
     }
     {
       mode = "n";
-      key = "<leader>gb";
+      key = "<leader>hb";
       action = "<cmd>Gitsigns toggle_current_line_blame<CR>";
       options = {
         silent = true;

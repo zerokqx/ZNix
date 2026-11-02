@@ -1,38 +1,50 @@
 { ... }:
 {
   extraConfigLua = ''
-    -- Нативный автосейв с дебоунсом 500мс
-    local autosave_timer = nil
-    local function znix_debounced_save(buf)
-      if autosave_timer then
-        autosave_timer:stop()
-        autosave_timer:close()
-        autosave_timer = nil
+    -- Автосейв: Rust ждёт 2с между правками, остальные файлы — 500мс
+    local autosave_timers = {}
+    local function znix_cancel_save(buf)
+      local timer = autosave_timers[buf]
+      if timer then
+        timer:stop()
+        timer:close()
+        autosave_timers[buf] = nil
       end
-      autosave_timer = vim.uv.new_timer()
-      autosave_timer:start(500, 0, vim.schedule_wrap(function()
-        if autosave_timer then
-          autosave_timer:stop()
-          autosave_timer:close()
-          autosave_timer = nil
-        end
+    end
+    local function znix_debounced_save(buf)
+      znix_cancel_save(buf)
+      local timer = vim.uv.new_timer()
+      autosave_timers[buf] = timer
+      timer:start(vim.bo[buf].filetype == "rust" and 2000 or 500, 0, vim.schedule_wrap(function()
+        if autosave_timers[buf] ~= timer then return end
+        znix_cancel_save(buf)
         if vim.api.nvim_buf_is_valid(buf)
           and vim.bo[buf].modified
           and vim.bo[buf].buftype == ""
           and vim.api.nvim_buf_get_name(buf) ~= ""
           and not vim.bo[buf].readonly
         then
-          pcall(vim.api.nvim_buf_call, buf, function()
-            vim.cmd("silent! noautocmd write")
+          local ok, err = pcall(vim.api.nvim_buf_call, buf, function()
+            vim.cmd("silent write")
           end)
+          if not ok then
+            vim.notify("Автосохранение: " .. tostring(err), vim.log.levels.ERROR)
+          end
         end
       end))
     end
 
+    local autosave_group = vim.api.nvim_create_augroup("ZnixAutoSave", { clear = true })
     vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave" }, {
-      group = vim.api.nvim_create_augroup("ZnixAutoSave", { clear = true }),
+      group = autosave_group,
       callback = function(args)
         znix_debounced_save(args.buf)
+      end,
+    })
+    vim.api.nvim_create_autocmd("BufWipeout", {
+      group = autosave_group,
+      callback = function(args)
+        znix_cancel_save(args.buf)
       end,
     })
 
@@ -44,7 +56,7 @@
       end,
     })
 
-    -- Автоматическое включение inlay hints и подсветка символа под курсором при подключении LSP
+    -- Автоматическое включение inlay hints при подключении LSP
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("ZnixLspAttach", { clear = true }),
       callback = function(args)
@@ -54,21 +66,6 @@
         -- Inlay hints (типы как в RustRover)
         if client:supports_method("textDocument/inlayHint") then
           vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
-        end
-
-        -- Подсветка всех вхождений символа под курсором
-        if client:supports_method("textDocument/documentHighlight") then
-          local hl_group = vim.api.nvim_create_augroup("ZnixLspHighlight_" .. args.buf, { clear = true })
-          vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-            group = hl_group,
-            buffer = args.buf,
-            callback = vim.lsp.buf.document_highlight,
-          })
-          vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-            group = hl_group,
-            buffer = args.buf,
-            callback = vim.lsp.buf.clear_references,
-          })
         end
       end,
     })
@@ -232,55 +229,76 @@
       _G.znix_toggle_rust_tests()
     end, { desc = "Свернуть / развернуть тесты в текущем Rust буфере" })
 
-    -- Запоминание и автоматическое восстановление раскладки клавиатуры между Insert и Normal в Hyprland
-    local function get_hyprland_layout()
-      local out = vim.fn.system("hyprctl devices -j")
-      if vim.v.shell_error ~= 0 then return 0 end
-      local ok, data = pcall(vim.json.decode, out)
-      if not ok or not data or type(data.keyboards) ~= "table" then return 0 end
-      for _, kb in ipairs(data.keyboards) do
-        if kb.main then
-          return kb.active_layout_index or 0
-        end
-      end
-      for _, kb in ipairs(data.keyboards) do
-        if kb.layout and kb.layout:find(",") then
-          return kb.active_layout_index or 0
-        end
-      end
-      return 0
+    -- Последовательно обрабатываем раскладку, не блокируя редактор.
+    local znix_last_insert_layout
+    local layout_pending
+    local layout_busy = false
+    local update_layout
+
+    local function finish_layout()
+      layout_busy = false
+      update_layout()
     end
 
-    local znix_auto_layout_group = vim.api.nvim_create_augroup("ZnixAutoLayout", { clear = true })
-    local znix_last_insert_layout = nil
+    local function switch_layout(layout)
+      vim.system({ "hyprctl", "switchxkblayout", "all", tostring(layout) }, {},
+        vim.schedule_wrap(finish_layout))
+    end
 
-    vim.api.nvim_create_autocmd("InsertLeave", {
-      group = znix_auto_layout_group,
-      callback = function(args)
-        if not (vim.env.HYPRLAND_INSTANCE_SIGNATURE and vim.fn.executable("hyprctl") == 1) then
-          return
-        end
-        local current_layout = get_hyprland_layout()
-        local bufnr = (args and args.buf) or vim.api.nvim_get_current_buf()
-        vim.b[bufnr].znix_saved_layout = current_layout
-        znix_last_insert_layout = current_layout
-        if current_layout ~= 0 then
-          vim.fn.jobstart({ "hyprctl", "switchxkblayout", "all", "0" }, { detach = true })
-        end
-      end,
-    })
+    update_layout = function()
+      if layout_busy or not layout_pending then return end
+      local request = layout_pending
+      layout_pending = nil
+      if not vim.api.nvim_buf_is_valid(request.buf) then return end
+      layout_busy = true
 
-    vim.api.nvim_create_autocmd("InsertEnter", {
-      group = znix_auto_layout_group,
-      callback = function(args)
-        if not (vim.env.HYPRLAND_INSTANCE_SIGNATURE and vim.fn.executable("hyprctl") == 1) then
-          return
-        end
-        local bufnr = (args and args.buf) or vim.api.nvim_get_current_buf()
-        local saved = vim.b[bufnr].znix_saved_layout or znix_last_insert_layout
+      if request.insert then
+        local saved = vim.b[request.buf].znix_saved_layout or znix_last_insert_layout
         if saved and saved ~= 0 then
-          vim.fn.jobstart({ "hyprctl", "switchxkblayout", "all", tostring(saved) }, { detach = true })
+          switch_layout(saved)
+        else
+          finish_layout()
         end
+        return
+      end
+
+      vim.system({ "hyprctl", "devices", "-j" }, { text = true }, vim.schedule_wrap(function(result)
+        local ok, data = pcall(vim.json.decode, result.stdout or "")
+        if result.code ~= 0 or not ok or type(data) ~= "table" or type(data.keyboards) ~= "table" then
+          finish_layout()
+          return
+        end
+        local layout
+        for _, kb in ipairs(data.keyboards) do
+          if kb.main then
+            layout = kb.active_layout_index or 0
+            break
+          elseif layout == nil and kb.layout and kb.layout:find(",") then
+            layout = kb.active_layout_index or 0
+          end
+        end
+        layout = layout or 0
+        if vim.api.nvim_buf_is_valid(request.buf) then
+          vim.b[request.buf].znix_saved_layout = layout
+        end
+        znix_last_insert_layout = layout
+        -- Новое событие важнее: InsertEnter не должен получить позднее переключение на EN.
+        if layout_pending or layout == 0 then
+          finish_layout()
+        else
+          switch_layout(0)
+        end
+      end))
+    end
+
+    vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
+      group = vim.api.nvim_create_augroup("ZnixAutoLayout", { clear = true }),
+      callback = function(args)
+        if not (vim.env.HYPRLAND_INSTANCE_SIGNATURE and vim.fn.executable("hyprctl") == 1) then
+          return
+        end
+        layout_pending = { buf = args.buf, insert = args.event == "InsertEnter" }
+        update_layout()
       end,
     })
   '';

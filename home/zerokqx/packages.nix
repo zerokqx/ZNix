@@ -7,6 +7,10 @@
     # inputs.vkpl.packages.${pkgs.stdenv.hostPlatform.system}.vkpl
     uv
     bun
+    (import inputs.nixpkgs-unstable {
+      inherit (stdenv.hostPlatform) system;
+      config.allowUnfree = true;
+    }).chatgpt
     inputs.codex-cli-nix.packages.${stdenv.hostPlatform.system}.default
     ghc
     gnumake
@@ -33,6 +37,7 @@
     ayugram-desktop
     yazi
     zathura
+    zellij
     nodejs_22
     libreoffice
     fragments

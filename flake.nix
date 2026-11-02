@@ -3,7 +3,6 @@
 
   inputs = {
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
-    codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
     nix-claude-code.url = "github:ryoppippi/nix-claude-code";
 
     # vkpl = {
@@ -20,6 +19,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     dms-plugin-registry = {
       url = "github:AvengeMedia/dms-plugin-registry";

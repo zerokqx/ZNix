@@ -16,7 +16,6 @@
     ./zoxide.nix
     ./foot.nix
     ./fish.nix
-    ./starship.nix
     ./nixvim
     ./packages.nix
     ./spicetify.nix
