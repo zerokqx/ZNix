@@ -13,6 +13,7 @@
     ./core
     ./configs
   ];
+  # services.pcscd.enable = true;
   znix.dev.ports.enable = true;
   nix.settings = {
     substituters = [

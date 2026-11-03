@@ -8,6 +8,11 @@
     functions.fish_prompt = ''
       set_color blue
       printf '%s' (prompt_pwd)
+      set -l branch (git symbolic-ref --quiet --short HEAD 2>/dev/null; or git rev-parse --short HEAD 2>/dev/null)
+      if test -n "$branch"
+        set_color yellow
+        printf ' (%s)' $branch
+      end
       set_color normal
       printf ' ❯ '
     '';
@@ -93,6 +98,9 @@
       nxmf = "pnpm nx run-many -t format:write";
     };
     shellAliases = {
+      work = "zellij attach --create";
+      works = "zellij list-sessions";
+      work-stop = "zellij kill-session";
       pwdc="pwd | wl-copy | echo 'Copied'";
       rmdir = "rm -rf";
       rm = "trash-put";

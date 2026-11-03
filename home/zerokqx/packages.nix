@@ -32,7 +32,6 @@
     redisinsight
     sshfs
     lazydocker
-    lazyssh
     lazygit
     ayugram-desktop
     yazi

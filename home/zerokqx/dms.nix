@@ -218,7 +218,7 @@
       appsDockEnlargeOnHover = false;
       appsDockEnlargePercentage = 125;
       appsDockIconSizePercentage = 100;
-      keyboardLayoutNameCompactMode = false;
+      keyboardLayoutNameCompactMode = true;
       keyboardLayoutNameShowIcon = false;
       runningAppsCurrentWorkspace = true;
       runningAppsGroupByApp = false;
@@ -622,6 +622,10 @@
             }
           ];
           rightWidgets = [
+            {
+              id = "keyboard_layout_name";
+              enabled = true;
+            }
             {
               id = "systemTray";
               enabled = true;

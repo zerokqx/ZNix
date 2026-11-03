@@ -37,6 +37,27 @@
   };
 
   services.ssh-agent.enable = true;
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    settings = {
+      vpn = {
+        HostName = "89.125.54.155";
+        User = "root";
+        Port = 443;
+        IdentityFile = "~/.ssh/id_ed25519";
+      };
+      thinkpad = {
+        HostName = "192.168.1.13";
+        User = "zerok";
+        IdentityFile = "~/.ssh/id_ed25519";
+      };
+      "Host * !vpn !thinkpad" = {
+        IdentityFile = "~/.ssh/id_ed25519_sk_rk";
+        IdentitiesOnly = true;
+      };
+    };
+  };
   services.udiskie = {
     enable = true;
     settings = {
