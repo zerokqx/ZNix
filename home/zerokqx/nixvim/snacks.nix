@@ -496,6 +496,15 @@
     }
     {
       mode = "t";
+      key = "<C-g>";
+      action = "<C-\\><C-n>";
+      options = {
+        silent = true;
+        desc = "Перейти в обычный режим терминала";
+      };
+    }
+    {
+      mode = "t";
       key = "<M-k>";
       action = "<C-\\><C-n><C-w>k";
       options = {

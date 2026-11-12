@@ -1,0 +1,4 @@
+interface:
+  display_name: "Conventional Commit"
+  short_description: "Review changes and create a safe Conventional Commit"
+  default_prompt: "Use $conventional-commit en to review changes and create a commit."

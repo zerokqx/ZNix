@@ -32,6 +32,8 @@
         show_icons = true;
       };
 
+      map = { };
+
       hipatterns = {
         highlighters = {
           hex_color.__raw = "require('mini.hipatterns').gen_highlighter.hex_color()";
@@ -129,6 +131,9 @@
   };
 
   extraConfigLua = ''
+    vim.api.nvim_create_autocmd("VimEnter", { callback = function() MiniMap.open() end })
+    vim.keymap.set("n", "<leader>um", MiniMap.toggle, { desc = "Показать или скрыть миникарту" })
+
     vim.api.nvim_set_hl(0, "MiniHipatternsFixme", { fg = "#1a1b26", bg = "#f7768e", bold = true })
     vim.api.nvim_set_hl(0, "MiniHipatternsHack",  { fg = "#1a1b26", bg = "#e0af68", bold = true })
     vim.api.nvim_set_hl(0, "MiniHipatternsTodo",  { fg = "#1a1b26", bg = "#7aa2f7", bold = true })

@@ -1,0 +1,136 @@
+# Начальные настройки Codex. Существующий ~/.codex/config.toml имеет приоритет.
+model = "gpt-6.1-terra"
+approval_policy = "never"
+default_permissions = ":workspace"
+personality = "pragmatic"
+model_reasoning_effort = "medium"
+service_tier = "default"
+
+[agents]
+max_concurrent_threads_per_session = 6
+default_subagent_model = "gpt-6-luna"
+default_subagent_reasoning_effort = "low"
+
+[features]
+collab = true
+apps = true
+memories = true
+memory_tool = true
+
+[tui]
+status_line = [
+    "model-name",
+    "current-dir",
+    "git-branch",
+]
+
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
+
+[mcp_servers.playwright]
+command = "playwright-mcp"
+args = [
+    "--executable-path",
+    "/etc/profiles/per-user/zerok/bin/chromium",
+    "--headless",
+    "--isolated",
+]
+
+[mcp_servers.playwright.tools.browser_navigate]
+approval_mode = "approve"
+
+[mcp_servers.playwright.tools.browser_run_code]
+approval_mode = "approve"
+
+[mcp_servers.chrome-devtools]
+command = "npx"
+args = [
+    "-y",
+    "chrome-devtools-mcp@latest",
+    "--executablePath",
+    "/etc/profiles/per-user/zerok/bin/chromium",
+    "--headless",
+]
+
+[mcp_servers.libreoffice-writer]
+command = "/home/zerok/projects/libreoffice-writer-mcp/bin/libreoffice-writer-mcp"
+
+[mcp_servers.react-aria]
+command = "npx"
+args = ["@react-aria/mcp@latest"]
+
+[mcp_servers.storybook]
+url = "http://localhost:6006/mcp"
+
+[mcp_servers.storybook.tools.docs-list]
+approval_mode = "approve"
+
+[mcp_servers.project-mcp]
+command = "uv"
+args = [
+    "run",
+    "--project",
+    "/home/zerok/projects/project-mcp",
+    "python",
+    "-m",
+    "project_mcp.mcp_server",
+]
+
+[mcp_servers.project-mcp.env]
+PYTHONPATH = "/home/zerok/projects/project-mcp/src"
+PROJECT_MCP_API_URL = "http://127.0.0.1:8790"
+
+[desktop]
+followUpQueueMode = "steer"
+conversationDetailMode = "STEPS_PROSE"
+ambient-suggestions-enabled = true
+appearanceTheme = "system"
+avatar-overlay-pet-visible = false
+selected-avatar-id = "null-signal"
+avatar-overlay-mascot-width-px = 124
+keepRemoteControlAwakeWhilePluggedIn = true
+localeOverride = "ru-RU"
+defaultTerminalLocation = "bottom"
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."code-review@openai-bundled"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[apps.connector_openai_chatgpt_pets]
+enabled = false
+
+[permissions.readonly]
+extends = ":read-only"
+description = "Только чтение"
+
+[permissions.readonly.network]
+enabled = false

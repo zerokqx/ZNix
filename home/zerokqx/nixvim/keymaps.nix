@@ -335,6 +335,33 @@
     }
     {
       mode = "n";
+      key = "gpd";
+      action = "<cmd>lua require('goto-preview').goto_preview_definition()<CR>";
+      options = {
+        silent = true;
+        desc = "Preview Definition";
+      };
+    }
+    {
+      mode = "n";
+      key = "gpi";
+      action = "<cmd>lua require('goto-preview').goto_preview_implementation()<CR>";
+      options = {
+        silent = true;
+        desc = "Preview Implementation";
+      };
+    }
+    {
+      mode = "n";
+      key = "gP";
+      action = "<cmd>lua require('goto-preview').close_all_win()<CR>";
+      options = {
+        silent = true;
+        desc = "Close Previews";
+      };
+    }
+    {
+      mode = "n";
       key = "gD";
       action = "<cmd>lua vim.lsp.buf.declaration()<CR>";
       options = {

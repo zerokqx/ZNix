@@ -8,6 +8,7 @@
     ./translate-shell.nix
     ./obs-studio.nix
     ./opencode.nix
+    ./codex.nix
     ./hyprland
     ./mimes.nix
     ./git.nix

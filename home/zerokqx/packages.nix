@@ -2,7 +2,8 @@
 {
 
   home.packages = with pkgs; [
-
+    tor-browser
+    firefox
     ngrok
     # inputs.vkpl.packages.${pkgs.stdenv.hostPlatform.system}.vkpl
     uv
@@ -21,7 +22,6 @@
     dive
     psmisc
     file
-    gh
     vesktop
     beekeeper-studio
     mongodb-compass

@@ -282,7 +282,15 @@ in
         ];
       };
 
-      cssls.enable = true;
+      cssls = {
+        enable = true;
+        # cssls only advertises completion when the client supports snippets.
+        extraOptions.before_init = lib.nixvim.mkRaw ''
+          function(params)
+            params.capabilities.textDocument.completion.completionItem.snippetSupport = true
+          end
+        '';
+      };
 
       css_variables = {
         enable = true;

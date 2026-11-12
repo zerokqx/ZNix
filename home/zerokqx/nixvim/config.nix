@@ -32,6 +32,8 @@
     };
   };
   plugins.ts-context-commentstring.enable = true;
+  plugins.venv-selector.enable = true;
+  plugins.goto-preview.enable = true;
   plugins.ts-autotag = {
     enable = true;
     settings = {

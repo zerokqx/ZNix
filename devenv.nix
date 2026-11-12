@@ -40,18 +40,4 @@
     ./result/bin/run-nixos-vm
   '';
   scripts.flake-check.exec = "nix flake check --show-trace";
-  enterTest = ''
-    echo $GREET
-  '';
-
-  enterShell = ''
-    printf "                        \033[1;38;5;27m███████╗███╗   ██╗██╗██╗  ██╗\033[0m\n"
-    printf "                        \033[1;38;5;33m╚══███╔╝████╗  ██║██║╚██╗██╔╝\033[0m\n"
-    printf "                        \033[1;38;5;39m  ███╔╝ ██╔██╗ ██║██║ ╚███╔╝ \033[0m\n"
-    printf "                        \033[1;38;5;45m ███╔╝  ██║╚██╗██║██║ ██╔██╗ \033[0m\n"
-    printf "                        \033[1;38;5;51m███████╗██║ ╚████║██║██╔╝ ██╗\033[0m\n"
-    printf "                        \033[1;38;5;123m╚══════╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝\033[0m\n"
-    ./scripts/parse-flake.sh .
-  '';
-
 }
