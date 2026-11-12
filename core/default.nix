@@ -1,19 +1,11 @@
 {
   imports = [
-    ./ly.nix
     ./nixpkgs.nix
-    ./docker.nix
     ./openssh.nix
-    ./nix-ld.nix
     ./znix
     ./packages.nix
-    ./pipewire.nix
-    ./graphics.nix
-    ./bluetooth.nix
-    ./users
     ./timezone.nix
     ./networking.nix
     ./boot.nix
-    ./flatpak.nix
   ];
 }

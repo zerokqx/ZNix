@@ -1,53 +1,51 @@
-{ inputs, lib, ... }:
+{ inputs, ... }:
 let
-  hostsDir = ./.;
-  entries = builtins.readDir hostsDir;
-  hostNames = builtins.filter (
-    name: entries.${name} == "directory" && builtins.pathExists (hostsDir + "/${name}/default.nix")
-  ) (builtins.attrNames entries);
+  inherit (import ../lib inputs) mkHost mkHome;
 
-  nixosConfigs = builtins.listToAttrs (
-    map (name: {
-      inherit name;
-      value = import (hostsDir + "/${name}") { inherit inputs; };
-    }) hostNames
-  );
-
-  homeDir = ../home;
-  homeEntries = builtins.readDir homeDir;
-  homeNames = builtins.filter (
-    name: homeEntries.${name} == "directory" && builtins.pathExists (homeDir + "/${name}/default.nix")
-  ) (builtins.attrNames homeEntries);
-
-  homeConfigs = builtins.listToAttrs (
-    map (name: {
-      inherit name;
-      value = inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [
-          {
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.config.permittedInsecurePackages = [
-              "beekeeper-studio-5.3.4"
-              "nodejs-slim-20.20.2"
-            ];
-          }
-          inputs.stylix.homeModules.stylix
-          inputs.dms.homeModules.dank-material-shell
-          inputs.dms-plugin-registry.homeModules.default
-          inputs.nixvim.homeModules.nixvim
-          (homeDir + "/${name}")
-        ];
-      };
-    }) homeNames
-  );
+  homes = {
+    zerokqx = mkHome {
+      system = "x86_64-linux";
+      module = ../home/zerokqx;
+    };
+    noop = mkHome {
+      system = "x86_64-linux";
+      module = ../home/noop;
+    };
+    # znix-installer:homes
+  };
 in
 {
   flake = {
-    nixosConfigurations = nixosConfigs;
-    homeConfigurations = homeConfigs // {
-      "zerok" = homeConfigs."zerokqx" or homeConfigs."noop";
+    nixosConfigurations = {
+      desktop = mkHost {
+        system = "x86_64-linux";
+        modules = [
+          ../profiles/workstation.nix
+          ../profiles/personal.nix
+          ./desktop
+        ];
+      };
+      laptop = mkHost {
+        system = "x86_64-linux";
+        modules = [
+          ../profiles/workstation.nix
+          ../profiles/personal.nix
+          ./laptop
+        ];
+      };
+      noop = mkHost {
+        system = "x86_64-linux";
+        modules = [
+          ../profiles/workstation.nix
+          ../profiles/personal.nix
+          ./noop
+        ];
+      };
+      # znix-installer:hosts
+    };
+
+    homeConfigurations = homes // {
+      zerok = homes.zerokqx;
     };
   };
 }

@@ -1,25 +1,16 @@
-{ inputs , ... }:
-inputs.nixpkgs.lib.nixosSystem {
-  system = "x86_64-linux";
-  specialArgs = { inherit inputs; };
+{
+  imports = [ ./hardware-configuration.nix ];
 
-  modules = [
-    ../../configuration.nix
-    ./hardware-configuration.nix
-    {
-      networking.hostName = "nixos-laptop";
-      services.power-profiles-daemon.enable = true;
-      services.upower.enable = true;
-      znix.hardware.fingerprint.goodix.enable = false;
+  networking.hostName = "nixos-laptop";
+  services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
+  znix.hardware.fingerprint.goodix.enable = false;
 
-      home-manager.users.zerok = {
-        programs.dank-material-shell.enable = true;
-
-        wayland.windowManager.hyprland.settings.monitor = [
-          "eDP-1,1920x1080@60,0x0,1.25"
-          "HDMI-A-2,1920x1080@60,auto,1"
-        ];
-      };
-    }
-  ];
+  home-manager.users.zerok = {
+    programs.dank-material-shell.enable = true;
+    wayland.windowManager.hyprland.settings.monitor = [
+      "eDP-1,1920x1080@60,0x0,1.25"
+      "HDMI-A-2,1920x1080@60,auto,1"
+    ];
+  };
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ inputs, ... }:
 {
   nix = {
     settings = {
@@ -16,10 +16,12 @@
       warn-dirty = false;
       builders-use-substitutes = true;
       substituters = [
+        "https://ryoppippi.cachix.org"
         "https://cache.nixos.org"
         "https://hyprland.cachix.org"
       ];
       trusted-public-keys = [
+        "ryoppippi.cachix.org-1:b2LbtWNvJeL/qb1B6TYOMK+apaCps4SCbzlPRfSQIms="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       ];
@@ -32,11 +34,8 @@
     optimise.automatic = true;
   };
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    permittedInsecurePackages = [
-      "beekeeper-studio-5.3.4"
-      "nodejs-slim-20.20.2"
-    ];
+  nixpkgs = {
+    config = import ../lib/package-policy.nix;
+    overlays = [ inputs.nix-claude-code.overlays.default ];
   };
 }

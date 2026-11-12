@@ -1,5 +1,5 @@
 {
-  description = "flake-parts configuration for NixOS";
+  description = "ZNix NixOS and Home Manager configurations";
 
   inputs = {
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
@@ -71,14 +71,48 @@
             module = import ./home/zerokqx/nixvim/config.nix;
           };
 
-          menuPkg = pkgs.rustPlatform.buildRustPackage {
-            pname = "znix-menu";
-            version = "0.1.0";
-            src = ./rust/znix-menu;
-            cargoLock.lockFile = ./rust/znix-menu/Cargo.lock;
-          };
+          menuPkg = pkgs.callPackage ./pkgs/znix-menu.nix { };
         in
         {
+          formatter = pkgs.nixfmt;
+          devShells.default = pkgs.mkShell {
+            packages = with pkgs; [
+              bash
+              git
+              jq
+              python3
+              shellcheck
+              nixfmt
+              cargo
+              rustc
+            ];
+          };
+
+          checks = {
+            configurations = import ./tests/configurations.nix {
+              inherit pkgs;
+              inherit (inputs.self) nixosConfigurations homeConfigurations;
+            };
+            menu = menuPkg;
+            workflow =
+              pkgs.runCommand "znix-workflow"
+                {
+                  nativeBuildInputs = with pkgs; [
+                    bash
+                    git
+                    python3
+                    shellcheck
+                  ];
+                }
+                ''
+                  cp -r ${./scripts} scripts
+                  cp -r ${./tests} tests
+                  shellcheck scripts/*.sh
+                  python3 -B -m unittest discover -s tests
+                  touch "$out"
+                '';
+          };
+
           packages = {
             nixvim = nvim;
             menu = menuPkg;

@@ -48,9 +48,5 @@
     NIXPKGS_ALLOW_UNFREE = 1;
   };
 
-  znix.monitors = {
-    list = lib.mkDefault { };
-  };
-
   programs.home-manager.enable = true;
 }
