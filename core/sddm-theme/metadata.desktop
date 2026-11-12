@@ -1,0 +1,9 @@
+[SddmGreeterTheme]
+Name=ZNix
+Description=Экран входа ZNix
+Type=sddm-theme
+Version=1.0
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-Id=znix
+QtVersion=6

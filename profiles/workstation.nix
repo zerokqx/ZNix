@@ -2,7 +2,7 @@
 {
   imports = [
     inputs.nix-flatpak.nixosModules.nix-flatpak
-    ../core/ly.nix
+    ../core/sddm.nix
     ../core/pipewire.nix
     ../core/graphics.nix
     ../core/bluetooth.nix
