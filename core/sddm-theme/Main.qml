@@ -16,6 +16,8 @@ Page {
     readonly property color accentColor: config.stringValue("accent")
     readonly property color secondaryAccentColor: config.stringValue("secondaryAccent")
     readonly property real surfaceOpacity: Number(config.stringValue("surfaceOpacity"))
+    readonly property string videoPath: config.stringValue("video")
+    readonly property string videoPosterPath: config.stringValue("videoPoster")
     readonly property int controlHeight: 44
     property date time: new Date()
     property bool signingIn: false
@@ -121,7 +123,8 @@ Page {
         Image {
             anchors.fill: parent
             sourceSize: Qt.size(Math.ceil(width * Screen.devicePixelRatio), Math.ceil(height * Screen.devicePixelRatio))
-            source: sourceSize.width > 0 && sourceSize.height > 0 ? config.stringValue("wallpaper") : ""
+            source: sourceSize.width > 0 && sourceSize.height > 0
+                ? (screen.videoPosterPath || config.stringValue("wallpaper")) : ""
             fillMode: Image.PreserveAspectCrop
             asynchronous: true
             visible: status === Image.Ready
@@ -129,7 +132,18 @@ Page {
             Rectangle {
                 anchors.fill: parent
                 color: screen.backgroundColor
-                opacity: 0.66
+                opacity: screen.videoPosterPath ? 0 : 0.66
+            }
+        }
+
+        Loader {
+            anchors.fill: parent
+            asynchronous: true
+
+            // Keep the static theme usable without the optional multimedia import.
+            Component.onCompleted: {
+                if (screen.videoPath)
+                    setSource("VideoBackground.qml", {mediaSource: "file://" + screen.videoPath});
             }
         }
     }
