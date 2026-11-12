@@ -1,0 +1,130 @@
+--- a/services/Colours.qml
++++ b/services/Colours.qml
+@@ -12,4 +12,6 @@
+ Singleton {
+     id: root
++
++    readonly property string managedScheme: Quickshell.env("CAELESTIA_STYLIX_SCHEME")
+
+     property bool showPreview
+@@ -80,5 +82,6 @@
+
+     function setMode(mode: string): void {
+-        Quickshell.execDetached(["caelestia", "scheme", "set", "--notify", "-m", mode]);
++        if (!managedScheme)
++            Quickshell.execDetached(["caelestia", "scheme", "set", "--notify", "-m", mode]);
+     }
+
+@@ -115,5 +118,5 @@
+
+     FileView {
+-        path: `${Paths.state}/scheme.json`
++        path: root.managedScheme || `${Paths.state}/scheme.json`
+         watchChanges: true
+         onFileChanged: reload()
+--- a/services/Wallpapers.qml
++++ b/services/Wallpapers.qml
+@@ -12,4 +12,5 @@
+     id: root
+
++    readonly property string managedWallpaper: Quickshell.env("CAELESTIA_STYLIX_WALLPAPER")
+     readonly property string currentNamePath: `${Paths.state}/wallpaper/path.txt`
+     readonly property list<string> smartArg: GlobalConfig.services.smartScheme ? [] : ["--no-smart"]
+@@ -19,5 +20,5 @@
+     readonly property string current: showPreview ? previewPath : actualCurrent
+     property string previewPath
+-    property string actualCurrent
++    property string actualCurrent: managedWallpaper
+     property bool previewColourLock
+     property bool pendingPreviewClear
+@@ -31,8 +32,14 @@
+
+     function setRandom(): void {
++        if (managedWallpaper)
++            return;
++
+         Quickshell.execDetached(["caelestia", "wallpaper", "-r", ...smartArg]);
+     }
+
+     function setWallpaper(path: string): void {
++        if (managedWallpaper)
++            return;
++
+         actualCurrent = path;
+         Quickshell.execDetached(["caelestia", "wallpaper", "-f", path, ...smartArg]);
+@@ -40,4 +47,7 @@
+
+     function preview(path: string): void {
++        if (managedWallpaper)
++            return;
++
+         previewPath = path;
+         showPreview = true;
+@@ -84,5 +94,5 @@
+
+     FileView {
+-        path: root.currentNamePath
++        path: root.managedWallpaper ? "" : root.currentNamePath
+         watchChanges: true
+         printErrors: false
+@@ -98,4 +108,7 @@
+         }
+         onLoadFailed: {
++            if (root.managedWallpaper)
++                return;
++
+             root.actualCurrent = root.fallback;
+             root.previewColourLock = false;
+--- a/modules/launcher/services/Schemes.qml
++++ b/modules/launcher/services/Schemes.qml
+@@ -5,4 +5,5 @@
+ import Quickshell.Io
+ import Caelestia.Config
++import qs.services
+ import qs.utils
+ import qs.modules.launcher
+@@ -82,4 +83,7 @@
+
+         function onClicked(list: AppList): void {
++            if (Colours.managedScheme)
++                return;
++
+             list.screenState.launcher = false;
+             Quickshell.execDetached(["caelestia", "scheme", "set", "-n", name, "-f", flavour]);
+--- a/modules/launcher/services/M3Variants.qml
++++ b/modules/launcher/services/M3Variants.qml
+@@ -5,4 +5,5 @@
+ import Caelestia.Config
+ import Caelestia.I18n
++import qs.services
+ import qs.utils
+ import qs.modules.launcher
+@@ -80,4 +81,7 @@
+
+         function onClicked(list: AppList): void {
++            if (Colours.managedScheme)
++                return;
++
+             list.screenState.launcher = false;
+             Quickshell.execDetached(["caelestia", "scheme", "set", "-v", variant]);
+--- a/modules/nexus/pages/WallpaperAndStyle.qml
++++ b/modules/nexus/pages/WallpaperAndStyle.qml
+@@ -95,5 +95,5 @@
+                 horizontalPadding: Tokens.padding.extraLarge
+                 verticalPadding: Tokens.padding.medium
+-                disabled: !Config.background.wallpaperEnabled
++                disabled: !Config.background.wallpaperEnabled || Wallpapers.managedWallpaper !== ""
+                 onClicked: root.nState.openSubPage(1) // Wallpaper page
+             }
+@@ -108,4 +108,5 @@
+                 horizontalPadding: Tokens.padding.extraLarge
+                 verticalPadding: Tokens.padding.medium
++                disabled: Colours.managedScheme !== ""
+                 onClicked: root.nState.openSubPage(3) // Colours page
+             }
+@@ -133,4 +134,5 @@
+
+             last: true
++            visible: !Colours.managedScheme
+             text: Tr.tr("Dark theme")
+             checked: !Colours.light
