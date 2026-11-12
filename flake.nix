@@ -90,7 +90,7 @@
 
           checks = {
             configurations = import ./tests/configurations.nix {
-              inherit pkgs;
+              inherit inputs pkgs;
               inherit (inputs.self) nixosConfigurations homeConfigurations;
             };
             menu = menuPkg;

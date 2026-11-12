@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   imports = [
     ../core/docker.nix
@@ -6,4 +7,5 @@
 
   znix.dev.ports.enable = true;
   programs.direnv.enable = true;
+  environment.systemPackages = [ pkgs.nix-ld ];
 }

@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [
     inputs.nix-flatpak.nixosModules.nix-flatpak
@@ -11,6 +11,10 @@
   ];
 
   services.input-remapper.enable = true;
+  environment.systemPackages = [
+    pkgs.polkit_gnome
+    pkgs.xdg-utils
+  ];
 
   programs = {
     hyprland.enable = true;
