@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ config, lib, ... }:
 {
   imports = [
     ./mini.nix
@@ -26,13 +26,78 @@
 
   plugins.treesitter = {
     enable = true;
-    settings = {
-      highlight.enable = true;
-      indent.enable = false;
-    };
+    highlight.enable = true;
+    indent.enable = false;
+    # Editing languages plus parsers used by their injected queries.
+    # Use this package's grammars so parsers and query versions stay together.
+    grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
+      asm
+      bash
+      c
+      comment
+      cpp
+      css
+      diff
+      dockerfile
+      doxygen
+      fish
+      git_config
+      git_rebase
+      gitattributes
+      gitcommit
+      gitignore
+      go
+      gomod
+      gosum
+      graphql
+      haskell
+      html
+      javascript
+      jsdoc
+      json
+      json5
+      latex
+      lua
+      luadoc
+      luap
+      make
+      markdown
+      markdown_inline
+      nginx
+      nix
+      ocaml
+      ocaml_interface
+      ocamllex
+      perl
+      printf
+      promql
+      pug
+      python
+      query
+      re2c
+      readline
+      regex
+      ruby
+      rust
+      scss
+      sql
+      styled
+      templ
+      toml
+      tsx
+      typescript
+      vim
+      vimdoc
+      vue
+      xml
+      yaml
+    ];
   };
   plugins.ts-context-commentstring.enable = true;
-  plugins.venv-selector.enable = true;
+  plugins.venv-selector = {
+    enable = true;
+    settings.options.picker = "snacks";
+  };
   plugins.goto-preview.enable = true;
   plugins.ts-autotag = {
     enable = true;
@@ -166,6 +231,11 @@
   plugins.gitsigns = {
     enable = true;
     settings = {
+      on_attach = lib.nixvim.mkRaw ''
+        function(bufnr)
+          if vim.bo[bufnr].filetype == "bigfile" then return false end
+        end
+      '';
       signs = {
         add = {
           text = "▎";

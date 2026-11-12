@@ -37,7 +37,10 @@ in
       sqls.enable = true;
       nixd = {
         enable = true;
-        cmd = [ "nixd" "--log=error" ];
+        cmd = [
+          "nixd"
+          "--log=error"
+        ];
         settings = {
           formatting.command = [ "nixfmt" ];
           nixpkgs.expr = "import <nixpkgs> { }";
@@ -48,26 +51,9 @@ in
         enable = true;
       };
 
-      yamlls = {
-        enable = true;
-        settings = {
-          yaml = {
-            schemaStore = {
-              enable = false;
-              url = "";
-            };
-          };
-        };
-      };
-
-      jsonls = {
-        enable = true;
-        settings = {
-          json = {
-            validate.enable = true;
-          };
-        };
-      };
+      # SchemaStore owns the JSON and YAML schema settings.
+      yamlls.enable = true;
+      jsonls.enable = true;
 
       marksman = {
         enable = true;
@@ -179,31 +165,28 @@ in
 
       vtsls = {
         enable = true;
-        autostart = true;
-        extraOptions = {
-          settings = {
-            vtsls.autoUseWorkspaceTsdk = true;
-            javascript = {
-              inlayHints = {
-                includeInlayEnumMemberValueHints = true;
-                includeInlayFunctionLikeReturnTypeHints = true;
-                includeInlayFunctionParameterTypeHints = true;
-                includeInlayParameterNameHints = "all";
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false;
-                includeInlayPropertyDeclarationTypeHints = true;
-                includeInlayVariableTypeHints = true;
-              };
+        settings = {
+          vtsls.autoUseWorkspaceTsdk = true;
+          javascript = {
+            inlayHints = {
+              includeInlayEnumMemberValueHints = true;
+              includeInlayFunctionLikeReturnTypeHints = true;
+              includeInlayFunctionParameterTypeHints = true;
+              includeInlayParameterNameHints = "all";
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false;
+              includeInlayPropertyDeclarationTypeHints = true;
+              includeInlayVariableTypeHints = true;
             };
-            typescript = {
-              inlayHints = {
-                includeInlayEnumMemberValueHints = true;
-                includeInlayFunctionLikeReturnTypeHints = true;
-                includeInlayFunctionParameterTypeHints = true;
-                includeInlayParameterNameHints = "all";
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false;
-                includeInlayPropertyDeclarationTypeHints = true;
-                includeInlayVariableTypeHints = true;
-              };
+          };
+          typescript = {
+            inlayHints = {
+              includeInlayEnumMemberValueHints = true;
+              includeInlayFunctionLikeReturnTypeHints = true;
+              includeInlayFunctionParameterTypeHints = true;
+              includeInlayParameterNameHints = "all";
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false;
+              includeInlayPropertyDeclarationTypeHints = true;
+              includeInlayVariableTypeHints = true;
             };
           };
         };
@@ -215,24 +198,20 @@ in
 
       lua_ls = {
         enable = true;
-        extraOptions = {
-          settings = {
-            Lua = {
-              hint = {
-                enable = true;
-                setType = true;
-                paramType = true;
-                paramName = "All";
-                semicolon = "Disable";
-                arrayIndex = "Disable";
-              };
-              diagnostics = {
-                globals = [ "vim" ];
-              };
-              telemetry = {
-                enabled = false;
-              };
-            };
+        settings = {
+          hint = {
+            enable = true;
+            setType = true;
+            paramType = true;
+            paramName = "All";
+            semicolon = "Disable";
+            arrayIndex = "Disable";
+          };
+          diagnostics = {
+            globals = [ "vim" ];
+          };
+          telemetry = {
+            enabled = false;
           };
         };
       };
@@ -271,6 +250,7 @@ in
       vue_ls = {
         enable = true;
         tslsIntegration = false;
+        vtslsIntegration = true;
       };
 
       html = {
@@ -402,7 +382,10 @@ in
       formatters = {
         oxfmt = {
           command = "oxfmt";
-          args = [ "--stdin-filepath" "$FILENAME" ];
+          args = [
+            "--stdin-filepath"
+            "$FILENAME"
+          ];
         };
         prettier = {
           timeout_ms = 5000;
@@ -413,127 +396,110 @@ in
       };
       formatters_by_ft = lib.mkForce {
 
-      nix = [ "nixfmt" ];
+        nix = [ "nixfmt" ];
 
-      rust = [ "rustfmt" ];
+        rust = [ "rustfmt" ];
 
-      javascript = prettierOrOxfmt;
-      javascriptreact = prettierOrOxfmt;
-      typescript = prettierOrOxfmt;
-      typescriptreact = prettierOrOxfmt;
-      vue = [
-        "prettierd"
-        "prettier"
-      ];
-      html = [
-        "prettierd"
-        "prettier"
-      ];
-      css = [
-        "prettierd"
-        "prettier"
-      ];
-      scss = [
-        "prettierd"
-        "prettier"
-      ];
-      less = [
-        "prettierd"
-        "prettier"
-      ];
-      graphql = [
-        "prettierd"
-        "prettier"
-      ];
+        javascript = prettierOrOxfmt;
+        javascriptreact = prettierOrOxfmt;
+        typescript = prettierOrOxfmt;
+        typescriptreact = prettierOrOxfmt;
+        vue = [
+          "prettierd"
+          "prettier"
+        ];
+        html = [
+          "prettierd"
+          "prettier"
+        ];
+        css = [
+          "prettierd"
+          "prettier"
+        ];
+        scss = [
+          "prettierd"
+          "prettier"
+        ];
+        less = [
+          "prettierd"
+          "prettier"
+        ];
+        graphql = [
+          "prettierd"
+          "prettier"
+        ];
 
-      json = [
-        "prettierd"
-        "prettier"
-      ];
-      jsonc = [
-        "prettierd"
-        "prettier"
-      ];
-      yaml = [
-        "yamlfmt"
-        "prettierd"
-        "prettier"
-      ];
-      toml = [ "taplo" ];
+        json = [
+          "prettierd"
+          "prettier"
+        ];
+        jsonc = [
+          "prettierd"
+          "prettier"
+        ];
+        yaml = [
+          "yamlfmt"
+          "prettierd"
+          "prettier"
+        ];
+        toml = [ "taplo" ];
 
-      sh = [ "shfmt" ];
-      bash = [ "shfmt" ];
+        sh = [ "shfmt" ];
+        bash = [ "shfmt" ];
 
-      lua = [ "stylua" ];
+        lua = [ "stylua" ];
 
-      python = [
-        "ruff_format"
-        "black"
-      ];
+        python = [
+          "ruff_format"
+          "black"
+        ];
 
-      ocaml = [ "ocamlformat" ];
+        ocaml = [ "ocamlformat" ];
 
-      sql = [
-        "sqlfluff"
-        "sql-formatter"
-      ];
+        sql = [
+          "sqlfluff"
+          "sql-formatter"
+        ];
 
-      markdown = [
-        "prettierd"
-        "prettier"
-      ];
-      "markdown.mdx" = [
-        "prettierd"
-        "prettier"
-      ];
+        markdown = [
+          "prettierd"
+          "prettier"
+        ];
+        "markdown.mdx" = [
+          "prettierd"
+          "prettier"
+        ];
+      };
     };
   };
-};
 
+  # LSP executables come from their server modules. Taplo and Ruff also format.
   extraPackages = with pkgs; [
-    sqls
     sqlfluff
     sql-formatter
 
-    nixd
     nixfmt
 
     taplo
-    yaml-language-server
     yamlfmt
-    vscode-langservers-extracted
-    marksman
-    dockerfile-language-server
-    docker-compose-language-service
-    nginx-language-server
-    bash-language-server
     shfmt
     shellcheck
 
-    ocamlPackages.ocaml-lsp
     ocamlformat
 
-    rust-analyzer
     rustfmt
     clippy
     cargo
     rustc
 
-    vtsls
-    vue-language-server
     typescript
     nodejs
     oxfmt
     prettierd
     prettier
-    oxlint
-    css-variables-language-server
-    cssmodules-language-server
 
-    lua-language-server
     stylua
 
-    pyright
     ruff
     black
 

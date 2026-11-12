@@ -11,19 +11,22 @@
         autosave_timers[buf] = nil
       end
     end
+    local function znix_can_save(buf)
+      return vim.api.nvim_buf_is_loaded(buf)
+        and vim.bo[buf].modified
+        and vim.bo[buf].buftype == ""
+        and vim.api.nvim_buf_get_name(buf) ~= ""
+        and not vim.bo[buf].readonly
+    end
     local function znix_debounced_save(buf)
       znix_cancel_save(buf)
+      if not znix_can_save(buf) then return end
       local timer = vim.uv.new_timer()
       autosave_timers[buf] = timer
       timer:start(vim.bo[buf].filetype == "rust" and 2000 or 500, 0, vim.schedule_wrap(function()
         if autosave_timers[buf] ~= timer then return end
         znix_cancel_save(buf)
-        if vim.api.nvim_buf_is_valid(buf)
-          and vim.bo[buf].modified
-          and vim.bo[buf].buftype == ""
-          and vim.api.nvim_buf_get_name(buf) ~= ""
-          and not vim.bo[buf].readonly
-        then
+        if znix_can_save(buf) then
           local ok, err = pcall(vim.api.nvim_buf_call, buf, function()
             vim.cmd("silent write")
           end)
@@ -41,7 +44,7 @@
         znix_debounced_save(args.buf)
       end,
     })
-    vim.api.nvim_create_autocmd("BufWipeout", {
+    vim.api.nvim_create_autocmd({ "BufUnload", "BufWipeout" }, {
       group = autosave_group,
       callback = function(args)
         znix_cancel_save(args.buf)
@@ -60,6 +63,7 @@
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("ZnixLspAttach", { clear = true }),
       callback = function(args)
+        if vim.bo[args.buf].filetype == "bigfile" then return end
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         if not client then return end
 
@@ -70,163 +74,167 @@
       end,
     })
 
-    -- Сворачивание тестов в Rust по умолчанию (модули #[cfg(test)], mod tests/test и тестовые функции)
-    local function znix_get_rust_test_nodes(bufnr)
-      if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) or vim.bo[bufnr].buftype ~= "" then
-        return {}, {}
-      end
-      local ok, parser = pcall(vim.treesitter.get_parser, bufnr, "rust")
-      if not ok or not parser then return {}, {} end
+    -- Не обновляем миникарту и направляющие в буферах, распознанных Snacks BigFile.
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("ZnixBigFile", { clear = true }),
+      pattern = "bigfile",
+      callback = function(args)
+        vim.b[args.buf].minimap_disable = true
+        vim.b[args.buf].snacks_indent = false
+        vim.b[args.buf].snacks_scope = false
+      end,
+    })
 
-      local tree = parser:parse()[1]
-      if not tree then return {}, {} end
-      local root = tree:root()
+    -- Сворачивание Rust-тестов без обхода каждого узла синтаксического дерева.
+    local rust_query
+    local rust_cache = {}
+    local folded_windows = {}
+    local test_attrs = {
+      test = true,
+      rstest = true,
+      test_case = true,
+      quickcheck = true,
+      proptest = true,
+    }
 
-      local function get_node_text(node)
-        return vim.treesitter.get_node_text(node, bufnr)
-      end
-
-      local function has_test_attr(node)
-        local prev = node:prev_sibling()
-        while prev and prev:type() == "attribute_item" do
-          local text = get_node_text(prev)
-          if text:match("test") or text:match("quickcheck") then
-            return true
-          end
-          prev = prev:prev_sibling()
-        end
-        return false
-      end
-
-      local function is_test_node(node)
-        local ntype = node:type()
-        if ntype == "mod_item" then
-          for child in node:iter_children() do
-            if child:type() == "identifier" then
-              local name = get_node_text(child)
-              if name == "test" or name == "tests" then
-                return true
-              end
-            end
-          end
-          return has_test_attr(node)
-        elseif ntype == "function_item" then
-          return has_test_attr(node)
-        end
-        return false
-      end
-
-      local all_lines = {}
-      local top_lines = {}
-
-      local function find_nodes(node, is_top)
-        if is_test_node(node) then
-          local srow, _, _, _ = node:range()
-          local line = srow + 1
-          table.insert(all_lines, line)
-          if is_top then
-            table.insert(top_lines, line)
-          end
-          is_top = false
-        end
-        for child in node:iter_children() do
-          find_nodes(child, is_top)
-        end
-      end
-
-      find_nodes(root, true)
-      table.sort(all_lines, function(a, b) return a > b end)
-      return all_lines, top_lines
+    local function rust_buffer(buf)
+      return vim.api.nvim_buf_is_loaded(buf)
+        and vim.bo[buf].filetype == "rust"
+        and vim.bo[buf].buftype == ""
     end
 
-    local function znix_fold_rust_tests(bufnr, winid)
-      local all_lines, _ = znix_get_rust_test_nodes(bufnr)
-      if #all_lines == 0 then return end
+    local function rust_test(node, buf)
+      local name = node:field("name")[1]
+      if node:type() == "mod_item" and name then
+        local text = vim.treesitter.get_node_text(name, buf)
+        if text == "test" or text == "tests" then return true end
+      end
 
-      local target_wins = winid and { winid } or vim.fn.win_findbuf(bufnr)
-      for _, win in ipairs(target_wins) do
-        if vim.api.nvim_win_is_valid(win) then
-          vim.api.nvim_win_call(win, function()
-            for _, line in ipairs(all_lines) do
-              vim.cmd(string.format("silent! %dfoldclose", line))
+      local prev = node:prev_named_sibling()
+      while prev do
+        local kind = prev:type()
+        if kind == "attribute_item" then
+          local attribute = prev:named_child(0)
+          local path = attribute and attribute:named_child(0)
+          if path then
+            local last = path:field("name")[1] or path
+            local attr = vim.treesitter.get_node_text(last, buf)
+            if test_attrs[attr] then return true end
+            if path:type() == "identifier" and attr == "cfg"
+              and vim.treesitter.get_node_text(prev, buf):match("^#%s*%[%s*cfg%s*%(%s*test%s*%)%s*%]$")
+            then
+              return true
             end
-          end)
-        end
-      end
-    end
-
-    _G.znix_toggle_rust_tests = function(bufnr, winid)
-      bufnr = bufnr or vim.api.nvim_get_current_buf()
-      winid = winid or vim.api.nvim_get_current_win()
-      local all_lines, top_lines = znix_get_rust_test_nodes(bufnr)
-      if #all_lines == 0 then
-        if Snacks and Snacks.notify then
-          Snacks.notify.warn("Тесты не найдены в файле", { title = "Rust Tests" })
-        end
-        return
-      end
-
-      local any_top_folded = false
-      for _, line in ipairs(top_lines) do
-        if vim.fn.foldclosed(line) ~= -1 then
-          any_top_folded = true
+          end
+        elseif kind ~= "line_comment" and kind ~= "block_comment" then
           break
         end
+        prev = prev:prev_named_sibling()
       end
-
-      vim.api.nvim_win_call(winid, function()
-        if any_top_folded then
-          for _, line in ipairs(all_lines) do
-            vim.cmd(string.format("silent! %dfoldopen!", line))
-          end
-        else
-          for _, line in ipairs(all_lines) do
-            vim.cmd(string.format("silent! %dfoldclose", line))
-          end
-        end
-      end)
-
-      if Snacks and Snacks.notify then
-        if any_top_folded then
-          Snacks.notify.info("Тесты развёрнуты", { title = "Rust Tests" })
-        else
-          Snacks.notify.info("Тесты свёрнуты", { title = "Rust Tests" })
-        end
-      end
+      return false
     end
 
-    local function znix_try_fold_rust(bufnr, win)
-      if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then return end
-      if vim.b[bufnr].znix_tests_folded then return end
-      if vim.bo[bufnr].filetype ~= "rust" then return end
+    local function rust_test_lines(buf)
+      local tick = vim.api.nvim_buf_get_changedtick(buf)
+      local cached = rust_cache[buf]
+      if cached and cached.tick == tick then return cached.lines, cached.top end
 
-      vim.schedule(function()
-        if not vim.api.nvim_buf_is_valid(bufnr) or vim.b[bufnr].znix_tests_folded then return end
-        local wins = win and { win } or vim.fn.win_findbuf(bufnr)
-        if #wins > 0 then
-          znix_fold_rust_tests(bufnr, win)
-          vim.b[bufnr].znix_tests_folded = true
+      local parser = vim.treesitter.get_parser(buf, "rust")
+      local tree = parser and parser:parse()[1]
+      if not tree then return {}, {} end
+      rust_query = rust_query or vim.treesitter.query.parse("rust", "[(mod_item) (function_item)] @candidate")
+
+      local tests, nodes = {}, {}
+      for _, node in rust_query:iter_captures(tree:root(), buf, 0, -1) do
+        if rust_test(node, buf) then
+          tests[node:id()] = true
+          nodes[#nodes + 1] = node
         end
-      end)
+      end
+
+      local lines, top = {}, {}
+      for _, node in ipairs(nodes) do
+        local line = node:start() + 1
+        lines[#lines + 1] = line
+        local parent = node:parent()
+        while parent and not tests[parent:id()] do
+          parent = parent:parent()
+        end
+        if not parent then top[#top + 1] = line end
+      end
+
+      table.sort(lines, function(a, b) return a > b end)
+      rust_cache[buf] = { tick = tick, lines = lines, top = top }
+      return lines, top
     end
 
     local rust_fold_group = vim.api.nvim_create_augroup("ZnixRustFoldTests", { clear = true })
-    vim.api.nvim_create_autocmd("FileType", {
+    vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
       group = rust_fold_group,
-      pattern = "rust",
       callback = function(args)
-        znix_try_fold_rust(args.buf)
+        local win = vim.api.nvim_get_current_win()
+        local buf = args.event == "WinEnter" and vim.api.nvim_win_get_buf(win) or args.buf
+        if not rust_buffer(buf) then return end
+        local folded = folded_windows[win] or {}
+        folded_windows[win] = folded
+        if folded[buf] ~= nil then return end
+        -- Reserve this window/buffer pair before both events can queue it.
+        folded[buf] = false
+
+        vim.schedule(function()
+          if folded[buf] ~= false then return end
+          if not vim.api.nvim_win_is_valid(win) or vim.api.nvim_win_get_buf(win) ~= buf
+            or not rust_buffer(buf)
+          then
+            folded[buf] = nil
+            return
+          end
+
+          local lines = rust_test_lines(buf)
+          vim.api.nvim_win_call(win, function()
+            for _, line in ipairs(lines) do
+              vim.cmd("silent! " .. line .. "foldclose")
+            end
+          end)
+          folded[buf] = true
+        end)
       end,
     })
-    vim.api.nvim_create_autocmd("BufWinEnter", {
+    vim.api.nvim_create_autocmd({ "BufUnload", "BufWipeout" }, {
       group = rust_fold_group,
       callback = function(args)
-        znix_try_fold_rust(args.buf, vim.api.nvim_get_current_win())
+        rust_cache[args.buf] = nil
+        for _, folded in pairs(folded_windows) do folded[args.buf] = nil end
+      end,
+    })
+    vim.api.nvim_create_autocmd("WinClosed", {
+      group = rust_fold_group,
+      callback = function(args)
+        folded_windows[tonumber(args.match)] = nil
       end,
     })
 
     vim.api.nvim_create_user_command("RustFoldTests", function()
-      _G.znix_toggle_rust_tests()
+      local buf = vim.api.nvim_get_current_buf()
+      if not rust_buffer(buf) then return end
+      local lines, top = rust_test_lines(buf)
+      if #lines == 0 then
+        vim.notify("Тесты не найдены в файле", vim.log.levels.WARN, { title = "Rust Tests" })
+        return
+      end
+
+      local open = false
+      for _, line in ipairs(top) do
+        if vim.fn.foldclosed(line) ~= -1 then
+          open = true
+          break
+        end
+      end
+      local command = open and "foldopen!" or "foldclose"
+      for _, line in ipairs(lines) do
+        vim.cmd("silent! " .. line .. command)
+      end
+      vim.notify(open and "Тесты развёрнуты" or "Тесты свёрнуты", vim.log.levels.INFO, { title = "Rust Tests" })
     end, { desc = "Свернуть / развернуть тесты в текущем Rust буфере" })
 
     -- Последовательно обрабатываем раскладку, не блокируя редактор.
@@ -254,7 +262,7 @@
 
       if request.insert then
         local saved = vim.b[request.buf].znix_saved_layout or znix_last_insert_layout
-        if saved and saved ~= 0 then
+        if saved and saved ~= (request.current_layout or 0) then
           switch_layout(saved)
         else
           finish_layout()
@@ -283,7 +291,10 @@
         end
         znix_last_insert_layout = layout
         -- Новое событие важнее: InsertEnter не должен получить позднее переключение на EN.
-        if layout_pending or layout == 0 then
+        if layout_pending then
+          layout_pending.current_layout = layout
+          finish_layout()
+        elseif layout == 0 then
           finish_layout()
         else
           switch_layout(0)

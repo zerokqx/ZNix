@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ ... }:
 {
   keymaps = [
     {
@@ -161,7 +161,7 @@
         "v"
       ];
       key = "<leader>cf";
-      action = "<cmd>lua require('conform').format({ timeout_ms = 5000, lsp_format = 'fallback', stop_after_first = true })<CR>";
+      action = "<cmd>lua require('conform').format()<CR>";
       options = {
         silent = true;
         desc = "Format (Форматировать файл / блок)";
@@ -445,7 +445,7 @@
     {
       mode = "n";
       key = "]h";
-      action = "<cmd>Gitsigns next_hunk<CR>";
+      action = "<cmd>Gitsigns nav_hunk next<CR>";
       options = {
         silent = true;
         desc = "Следующий Git Hunk";
@@ -454,7 +454,7 @@
     {
       mode = "n";
       key = "[h";
-      action = "<cmd>Gitsigns prev_hunk<CR>";
+      action = "<cmd>Gitsigns nav_hunk prev<CR>";
       options = {
         silent = true;
         desc = "Предыдущий Git Hunk";
@@ -463,7 +463,15 @@
     {
       mode = "n";
       key = "]c";
-      action = "<cmd>Gitsigns next_hunk<CR>";
+      action.__raw = ''
+        function()
+          if vim.wo.diff then
+            vim.cmd.normal({ args = { vim.v.count1 .. "]c" }, bang = true })
+          else
+            require("gitsigns").nav_hunk("next")
+          end
+        end
+      '';
       options = {
         silent = true;
         desc = "Следующий Git Hunk";
@@ -472,7 +480,15 @@
     {
       mode = "n";
       key = "[c";
-      action = "<cmd>Gitsigns prev_hunk<CR>";
+      action.__raw = ''
+        function()
+          if vim.wo.diff then
+            vim.cmd.normal({ args = { vim.v.count1 .. "[c" }, bang = true })
+          else
+            require("gitsigns").nav_hunk("prev")
+          end
+        end
+      '';
       options = {
         silent = true;
         desc = "Предыдущий Git Hunk";
@@ -523,166 +539,42 @@
         desc = "Переключить Git Blame строки";
       };
     }
-
-    {
-      mode = [
-        "n"
-        "i"
-        "t"
-      ];
-      key = "<C-S-?>";
-      action.__raw = ''
-        function()
-          local file = vim.api.nvim_get_runtime_file("doc/cheatsheet.txt", false)[1]
-          if not file or file == "" or vim.fn.filereadable(file) == 0 then
-            file = vim.fn.expand("~/projects/ZNix/docs/cheatsheet.txt")
-          end
-          Snacks.win({
-            file = file,
-            width = 0.85,
-            height = 0.85,
-            border = "rounded",
-            title = " ⚡ ZNix Neovim Cheat Sheet & Keymaps ⚡ ",
-            title_pos = "center",
-            backdrop = 60,
-            wo = {
-              spell = false,
-              wrap = false,
-              signcolumn = "no",
-              statuscolumn = "",
-              number = false,
-              relativenumber = false,
-            },
-            keys = {
-              q = "close",
-              ["<Esc>"] = "close",
-            },
-          })
-        end
-      '';
-      options = {
-        silent = true;
-        desc = "Открыть Cheat Sheet (Справка по хоткеям)";
-      };
-    }
-    {
-      mode = [
-        "n"
-        "i"
-        "t"
-      ];
-      key = "<C-?>";
-      action.__raw = ''
-        function()
-          local file = vim.api.nvim_get_runtime_file("doc/cheatsheet.txt", false)[1]
-          if not file or file == "" or vim.fn.filereadable(file) == 0 then
-            file = vim.fn.expand("~/projects/ZNix/docs/cheatsheet.txt")
-          end
-          Snacks.win({
-            file = file,
-            width = 0.85,
-            height = 0.85,
-            border = "rounded",
-            title = " ⚡ ZNix Neovim Cheat Sheet & Keymaps ⚡ ",
-            title_pos = "center",
-            backdrop = 60,
-            wo = {
-              spell = false,
-              wrap = false,
-              signcolumn = "no",
-              statuscolumn = "",
-              number = false,
-              relativenumber = false,
-            },
-            keys = {
-              q = "close",
-              ["<Esc>"] = "close",
-            },
-          })
-        end
-      '';
-      options = {
-        silent = true;
-        desc = "Открыть Cheat Sheet (Справка по хоткеям)";
-      };
-    }
-    {
-      mode = [
-        "n"
-        "i"
-        "t"
-      ];
-      key = "<C-_>";
-      action.__raw = ''
-        function()
-          local file = vim.api.nvim_get_runtime_file("doc/cheatsheet.txt", false)[1]
-          if not file or file == "" or vim.fn.filereadable(file) == 0 then
-            file = vim.fn.expand("~/projects/ZNix/docs/cheatsheet.txt")
-          end
-          Snacks.win({
-            file = file,
-            width = 0.85,
-            height = 0.85,
-            border = "rounded",
-            title = " ⚡ ZNix Neovim Cheat Sheet & Keymaps ⚡ ",
-            title_pos = "center",
-            backdrop = 60,
-            wo = {
-              spell = false,
-              wrap = false,
-              signcolumn = "no",
-              statuscolumn = "",
-              number = false,
-              relativenumber = false,
-            },
-            keys = {
-              q = "close",
-              ["<Esc>"] = "close",
-            },
-          })
-        end
-      '';
-      options = {
-        silent = true;
-        desc = "Открыть Cheat Sheet (Справка по хоткеям)";
-      };
-    }
-    {
-      mode = "n";
-      key = "<leader>?";
-      action.__raw = ''
-        function()
-          local file = vim.api.nvim_get_runtime_file("doc/cheatsheet.txt", false)[1]
-          if not file or file == "" or vim.fn.filereadable(file) == 0 then
-            file = vim.fn.expand("~/projects/ZNix/docs/cheatsheet.txt")
-          end
-          Snacks.win({
-            file = file,
-            width = 0.85,
-            height = 0.85,
-            border = "rounded",
-            title = " ⚡ ZNix Neovim Cheat Sheet & Keymaps ⚡ ",
-            title_pos = "center",
-            backdrop = 60,
-            wo = {
-              spell = false,
-              wrap = false,
-              signcolumn = "no",
-              statuscolumn = "",
-              number = false,
-              relativenumber = false,
-            },
-            keys = {
-              q = "close",
-              ["<Esc>"] = "close",
-            },
-          })
-        end
-      '';
-      options = {
-        silent = true;
-        desc = "Открыть Cheat Sheet (Справка по хоткеям)";
-      };
-    }
   ];
+
+  extraConfigLua = ''
+    local function open_cheatsheet()
+      local file = vim.api.nvim_get_runtime_file("doc/cheatsheet.txt", false)[1]
+      if not file then
+        vim.notify("Файл справки по клавишам не найден", vim.log.levels.WARN)
+        return
+      end
+      Snacks.win({
+        file = file,
+        width = 0.85,
+        height = 0.85,
+        border = "rounded",
+        title = " ⚡ ZNix Neovim Cheat Sheet & Keymaps ⚡ ",
+        title_pos = "center",
+        backdrop = 60,
+        wo = {
+          spell = false,
+          wrap = false,
+          signcolumn = "no",
+          statuscolumn = "",
+          number = false,
+          relativenumber = false,
+        },
+        keys = {
+          q = "close",
+          ["<Esc>"] = "close",
+        },
+      })
+    end
+
+    local cheatsheet_opts = { silent = true, desc = "Открыть Cheat Sheet (Справка по хоткеям)" }
+    for _, key in ipairs({ "<C-S-?>", "<C-?>", "<C-_>" }) do
+      vim.keymap.set({ "n", "i", "t" }, key, open_cheatsheet, cheatsheet_opts)
+    end
+    vim.keymap.set("n", "<leader>?", open_cheatsheet, cheatsheet_opts)
+  '';
 }
