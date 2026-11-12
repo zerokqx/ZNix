@@ -11,7 +11,18 @@ import unittest
 
 PROJECT = Path(__file__).resolve().parents[1]
 INSTALLER = PROJECT / "scripts" / "install-skills.py"
-SKILLS = ("install", "architecture", "hosts", "packages", "nixvim", "validation", "deployment", "refactoring")
+SKILLS = (
+    "install",
+    "architecture",
+    "desktop",
+    "hosts",
+    "packages",
+    "stylix",
+    "nixvim",
+    "validation",
+    "deployment",
+    "refactoring",
+)
 
 
 class InstallSkillsTests(unittest.TestCase):

@@ -9,7 +9,18 @@ from pathlib import Path
 import sys
 
 
-SKILLS = ("install", "architecture", "hosts", "packages", "nixvim", "validation", "deployment", "refactoring")
+SKILLS = (
+    "install",
+    "architecture",
+    "desktop",
+    "hosts",
+    "packages",
+    "stylix",
+    "nixvim",
+    "validation",
+    "deployment",
+    "refactoring",
+)
 
 
 def within(path: Path, parent: Path) -> bool:

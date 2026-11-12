@@ -11,7 +11,8 @@
 2. Для структуры откройте [docs/architecture.md](docs/architecture.md), для
    команд и доставки пакетов — [docs/operations.md](docs/operations.md).
 3. Выберите подходящий `.agents/skills/<name>/SKILL.md`: `architecture`,
-   `hosts`, `packages`, `nixvim`, `validation`, `deployment` или `refactoring`.
+   `desktop`, `stylix`, `hosts`, `packages`, `nixvim`, `validation`,
+   `deployment` или `refactoring`.
 4. Для подключения skills сначала прочитайте
    [.agents/skills/install/SKILL.md](.agents/skills/install/SKILL.md).
    Это bootstrap, доступный до создания ссылок. Среду определяйте по текущей
@@ -43,6 +44,12 @@ Claude Code получает относительные ссылки в `.claude
 - `home/`: пользовательские приложения; `configs/`: VPN-модули.
 - `home/zerokqx/nixvim/`: личная конфигурация Nixvim. Перед её изменением
   прочитайте skill `nixvim`; отдельного `nix run` package или установщика нет.
+- `home/zerokqx/desktop.nix`: выбор личной shell между Caelestia и DMS;
+  перед изменением оболочки, её автозапуска или горячих клавиш прочитайте
+  skill `desktop`.
+- `home/zerokqx/znix/stylix-celestia.nix`: локальный target Stylix для
+  Caelestia; общая палитра для пользовательской сессии и SDDM находится в
+  `lib/stylix-theme.nix`. Перед темизацией прочитайте skill `stylix`.
 - `scripts/`, `tests/`: воспроизводимые проверки и явные операции.
 
 Используйте обычные NixOS `imports` и стандартные примитивы `nixpkgs.lib`.
