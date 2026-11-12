@@ -1,28 +1,79 @@
-# ZNix: руководство по проекту
+# ZNix: точка входа для агентов
 
-ZNix — персональная конфигурация NixOS и Home Manager. Основная платформа — `x86_64-linux`, пользователь — `zerok`. Источником истины служат Nix-модули и `flake.lock`: перед изменениями проверяйте актуальные импорты и состояние рабочего дерева.
+Персональная NixOS/Home Manager конфигурация. Источник истины — Nix-модули,
+явный реестр `hosts/default.nix` и `flake.lock`. Текущие хосты: `desktop`
+(`nixos-pc`), `laptop` (`nixos-laptop`), `noop` (`nixos`), все `x86_64-linux`.
 
-## Структура
+## Начало работы и skills
 
-- `flake.nix` и `flake.lock` — входы и зафиксированные версии; основные ветки nixpkgs, Home Manager, Stylix и Nixvim — 26.05.
-- `hosts/default.nix` обнаруживает каталоги хостов и Home Manager с `default.nix` и формирует outputs. Хосты: `desktop`, `laptop`, `noop`.
-- `hosts/<host>/` — аппаратная конфигурация и настройки конкретной машины. `hardware-configuration.nix`, диски, swap и мониторы зависят от устройства.
-- `configuration.nix` — общая конфигурация NixOS и подключение Home Manager; `core/` — системные модули и опции `znix`, `configs/` — дополнительные системные настройки.
-- `home/zerokqx/` — пользовательская конфигурация: Fish и prompt, Foot, Hyprland, Dank Material Shell, тема, приложения и пакеты. `home/noop/` переиспользует часть этих модулей.
-- `home/zerokqx/nixvim/` — конфигурация редактора; `rust/znix-menu/` — исходники меню. Flake предоставляет пакеты и приложения `nixvim` и `menu`.
-- `devenv.nix` — окружение и вспомогательные команды, `docs/` — документация и шпаргалка.
+1. Прочитайте `git status --short --branch` и изменения перед правками.
+   Сохраняйте чужую работу; добавляйте в индекс только просмотренные пути.
+2. Для структуры откройте [docs/architecture.md](docs/architecture.md), для
+   команд и доставки пакетов — [docs/operations.md](docs/operations.md).
+3. Выберите подходящий `.agents/skills/<name>/SKILL.md`: `architecture`,
+   `hosts`, `packages`, `validation`, `deployment` или `refactoring`.
+4. Для подключения skills сначала прочитайте
+   [.agents/skills/install/SKILL.md](.agents/skills/install/SKILL.md).
+   Это bootstrap, доступный до создания ссылок. Среду определяйте по текущей
+   сессии агента, а не по наличию чужих конфигурационных каталогов:
 
-## Работа с конфигурацией
+   ```sh
+   python3 scripts/install-skills.py --environment codex
+   python3 scripts/install-skills.py --environment claude
+   ```
 
-- Подключайте новый модуль явно через соответствующий `imports`; каталоги хостов и Home Manager обнаруживаются отдельно в `hosts/default.nix`.
-- Меняйте системные настройки в `core/` или `configuration.nix`, пользовательские — в `home/`, а аппаратные и зависящие от машины — в `hosts/<host>/`.
-- Home Manager встроен в NixOS; также экспортируются standalone `homeConfigurations` (`zerokqx`, `noop` и алиас `zerok`). Не активируйте standalone-конфигурацию поверх управляемого NixOS профиля без необходимости: это меняет пользовательский профиль.
-- Не меняйте `stateVersion` и аппаратные параметры без отдельной причины. Не включайте в изменения секреты и чужие файлы рабочего дерева.
-- Команды `rebuild*` из `devenv.nix` выполняют `git add .` перед сборкой. Учитывайте это при наличии незакоммиченных файлов; для проверки без изменения индекса используйте команды ниже.
+Codex читает `.agents/skills` напрямую; первая команда проверяет наличие skills.
+Claude Code получает относительные ссылки в `.claude/skills`, а `CLAUDE.md`
+подключает этот файл. Для другого инструмента нужен явно выбранный repo-local
+`--target`. Установщик не перезаписывает конфликты или глобальные настройки.
 
-## Проверка и применение
+## Где менять
 
-- Проверка flake: `nix flake check --show-trace`.
-- Сборка без переключения: `nix build .#nixosConfigurations.desktop.config.system.build.toplevel --no-link` (подставьте нужный хост).
-- Применение на машине: `sudo nixos-rebuild switch --flake .#desktop` (подставьте нужный хост). Сборка сама по себе не применяет настройки и не подтверждает работу устройств или интерфейса.
-- Для незаключённых в Git новых файлов flake сначала необходимо добавить их в индекс; не добавляйте посторонние изменения автоматически.
+- `hosts/default.nix`: явные outputs и выбор `system`/профилей. Каталоги сами
+  не регистрируются. Сохраняйте маркеры `znix-installer:*` для Rust-установщика.
+- `hosts/<name>/`: hardware, диски, мониторы и настройки конкретной машины.
+- `configuration.nix`, `core/`: базовая композиция и системные модули.
+- `profiles/`: workstation, development и personal (пользователи, VPN, HM).
+- `lib/`: общие конструкторы, внешние HM-модули и политика пакетов.
+- `home/`: пользовательские приложения; `configs/`: VPN-модули.
+- `pkgs/znix-menu.nix`, `rust/znix-menu/`: сборка и исходники меню/установщика.
+- `scripts/`, `tests/`: воспроизводимые проверки и явные операции.
+
+Используйте обычные NixOS `imports` и стандартные примитивы `nixpkgs.lib`.
+Не создавайте framework ролей или абстракцию для одиночной настройки. Общие
+helpers размещайте в `lib/`. Обновляйте skill и документацию при изменении
+контракта. Встроенный `noop` объединяет два HM-профиля; standalone `noop`
+сохраняет свой набор. Не меняйте это случайно.
+
+## Проверка
+
+```sh
+nix develop
+./scripts/check.sh all --base <база-проверяемой-ветки>
+nix flake check --no-build --no-update-lock-file
+nix flake check --no-update-lock-file
+nix build .#nixosConfigurations.desktop.config.system.build.toplevel --dry-run --no-link --no-update-lock-file
+```
+
+Без `--base` формат сравнивается с HEAD. Новые файлы flake сначала добавьте
+в Git точными путями, проверив секреты. Evaluation, сборка, activation и проверка
+устройств — разные результаты; указывайте, какие фактически подтверждены.
+
+## Границы действий
+
+Без явного разрешения владельца не выполняйте `switch`, `test`, `boot`,
+standalone HM activation, удалённое применение, reboot, partitioning, GC или
+удаление поколений. Не меняйте критические параметры загрузки, шифрования,
+дисков, SSH-доступа и сети без отдельного обоснования и согласования.
+Ранее данное разрешение сохраняет силу в пределах выбранной операции и цели.
+
+Не обновляйте `stateVersion` или `flake.lock` как побочный эффект рефакторинга.
+Не добавляйте cache keys, trusted users/builders и insecure exceptions без
+необходимости. Не отключайте подписи, firewall или sandbox ради ускорения.
+Секреты не должны попадать в Git, Nix store и отчёты.
+
+Для самостоятельной маленькой правки сабагент не нужен. При независимых задачах
+используйте доступные настроенные роли: `fast_scanner` для ограниченного чтения,
+`routine_worker` для простой правки, `terra_worker` для обычной реализации,
+`deep_worker` для неоднозначной архитектуры. Назначайте непересекающиеся файлы;
+основной агент проверяет результат и не дублирует завершённое исследование.

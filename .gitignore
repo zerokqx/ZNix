@@ -14,3 +14,7 @@ devenv.local.nix
 
 # pre-commit
 .pre-commit-config.yaml
+
+# Local agent compatibility links
+.claude/skills/
+.codex/skills/

@@ -1,28 +1,74 @@
 # ZNix
 
-Personal NixOS and Home Manager configuration for x86_64 Linux, with Hyprland, Dank Material Shell, Fish and Nixvim. See [AGENTS.md](AGENTS.md) for the repository map and development conventions.
+Personal NixOS and Home Manager configuration for three x86_64 Linux machines,
+with Hyprland, Dank Material Shell, Fish and Nixvim. Versions are pinned by
+`flake.lock`; the main system stack is NixOS 26.05.
 
-## Layout
+| Flake host | System hostname | Profiles |
+| --- | --- | --- |
+| `desktop` | `nixos-pc` | workstation + personal |
+| `laptop` | `nixos-laptop` | workstation + personal |
+| `noop` | `nixos` | workstation + personal + noop Home Manager additions |
 
-- `flake.nix`, `flake.lock`: inputs and pinned versions (the main NixOS stack follows 26.05).
-- `hosts/desktop`, `hosts/laptop`, `hosts/noop`: machine-specific configurations and hardware.
-- `configuration.nix`, `core/`, `configs/`: shared system configuration and modules.
-- `home/zerokqx/`, `home/noop/`: Home Manager modules; the former contains the main user configuration.
-- `rust/znix-menu/`: menu source; the flake also provides `nixvim` and `menu` packages and apps.
-- `devenv.nix`: development shell and convenience commands.
+`hosts/default.nix` explicitly registers systems and standalone Home Manager
+outputs (`zerokqx`, `noop`, and the `zerok` alias). Host directories contain plain
+NixOS modules and hardware settings. `profiles/` composes features; `core/` and
+`configs/` retain system modules; `home/` contains user settings. Shared
+constructors and package policy live in `lib/`.
 
-## Build and apply
-
-Hardware configurations, disk paths and monitor settings are machine-specific. Adapt them before using a host on another machine.
+## Validate and build
 
 ```sh
-nix flake check --show-trace
-nix build .#nixosConfigurations.desktop.config.system.build.toplevel --no-link
-sudo nixos-rebuild switch --flake .#desktop
+nix develop
+./scripts/check.sh all
+nix flake check --no-build --no-update-lock-file
+nix flake check --no-update-lock-file
+./scripts/rebuild.sh build desktop
 ```
 
-Replace `desktop` with the intended host. Building does not apply the configuration. The `rebuild*` scripts in `devenv.nix` run `git add .` before rebuilding; inspect the working tree before using them.
+Use `check.sh all --base <commit>` to check the complete change range. Review and
+stage newly referenced flake files explicitly; no rebuild script stages files.
+The generic `rebuild` command now builds by default. Named `rebuild-desktop`,
+`rebuild-laptop`, and `rebuild-noop` devenv commands still activate their hosts;
+their `-test` variants also activate the running system. Use them deliberately.
+The Bash wrapper resolves the current hostname to a unique registered host.
+Building does not apply a configuration or prove hardware compatibility.
 
-Home Manager is integrated into the NixOS configuration. The flake also exports standalone `homeConfigurations`; avoid activating one over the NixOS-managed profile without understanding the profile change.
+## Agent setup
 
-The Fish prompt displays the current path in color. New modules must be added to the relevant `imports`; host and Home Manager directories are discovered by `hosts/default.nix`.
+Read [AGENTS.md](AGENTS.md) and the project
+[install skill](.agents/skills/install/SKILL.md), then choose your environment:
+
+```sh
+python3 scripts/install-skills.py --environment codex
+python3 scripts/install-skills.py --environment claude
+```
+
+Codex discovers `.agents/skills` natively. Claude uses relative per-skill symlinks;
+installation is repeatable and refuses conflicts. Agent settings remain local.
+
+## Menu and new hosts
+
+```sh
+nix run .#menu --no-update-lock-file
+# Explicitly load a trusted custom menu:
+nix run .#menu --no-update-lock-file -- --config /path/to/trusted-menu.json
+```
+
+The menu uses its embedded configuration by default. A custom config can execute
+commands. The installer creates a new x86_64 host and Home Manager module,
+registers both, and refuses existing paths. Review the generated hardware and
+four changed files before staging. Combined staging/build/activation is an
+explicit opt-in available only from an initially clean checkout.
+
+## Documentation
+
+- [Architecture and adding hosts](docs/architecture.md)
+- [Checks, package acquisition, remote builds, deployment and rollback](docs/operations.md)
+- [Refactoring report and validation limits](docs/refactoring-report.md)
+
+Hardware UUIDs, resume offsets and monitors are machine-specific. Other CPU
+architectures require package/input compatibility checks. Existing translations
+in `docs/` are historical setup guides; use the documents above for the current
+layout and workflows. Activation and destructive system changes require the
+owner's explicit approval.
