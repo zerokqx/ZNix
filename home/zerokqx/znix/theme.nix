@@ -75,7 +75,7 @@ in
         }
       ))
       {
-        enable = lib.mkDefault true;
+        enable = lib.mkDefault (systemTheme.enable or true);
         polarity = lib.mkDefault cfg.polarity;
 
         cursor = {
