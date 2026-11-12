@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   workspaceNumberBinds = builtins.concatLists (
     builtins.genList (
@@ -16,18 +21,58 @@ let
 
   browserExe = config.home.sessionVariables.BROWSER or "chromium";
   dmsIpc = "dms ipc call";
+  caelestia = lib.getExe config.programs.caelestia.cli.package;
+  shellIpc = "${lib.getExe config.programs.caelestia.package} ipc call";
+  hyprshot = pkgs.hyprshot.override {
+    hyprland = config.wayland.windowManager.hyprland.package;
+  };
+  shellActions =
+    if config.programs.caelestia.enable then
+      {
+        launcher = "${shellIpc} drawers toggle launcher";
+        clipboard = "${caelestia} clipboard";
+        screenshotFull = "${caelestia} screenshot";
+        screenshotRegion = "${caelestia} screenshot -r";
+        screenshotWindow = "${lib.getExe hyprshot} -m window --clipboard-only";
+        controlCenter = "${shellIpc} drawers toggle utilities";
+        network = "${shellIpc} nexus open";
+        power = "${shellIpc} drawers toggle session";
+        volumeUp = "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+";
+        volumeDown = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+        volumeMute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        brightnessUp = "${shellIpc} brightness set +5%";
+        brightnessDown = "${shellIpc} brightness set 5%-";
+        media = "${shellIpc} mpris";
+      }
+    else
+      {
+        launcher = "${dmsIpc} launcher toggle";
+        clipboard = "${dmsIpc} clipboard toggle";
+        screenshotFull = "dms screenshot full";
+        screenshotRegion = "dms screenshot region";
+        screenshotWindow = "dms screenshot window";
+        controlCenter = "${dmsIpc} control-center toggle";
+        network = "${dmsIpc} settings toggleWith network";
+        power = "${dmsIpc} powermenu toggle";
+        volumeUp = "${dmsIpc} audio increment 5";
+        volumeDown = "${dmsIpc} audio decrement 5";
+        volumeMute = "${dmsIpc} audio mute";
+        brightnessUp = "${dmsIpc} brightness increment 5 \"\"";
+        brightnessDown = "${dmsIpc} brightness decrement 5 \"\"";
+        media = "${dmsIpc} mpris";
+      };
   terminal = config.home.sessionVariables.TERMINAL or "foot";
 in
 {
   wayland.windowManager.hyprland.settings.bind = workspaceNumberBinds ++ [
     "$mod SHIFT, return, exec, ${terminal}"
-    "$mod, d, exec, ${dmsIpc} launcher toggle"
-    "$mod, cyrillic_ve, exec, ${dmsIpc} launcher toggle"
+    "$mod, d, exec, ${shellActions.launcher}"
+    "$mod, cyrillic_ve, exec, ${shellActions.launcher}"
 
     "$mod SHIFT, c, killactive"
     "$mod, b, exec, ${browserExe}"
     "$mod, e, exec, nautilus"
-    "$mod, v, exec, ${dmsIpc} clipboard toggle"
+    "$mod, v, exec, ${shellActions.clipboard}"
     "$mod, q, exec, ${terminal}"
 
     "$mod, h, movefocus, l"
@@ -59,14 +104,14 @@ in
     "$mod, f, fullscreen"
 
     "$mod, s, togglespecialworkspace, ayugram"
-    "$mod SHIFT, s, exec, dms screenshot full"
-    "$mod SHIFT, a, exec, dms screenshot region"
-    "$mod SHIFT, w, exec, dms screenshot window"
-    "$mod SHIFT, bracketright, exec, ${dmsIpc} control-center toggle"
-    "$mod SHIFT, v, exec, ${dmsIpc} clipboard toggle"
-    "$mod SHIFT, b, exec, ${dmsIpc} control-center toggle"
-    "$mod SHIFT, n, exec, ${dmsIpc} settings toggleWith network"
-    "$mod SHIFT, p, exec, ${dmsIpc} powermenu toggle"
+    "$mod SHIFT, s, exec, ${shellActions.screenshotFull}"
+    "$mod SHIFT, a, exec, ${shellActions.screenshotRegion}"
+    "$mod SHIFT, w, exec, ${shellActions.screenshotWindow}"
+    "$mod SHIFT, bracketright, exec, ${shellActions.controlCenter}"
+    "$mod SHIFT, v, exec, ${shellActions.clipboard}"
+    "$mod SHIFT, b, exec, ${shellActions.controlCenter}"
+    "$mod SHIFT, n, exec, ${shellActions.network}"
+    "$mod SHIFT, p, exec, ${shellActions.power}"
     "$mod SHIFT, e, exit"
     "CTRL ALT, Delete, exit"
     "$mod SHIFT, Pause, exec, hyprctl dispatch dpms off"
@@ -75,23 +120,23 @@ in
   ];
 
   wayland.windowManager.hyprland.settings.bindel = [
-    ", XF86AudioRaiseVolume, exec, ${dmsIpc} audio increment 5"
-    ", XF86AudioLowerVolume, exec, ${dmsIpc} audio decrement 5"
-    ", XF86MonBrightnessUp, exec, ${dmsIpc} brightness increment 5 \"\""
-    ", XF86MonBrightnessDown, exec, ${dmsIpc} brightness decrement 5 \"\""
+    ", XF86AudioRaiseVolume, exec, ${shellActions.volumeUp}"
+    ", XF86AudioLowerVolume, exec, ${shellActions.volumeDown}"
+    ", XF86MonBrightnessUp, exec, ${shellActions.brightnessUp}"
+    ", XF86MonBrightnessDown, exec, ${shellActions.brightnessDown}"
   ];
 
   wayland.windowManager.hyprland.settings.bindl = [
-    ", XF86AudioMute, exec, ${dmsIpc} audio mute"
+    ", XF86AudioMute, exec, ${shellActions.volumeMute}"
     ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-    ", XF86AudioNext, exec, ${dmsIpc} mpris next"
-    ", XF86AudioPrev, exec, ${dmsIpc} mpris previous"
+    ", XF86AudioNext, exec, ${shellActions.media} next"
+    ", XF86AudioPrev, exec, ${shellActions.media} previous"
     ", XF86AudioStop, exec, playerctl stop"
-    ", Prior, exec, ${dmsIpc} mpris next"
-    ", Next, exec, ${dmsIpc} mpris playPause"
-    ", End, exec, ${dmsIpc} mpris previous"
-    ", XF86AudioPlay, exec, ${dmsIpc} mpris play"
-    ", XF86AudioPause, exec, ${dmsIpc} mpris pause"
+    ", Prior, exec, ${shellActions.media} next"
+    ", Next, exec, ${shellActions.media} playPause"
+    ", End, exec, ${shellActions.media} previous"
+    ", XF86AudioPlay, exec, ${shellActions.media} play"
+    ", XF86AudioPause, exec, ${shellActions.media} pause"
   ];
 
   wayland.windowManager.hyprland.settings.bindm = [

@@ -1,7 +1,7 @@
 { lib, config, ... }:
 {
   programs.dank-material-shell = {
-    enable = lib.mkDefault true;
+    enable = lib.mkDefault (!config.programs.caelestia.enable);
 
     systemd = {
       enable = false;

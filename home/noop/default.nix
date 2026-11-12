@@ -8,7 +8,7 @@
   imports = [
     ../zerokqx/hyprland
     ../zerokqx/nixvim
-    ../zerokqx/dms.nix
+    ../zerokqx/desktop.nix
     ../zerokqx/znix
     ../zerokqx/foot.nix
     ../zerokqx/fish.nix

@@ -12,7 +12,7 @@
     ./hyprland
     ./mimes.nix
     ./git.nix
-    ./dms.nix
+    ./desktop.nix
     ./znix
     ./zoxide.nix
     ./foot.nix
