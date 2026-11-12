@@ -29,14 +29,14 @@ Claude Code получает относительные ссылки в `.claude
 
 ## Где менять
 
-- `hosts/default.nix`: явные outputs и выбор `system`/профилей. Каталоги сами
-  не регистрируются. Сохраняйте маркеры `znix-installer:*` для Rust-установщика.
+- `hosts/default.nix`: явная регистрация outputs и выбор `system`/профилей.
+  Каталоги сами не регистрируются. Для новой машины добавьте hardware-модуль и
+  запись через `mkHost`; для standalone Home Manager — запись через `mkHome`.
 - `hosts/<name>/`: hardware, диски, мониторы и настройки конкретной машины.
 - `configuration.nix`, `core/`: базовая композиция и системные модули.
 - `profiles/`: workstation, development и personal (пользователи, VPN, HM).
 - `lib/`: общие конструкторы, внешние HM-модули и политика пакетов.
 - `home/`: пользовательские приложения; `configs/`: VPN-модули.
-- `pkgs/znix-menu.nix`, `rust/znix-menu/`: сборка и исходники меню/установщика.
 - `scripts/`, `tests/`: воспроизводимые проверки и явные операции.
 
 Используйте обычные NixOS `imports` и стандартные примитивы `nixpkgs.lib`.

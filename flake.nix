@@ -70,8 +70,6 @@
             inherit pkgs;
             module = import ./home/zerokqx/nixvim/config.nix;
           };
-
-          menuPkg = pkgs.callPackage ./pkgs/znix-menu.nix { };
         in
         {
           formatter = pkgs.nixfmt;
@@ -83,8 +81,6 @@
               python3
               shellcheck
               nixfmt
-              cargo
-              rustc
             ];
           };
 
@@ -93,7 +89,6 @@
               inherit inputs pkgs;
               inherit (inputs.self) nixosConfigurations homeConfigurations;
             };
-            menu = menuPkg;
             workflow =
               pkgs.runCommand "znix-workflow"
                 {
@@ -115,7 +110,6 @@
 
           packages = {
             nixvim = nvim;
-            menu = menuPkg;
             default = nvim;
           };
           apps = {
@@ -126,10 +120,6 @@
             nixvim = {
               type = "app";
               program = "${nvim}/bin/nvim";
-            };
-            menu = {
-              type = "app";
-              program = "${menuPkg}/bin/znix-menu";
             };
           };
         };

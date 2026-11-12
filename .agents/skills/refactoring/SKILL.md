@@ -12,7 +12,7 @@ description: Make behavior-preserving ZNix module refactors while protecting out
 
    - NixOS: `desktop`, `laptop`, `noop`.
    - Home Manager: `zerokqx`, `noop`, `zerok`.
-   - Packages/apps: `nixvim`, `menu`, and `default`.
+   - Packages/apps: `nixvim` and `default`.
 
 3. Preserve `stateVersion`, hardware settings, host names, existing services,
    and standalone-versus-embedded `noop` behavior unless the task changes one.

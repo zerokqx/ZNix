@@ -28,10 +28,6 @@
   scripts.rebuild-desktop-test.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" test desktop'';
   scripts.rebuild-laptop-test.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" test laptop'';
   scripts.rebuild-noop-test.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" test noop'';
-  scripts.menu.exec = ''
-    cd "$DEVENV_ROOT"
-    exec nix run .#menu --no-update-lock-file -- "$@"
-  '';
   scripts.rebuild-desktop-vm.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" vm desktop'';
   scripts.flake-check.exec = ''exec "$DEVENV_ROOT/scripts/check.sh" "$@"'';
 }

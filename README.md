@@ -47,19 +47,12 @@ python3 scripts/install-skills.py --environment claude
 Codex discovers `.agents/skills` natively. Claude uses relative per-skill symlinks;
 installation is repeatable and refuses conflicts. Agent settings remain local.
 
-## Menu and new hosts
+## Register a new host
 
-```sh
-nix run .#menu --no-update-lock-file
-# Explicitly load a trusted custom menu:
-nix run .#menu --no-update-lock-file -- --config /path/to/trusted-menu.json
-```
-
-The menu uses its embedded configuration by default. A custom config can execute
-commands. The installer creates a new x86_64 host and Home Manager module,
-registers both, and refuses existing paths. Review the generated hardware and
-four changed files before staging. Combined staging/build/activation is an
-explicit opt-in available only from an initially clean checkout.
+Create a hardware module under `hosts/<name>/`, then register it explicitly in
+`hosts/default.nix` with `mkHost`, selecting the needed profiles. Register a
+standalone Home Manager configuration with `mkHome` when needed. See
+[Architecture and adding hosts](docs/architecture.md).
 
 ## Documentation
 

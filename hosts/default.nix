@@ -11,7 +11,6 @@ let
       system = "x86_64-linux";
       module = ../home/noop;
     };
-    # znix-installer:homes
   };
 in
 {
@@ -41,7 +40,6 @@ in
           ./noop
         ];
       };
-      # znix-installer:hosts
     };
 
     homeConfigurations = homes // {
