@@ -8,6 +8,9 @@
 
   packages = [
     pkgs.git
+    pkgs.nixfmt
+    pkgs.python3
+    pkgs.shellcheck
   ];
 
   scripts.backup.exec = ''
@@ -16,28 +19,19 @@
     --exclude=./node_modules \
       .
   '';
-  scripts.rebuild-desktop.exec = "git add . && sudo nixos-rebuild switch --flake .#desktop --show-trace";
-  scripts.rebuild-laptop.exec = "git add . && sudo nixos-rebuild switch --flake .#laptop --show-trace";
-  scripts.rebuild-noop.exec = "git add . && sudo nixos-rebuild switch --flake .#noop --show-trace";
-  scripts.rebuild.exec = ''
-    HOST="''${1:-$(hostname)}"
-    git add .
-    if command -v nh >/dev/null 2>&1; then
-      nh os switch . --hostname "$HOST"
-    else
-      sudo nixos-rebuild switch --flake ".#$HOST" --show-trace
-    fi
-  '';
+  scripts.rebuild-desktop.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" switch desktop'';
+  scripts.rebuild-laptop.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" switch laptop'';
+  scripts.rebuild-noop.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" switch noop'';
+  scripts.rebuild.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" "$@"'';
   scripts.theme-link-git.exec = "chromium https://github.com/tinted-theming/base16-schemes";
   scripts.theme-link-galery.exec = "chromium https://dt.iki.fi/base16-previews";
-  scripts.rebuild-desktop-test.exec = "git add . && sudo nixos-rebuild test --flake .#desktop --show-trace";
-  scripts.rebuild-laptop-test.exec = "git add . && sudo nixos-rebuild test --flake .#laptop --show-trace";
-  scripts.rebuild-noop-test.exec = "git add . && sudo nixos-rebuild test --flake .#noop --show-trace";
-  scripts.menu.exec = "nix run github:zerokqx/ZNix#menu";
-  scripts.rebuild-desktop-vm.exec = ''
-    git add .
-    sudo nixos-rebuild build-vm --flake .
-    ./result/bin/run-nixos-vm
+  scripts.rebuild-desktop-test.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" test desktop'';
+  scripts.rebuild-laptop-test.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" test laptop'';
+  scripts.rebuild-noop-test.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" test noop'';
+  scripts.menu.exec = ''
+    cd "$DEVENV_ROOT"
+    exec nix run .#menu --no-update-lock-file -- "$@"
   '';
-  scripts.flake-check.exec = "nix flake check --show-trace";
+  scripts.rebuild-desktop-vm.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" vm desktop'';
+  scripts.flake-check.exec = ''exec "$DEVENV_ROOT/scripts/check.sh" "$@"'';
 }
