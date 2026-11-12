@@ -11,7 +11,7 @@
 2. Для структуры откройте [docs/architecture.md](docs/architecture.md), для
    команд и доставки пакетов — [docs/operations.md](docs/operations.md).
 3. Выберите подходящий `.agents/skills/<name>/SKILL.md`: `architecture`,
-   `hosts`, `packages`, `validation`, `deployment` или `refactoring`.
+   `hosts`, `packages`, `nixvim`, `validation`, `deployment` или `refactoring`.
 4. Для подключения skills сначала прочитайте
    [.agents/skills/install/SKILL.md](.agents/skills/install/SKILL.md).
    Это bootstrap, доступный до создания ссылок. Среду определяйте по текущей
@@ -41,6 +41,8 @@ Claude Code получает относительные ссылки в `.claude
 - `profiles/`: workstation, development и personal (пользователи, VPN, HM).
 - `lib/`: только общие внешние HM-модули и политика пакетов.
 - `home/`: пользовательские приложения; `configs/`: VPN-модули.
+- `home/zerokqx/nixvim/`: личная конфигурация Nixvim. Перед её изменением
+  прочитайте skill `nixvim`; отдельного `nix run` package или установщика нет.
 - `scripts/`, `tests/`: воспроизводимые проверки и явные операции.
 
 Используйте обычные NixOS `imports` и стандартные примитивы `nixpkgs.lib`.
