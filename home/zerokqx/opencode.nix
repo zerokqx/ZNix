@@ -7,9 +7,6 @@
     settings = builtins.fromJSON (builtins.readFile ./opencode.json);
   };
 
-  home.file.".config/opencode/skills".source = ./opencode-skills;
-
-
   # home.activation.installOpenCodePlugins = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
   #   if ! ${pkgs.nodejs_22}/bin/node -e '
   #     const base = process.env.HOME + "/.config/opencode/node_modules/";

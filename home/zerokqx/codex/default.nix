@@ -6,9 +6,9 @@
       umask 077
       run ${pkgs.coreutils}/bin/mkdir -p "$HOME/.codex" "$HOME/.agents/skills"
       run ${pkgs.coreutils}/bin/cp -R --update=none --no-preserve=mode \
-        ${./codex}/{AGENTS.md,config.toml,agents,rules,skills} "$HOME/.codex/"
+        ${./.}/{AGENTS.md,config.toml,agents,rules,skills} "$HOME/.codex/"
       run ${pkgs.coreutils}/bin/cp -R --update=none --no-preserve=mode \
-        ${./codex/agent-skills}/. "$HOME/.agents/skills/"
+        ${./agent-skills}/. "$HOME/.agents/skills/"
     )
   '';
 }
