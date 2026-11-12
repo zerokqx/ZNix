@@ -1,17 +1,22 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
+import QtQuick.Window
 
 Page {
     id: screen
 
     readonly property color backgroundColor: config.stringValue("background")
     readonly property color surfaceColor: config.stringValue("surface")
+    readonly property color fieldColor: config.stringValue("field")
+    readonly property color borderColor: config.stringValue("border")
+    readonly property color foregroundColor: config.stringValue("foreground")
     readonly property color accentColor: config.stringValue("accent")
-    readonly property color secondaryColor: config.stringValue("secondary")
+    readonly property color secondaryAccentColor: config.stringValue("secondaryAccent")
     readonly property real surfaceOpacity: Number(config.stringValue("surfaceOpacity"))
-    readonly property real textSize: Number(config.stringValue("fontSize"))
-    readonly property string family: config.stringValue("fontFamily")
+    readonly property int controlHeight: 44
     property date time: new Date()
     property bool signingIn: false
     property string loginError: ""
@@ -27,43 +32,82 @@ Page {
     }
 
     padding: 0
-    font.family: family
-    font.pointSize: textSize
-    background: Rectangle {
-        color: screen.backgroundColor
-    }
+    font.family: config.stringValue("fontFamily")
+    font.pointSize: Number(config.stringValue("fontSize"))
     palette.window: surfaceColor
-    palette.base: config.stringValue("field")
-    palette.text: config.stringValue("foreground")
-    palette.placeholderText: palette.text
-    palette.windowText: palette.text
-    palette.button: palette.base
-    palette.buttonText: palette.text
+    palette.base: fieldColor
+    palette.text: foregroundColor
+    palette.placeholderText: foregroundColor
+    palette.windowText: foregroundColor
+    palette.button: fieldColor
+    palette.buttonText: foregroundColor
+    palette.mid: borderColor
     palette.highlight: accentColor
     palette.highlightedText: backgroundColor
 
     component FieldFrame: Rectangle {
         required property bool focused
-        color: screen.palette.base
-        radius: 10
-        border.color: focused ? screen.accentColor : config.stringValue("border")
+
+        radius: height / 2
+        color: screen.fieldColor
+        border.width: focused ? 2 : 0
+        border.color: screen.accentColor
     }
 
-    component MenuArrow: Label {
-        text: "⌄"
-        color: screen.palette.text
-        font.pointSize: screen.textSize + 2
+    component Selector: ComboBox {
+        id: selector
+
+        implicitHeight: screen.controlHeight
+        textRole: "name"
+        flat: true
+        palette.light: screen.accentColor
+        palette.midlight: Qt.darker(screen.accentColor, 1.15)
+        popup.font: screen.font
+        background: FieldFrame { focused: selector.activeFocus || selector.popup.visible }
+        indicator: Label {
+            x: selector.width - width - 16
+            y: (selector.height - height) / 2
+            text: "▾"
+            color: screen.foregroundColor
+        }
+    }
+
+    component PillButton: Button {
+        id: button
+
+        property bool primary: false
+
+        implicitHeight: screen.controlHeight
+        leftPadding: 16
+        rightPadding: 16
+        contentItem: Label {
+            text: button.text
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            font.weight: button.primary ? Font.DemiBold : Font.Normal
+            color: button.primary && button.enabled ? screen.backgroundColor : screen.foregroundColor
+        }
+        background: Rectangle {
+            readonly property color fillColor: button.primary && button.enabled ? screen.accentColor : screen.surfaceColor
+
+            radius: height / 2
+            color: button.down ? Qt.darker(fillColor, 1.15) : button.hovered ? Qt.lighter(fillColor, 1.10) : fillColor
+            border.width: button.activeFocus ? 2 : 0
+            border.color: button.primary && button.enabled ? screen.foregroundColor : screen.accentColor
+        }
     }
 
     Timer {
         running: true
         repeat: true
-        interval: 1000
+        interval: 60000 - screen.time.getTime() % 60000
         onTriggered: screen.time = new Date()
     }
 
     Connections {
         target: sddm
+
         function onLoginFailed() {
             screen.signingIn = false;
             screen.loginError = qsTr("Не удалось войти. Проверьте данные и попробуйте ещё раз.");
@@ -71,191 +115,190 @@ Page {
         }
     }
 
-    Image {
-        anchors.fill: parent
-        source: config.stringValue("wallpaper")
-        fillMode: Image.PreserveAspectCrop
-        asynchronous: true
-    }
+    background: Rectangle {
+        color: screen.backgroundColor
 
-    Rectangle {
-        anchors.fill: parent
-        gradient: Gradient {
-            orientation: Gradient.Horizontal
-            GradientStop {
-                position: 0
-                color: Qt.rgba(screen.backgroundColor.r, screen.backgroundColor.g, screen.backgroundColor.b, 0.94)
-            }
-            GradientStop {
-                position: 1
-                color: Qt.rgba(screen.surfaceColor.r, screen.surfaceColor.g, screen.surfaceColor.b, 0.75)
+        Image {
+            anchors.fill: parent
+            sourceSize: Qt.size(Math.ceil(width * Screen.devicePixelRatio), Math.ceil(height * Screen.devicePixelRatio))
+            source: sourceSize.width > 0 && sourceSize.height > 0 ? config.stringValue("wallpaper") : ""
+            fillMode: Image.PreserveAspectCrop
+            asynchronous: true
+            visible: status === Image.Ready
+
+            Rectangle {
+                anchors.fill: parent
+                color: screen.backgroundColor
+                opacity: 0.66
             }
         }
     }
 
-    GridLayout {
-        anchors.centerIn: parent
-        width: Math.min(parent.width - 48, 1080)
-        columns: width >= 850 ? 2 : 1
-        columnSpacing: 80
-        rowSpacing: 24
+    Flickable {
+        id: viewport
+
+        anchors.fill: parent
+        clip: true
+        contentWidth: width
+        contentHeight: Math.max(height, content.height + 32)
+        boundsBehavior: Flickable.StopAtBounds
+        ScrollBar.vertical: ScrollBar {}
 
         ColumnLayout {
-            Layout.fillWidth: true
-            spacing: 8
+            id: content
 
-            Label {
-                text: Qt.formatTime(screen.time, "HH:mm")
-                font.family: screen.family
-                font.pixelSize: Math.min(116, screen.height * 0.135)
-                font.weight: Font.DemiBold
-                color: screen.palette.text
-            }
-            Label {
-                text: screen.time.toLocaleDateString(Qt.locale("ru_RU"), "dddd, d MMMM")
-                font.family: screen.family
-                font.pointSize: screen.textSize + 4
-                color: screen.secondaryColor
-            }
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredWidth: 400
-            Layout.maximumWidth: 480
-            implicitHeight: form.implicitHeight + 48
-            radius: 24
-            color: Qt.rgba(screen.surfaceColor.r, screen.surfaceColor.g, screen.surfaceColor.b, screen.surfaceOpacity)
-            border.color: config.stringValue("border")
+            x: (viewport.width - width) / 2
+            y: (viewport.contentHeight - height) / 2
+            width: Math.min(viewport.width - 32, 384)
+            spacing: viewport.height < 540 ? 12 : 20
 
             ColumnLayout {
-                id: form
-                anchors.fill: parent
-                anchors.margins: 24
-                spacing: 12
+                Layout.fillWidth: true
+                spacing: 0
 
                 RowLayout {
-                    spacing: 16
-                    Rectangle {
-                        Layout.preferredWidth: 52
-                        Layout.preferredHeight: 52
-                        radius: 14
-                        color: screen.palette.base
-                        Image {
-                            id: avatar
-                            anchors.fill: parent
-                            anchors.margins: 5
-                            source: account.editText === account.currentText ? (account.currentValue ?? "") : ""
-                            fillMode: Image.PreserveAspectFit
-                        }
-                        Label {
-                            anchors.centerIn: parent
-                            visible: avatar.status !== Image.Ready
-                            text: account.editText.trim().slice(0, 1).toUpperCase()
-                            color: screen.accentColor
-                            font.pointSize: screen.textSize + 6
-                            font.weight: Font.DemiBold
-                        }
-                    }
+                    Layout.alignment: Qt.AlignHCenter
+                    spacing: 8
+
                     Label {
-                        text: qsTr("Вход в систему")
-                        font.pointSize: screen.textSize + 7
+                        text: Qt.formatTime(screen.time, "HH")
+                        color: screen.accentColor
+                        font.pixelSize: Math.min(84, viewport.height * 0.13)
                         font.weight: Font.DemiBold
                     }
-                }
 
-                ComboBox {
-                    id: account
-                    Layout.fillWidth: true
-                    implicitHeight: 42
-                    editable: true
-                    flat: true
-                    model: userModel
-                    textRole: "name"
-                    valueRole: "icon"
-                    currentIndex: userModel.lastIndex
-                    Accessible.name: qsTr("Пользователь")
-                    background: FieldFrame { focused: account.activeFocus }
-                    indicator: MenuArrow {
-                        x: account.width - width - 14
-                        y: (account.height - height) / 2
-                    }
-                }
-
-                TextField {
-                    id: password
-                    Layout.fillWidth: true
-                    implicitHeight: 42
-                    placeholderText: qsTr("Пароль")
-                    Accessible.name: placeholderText
-                    echoMode: TextInput.Password
-                    inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
-                    focus: true
-                    background: FieldFrame { focused: password.activeFocus }
-                    onAccepted: screen.signIn()
-                }
-
-                ComboBox {
-                    id: session
-                    Layout.fillWidth: true
-                    implicitHeight: 42
-                    model: sessionModel
-                    textRole: "name"
-                    currentIndex: sessionModel.lastIndex
-                    displayText: currentIndex >= 0 ? currentText : qsTr("Сеанс недоступен")
-                    Accessible.name: qsTr("Сеанс")
-                    background: FieldFrame { focused: session.activeFocus }
-                    indicator: MenuArrow {
-                        x: session.width - width - 14
-                        y: (session.height - height) / 2
-                    }
-                }
-
-                Button {
-                    id: submit
-                    Layout.fillWidth: true
-                    implicitHeight: 42
-                    text: screen.signingIn ? qsTr("Вход…") : qsTr("Войти")
-                    enabled: !screen.signingIn && account.editText.trim().length > 0 && session.currentIndex >= 0
-                    background: Rectangle {
-                        radius: 10
-                        color: !submit.enabled ? screen.palette.base
-                              : submit.down ? Qt.darker(screen.accentColor, 1.14) : screen.accentColor
-                        border.color: submit.activeFocus ? screen.palette.text : color
-                    }
-                    contentItem: Label {
-                        text: submit.text
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
+                    Label {
+                        text: Qt.formatTime(screen.time, "mm")
+                        color: screen.secondaryAccentColor
+                        font.pixelSize: Math.min(84, viewport.height * 0.13)
                         font.weight: Font.DemiBold
-                        color: submit.enabled ? screen.backgroundColor : screen.palette.text
                     }
-                    onClicked: screen.signIn()
                 }
 
                 Label {
                     Layout.fillWidth: true
-                    visible: text.length > 0
-                    text: screen.loginError
-                    wrapMode: Text.Wrap
-                    color: config.stringValue("error")
-                    Accessible.role: Accessible.AlertMessage
+                    horizontalAlignment: Text.AlignHCenter
+                    text: screen.time.toLocaleDateString(Qt.locale("ru_RU"), "dddd • d MMMM")
+                    color: screen.foregroundColor
+                }
+            }
+
+            Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: form.implicitHeight + 32
+                radius: 28
+                color: Qt.rgba(screen.surfaceColor.r, screen.surfaceColor.g, screen.surfaceColor.b, screen.surfaceOpacity)
+                border.color: screen.borderColor
+
+                ColumnLayout {
+                    id: form
+
+                    anchors.fill: parent
+                    anchors.margins: 16
+                    spacing: 10
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 10
+
+                        Rectangle {
+                            Layout.preferredWidth: screen.controlHeight
+                            Layout.preferredHeight: screen.controlHeight
+                            radius: height / 2
+                            color: screen.fieldColor
+
+                            Image {
+                                id: avatar
+
+                                anchors.fill: parent
+                                anchors.margins: 4
+                                source: account.editText === account.currentText ? (account.currentValue ?? "") : ""
+                                sourceSize: Qt.size(width * Screen.devicePixelRatio, height * Screen.devicePixelRatio)
+                                fillMode: Image.PreserveAspectFit
+                                asynchronous: true
+                            }
+
+                            Label {
+                                anchors.centerIn: parent
+                                visible: avatar.status !== Image.Ready
+                                text: account.editText.trim().slice(0, 1).toUpperCase()
+                                color: screen.accentColor
+                                font.pointSize: screen.font.pointSize + 4
+                                font.weight: Font.DemiBold
+                            }
+                        }
+
+                        Selector {
+                            id: account
+
+                            Layout.fillWidth: true
+                            editable: true
+                            model: userModel
+                            valueRole: "icon"
+                            currentIndex: userModel.lastIndex
+                            Accessible.name: qsTr("Пользователь")
+                        }
+                    }
+
+                    TextField {
+                        id: password
+
+                        Layout.fillWidth: true
+                        implicitHeight: screen.controlHeight
+                        leftPadding: 16
+                        rightPadding: 16
+                        placeholderText: qsTr("Пароль")
+                        Accessible.name: placeholderText
+                        echoMode: TextInput.Password
+                        inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText
+                        background: FieldFrame { focused: password.activeFocus }
+                        onAccepted: screen.signIn()
+                        Component.onCompleted: forceActiveFocus()
+                    }
+
+                    PillButton {
+                        Layout.fillWidth: true
+                        primary: true
+                        text: screen.signingIn ? qsTr("Вход…") : qsTr("Войти")
+                        enabled: !screen.signingIn && account.editText.trim().length > 0 && session.currentIndex >= 0
+                        onClicked: screen.signIn()
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        visible: text.length > 0
+                        text: screen.loginError
+                        wrapMode: Text.Wrap
+                        color: config.stringValue("error")
+                        Accessible.role: Accessible.AlertMessage
+                    }
+
+                    Selector {
+                        id: session
+
+                        Layout.fillWidth: true
+                        model: sessionModel
+                        currentIndex: sessionModel.lastIndex
+                        displayText: currentIndex >= 0 ? currentText : qsTr("Сеанс недоступен")
+                        Accessible.name: qsTr("Сеанс")
+                    }
+                }
+            }
+
+            RowLayout {
+                Layout.alignment: Qt.AlignHCenter
+                spacing: 8
+
+                PillButton {
+                    text: qsTr("Перезагрузить")
+                    visible: sddm.canReboot
+                    onClicked: sddm.reboot()
                 }
 
-                RowLayout {
-                    Layout.alignment: Qt.AlignRight
-                    Button {
-                        text: qsTr("Перезагрузить")
-                        flat: true
-                        visible: sddm.canReboot
-                        onClicked: sddm.reboot()
-                    }
-                    Button {
-                        text: qsTr("Выключить")
-                        flat: true
-                        visible: sddm.canPowerOff
-                        onClicked: sddm.powerOff()
-                    }
+                PillButton {
+                    text: qsTr("Выключить")
+                    visible: sddm.canPowerOff
+                    onClicked: sddm.powerOff()
                 }
             }
         }

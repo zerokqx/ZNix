@@ -16,8 +16,8 @@ let
       field = withHashtag.base02;
       border = withHashtag.base03;
       foreground = withHashtag.base05;
-      secondary = withHashtag.base04;
       accent = withHashtag.base0D;
+      secondaryAccent = withHashtag.base0C;
       error = withHashtag.base08;
       fontFamily = stylix.fonts.sansSerif.name;
       fontSize = stylix.fonts.sizes.desktop;
