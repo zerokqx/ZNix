@@ -4,7 +4,10 @@ let
     any
     assertMsg
     count
+    getExe
+    getExe'
     hasInfix
+    removePrefix
     ;
   home = homeConfigurations.zerokqx;
   caelestia = home.config;
@@ -26,6 +29,14 @@ let
     in
     settings.bind ++ settings.bindel ++ settings.bindl;
   hasCommand = command: any (hasInfix command);
+  logoutBindingPrefix = "$mod SHIFT, e, exec, ";
+  logout = removePrefix logoutBindingPrefix (
+    pkgs.lib.findFirst (pkgs.lib.hasPrefix logoutBindingPrefix) "" (bindings caelestia)
+  );
+  hasLogoutBindings =
+    cfg:
+    builtins.elem "${logoutBindingPrefix}${logout}" (bindings cfg)
+    && builtins.elem "CTRL ALT, Delete, exec, ${logout}" (bindings cfg);
   shellServicesAbsent =
     cfg:
     let
@@ -61,6 +72,73 @@ assert assertMsg (
 assert assertMsg (
   !(builtins.tryEval both.config.home.username).success
 ) "Simultaneous desktop shells must fail Home Manager evaluation.";
-pkgs.runCommand "znix-desktop-shells" { } ''
+assert assertMsg (
+  logout != "" && hasLogoutBindings caelestia && hasLogoutBindings dms
+) "Both desktop shells must use the same session logout command for both exit shortcuts.";
+pkgs.runCommand "znix-desktop-shells" { nativeBuildInputs = [ pkgs.jq ]; } ''
+  test -x ${logout}
+  jq -e --arg logout ${logout} '
+    .session.commands.logout == [$logout]
+    and .utilities.toasts == {kbLayoutChanged: false}
+    and ([.bar.statusIcons[] | select(.enabled) | .id] == [
+      "lockStatus", "kbLayout", "network", "bluetooth", "battery"
+    ])
+  ' ${caelestia.xdg.configFile."caelestia/shell.json".source}
+
+  # Run the generated body with only the stubs and grep on PATH.
+  mkdir stubs
+  tail -n +2 ${logout} > logout-body
+  substitute logout-body logout-stub \
+    --replace-fail '${getExe' pkgs.systemd "systemctl"}' systemctl \
+    --replace-fail '${getExe pkgs.uwsm}' uwsm \
+    --replace-fail '${getExe' caelestia.wayland.windowManager.hyprland.package "hyprctl"}' hyprctl \
+    --replace-fail '${getExe pkgs.gnugrep}' grep
+  if grep -Fq /nix/store/ logout-stub; then
+    echo 'Unexpected absolute store path in logout script' >&2
+    exit 1
+  fi
+
+  cat > stubs/systemctl <<'EOF'
+  #!${pkgs.runtimeShell}
+  case "$*" in
+    '--user --quiet is-active wayland-wm@*.service') exit "$ACTIVE_STATUS" ;;
+    '--user show-environment')
+      [ "$SHOW_STATUS" = 0 ] || exit "$SHOW_STATUS"
+      printf 'HYPRLAND_INSTANCE_SIGNATURE=%s\n' "$MANAGER_SIGNATURE"
+      ;;
+    *) exit 125 ;;
+  esac
+  EOF
+  cat > stubs/uwsm <<'EOF'
+  #!${pkgs.runtimeShell}
+  printf 'uwsm %s\n' "$*"
+  exit "$UWSM_STATUS"
+  EOF
+  cat > stubs/hyprctl <<'EOF'
+  #!${pkgs.runtimeShell}
+  printf 'hyprctl %s\n' "$*"
+  EOF
+  chmod +x stubs/{systemctl,uwsm,hyprctl}
+  ln -s ${getExe pkgs.gnugrep} stubs/grep
+
+  check_logout() {
+    local name=$1 expected_status=$2 expected_command=$3 output status=0
+    shift 3
+    output=$(env -i PATH="$PWD/stubs" HYPRLAND_INSTANCE_SIGNATURE=current MANAGER_SIGNATURE=current \
+      ACTIVE_STATUS=0 SHOW_STATUS=0 UWSM_STATUS=0 "$@" ${pkgs.runtimeShell} logout-stub) || status=$?
+    if [[ "$status" != "$expected_status" || "$output" != "$expected_command" ]]; then
+      printf '%s: exit status %s, command %s\n' "$name" "$status" "$output" >&2
+      exit 1
+    fi
+  }
+
+  check_logout managed 0 'uwsm stop'
+  check_logout failed-uwsm 1 'uwsm stop' UWSM_STATUS=1
+  check_logout inactive-uwsm 0 'hyprctl dispatch exit' ACTIVE_STATUS=3
+  check_logout absent-uwsm 0 'hyprctl dispatch exit' ACTIVE_STATUS=4
+  check_logout other-instance 0 'hyprctl dispatch exit' MANAGER_SIGNATURE=other
+  check_logout missing-signature 1 "" HYPRLAND_INSTANCE_SIGNATURE=
+  check_logout failed-status 1 "" ACTIVE_STATUS=1
+  check_logout failed-environment 1 "" SHOW_STATUS=1
   touch "$out"
 ''

@@ -26,6 +26,26 @@ let
   hyprshot = pkgs.hyprshot.override {
     hyprland = config.wayland.windowManager.hyprland.package;
   };
+  systemctl = lib.getExe' pkgs.systemd "systemctl";
+  sessionLogout = pkgs.writeShellScript "znix-session-logout" ''
+    set -e
+    signature=''${HYPRLAND_INSTANCE_SIGNATURE:?Missing Hyprland instance signature}
+    status=0
+    ${systemctl} --user --quiet is-active 'wayland-wm@*.service' || status=$?
+
+    # UWSM exports its compositor signature when finalizing the session.
+    case "$status" in
+      0)
+        managerEnvironment=$(${systemctl} --user show-environment)
+        if ${lib.getExe pkgs.gnugrep} -Fxq "HYPRLAND_INSTANCE_SIGNATURE=$signature" <<< "$managerEnvironment"; then
+          exec ${lib.getExe pkgs.uwsm} stop
+        fi
+        ;;
+      3|4) ;; # Inactive or absent UWSM unit.
+      *) exit "$status" ;;
+    esac
+    exec ${lib.getExe' config.wayland.windowManager.hyprland.package "hyprctl"} dispatch exit
+  '';
   shellActions =
     if config.programs.caelestia.enable then
       {
@@ -64,6 +84,10 @@ let
   terminal = config.home.sessionVariables.TERMINAL or "foot";
 in
 {
+  programs.caelestia.settings.session.commands.logout = lib.mkIf config.programs.caelestia.enable (
+    lib.mkDefault [ "${sessionLogout}" ]
+  );
+
   wayland.windowManager.hyprland.settings.bind = workspaceNumberBinds ++ [
     "$mod SHIFT, return, exec, ${terminal}"
     "$mod, d, exec, ${shellActions.launcher}"
@@ -112,8 +136,8 @@ in
     "$mod SHIFT, b, exec, ${shellActions.controlCenter}"
     "$mod SHIFT, n, exec, ${shellActions.network}"
     "$mod SHIFT, p, exec, ${shellActions.power}"
-    "$mod SHIFT, e, exit"
-    "CTRL ALT, Delete, exit"
+    "$mod SHIFT, e, exec, ${sessionLogout}"
+    "CTRL ALT, Delete, exec, ${sessionLogout}"
     "$mod SHIFT, Pause, exec, hyprctl dispatch dpms off"
 
     "CTRL, F9, exec, whisrs toggle"

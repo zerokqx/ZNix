@@ -21,10 +21,46 @@
     systemd.enable = false;
     cli.enable = true;
 
-    settings.general.idle = {
-      # Preserve the existing session policy without automatic lock, DPMS or suspend.
-      timeouts = lib.mkDefault [ ];
-      lockBeforeSleep = lib.mkDefault false;
+    settings = {
+      general.idle = {
+        # Preserve the existing session policy without automatic lock, DPMS or suspend.
+        timeouts = lib.mkDefault [ ];
+        lockBeforeSleep = lib.mkDefault false;
+      };
+
+      utilities.toasts.kbLayoutChanged = lib.mkDefault false;
+
+      # Caelestia replaces the whole list. Keep the pinned defaults except for kbLayout.
+      bar.statusIcons = lib.mkDefault [
+        {
+          id = "lockStatus";
+          enabled = true;
+        }
+        {
+          id = "audio";
+          enabled = false;
+        }
+        {
+          id = "microphone";
+          enabled = false;
+        }
+        {
+          id = "kbLayout";
+          enabled = true;
+        }
+        {
+          id = "network";
+          enabled = true;
+        }
+        {
+          id = "bluetooth";
+          enabled = true;
+        }
+        {
+          id = "battery";
+          enabled = true;
+        }
+      ];
     };
   };
 }
