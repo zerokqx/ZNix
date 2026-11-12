@@ -28,13 +28,18 @@ let
       && cfg.programs.steam.enable
       && cfg.virtualisation.docker.enable
       && cfg.znix.dev.ports.enable
+      && cfg.services.displayManager.sddm.enable
+      && !cfg.services.displayManager.ly.enable
+      && cfg.services.displayManager.defaultSession == "hyprland-uwsm"
+      && cfg.security.pam.services.sddm.rules.auth.u2f.enable
     ) "${name}: missing workstation or development settings";
     assert assertMsg (
       cfg.home-manager.useGlobalPkgs
       && cfg.home-manager.useUserPackages
       && home.home.stateVersion == "26.05"
       && home.programs.ssh.enable
-      && home.programs.dank-material-shell.enable
+      && home.programs.caelestia.enable
+      && !home.programs.dank-material-shell.enable
     ) "${name}: missing integrated personal Home Manager settings";
     assert assertMsg (matchesPackagePolicy cfg.nixpkgs.config) "${name}: inconsistent package policy";
     true;
@@ -48,7 +53,9 @@ let
       cfg.home.username == "zerok" && cfg.home.stateVersion == "26.05"
     ) "${name}: changed Home Manager account or stateVersion";
     assert assertMsg (
-      cfg.programs.ssh.enable == personal && cfg.programs.dank-material-shell.enable
+      cfg.programs.ssh.enable == personal
+      && cfg.programs.caelestia.enable
+      && !cfg.programs.dank-material-shell.enable
     ) "${name}: changed standalone Home Manager profile";
     assert assertMsg (matchesPackagePolicy cfg.nixpkgs.config) "${name}: inconsistent package policy";
     true;

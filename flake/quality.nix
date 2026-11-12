@@ -63,6 +63,11 @@
       };
 
       checks = {
+        celestia-stylix = import ../tests/celestia-stylix.nix { inherit pkgs inputs; };
+        desktop-shells = import ../tests/desktop-shells.nix {
+          inherit pkgs;
+          inherit (inputs.self) homeConfigurations;
+        };
         configurations = import ../tests/configurations.nix {
           inherit pkgs;
           inherit (inputs.self) nixosConfigurations homeConfigurations;

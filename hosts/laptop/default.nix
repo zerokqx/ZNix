@@ -13,7 +13,6 @@
   znix.hardware.fingerprint.goodix.enable = false;
 
   home-manager.users.zerok = {
-    programs.dank-material-shell.enable = true;
     wayland.windowManager.hyprland.settings.monitor = [
       "eDP-1,1920x1080@60,0x0,1.25"
       "HDMI-A-2,1920x1080@60,auto,1"

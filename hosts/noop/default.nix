@@ -10,7 +10,6 @@
     {
       home-manager.users.zerok = {
         imports = [ ../../home/noop ];
-        programs.dank-material-shell.enable = true;
       };
     }
   ];
