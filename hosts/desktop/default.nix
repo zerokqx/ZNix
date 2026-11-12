@@ -1,5 +1,9 @@
 {
   imports = [
+    ../../configuration.nix
+    ../../profiles/workstation.nix
+    ../../profiles/development.nix
+    ../../profiles/personal.nix
     ./hardware-configuration.nix
     ./virtual.nix
     ./wine.nix

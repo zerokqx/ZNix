@@ -1,5 +1,11 @@
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ../../configuration.nix
+    ../../profiles/workstation.nix
+    ../../profiles/development.nix
+    ../../profiles/personal.nix
+    ./hardware-configuration.nix
+  ];
 
   networking.hostName = "nixos-laptop";
   services.power-profiles-daemon.enable = true;

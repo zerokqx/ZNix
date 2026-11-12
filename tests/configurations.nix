@@ -6,19 +6,7 @@
 }:
 let
   inherit (pkgs.lib) all assertMsg mapAttrsToList;
-  inherit (import ../lib inputs) mkHost;
-
   expectedSystem = "x86_64-linux";
-  defaultHost = mkHost {
-    system = expectedSystem;
-    modules = [ ];
-  };
-  mismatchedHost = mkHost {
-    system = expectedSystem;
-    modules = [
-      ({ lib, ... }: { nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux"; })
-    ];
-  };
 
   policy = import ../lib/package-policy.nix;
   matchesPackagePolicy =
@@ -66,12 +54,6 @@ let
     assert assertMsg (matchesPackagePolicy cfg.nixpkgs.config) "${name}: inconsistent package policy";
     true;
 in
-assert assertMsg (
-  defaultHost.config.nixpkgs.hostPlatform.system == expectedSystem
-) "mkHost did not provide the registry platform by default";
-assert assertMsg (
-  !(builtins.tryEval mismatchedHost).success
-) "mkHost accepted a mismatched hostPlatform";
 assert all (ok: ok) (
   mapAttrsToList checkHost {
     desktop = "nixos-pc";

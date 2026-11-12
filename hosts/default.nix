@@ -1,49 +1,42 @@
 { inputs, ... }:
 let
-  inherit (import ../lib inputs) mkHost mkHome;
+  inherit (inputs.nixpkgs.lib) nixosSystem;
 
-  homes = {
-    zerokqx = mkHome {
-      system = "x86_64-linux";
-      module = ../home/zerokqx;
+  mkHome =
+    module:
+    inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+      extraSpecialArgs = { inherit inputs; };
+      modules = [
+        { nixpkgs.config = import ../lib/package-policy.nix; }
+      ]
+      ++ (import ../lib/home-modules.nix inputs)
+      ++ [ module ];
     };
-    noop = mkHome {
-      system = "x86_64-linux";
-      module = ../home/noop;
-    };
-  };
+
+  zerokqx = mkHome ../home/zerokqx;
 in
 {
   flake = {
     nixosConfigurations = {
-      desktop = mkHost {
-        system = "x86_64-linux";
-        modules = [
-          ../profiles/workstation.nix
-          ../profiles/personal.nix
-          ./desktop
-        ];
+      desktop = nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [ ./desktop ];
       };
-      laptop = mkHost {
-        system = "x86_64-linux";
-        modules = [
-          ../profiles/workstation.nix
-          ../profiles/personal.nix
-          ./laptop
-        ];
+      laptop = nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [ ./laptop ];
       };
-      noop = mkHost {
-        system = "x86_64-linux";
-        modules = [
-          ../profiles/workstation.nix
-          ../profiles/personal.nix
-          ./noop
-        ];
+      noop = nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [ ./noop ];
       };
     };
 
-    homeConfigurations = homes // {
-      zerok = homes.zerokqx;
+    homeConfigurations = {
+      inherit zerokqx;
+      noop = mkHome ../home/noop;
+      zerok = zerokqx;
     };
   };
 }

@@ -7,7 +7,6 @@
     ../core/graphics.nix
     ../core/bluetooth.nix
     ../core/flatpak.nix
-    ./development.nix
   ];
 
   services.input-remapper.enable = true;
