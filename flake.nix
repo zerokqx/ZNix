@@ -5,14 +5,8 @@
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     nix-claude-code.url = "github:ryoppippi/nix-claude-code";
 
-    # vkpl = {
-    #   url = "github:zerokqx/vkpl";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
     lu.url = "github:zerokqx/lu";
     lu.inputs.nixpkgs.follows = "nixpkgs";
-    bundlers.url = "github:ralismark/nix-appimage";
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland-preview-share-picker = {
       url = "git+https://github.com/WhySoBad/hyprland-preview-share-picker?submodules=1";
@@ -29,10 +23,6 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    dgop = {
-      url = "github:AvengeMedia/dgop";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     stylix = {
       url = "github:nix-community/stylix/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,7 +37,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
-
   };
 
   outputs =
@@ -61,67 +50,8 @@
       imports = [
         home-manager.flakeModules.home-manager
         ./hosts
+        ./flake/nixvim.nix
+        ./flake/quality.nix
       ];
-
-      perSystem =
-        { pkgs, system, ... }:
-        let
-          nvim = inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
-            inherit pkgs;
-            module = import ./home/zerokqx/nixvim/config.nix;
-          };
-        in
-        {
-          formatter = pkgs.nixfmt;
-          devShells.default = pkgs.mkShell {
-            packages = with pkgs; [
-              bash
-              git
-              jq
-              python3
-              shellcheck
-              nixfmt
-            ];
-          };
-
-          checks = {
-            configurations = import ./tests/configurations.nix {
-              inherit inputs pkgs;
-              inherit (inputs.self) nixosConfigurations homeConfigurations;
-            };
-            workflow =
-              pkgs.runCommand "znix-workflow"
-                {
-                  nativeBuildInputs = with pkgs; [
-                    bash
-                    git
-                    python3
-                    shellcheck
-                  ];
-                }
-                ''
-                  cp -r ${./scripts} scripts
-                  cp -r ${./tests} tests
-                  shellcheck scripts/*.sh
-                  python3 -B -m unittest discover -s tests
-                  touch "$out"
-                '';
-          };
-
-          packages = {
-            nixvim = nvim;
-            default = nvim;
-          };
-          apps = {
-            default = {
-              type = "app";
-              program = "${nvim}/bin/nvim";
-            };
-            nixvim = {
-              type = "app";
-              program = "${nvim}/bin/nvim";
-            };
-          };
-        };
     };
 }

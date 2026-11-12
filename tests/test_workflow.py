@@ -42,6 +42,11 @@ elif command == "nix" and args[0] == "build" and "--out-link" in args:
     launcher.chmod(0o755)
 elif command == "nixos-rebuild":
     sys.exit("invoke via sudo")
+elif command == "treefmt":
+    root = Path(args[args.index("--tree-root") + 1])
+    for name in args[args.index("--") + 1:]:
+        (root / name).write_text("formatted copy\\n")
+    sys.exit(int(os.environ.get("FAKE_FORMAT_FAILURE", "0")))
 """
 
 
@@ -54,7 +59,7 @@ class WorkflowTests(unittest.TestCase):
         shutil.copytree(SCRIPTS, self.root / "scripts")
         self.bin = Path(self.temp.name) / "bin"
         self.bin.mkdir()
-        for name in ("nix", "hostname", "sudo", "nixos-rebuild", "nixfmt", "shellcheck"):
+        for name in ("nix", "hostname", "sudo", "nixos-rebuild", "treefmt", "shellcheck"):
             fake = self.bin / name
             fake.write_text(f"#!{sys.executable}\n{FAKE_COMMAND}")
             fake.chmod(0o755)
@@ -84,7 +89,9 @@ class WorkflowTests(unittest.TestCase):
 
     def calls(self):
         records = [json.loads(line) for line in self.log.read_text().splitlines()]
-        self.assertTrue(all(Path(record[2]) == self.root for record in records))
+        for command, args, directory in records:
+            expected = Path(args[args.index("--tree-root") + 1]) if command == "treefmt" else self.root
+            self.assertEqual(Path(directory), expected)
         return [(command, args) for command, args, _ in records]
 
     def test_default_build_uses_evaluated_hostname_mapping(self):
@@ -169,15 +176,17 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("Could not evaluate nixosConfigurations.laptop", result.stderr)
         self.assertEqual(len(self.calls()), 3)
 
-    def test_static_formats_only_changed_nix_and_preserves_index(self):
+    def prepare_formatting_fixture(self):
         self.git("init", "-q")
         for name in ("changed.nix", "unchanged.nix", "deleted.nix"):
             (self.root / name).write_text("{}")
-        self.git("add", "--", "changed.nix", "unchanged.nix", "deleted.nix")
+        self.git("add", "--", "changed.nix", "unchanged.nix", "deleted.nix", "scripts")
         self.git("-c", "user.name=Test", "-c", "user.email=test@example.org", "commit", "-qm", "base")
         (self.root / "changed.nix").write_text("{ changed = true; }")
         (self.root / "deleted.nix").unlink()
         (self.root / "untracked.nix").write_text("{}")
+        (self.root / "new file.md").write_text("# New file\n")
+        (self.root / "link.nix").symlink_to("changed.nix")
         tests = self.root / "tests"
         tests.mkdir()
         (tests / "test_fixture.py").write_text(
@@ -186,16 +195,57 @@ class WorkflowTests(unittest.TestCase):
             "    def test_fixture(self):\n"
             "        self.assertTrue(True)\n"
         )
-        index = self.root / ".git" / "index"
-        previous = index.read_bytes()
+        return {
+            name: (self.root / name).read_bytes()
+            for name in ("changed.nix", "unchanged.nix", "untracked.nix", "new file.md", ".git/index")
+        }
 
+    def test_static_formats_changed_copies_and_preserves_tree_and_index(self):
+        previous = self.prepare_formatting_fixture()
         result = self.run_script("check.sh", "static")
         self.assertEqual(result.returncode, 0, result.stderr)
+        calls = [args for command, args in self.calls() if command == "treefmt"]
+        self.assertEqual(len(calls), 1)
+        args = calls[0]
         self.assertEqual(
-            [args for command, args in self.calls() if command == "nixfmt"],
-            [["--check", "./changed.nix"], ["--check", "./untracked.nix"]],
+            args[args.index("--") + 1:],
+            ["changed.nix", "new file.md", "untracked.nix"],
         )
-        self.assertEqual(index.read_bytes(), previous)
+        self.assertFalse(Path(args[args.index("--tree-root") + 1]).exists())
+        for name, content in previous.items():
+            self.assertEqual((self.root / name).read_bytes(), content, name)
+
+    def test_static_format_failure_preserves_tree_and_index(self):
+        previous = self.prepare_formatting_fixture()
+        self.env["FAKE_FORMAT_FAILURE"] = "1"
+        result = self.run_script("check.sh", "static")
+        self.assertNotEqual(result.returncode, 0)
+        calls = self.calls()
+        self.assertEqual([command for command, _ in calls], ["treefmt"])
+        args = calls[0][1]
+        self.assertFalse(Path(args[args.index("--tree-root") + 1]).exists())
+        for name, content in previous.items():
+            self.assertEqual((self.root / name).read_bytes(), content, name)
+
+    def test_static_rejects_conflict_markers_before_formatting(self):
+        self.prepare_formatting_fixture()
+        (self.root / "changed.nix").write_text("<<<<<<< HEAD\n{}\n=======\n{}\n>>>>>>> branch\n")
+        result = self.run_script("check.sh", "static")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(self.log.exists())
+
+    def test_static_stops_when_file_enumeration_fails(self):
+        self.prepare_formatting_fixture()
+        git = self.bin / "git"
+        git.write_text(
+            f"#!{sys.executable}\nimport os, sys\n"
+            "if sys.argv[1:2] == ['ls-files'] and '--others' in sys.argv: sys.exit(7)\n"
+            f"os.execv({shutil.which('git')!r}, [{shutil.which('git')!r}, *sys.argv[1:]])\n"
+        )
+        git.chmod(0o755)
+        result = self.run_script("check.sh", "static")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(self.log.exists())
 
 
 if __name__ == "__main__":

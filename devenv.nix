@@ -29,5 +29,8 @@
   scripts.rebuild-laptop-test.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" test laptop'';
   scripts.rebuild-noop-test.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" test noop'';
   scripts.rebuild-desktop-vm.exec = ''exec "$DEVENV_ROOT/scripts/rebuild.sh" vm desktop'';
-  scripts.flake-check.exec = ''exec "$DEVENV_ROOT/scripts/check.sh" "$@"'';
+  scripts.flake-check.exec = ''
+    exec nix develop --no-update-lock-file "$DEVENV_ROOT" \
+      --command "$DEVENV_ROOT/scripts/check.sh" "$@"
+  '';
 }
