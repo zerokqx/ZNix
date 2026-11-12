@@ -13,19 +13,23 @@ description: Register or modify explicit ZNix NixOS and Home Manager hosts witho
    configuration, then one explicit registry entry:
 
    ```nix
-   name = mkHost {
-     system = "x86_64-linux";
-     modules = [ ../profiles/workstation.nix ../profiles/personal.nix ./name ];
+   name = inputs.nixpkgs.lib.nixosSystem {
+     specialArgs = { inherit inputs; };
+     modules = [ ./name ];
    };
    ```
 
-   A standalone Home Manager output similarly uses `mkHome { system = ...;
-   module = ../home/<name>; };`. There is no directory auto-discovery.
+   The host module itself imports `../../configuration.nix`, chosen profiles and
+   its hardware file. A standalone Home Manager output uses the local
+   `mkHome ../home/<name>`. There is no directory auto-discovery.
+
 3. Never copy UUIDs, disks, swap/resume offsets, monitors, or host keys from
    another host. Keep those settings in the machine module; add common behavior
    to an existing profile only when it is genuinely shared.
 4. Preserve the `noop` distinction: its NixOS configuration combines `home/zerokqx` with
-   `home/noop`, while standalone HM `noop` uses only `home/noop`.
+   `home/noop`, while standalone HM `noop` uses only `home/noop`. Keep its inline
+   module after the personal profile: list merge order affects generated files.
+   Add new host expectations to `tests/configurations.nix`.
 5. Run `./scripts/check.sh eval` for all registered systems and homes, then a
    separate requested host build from [docs/operations.md](../../../docs/operations.md).
    Do not activate a host without authorization.

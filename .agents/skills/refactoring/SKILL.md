@@ -9,20 +9,19 @@ description: Make behavior-preserving ZNix module refactors while protecting out
    and the imports/call sites before moving a module. Use the documented
    `faead27`/`20c0da4` migration baseline only when reviewing that migration.
 2. Preserve public contracts:
-
    - NixOS: `desktop`, `laptop`, `noop`.
    - Home Manager: `zerokqx`, `noop`, `zerok`.
-   - Packages/apps: `nixvim` and `default`.
+   - Packages/apps: `nixvim` and `default`; optional VM package `dev-ports-test`.
 
 3. Preserve `stateVersion`, hardware settings, host names, existing services,
    and standalone-versus-embedded `noop` behavior unless the task changes one.
-4. Extract only real reuse. Keep host details in `hosts/`, composition in
-   `profiles/`, system modules in `core/`/`configs/`, and only small shared
-   constructors/policy in `lib/`. Do not recreate implicit directory discovery
-   or a custom role/options framework.
+4. Extract only real reuse. Keep a host's imports visible in `hosts/<name>/`,
+   composition in `profiles/`, system modules in `core/`/`configs/`, and only
+   shared HM modules/package policy in `lib/`. Do not recreate implicit
+   directory discovery, a host constructor, or a custom role/options framework.
 5. Update the closest documentation or helper test when a user-visible contract
-   changes. `scripts/check.sh` and tests must continue to discover explicit
-   registry outputs rather than a hard-coded stale list.
+   changes. `scripts/check.sh eval` must discover explicit registry outputs;
+   keep the expected host/home tables in `tests/configurations.nix` in sync.
 6. Run `./scripts/check.sh all` and the relevant dry-build. Inspect the diff
    for accidental lockfile, cache-policy, or activation changes. A passing eval
    does not prove a generated system boots.

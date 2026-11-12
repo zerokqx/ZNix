@@ -1,7 +1,7 @@
 # ZNix: точка входа для агентов
 
 Персональная NixOS/Home Manager конфигурация. Источник истины — Nix-модули,
-явный реестр `hosts/default.nix` и `flake.lock`. Текущие хосты: `desktop`
+явный реестр `hosts/default.nix`, модули `flake/` и `flake.lock`. Текущие хосты: `desktop`
 (`nixos-pc`), `laptop` (`nixos-laptop`), `noop` (`nixos`), все `x86_64-linux`.
 
 ## Начало работы и skills
@@ -29,13 +29,17 @@ Claude Code получает относительные ссылки в `.claude
 
 ## Где менять
 
-- `hosts/default.nix`: явная регистрация outputs и выбор `system`/профилей.
-  Каталоги сами не регистрируются. Для новой машины добавьте hardware-модуль и
-  запись через `mkHost`; для standalone Home Manager — запись через `mkHome`.
-- `hosts/<name>/`: hardware, диски, мониторы и настройки конкретной машины.
+- `flake.nix`: короткая точка входа `flake-parts`; top-level outputs собирают
+  `hosts/`, а `flake/nixvim.nix` и `flake/quality.nix` задают `perSystem`.
+- `hosts/default.nix`: явная регистрация NixOS и standalone Home Manager outputs.
+  Каталоги сами не регистрируются. Для новой машины добавьте прямой
+  `nixpkgs.lib.nixosSystem` с модулем хоста; для standalone Home Manager —
+  запись через локальный `mkHome`.
+- `hosts/<name>/`: полный явный список базы, профилей, hardware, дисков,
+  мониторов и настроек конкретной машины.
 - `configuration.nix`, `core/`: базовая композиция и системные модули.
 - `profiles/`: workstation, development и personal (пользователи, VPN, HM).
-- `lib/`: общие конструкторы, внешние HM-модули и политика пакетов.
+- `lib/`: только общие внешние HM-модули и политика пакетов.
 - `home/`: пользовательские приложения; `configs/`: VPN-модули.
 - `scripts/`, `tests/`: воспроизводимые проверки и явные операции.
 
@@ -48,14 +52,17 @@ helpers размещайте в `lib/`. Обновляйте skill и докум
 ## Проверка
 
 ```sh
-nix develop
+nix develop -c bash
 ./scripts/check.sh all --base <база-проверяемой-ветки>
+nix fmt -- <изменённые-файлы>
 nix flake check --no-build --no-update-lock-file
 nix flake check --no-update-lock-file
 nix build .#nixosConfigurations.desktop.config.system.build.toplevel --dry-run --no-link --no-update-lock-file
 ```
 
-Без `--base` формат сравнивается с HEAD. Новые файлы flake сначала добавьте
+`nix fmt` меняет указанные файлы. Без `--base` статическая проверка сравнивается
+с HEAD и запускает treefmt на временных копиях изменённых файлов, поэтому не
+меняет рабочее дерево или индекс. Новые файлы flake сначала добавьте
 в Git точными путями, проверив секреты. Evaluation, сборка, activation и проверка
 устройств — разные результаты; указывайте, какие фактически подтверждены.
 
@@ -71,6 +78,10 @@ standalone HM activation, удалённое применение, reboot, parti
 Не добавляйте cache keys, trusted users/builders и insecure exceptions без
 необходимости. Не отключайте подписи, firewall или sandbox ради ускорения.
 Секреты не должны попадать в Git, Nix store и отчёты.
+
+`git-hooks.nix` не устанавливается автоматически: текущий быстрый gate —
+`./scripts/check.sh static`. Не запускайте генераторы hooks, если это меняет
+`core.hooksPath` без отдельного решения владельца.
 
 Для самостоятельной маленькой правки сабагент не нужен. При независимых задачах
 используйте доступные настроенные роли: `fast_scanner` для ограниченного чтения,
