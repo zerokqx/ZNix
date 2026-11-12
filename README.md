@@ -1,71 +1,73 @@
 # ZNix
 
-Personal NixOS and Home Manager configuration for three x86_64 Linux machines,
-with Hyprland, Dank Material Shell, Fish and Nixvim. Versions are pinned by
-`flake.lock`; the main system stack is NixOS 26.05.
+Персональная конфигурация NixOS и Home Manager для трёх машин x86_64-linux.
+Рабочее окружение: Hyprland, Dank Material Shell, Fish и Nixvim.
+Основная версия системы — NixOS 26.05; зависимости закреплены в `flake.lock`.
 
-| Flake host | System hostname | Profiles                                                           |
-| ---------- | --------------- | ------------------------------------------------------------------ |
-| `desktop`  | `nixos-pc`      | workstation + development + personal                               |
-| `laptop`   | `nixos-laptop`  | workstation + development + personal                               |
-| `noop`     | `nixos`         | workstation + development + personal + noop Home Manager additions |
+| Хост flake | Имя системы    | Профили                                                             |
+| ---------- | -------------- | ------------------------------------------------------------------- |
+| `desktop`  | `nixos-pc`     | workstation + development + personal                                |
+| `laptop`   | `nixos-laptop` | workstation + development + personal                                |
+| `noop`     | `nixos`        | workstation + development + personal + дополнения Home Manager noop |
 
-`flake.nix` uses `flake-parts`: top-level NixOS/Home Manager outputs are explicit
-in `hosts/default.nix`, while package, app, formatter, development shell and
-checks live in `flake/` through `perSystem`. Host directories are plain NixOS
-modules with their full imports and hardware settings. `profiles/` composes
-features; `core/` and `configs/` retain system modules; `home/` contains user
-settings. Shared Home Manager modules and package policy live in `lib/`.
+`flake.nix` использует flake-parts. Системы и самостоятельные конфигурации
+Home Manager явно зарегистрированы в `hosts/default.nix`. Форматирование, среда разработки, VM-тест и проверки определены через
+`perSystem` в `flake/`. Отдельных приложений для `nix run` и установщика для
+сторонних пользователей нет; Nixvim входит в личную конфигурацию Home Manager.
+Каждый хост явно подключает базу, профили и своё оборудование. Общие системные
+модули находятся в `core/` и `configs/`, пользовательские настройки — в `home/`,
+общие модули Home Manager и политика пакетов — в `lib/`.
 
-## Validate and build
+## Проверка и сборка
 
 ```sh
 nix develop -c bash
-./scripts/check.sh all
 nix fmt -- flake.nix hosts/default.nix
+./scripts/check.sh all
 nix flake check --no-build --no-update-lock-file
 nix flake check --no-update-lock-file
 ./scripts/rebuild.sh build desktop
 ```
 
-Use `check.sh all --base <commit>` to check the complete change range. Review and
-stage newly referenced flake files explicitly; no rebuild script stages files.
-The generic `rebuild` command now builds by default. Named `rebuild-desktop`,
-`rebuild-laptop`, and `rebuild-noop` devenv commands still activate their hosts;
-their `-test` variants also activate the running system. Use them deliberately.
-The Bash wrapper resolves the current hostname to a unique registered host.
-Building does not apply a configuration or prove hardware compatibility.
+Для проверки всей серии изменений укажите `check.sh all --base <коммит>`.
+Новые файлы, на которые ссылается flake, добавляйте в Git точными путями после
+проверки содержимого. Скрипты пересборки сами ничего не добавляют в индекс.
 
-## Agent setup
+Общая команда `rebuild` по умолчанию только собирает систему. Команды devenv
+`rebuild-desktop`, `rebuild-laptop` и `rebuild-noop` применяют конфигурацию;
+варианты `-test` тоже меняют работающую систему. Используйте их осознанно.
+Без указания хоста скрипт ищет единственное соответствие текущему имени машины.
+Успешная сборка не означает применение конфигурации или проверку оборудования.
 
-Read [AGENTS.md](AGENTS.md) and the project
-[install skill](.agents/skills/install/SKILL.md), then choose your environment:
+## Подключение агентов
+
+Прочитайте [AGENTS.md](AGENTS.md) и
+[инструкцию установки skills](.agents/skills/install/SKILL.md), затем выберите среду:
 
 ```sh
 python3 scripts/install-skills.py --environment codex
 python3 scripts/install-skills.py --environment claude
 ```
 
-Codex discovers `.agents/skills` natively. Claude uses relative per-skill symlinks;
-installation is repeatable and refuses conflicts. Agent settings remain local.
+Codex читает `.agents/skills` напрямую. Для Claude создаются относительные ссылки
+на каждый skill. Повторная установка безопасна и останавливается при конфликте.
+Глобальные настройки агентов не меняются.
 
-## Register a new host
+## Добавление хоста
 
-Create a module under `hosts/<name>/` that imports its hardware file, base
-configuration and chosen profiles. Then register it explicitly in
-`hosts/default.nix` with `nixpkgs.lib.nixosSystem`. Register a standalone Home
-Manager configuration with the local `mkHome` only when needed. See
-[Architecture and adding hosts](docs/architecture.md).
+Создайте модуль в `hosts/<имя>/` с явными imports оборудования, базы и выбранных
+профилей. Зарегистрируйте его в `hosts/default.nix` через `nixpkgs.lib.nixosSystem`.
+Самостоятельную конфигурацию Home Manager при необходимости добавьте через
+локальный `mkHome`. Подробности — в [описании архитектуры](docs/architecture.md).
 
-## Documentation
+UUID дисков, параметры возобновления из гибернации и мониторы относятся к
+конкретной машине. Для другой архитектуры процессора отдельно проверяйте
+совместимость пакетов. Применение конфигурации и разрушительные операции
+требуют явного разрешения владельца.
 
-- [Architecture and adding hosts](docs/architecture.md)
-- [Checks, package acquisition, remote builds, deployment and rollback](docs/operations.md)
-- [Architecture V2 report and validation limits](docs/architecture-v2-report.md)
-- [First refactoring report (historical)](docs/refactoring-report.md)
+## Документация
 
-Hardware UUIDs, resume offsets and monitors are machine-specific. Other CPU
-architectures require package/input compatibility checks. Existing translations
-in `docs/` are historical setup guides; use the documents above for the current
-layout and workflows. Activation and destructive system changes require the
-owner's explicit approval.
+- [Архитектура и добавление хостов](docs/architecture.md)
+- [Проверки, пакеты, развёртывание и восстановление](docs/operations.md)
+- [Отчёт об архитектуре V2 и границы проверок](docs/architecture-v2-report.md)
+- [Отчёт о первой итерации — исторический документ](docs/refactoring-report.md)

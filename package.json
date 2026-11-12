@@ -1,7 +1,7 @@
 {
   "name": "znix",
   "version": "1.0.0",
-  "description": "<div class=\"lang-switch\">   <a href=\"README.md\">English</a> |   <a href=\"docs/ru.md\">Русский</a> |   <a href=\"docs/uk.md\">Українська</a> |   <a href=\"docs/es.md\">Español</a> |   <a href=\"docs/de.md\">Deutsch</a> |   <a href=\"docs/fr.md\">Français</a> |   <a href=\"docs/pt-br.md\">Português (BR)</a> |   <a href=\"docs/zh-CN.md\">中文</a> </div>",
+  "description": "Персональная конфигурация NixOS и Home Manager. Документация — в README.md.",
   "main": "index.js",
   "directories": {
     "doc": "docs"

@@ -11,7 +11,8 @@ description: Make behavior-preserving ZNix module refactors while protecting out
 2. Preserve public contracts:
    - NixOS: `desktop`, `laptop`, `noop`.
    - Home Manager: `zerokqx`, `noop`, `zerok`.
-   - Packages/apps: `nixvim` and `default`; optional VM package `dev-ports-test`.
+   - Local validation package: `dev-ports-test`. Public Nixvim apps/packages
+     and the Rust installer were intentionally removed.
 
 3. Preserve `stateVersion`, hardware settings, host names, existing services,
    and standalone-versus-embedded `noop` behavior unless the task changes one.

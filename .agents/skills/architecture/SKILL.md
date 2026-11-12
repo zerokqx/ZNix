@@ -8,8 +8,8 @@ description: Navigate or change the explicit ZNix NixOS, Home Manager, profile, 
 1. Read `AGENTS.md` and [docs/architecture.md](../../../docs/architecture.md).
    Keep `flake.lock` unchanged unless the task explicitly updates inputs.
 2. `flake.nix` is a small `flake-parts` entrypoint. `hosts/default.nix` owns
-   top-level NixOS and standalone Home Manager outputs; `flake/nixvim.nix` and
-   `flake/quality.nix` own system-dependent outputs through `perSystem`. A
+   top-level NixOS and standalone Home Manager outputs; `flake/quality.nix`
+   owns development and validation outputs through `perSystem`. A
    directory with `default.nix` never creates an output automatically. Use the
    existing shapes:
 

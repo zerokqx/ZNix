@@ -30,7 +30,7 @@ Claude Code получает относительные ссылки в `.claude
 ## Где менять
 
 - `flake.nix`: короткая точка входа `flake-parts`; top-level outputs собирают
-  `hosts/`, а `flake/nixvim.nix` и `flake/quality.nix` задают `perSystem`.
+  `hosts/`, а `flake/quality.nix` задаёт `perSystem` для инструментов проверки.
 - `hosts/default.nix`: явная регистрация NixOS и standalone Home Manager outputs.
   Каталоги сами не регистрируются. Для новой машины добавьте прямой
   `nixpkgs.lib.nixosSystem` с модулем хоста; для standalone Home Manager —

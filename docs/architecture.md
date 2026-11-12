@@ -15,15 +15,15 @@ Codex-модуль и удалённые пользователем файлы O
 evaluation и проверки; работа V2 ведётся в `refactor/nixos-architecture-v2`.
 
 - `flake.nix` — короткая точка входа `flake-parts`. Обычные imports подключают
-  Home Manager, `hosts/`, `flake/nixvim.nix` и `flake/quality.nix`.
+  Home Manager, `hosts/` и `flake/quality.nix`.
 - `hosts/default.nix` — явный top-level реестр NixOS и standalone Home Manager.
   Он прямо вызывает `nixpkgs.lib.nixosSystem`; каталог с `default.nix` сам по
   себе публичный output не создаёт.
 - `hosts/<name>/default.nix` — обычный NixOS-модуль с полным видимым списком
   базы, профилей и hardware. Аппаратные настройки, мониторы, swap и настройки
   конкретной машины остаются здесь.
-- `flake/nixvim.nix` и `flake/quality.nix` содержат system-dependent outputs:
-  packages, apps, devShell, checks и formatter. `nixosConfigurations` остаются
+- `flake/quality.nix` содержит system-dependent outputs:
+  пакет VM-теста, devShell, checks и formatter. `nixosConfigurations` остаются
   top-level. `flake.modules` не используется: для трёх локальных хостов обычные
   пути imports читаются проще, чем отдельный registry.
 - `lib/` содержит только общий список внешних Home Manager modules и единую
@@ -51,7 +51,9 @@ evaluation и проверки; работа V2 ведётся в `refactor/nixo
 | `nixosConfigurations.noop`    | `nixos`        | `x86_64-linux` |
 
 Standalone Home Manager: `zerokqx`, `noop`, алиас `zerok` → `zerokqx`.
-Пакеты и приложения: `nixvim`, `default` → `nixvim`.
+Отдельные пакеты и приложения для запуска Nixvim через `nix run` удалены.
+Nixvim подключается только как часть личного Home Manager.
+Пакет `dev-ports-test` предназначен для локальной проверки конфигурации.
 Сохраняются `stateVersion`, загрузчик, диски, шифрование, доступ SSH,
 сетевые настройки, пользовательские пакеты и действующие службы.
 

@@ -50,7 +50,6 @@
       imports = [
         home-manager.flakeModules.home-manager
         ./hosts
-        ./flake/nixvim.nix
         ./flake/quality.nix
       ];
     };
