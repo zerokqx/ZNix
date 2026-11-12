@@ -62,6 +62,16 @@
         ];
       };
 
+      devShells.liquid-background = pkgs.mkShell {
+        packages = [
+          (pkgs.python3.withPackages (ps: [ ps.moderngl ]))
+          pkgs.ffmpeg-headless
+        ];
+        GLCONTEXT_LINUX_LIBGL = "${pkgs.libglvnd}/lib/libGL.so.1";
+        GLCONTEXT_LINUX_LIBEGL = "${pkgs.libglvnd}/lib/libEGL.so.1";
+        __EGL_VENDOR_LIBRARY_FILENAMES = "${pkgs.mesa}/share/glvnd/egl_vendor.d/50_mesa.json";
+      };
+
       checks = {
         celestia-stylix = import ../tests/celestia-stylix.nix { inherit pkgs inputs; };
         desktop-shells = import ../tests/desktop-shells.nix {

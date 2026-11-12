@@ -15,6 +15,7 @@ SKILLS = (
     "install",
     "architecture",
     "desktop",
+    "desktop-backgrounds",
     "hosts",
     "packages",
     "stylix",
