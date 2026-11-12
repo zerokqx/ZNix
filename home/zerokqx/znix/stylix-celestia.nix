@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   pkgs,
   ...
@@ -23,20 +22,6 @@ let
   schemeFile = pkgs.writeText "caelestia-stylix-scheme.json" (builtins.toJSON scheme);
   inherit (stylix.fonts) sizes;
   fontFamily = lib.mkDefault stylix.fonts.sansSerif.name;
-  # The upstream wrapper uses its own Fontconfig file.
-  package = inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.with-cli.override {
-    makeFontsConf =
-      args:
-      pkgs.makeFontsConf (
-        args
-        // {
-          fontDirectories = args.fontDirectories ++ [
-            stylix.fonts.sansSerif.package
-            stylix.fonts.monospace.package
-          ];
-        }
-      );
-  };
   defaultColours = with colors; {
     primary_paletteKeyColor = base0D;
     secondary_paletteKeyColor = base0C;
@@ -132,12 +117,6 @@ in
     stylix.targets.celestia.colours = lib.mapAttrs (_: lib.mkDefault) defaultColours;
 
     programs.caelestia = {
-      package = lib.mkDefault (
-        package.overrideAttrs (old: {
-          patches = (old.patches or [ ]) ++ [ ./caelestia-stylix.patch ];
-        })
-      );
-
       settings = {
         appearance = {
           font = {

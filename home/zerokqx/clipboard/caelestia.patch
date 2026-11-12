@@ -1,0 +1,157 @@
+--- a/components/ScreenState.qml
++++ b/components/ScreenState.qml
+@@ -8,6 +8,7 @@
+     property bool osd
+     property bool session
+     property bool launcher
++    property bool clipboard
+     property bool dashboard
+     property bool utilities
+     property bool sidebar
+--- a/daemons/Shortcuts.qml
++++ b/daemons/Shortcuts.qml
+@@ -112,7 +112,7 @@
+     IpcHandler {
+         function toggle(drawer: string): void {
+             if (list().split("\n").includes(drawer)) {
+-                if (root.hasFullscreen && ["launcher", "session", "dashboard"].includes(drawer))
++                if (root.hasFullscreen && ["launcher", "clipboard", "session", "dashboard"].includes(drawer))
+                     return;
+                 const screenState = ShellState.forActive();
+                 screenState[drawer] = !screenState[drawer];
+--- a/modules/drawers/ContentWindow.qml
++++ b/modules/drawers/ContentWindow.qml
+@@ -61,6 +61,7 @@
+
+     onHasFullscreenChanged: {
+         screenState.launcher = false;
++        screenState.clipboard = false;
+         screenState.session = false;
+         screenState.dashboard = false;
+         panels.popouts.close();
+@@ -69,7 +70,7 @@
+     name: "drawers"
+     WlrLayershell.exclusionMode: ExclusionMode.Ignore
+     WlrLayershell.layer: (fsTransitionProg > 0 && contentItem.Config.general.showOverFullscreen) || (hasSpecialWorkspace && hasFullscreenOnNormalWs) ? WlrLayer.Overlay : WlrLayer.Top
+-    WlrLayershell.keyboardFocus: screenState.launcher || screenState.session ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
++    WlrLayershell.keyboardFocus: screenState.launcher || screenState.clipboard || screenState.session ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+
+     mask: hasFullscreen ? emptyRegion : regions
+
+@@ -116,7 +117,7 @@
+         active: {
+             const s = root.screenState;
+             const conf = root.contentItem.Config;
+-            if ((s.launcher && conf.launcher.enabled) || (s.session && conf.session.enabled) || (s.sidebar && conf.sidebar.enabled))
++            if (s.clipboard || (s.launcher && conf.launcher.enabled) || (s.session && conf.session.enabled) || (s.sidebar && conf.sidebar.enabled))
+                 return true;
+             if (!conf.dashboard.showOnHover && s.dashboard && conf.dashboard.enabled)
+                 return true;
+@@ -127,6 +128,7 @@
+         windows: [root]
+         onCleared: {
+             root.screenState.launcher = false;
++            root.screenState.clipboard = false;
+             root.screenState.session = false;
+             root.screenState.sidebar = false;
+             root.screenState.dashboard = false;
+@@ -190,6 +192,13 @@
+         }
+
+         PanelBg {
++            id: clipboardBg
++
++            panel: panels.clipboard
++            deformAmount: 0.1
++        }
++
++        PanelBg {
+             id: sessionBg
+
+             panel: panels.sessionWrapper
+@@ -276,6 +285,9 @@
+             }
+             launcher.transform: Matrix4x4 {
+                 matrix: launcherBg.deformMatrix
++            }
++            clipboard.transform: Matrix4x4 {
++                matrix: clipboardBg.deformMatrix
+             }
+             session.transform: Matrix4x4 {
+                 matrix: sessionBg.deformMatrix
+--- a/modules/drawers/Interactions.qml
++++ b/modules/drawers/Interactions.qml
+@@ -202,9 +202,9 @@
+
+         // Show launcher on hover, or show/hide on drag if hover is disabled
+         if (Config.launcher.showOnHover) {
+-            if (!screenState.launcher && inBottomPanel(panels.launcher, x, y))
++            if (!screenState.clipboard && !screenState.launcher && inBottomPanel(panels.launcher, x, y))
+                 screenState.launcher = true;
+-        } else if (pressed && inBottomPanel(panels.launcher, dragStart.x, dragStart.y) && withinPanelWidth(panels.launcher, x, y)) {
++        } else if (!screenState.clipboard && pressed && inBottomPanel(panels.launcher, dragStart.x, dragStart.y) && withinPanelWidth(panels.launcher, x, y)) {
+             if (dragY < -Config.launcher.dragThreshold)
+                 screenState.launcher = true;
+             else if (dragY > Config.launcher.dragThreshold)
+--- a/modules/drawers/Panels.qml
++++ b/modules/drawers/Panels.qml
+@@ -27,6 +27,7 @@
+     readonly property alias session: session
+     readonly property alias sessionWrapper: sessionWrapper
+     readonly property alias launcher: launcher
++    readonly property alias clipboard: clipboard
+     readonly property alias dashboard: dashboard
+     readonly property alias popouts: popoutsWrapper.content
+     readonly property alias popoutsWrapper: popoutsWrapper
+@@ -107,6 +108,36 @@
+         anchors.bottom: parent.bottom
+     }
+
++    ClipboardDrawer {
++        id: clipboard
++
++        screenState: root.screenState
++
++        anchors.horizontalCenter: parent.horizontalCenter
++        anchors.bottom: parent.bottom
++    }
++
++    Connections {
++        target: root.screenState
++
++        function onClipboardChanged(): void {
++            if (root.screenState.clipboard) {
++                root.screenState.launcher = false;
++                root.screenState.session = false;
++            }
++        }
++
++        function onLauncherChanged(): void {
++            if (root.screenState.launcher)
++                root.screenState.clipboard = false;
++        }
++
++        function onSessionChanged(): void {
++            if (root.screenState.session)
++                root.screenState.clipboard = false;
++        }
++    }
++
+     Dashboard.Wrapper {
+         id: dashboard
+
+--- a/modules/drawers/Regions.qml
++++ b/modules/drawers/Regions.qml
+@@ -31,6 +31,12 @@
+         panel: root.panels.launcher
+         y: root.win.height - height
+         height: panel.height * (1 - root.panels.launcher.offsetScale) + root.borderThickness
++    }
++
++    R {
++        panel: root.panels.clipboard
++        y: root.win.height - height
++        height: panel.height * (1 - root.panels.clipboard.offsetScale) + root.borderThickness
+     }
+
+     R {

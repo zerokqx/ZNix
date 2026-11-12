@@ -1,4 +1,31 @@
-{ config, lib, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  inherit (config) stylix;
+  useStylix = stylix.enable && stylix.targets.celestia.enable;
+  package = inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.with-cli.override (
+    lib.optionalAttrs useStylix {
+      # The upstream wrapper uses its own Fontconfig file.
+      makeFontsConf =
+        args:
+        pkgs.makeFontsConf (
+          args
+          // {
+            fontDirectories = args.fontDirectories ++ [
+              stylix.fonts.sansSerif.package
+              stylix.fonts.monospace.package
+            ];
+          }
+        );
+    }
+  );
+  clipboardBackend = pkgs.callPackage ./clipboard { };
+in
 {
   imports = [
     ./dms.nix
@@ -17,6 +44,18 @@
 
   programs.caelestia = {
     enable = lib.mkDefault true;
+    package = lib.mkDefault (
+      package.overrideAttrs (old: {
+        patches =
+          (old.patches or [ ])
+          ++ [ ./clipboard/caelestia.patch ]
+          ++ lib.optional useStylix ./znix/caelestia-stylix.patch;
+        postPatch = (old.postPatch or "") + ''
+          substitute ${./clipboard/ClipboardDrawer.qml} modules/drawers/ClipboardDrawer.qml \
+            --replace-fail '@clipboardBackend@' '${lib.getExe clipboardBackend}'
+        '';
+      })
+    );
     # Hyprland starts the selected shell through exec-once.
     systemd.enable = false;
     cli.enable = true;

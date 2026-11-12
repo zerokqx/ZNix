@@ -29,6 +29,10 @@ let
     in
     settings.bind ++ settings.bindel ++ settings.bindl;
   hasCommand = command: any (hasInfix command);
+  hasClipboardBindings =
+    command: cfg:
+    builtins.elem "$mod, v, exec, ${command}" (bindings cfg)
+    && builtins.elem "$mod SHIFT, v, exec, ${command}" (bindings cfg);
   logoutBindingPrefix = "$mod SHIFT, e, exec, ";
   logout = removePrefix logoutBindingPrefix (
     pkgs.lib.findFirst (pkgs.lib.hasPrefix logoutBindingPrefix) "" (bindings caelestia)
@@ -52,6 +56,7 @@ assert assertMsg (
   && count (hasInfix "/bin/cliphist store") (startup caelestia) == 1
   && !hasCommand "dms run" (startup caelestia)
   && !hasCommand "dms " (bindings caelestia)
+  && hasClipboardBindings "${getExe caelestia.programs.caelestia.package} ipc call drawers toggle clipboard" caelestia
   && caelestia.xdg.configFile ? "caelestia/shell.json"
   && !(caelestia.xdg.configFile ? "DankMaterialShell/settings.json")
   && shellServicesAbsent caelestia
@@ -65,6 +70,7 @@ assert assertMsg (
   && !hasCommand "/bin/cliphist store" (startup dms)
   && !hasCommand "caelestia" (bindings dms)
   && hasCommand "dms ipc call launcher toggle" (bindings dms)
+  && hasClipboardBindings "dms ipc call clipboard toggle" dms
   && dms.xdg.configFile ? "DankMaterialShell/settings.json"
   && !(dms.xdg.configFile ? "caelestia/shell.json")
   && shellServicesAbsent dms

@@ -95,6 +95,8 @@
             ''
               cp -r ${../scripts} scripts
               cp -r ${../tests} tests
+              mkdir -p home/zerokqx/clipboard
+              cp ${../home/zerokqx/clipboard/history.py} home/zerokqx/clipboard/history.py
               shellcheck scripts/*.sh
               python3 -B -m unittest discover -s tests
               touch "$out"

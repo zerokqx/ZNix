@@ -50,7 +50,7 @@ let
     if config.programs.caelestia.enable then
       {
         launcher = "${shellIpc} drawers toggle launcher";
-        clipboard = "${caelestia} clipboard";
+        clipboard = "${shellIpc} drawers toggle clipboard";
         screenshotFull = "${caelestia} screenshot";
         screenshotRegion = "${caelestia} screenshot -r";
         screenshotWindow = "${lib.getExe hyprshot} -m window --clipboard-only";
