@@ -103,7 +103,7 @@
      readonly property alias dashboard: dashboard
      readonly property alias popouts: popoutsWrapper.content
      readonly property alias popoutsWrapper: popoutsWrapper
-@@ -107,6 +108,36 @@
+@@ -107,6 +108,35 @@
          anchors.bottom: parent.bottom
      }
 
@@ -112,7 +112,6 @@
 +
 +        screenState: root.screenState
 +
-+        anchors.horizontalCenter: parent.horizontalCenter
 +        anchors.bottom: parent.bottom
 +    }
 +

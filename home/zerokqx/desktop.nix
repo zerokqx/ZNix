@@ -48,7 +48,10 @@ in
       package.overrideAttrs (old: {
         patches =
           (old.patches or [ ])
-          ++ [ ./clipboard/caelestia.patch ]
+          ++ [
+            ./clipboard/caelestia.patch
+            ./audio/caelestia.patch
+          ]
           ++ lib.optional useStylix ./znix/caelestia-stylix.patch;
         postPatch = (old.postPatch or "") + ''
           substitute ${./clipboard/ClipboardDrawer.qml} modules/drawers/ClipboardDrawer.qml \
@@ -69,7 +72,7 @@ in
 
       utilities.toasts.kbLayoutChanged = lib.mkDefault false;
 
-      # Caelestia replaces the whole list. Keep the pinned defaults except for kbLayout.
+      # Caelestia replaces the whole list. Audio and microphone open the same popout.
       bar.statusIcons = lib.mkDefault [
         {
           id = "lockStatus";
@@ -77,11 +80,11 @@ in
         }
         {
           id = "audio";
-          enabled = false;
+          enabled = true;
         }
         {
           id = "microphone";
-          enabled = false;
+          enabled = true;
         }
         {
           id = "kbLayout";

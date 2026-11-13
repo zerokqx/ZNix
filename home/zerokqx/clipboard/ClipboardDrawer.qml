@@ -1,7 +1,9 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Controls as Controls
 import QtQuick.Layouts
+import QtMultimedia
 import Quickshell.Io
 import Caelestia.Config
 import qs.components
@@ -15,7 +17,14 @@ Item {
 
     property real offsetScale: screenState.clipboard ? 0 : 1
 
-    implicitWidth: Math.min(540, parent.width)
+    readonly property bool sideBySide: parent.width >= 560
+    readonly property real compactWidth: Math.min(540, sideBySide ? parent.width - 280 : parent.width)
+    readonly property real previewWidth: sideBySide ? Math.min(360, parent.width - compactWidth) : 0
+    property real expandedWidth: loader.item?.previewRequested ? previewWidth : 0
+    readonly property real visiblePreviewWidth: Math.max(0, Math.min(previewWidth, expandedWidth))
+
+    x: Math.max(0, Math.min((parent.width - compactWidth) / 2, parent.width - compactWidth - previewWidth))
+    implicitWidth: compactWidth + visiblePreviewWidth
     implicitHeight: Math.min(500, parent.height * 0.8)
     anchors.bottomMargin: (-height - 5) * offsetScale
     visible: offsetScale < 1
@@ -25,7 +34,13 @@ Item {
         Anim {}
     }
 
+    Behavior on expandedWidth {
+        Anim {}
+    }
+
     Loader {
+        id: loader
+
         anchors.fill: parent
         active: root.screenState.clipboard || root.visible
         sourceComponent: contents
@@ -38,8 +53,19 @@ Item {
             id: drawer
 
             readonly property string backend: "@clipboardBackend@"
+            readonly property var currentEntry: cards.model[cards.currentIndex]
+            readonly property bool previewRequested: selectedIdentifier !== "" && selectedIdentifier === currentEntry?.identifier
+            property string selectedIdentifier: ""
             property var entries: []
             property string error: ""
+
+            function select(index): void {
+                if (index < 0 || index >= cards.count)
+                    return;
+                cards.currentIndex = index;
+                selectedIdentifier = cards.model[index].identifier;
+                cards.positionViewAtIndex(index, ListView.Contain);
+            }
 
             function focusSearch(): void {
                 if (root.screenState.clipboard)
@@ -55,6 +81,18 @@ Item {
 
             Keys.priority: Keys.AfterItem
             Keys.onEscapePressed: root.screenState.clipboard = false
+            Keys.onDownPressed: drawer.select(Math.min(cards.count - 1, cards.currentIndex + 1))
+            Keys.onUpPressed: drawer.select(Math.max(0, cards.currentIndex - 1))
+            Keys.onReturnPressed: drawer.copyEntry(drawer.currentEntry)
+            Keys.onEnterPressed: drawer.copyEntry(drawer.currentEntry)
+
+            onSelectedIdentifierChanged: detailDelay.restart()
+
+            Timer {
+                id: detailDelay
+
+                interval: 75
+            }
 
             Connections {
                 target: root.screenState
@@ -63,6 +101,7 @@ Item {
                     if (root.screenState.clipboard) {
                         drawer.entries = [];
                         drawer.error = "";
+                        drawer.selectedIdentifier = "";
                         search.clear();
                         Qt.callLater(drawer.focusSearch);
                         history.running = true;
@@ -100,8 +139,12 @@ Item {
             }
 
             ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: Tokens.padding.large
+                id: listColumn
+
+                x: Tokens.padding.large
+                y: Tokens.padding.large
+                width: Math.max(0, root.compactWidth - x * 2)
+                height: Math.max(0, parent.height - y * 2)
                 spacing: Tokens.spacing.medium
 
                 RowLayout {
@@ -115,8 +158,10 @@ Item {
 
                     StyledText {
                         Layout.fillWidth: true
+                        Layout.minimumWidth: 0
                         text: "Буфер обмена"
                         font: Tokens.font.title.medium
+                        elide: Text.ElideRight
                     }
 
                     IconButton {
@@ -134,12 +179,15 @@ Item {
                     placeholderText: "Поиск по истории"
 
                     Component.onCompleted: Qt.callLater(drawer.focusSearch)
-                    onAccepted: drawer.copyEntry(cards.model[cards.currentIndex])
-                    Keys.onDownPressed: cards.currentIndex = Math.min(cards.count - 1, cards.currentIndex + 1)
-                    Keys.onUpPressed: cards.currentIndex = cards.count ? Math.max(0, cards.currentIndex - 1) : -1
+                    onAccepted: drawer.copyEntry(drawer.currentEntry)
+                    onTextChanged: drawer.selectedIdentifier = ""
+                    Keys.onDownPressed: drawer.select(Math.min(cards.count - 1, cards.currentIndex + 1))
+                    Keys.onUpPressed: drawer.select(Math.max(0, cards.currentIndex - 1))
                 }
 
                 Item {
+                    id: listArea
+
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
@@ -147,6 +195,7 @@ Item {
                         id: cards
 
                         anchors.fill: parent
+                        visible: root.sideBySide || !drawer.previewRequested
                         clip: true
                         cacheBuffer: 0
                         spacing: Tokens.spacing.small
@@ -179,7 +228,8 @@ Item {
                             }
 
                             width: ListView.view.width
-                            height: modelData.image ? 112 : 72
+                            height: Math.max(modelData.image ? 112 : 76, labels.implicitHeight + Tokens.padding.medium * 2)
+                            clip: true
                             radius: selected ? Tokens.rounding.extraLarge : Tokens.rounding.medium
                             color: selected ? Colours.tPalette.m3secondaryContainer : Colours.tPalette.m3surfaceContainer
 
@@ -236,7 +286,10 @@ Item {
                                 }
 
                                 ColumnLayout {
+                                    id: labels
+
                                     Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
                                     spacing: Tokens.spacing.extraSmall
 
                                     StyledText {
@@ -250,7 +303,7 @@ Item {
                                         text: card.modelData.preview
                                         font: Tokens.font.body.medium
                                         color: card.selected ? Colours.palette.m3onSecondaryContainer : Colours.palette.m3onSurface
-                                        wrapMode: Text.Wrap
+                                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                         maximumLineCount: 2
                                         elide: Text.ElideRight
                                     }
@@ -260,17 +313,14 @@ Item {
                             StateLayer {
                                 radius: card.radius
                                 shapeMorph: true
-                                onClicked: {
-                                    cards.currentIndex = card.index;
-                                    drawer.copyEntry(card.modelData);
-                                }
+                                onClicked: drawer.select(card.index)
                             }
                         }
                     }
 
                     StyledText {
                         anchors.centerIn: parent
-                        visible: !history.running && cards.count === 0 && !drawer.error
+                        visible: cards.visible && !history.running && cards.count === 0 && !drawer.error
                         text: search.text ? "Ничего не найдено" : "История пуста"
                         color: Colours.palette.m3onSurfaceVariant
                     }
@@ -278,9 +328,205 @@ Item {
 
                 StyledText {
                     Layout.fillWidth: true
-                    text: drawer.error || "↑ ↓  Выбор     ↵  Копировать     Esc  Закрыть"
+                    Layout.minimumWidth: 0
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    text: drawer.error || "Клик / ↑ ↓  Превью    ↵  Копировать    Esc  Закрыть"
                     font: Tokens.font.label.small
                     color: drawer.error ? Colours.palette.m3error : Colours.palette.m3onSurfaceVariant
+                }
+            }
+
+            Item {
+                id: previewPane
+
+                x: root.sideBySide ? root.compactWidth : Tokens.padding.large
+                y: root.sideBySide ? listColumn.y : listColumn.y + listArea.y
+                width: root.sideBySide ? root.visiblePreviewWidth : listColumn.width
+                height: root.sideBySide ? listColumn.height : listArea.height
+                clip: true
+                visible: root.sideBySide ? width > 0 : drawer.previewRequested
+
+                StyledRect {
+                    width: root.sideBySide ? root.previewWidth - Tokens.padding.large : parent.width
+                    height: parent.height
+                    radius: Tokens.rounding.extraLarge
+                    color: Colours.tPalette.m3surfaceContainerLow
+
+                    ColumnLayout {
+                        anchors.fill: parent
+                        anchors.margins: Tokens.padding.medium
+                        spacing: Tokens.spacing.medium
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: Tokens.spacing.small
+
+                            IconButton {
+                                icon: "arrow_back"
+                                type: IconButton.Text
+                                Accessible.name: "Скрыть превью"
+                                onClicked: {
+                                    drawer.selectedIdentifier = "";
+                                    drawer.focusSearch();
+                                }
+                            }
+
+                            StyledText {
+                                Layout.fillWidth: true
+                                Layout.minimumWidth: 0
+                                text: "Превью"
+                                font: Tokens.font.title.small
+                                elide: Text.ElideRight
+                            }
+
+                            IconButton {
+                                icon: "content_copy"
+                                type: IconButton.Text
+                                Accessible.name: "Скопировать запись"
+                                disabled: !drawer.previewRequested || copier.running
+                                onClicked: drawer.copyEntry(drawer.currentEntry)
+                            }
+                        }
+
+                        Loader {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            active: root.screenState.clipboard && drawer.previewRequested && !detailDelay.running
+                            sourceComponent: detailContent
+                        }
+                    }
+                }
+            }
+
+            Component {
+                id: detailContent
+
+                Item {
+                    id: detail
+
+                    property var payload: null
+                    property bool failed: false
+
+                    Process {
+                        command: [drawer.backend, "detail", drawer.selectedIdentifier]
+                        running: true
+                        stdout: StdioCollector {
+                            onStreamFinished: {
+                                if (text)
+                                    detail.payload = JSON.parse(text);
+                            }
+                        }
+                        onExited: code => detail.failed = code !== 0
+                    }
+
+                    Flickable {
+                        id: detailScroll
+
+                        anchors.fill: parent
+                        visible: detail.payload?.kind === "text"
+                        clip: true
+                        contentWidth: width
+                        contentHeight: detailText.height
+                        boundsBehavior: Flickable.StopAtBounds
+
+                        Controls.ScrollBar.vertical: StyledScrollBar {
+                            flickable: detailScroll
+                        }
+
+                        StyledText {
+                            id: detailText
+
+                            width: Math.max(0, detailScroll.width - Tokens.padding.small)
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            text: (detail.payload?.text ?? "") + (detail.payload?.truncated ? "\n\nПревью сокращено" : "")
+                        }
+                    }
+
+                    Image {
+                        id: detailImage
+
+                        anchors.fill: parent
+                        visible: detail.payload?.kind === "image"
+                        source: visible ? detail.payload.source : ""
+                        cache: false
+                        asynchronous: true
+                        fillMode: Image.PreserveAspectFit
+                    }
+
+                    Loader {
+                        anchors.fill: parent
+                        active: detail.payload?.kind === "video"
+                        sourceComponent: ColumnLayout {
+                            spacing: Tokens.spacing.small
+
+                            VideoOutput {
+                                id: videoOutput
+
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                fillMode: VideoOutput.PreserveAspectFit
+                                endOfStreamPolicy: VideoOutput.KeepLastFrame
+
+                                StyledText {
+                                    anchors.centerIn: parent
+                                    width: parent.width
+                                    horizontalAlignment: Text.AlignHCenter
+                                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                    visible: videoPlayer.error !== MediaPlayer.NoError || videoOutput.sourceRect.width === 0
+                                    text: videoPlayer.error !== MediaPlayer.NoError ? "Видео не удалось открыть" : "Локальное видео"
+                                }
+                            }
+
+                            MediaPlayer {
+                                id: videoPlayer
+
+                                videoOutput: videoOutput
+                                audioOutput: AudioOutput { muted: true }
+                            }
+
+                            RowLayout {
+                                Layout.fillWidth: true
+
+                                IconButton {
+                                    icon: videoPlayer.playing ? "pause" : "play_arrow"
+                                    Accessible.name: videoPlayer.playing ? "Пауза" : "Воспроизвести"
+                                    disabled: videoPlayer.error !== MediaPlayer.NoError
+                                    onClicked: {
+                                        if (videoPlayer.playing) {
+                                            videoPlayer.pause();
+                                        } else {
+                                            if (videoPlayer.mediaStatus === MediaPlayer.NoMedia)
+                                                videoPlayer.source = detail.payload.source;
+                                            videoPlayer.play();
+                                        }
+                                    }
+                                }
+
+                                StyledText {
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
+                                    text: detail.payload.name
+                                    elide: Text.ElideMiddle
+                                }
+                            }
+                        }
+                    }
+
+                    StyledText {
+                        anchors.centerIn: parent
+                        width: parent.width
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        visible: !detail.payload || detail.failed || ["unavailable", "unsupported"].includes(detail.payload?.kind) || detailImage.status === Image.Error
+                        text: {
+                            if (detail.failed || detail.payload?.kind === "unavailable" || detailImage.status === Image.Error)
+                                return "Превью недоступно";
+                            if (detail.payload?.kind === "unsupported")
+                                return "Для этой записи нет превью";
+                            return "Загрузка…";
+                        }
+                        color: Colours.palette.m3onSurfaceVariant
+                    }
                 }
             }
         }

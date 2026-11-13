@@ -4,6 +4,7 @@ import io
 import json
 from pathlib import Path
 import subprocess
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -43,5 +44,32 @@ class ClipboardHistoryTests(unittest.TestCase):
 
     def test_rejects_invalid_id_before_running_any_command(self):
         with patch.object(history.subprocess, "run") as run:
-            self.assertEqual(history.main(["preview", "42; echo hello"]), 2)
+            for action in ("preview", "detail"):
+                self.assertEqual(history.main([action, "42; echo hello"]), 2)
         run.assert_not_called()
+
+    def test_detail_keeps_multiline_text_and_limits_oversized_preview(self):
+        text = "Первая строка\n<b>обычный текст</b>\n" + "X" * history.MAX_TEXT
+        result = history.detail(text.encode())
+        self.assertEqual(result, {"kind": "text", "text": text[:history.MAX_TEXT], "truncated": True})
+
+    def test_detail_only_opens_single_local_media_path_or_uri(self):
+        with tempfile.TemporaryDirectory() as directory:
+            video = Path(directory) / "local clip.mp4"
+            video.touch()
+            uri = video.as_uri()
+            for text in (uri + "\r\n", str(video)):
+                self.assertEqual(
+                    history.detail(text.encode()),
+                    {"kind": "video", "source": uri, "name": video.name},
+                )
+            for text in (video.name, uri + "\n" + uri, "https://example.org/clip.mp4", "file://example.org/clip.mp4"):
+                with self.subTest(text=text):
+                    self.assertEqual(history.detail(text.encode()), {"kind": "text", "text": text, "truncated": False})
+            video.unlink()
+            self.assertEqual(history.detail(uri.encode()), {"kind": "unavailable"})
+            self.assertEqual(history.detail(str(video).encode()), {"kind": "text", "text": str(video), "truncated": False})
+
+    def test_detail_never_displays_unsupported_binary_as_text(self):
+        with patch.object(history, "image_source", return_value=None):
+            self.assertEqual(history.detail(b"\x00\xff\x80"), {"kind": "unsupported"})

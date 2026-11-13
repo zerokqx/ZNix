@@ -1,0 +1,330 @@
+--- a/modules/bar/popouts/AudioPopout.qml
++++ b/modules/bar/popouts/AudioPopout.qml
+@@ -3,115 +3,265 @@
+ import QtQuick
+ import QtQuick.Controls
+ import QtQuick.Layouts
++import Quickshell
+ import Quickshell.Services.Pipewire
+ import Caelestia.Config
+ import Caelestia.I18n
+ import qs.components
++import qs.components.containers
+ import qs.components.controls
++import qs.modules.nexus.common
+ import qs.services
++import qs.utils
+
+ Item {
+     id: root
+
+     required property PopoutState popouts
+
+-    implicitWidth: Tokens.sizes.bar.audioWidth
+-    implicitHeight: layout.implicitHeight + Tokens.padding.medium * 2
++    property int page: 0
++    readonly property real margin: Tokens.padding.large
++    readonly property real verticalPadding: Tokens.padding.medium
++    readonly property real availableHeight: (QsWindow.window?.height ?? 680) - 2 * (Config.border.thickness + margin)
++    readonly property list<string> tabs: [Tr.trCtx("Output", "audio output"), Tr.tr("Microphone"), Tr.tr("Apps")]
+
+-    ButtonGroup {
+-        id: sinks
+-    }
++    implicitWidth: Math.min(Math.max(340, Tokens.sizes.bar.audioWidth), (QsWindow.window?.width ?? 500) - Tokens.sizes.bar.innerWidth - 4 * margin - Config.border.thickness)
++    implicitHeight: Math.min(400, availableHeight)
++
++    RowLayout {
++        id: header
++
++        anchors.top: parent.top
++        anchors.topMargin: root.verticalPadding
++        anchors.left: parent.left
++        anchors.right: parent.right
++        spacing: Tokens.spacing.small
++
++        Repeater {
++            model: root.tabs
+
+-    ButtonGroup {
+-        id: sources
++            TextButton {
++                required property int index
++                required property string modelData
++
++                Layout.fillWidth: true
++                Layout.minimumWidth: 0
++                Layout.preferredWidth: 1
++                type: TextButton.Tonal
++                isRound: true
++                checked: root.page === index
++                text: modelData
++                label.width: Math.max(0, width - Tokens.padding.small)
++                label.horizontalAlignment: Text.AlignHCenter
++                label.elide: Text.ElideRight
++                Accessible.role: Accessible.PageTab
++                Accessible.name: text
++                onClicked: root.page = index
++            }
++        }
+     }
+
+-    ColumnLayout {
+-        id: layout
++    StyledFlickable {
++        id: viewport
+
++        anchors.top: header.bottom
++        anchors.topMargin: Tokens.spacing.medium
++        anchors.bottom: parent.bottom
++        anchors.bottomMargin: root.verticalPadding
+         anchors.left: parent.left
+         anchors.right: parent.right
+-        anchors.verticalCenter: parent.verticalCenter
+-        spacing: Tokens.spacing.medium
+
+-        StyledText {
+-            text: Tr.trCtx("Output device", "audio output device")
+-            font: Tokens.font.body.builders.medium.weight(Font.Medium).build()
++        clip: true
++        flickableDirection: Flickable.VerticalFlick
++        contentWidth: width
++        contentHeight: pageLoader.implicitHeight
++        interactive: contentHeight > height
++
++        ScrollBar.vertical: StyledScrollBar {
++            flickable: viewport
++            policy: ScrollBar.AlwaysOn
+         }
+
+-        Repeater {
+-            model: Audio.sinks
++        Loader {
++            id: pageLoader
+
+-            StyledRadioButton {
+-                id: control
++            width: Math.max(0, viewport.width - Tokens.padding.medium)
++            sourceComponent: [outputPage, inputPage, appsPage][root.page]
++            onSourceComponentChanged: viewport.contentY = 0
++        }
++    }
+
+-                required property PwNode modelData
++    Component {
++        id: outputPage
+
+-                Layout.fillWidth: true
+-                ButtonGroup.group: sinks
+-                checked: Audio.sink?.id === modelData.id
+-                onClicked: Audio.setAudioSink(modelData)
+-                text: modelData.description
+-            }
++        Devices {
++            current: Audio.sink
++            devices: Audio.sinks
++            deviceLabel: Tr.trCtx("Output device", "audio output device")
++            placeholder: Tr.trCtx("No output devices", "no audio outputs")
++            deviceIcon: "speaker"
++            onSelected: node => Audio.setAudioSink(node)
+         }
++    }
+
+-        StyledText {
+-            Layout.topMargin: Tokens.spacing.medium
+-            text: Tr.trCtx("Input device", "audio input device")
+-            font: Tokens.font.body.builders.medium.weight(Font.Medium).build()
++    Component {
++        id: inputPage
++
++        Devices {
++            current: Audio.source
++            devices: Audio.sources
++            deviceLabel: Tr.trCtx("Input device", "audio input device")
++            placeholder: Tr.trCtx("No input devices", "no audio inputs")
++            deviceIcon: "mic"
++            microphone: true
++            onSelected: node => Audio.setAudioSource(node)
+         }
++    }
+
+-        Repeater {
+-            model: Audio.sources
++    Component {
++        id: appsPage
+
+-            StyledRadioButton {
+-                required property PwNode modelData
++        ColumnLayout {
++            spacing: Tokens.spacing.small
+
++            StyledText {
++                visible: streamModel.values.length === 0
+                 Layout.fillWidth: true
+-                ButtonGroup.group: sources
+-                checked: Audio.source?.id === modelData.id
+-                onClicked: Audio.setAudioSource(modelData)
+-                text: modelData.description
++                color: Colours.palette.m3onSurfaceVariant
++                text: Tr.tr("No apps playing audio")
++                wrapMode: Text.Wrap
+             }
+-        }
+
+-        StyledText {
+-            Layout.topMargin: Tokens.spacing.medium
+-            text: Audio.muted ? Tr.tr("Volume (muted)") : Tr.tr("Volume (%1%)").arg(Math.round(Audio.volume * 100))
+-            font: Tokens.font.body.builders.medium.weight(Font.Medium).build()
++            Repeater {
++                model: ScriptModel {
++                    id: streamModel
++
++                    // Capture streams have a separate microphone control.
++                    values: Audio.streams.filter(node => node.type === PwNodeType.AudioOutStream)
++                }
++
++                VolumeRow {
++                    required property PwNode modelData
++
++                    node: modelData
++                    title: Audio.getStreamName(node)
++                }
++            }
+         }
++    }
+
+-        CustomMouseArea {
+-            Layout.fillWidth: true
+-            implicitHeight: Tokens.padding.medium * 3
++    component Devices: ColumnLayout {
++        id: devices
+
+-            onWheel: event => {
+-                if (event.angleDelta.y > 0)
+-                    Audio.incrementVolume();
+-                else if (event.angleDelta.y < 0)
+-                    Audio.decrementVolume();
+-            }
++        required property PwNode current
++        required property list<PwNode> devices
++        required property string deviceLabel
++        required property string placeholder
++        required property string deviceIcon
++        property bool microphone: false
+
+-            StyledSlider {
+-                anchors.left: parent.left
+-                anchors.right: parent.right
+-                implicitHeight: parent.implicitHeight
++        signal selected(node: PwNode)
+
+-                value: Audio.volume
+-                onInteraction: value => Audio.setVolume(value)
+-            }
++        spacing: Tokens.spacing.medium
++
++        VolumeRow {
++            visible: devices.current !== null
++            node: devices.current
++            title: node?.description || node?.name || devices.deviceLabel
++            microphone: devices.microphone
++        }
++
++        StyledText {
++            Layout.fillWidth: true
++            text: devices.deviceLabel
++            font: Tokens.font.body.builders.medium.weight(Font.Medium).build()
++        }
++
++        AudioDeviceList {
++            first: true
++            nodes: devices.devices
++            currentId: devices.current?.id ?? -1
++            iconName: devices.deviceIcon
++            placeholderIcon: devices.deviceIcon
++            placeholderText: devices.placeholder
++            onSelected: node => devices.selected(node)
+         }
+
+         IconTextButton {
+             Layout.fillWidth: true
+-            Layout.topMargin: Tokens.spacing.medium
+-            inactiveColour: Colours.palette.m3primaryContainer
+-            inactiveOnColour: Colours.palette.m3onPrimaryContainer
++            type: IconTextButton.Tonal
+             verticalPadding: Tokens.padding.extraSmall
+             text: Tr.tr("Open settings")
+             icon: "settings"
+-
+             onClicked: root.popouts.detachRequested("audio")
+         }
+     }
++
++    component VolumeRow: StyledRect {
++        id: control
++
++        required property PwNode node
++        required property string title
++        property bool microphone: false
++        readonly property real volume: Audio.getStreamVolume(node)
++        readonly property bool muted: Audio.getStreamMuted(node)
++        readonly property bool ready: !!node?.ready && !!node.audio
++
++        Layout.fillWidth: true
++        Layout.minimumWidth: 0
++        implicitHeight: row.implicitHeight + 2 * row.anchors.margins
++        color: Colours.tPalette.m3surfaceContainer
++        radius: Tokens.rounding.large
++
++        RowLayout {
++            id: row
++
++            anchors.fill: parent
++            anchors.margins: Tokens.padding.medium
++            spacing: Tokens.spacing.medium
++
++            IconButton {
++                type: IconButton.Tonal
++                isRound: true
++                disabled: !control.ready
++                icon: control.microphone ? Icons.getMicVolumeIcon(control.volume, control.muted) : Icons.getVolumeIcon(control.volume, control.muted)
++                Accessible.role: Accessible.Button
++                Accessible.name: control.muted ? Tr.tr("Unmute") : Tr.tr("Mute")
++                onClicked: Audio.setStreamMuted(control.node, !control.muted)
++            }
++
++            ColumnLayout {
++                Layout.fillWidth: true
++                Layout.minimumWidth: 0
++                spacing: Tokens.spacing.medium
++
++                RowLayout {
++                    Layout.fillWidth: true
++                    spacing: Tokens.spacing.small
++
++                    StyledText {
++                        Layout.fillWidth: true
++                        Layout.minimumWidth: 0
++                        text: control.title
++                        elide: Text.ElideRight
++                    }
++
++                    StyledText {
++                        text: Strings.percentOne(control.volume)
++                        color: Colours.palette.m3onSurfaceVariant
++                    }
++                }
++
++                StyledSlider {
++                    Layout.fillWidth: true
++                    Layout.minimumWidth: 0
++                    implicitHeight: Tokens.padding.medium * 2
++                    enabled: control.ready && !control.muted
++                    value: Math.min(1, control.volume)
++                    Accessible.name: control.title
++                    onInteraction: v => Audio.setStreamVolume(control.node, v)
++                }
++            }
++        }
++    }
+ }

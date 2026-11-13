@@ -87,7 +87,7 @@ pkgs.runCommand "znix-desktop-shells" { nativeBuildInputs = [ pkgs.jq ]; } ''
     .session.commands.logout == [$logout]
     and .utilities.toasts == {kbLayoutChanged: false}
     and ([.bar.statusIcons[] | select(.enabled) | .id] == [
-      "lockStatus", "kbLayout", "network", "bluetooth", "battery"
+      "lockStatus", "audio", "microphone", "kbLayout", "network", "bluetooth", "battery"
     ])
   ' ${caelestia.xdg.configFile."caelestia/shell.json".source}
 
