@@ -16,6 +16,22 @@
     wireplumber.enable = true;
   };
 
+  # Chromium's saved SPA volume has repeatedly become zero while its channel
+  # volumes stayed nonzero. Do not carry that state into new playback streams.
+  services.pipewire.wireplumber.extraConfig."20-chromium-volume" = {
+    "stream.rules" = [
+      {
+        matches = [
+          {
+            "application.process.binary" = "chromium";
+            "media.class" = "Stream/Output/Audio";
+          }
+        ];
+        actions.update-props."state.restore-props" = false;
+      }
+    ];
+  };
+
   services.pipewire.wireplumber.extraConfig."10-bluez" = {
     "wireplumber.settings" = {
       "bluetooth.autoswitch-to-headset-profile" = true;
