@@ -3,7 +3,7 @@
     enable = true;
 
     settings = {
-      PasswordAuthentication = true;
+      PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
       X11Forwarding = false;
       AllowAgentForwarding = false;
