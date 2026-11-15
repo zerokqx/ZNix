@@ -153,11 +153,11 @@ in
     ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
     ", XF86AudioNext, exec, ${shellActions.media} next"
     ", XF86AudioPrev, exec, ${shellActions.media} previous"
-    ", XF86AudioStop, exec, playerctl stop"
+    ", XF86AudioStop, exec, ${shellActions.media} stop"
     ", Prior, exec, ${shellActions.media} next"
     ", Next, exec, ${shellActions.media} playPause"
     ", End, exec, ${shellActions.media} previous"
-    ", XF86AudioPlay, exec, ${shellActions.media} play"
+    ", XF86AudioPlay, exec, ${shellActions.media} playPause"
     ", XF86AudioPause, exec, ${shellActions.media} pause"
   ];
 

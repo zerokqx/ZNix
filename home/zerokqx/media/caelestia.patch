@@ -1,0 +1,60 @@
+--- a/services/Players.qml
++++ b/services/Players.qml
+@@ -13,8 +13,26 @@
+     id: root
+
+     readonly property list<MprisPlayer> list: Mpris.players.values
+-    readonly property MprisPlayer active: props.manualActive ?? list.find(p => getIdentity(p) === GlobalConfig.services.defaultPlayer) ?? list[0] ?? null
+-    property alias manualActive: props.manualActive
++    readonly property list<MprisPlayer> playing: list.filter(p => p.isPlaying)
++    readonly property MprisPlayer active: {
++        if (playing.length)
++            return playing.includes(props.selected) ? props.selected : playing[0];
++
++        return (list.includes(props.selected) ? props.selected : null)
++            ?? list.find(p => getIdentity(p) === GlobalConfig.services.defaultPlayer)
++            ?? list[0] ?? null;
++    }
++
++    // Keep the last playing player selected when playback pauses.
++    onPlayingChanged: {
++        if (playing.length && !playing.includes(props.selected))
++            props.selected = playing[0];
++    }
++
++    function select(player: MprisPlayer): void {
++        if ((playing.length ? playing : list).includes(player))
++            props.selected = player;
++    }
+
+     // Dedup key for progressive metadata (e.g. mpv-mpris/yt-dlp player fills title then artist later).
+     property string lastNowPlayingKey: ""
+@@ -86,7 +104,7 @@
+     PersistentProperties {
+         id: props
+
+-        property MprisPlayer manualActive
++        property MprisPlayer selected
+
+         reloadableId: "players"
+     }
+--- a/modules/dashboard/media/LyricsAndSelector.qml
++++ b/modules/dashboard/media/LyricsAndSelector.qml
+@@ -47,7 +47,7 @@
+             type: SplitButton.Tonal
+             disabled: !Players.list.length
+             active: menuItems.find(m => m.modelData === Players.active) ?? menuItems[0] ?? null
+-            menu.onItemSelected: item => Players.manualActive = (item as PlayerItem).modelData
++            menu.onItemSelected: item => Players.select((item as PlayerItem).modelData)
+
+             menuItems: playerList.instances
+             fallbackIcon: "music_off"
+@@ -63,7 +63,7 @@
+             Variants {
+                 id: playerList
+
+-                model: Players.list
++                model: Players.playing.length ? Players.playing : Players.list
+
+                 PlayerItem {}
+             }

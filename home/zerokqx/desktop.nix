@@ -51,6 +51,7 @@ in
           ++ [
             ./clipboard/caelestia.patch
             ./audio/caelestia.patch
+            ./media/caelestia.patch
           ]
           ++ lib.optional useStylix ./znix/caelestia-stylix.patch;
         postPatch = (old.postPatch or "") + ''
