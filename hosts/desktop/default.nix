@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   imports = [
     ../../configuration.nix
@@ -10,6 +11,11 @@
   ];
 
   networking.hostName = "nixos-pc";
+
+  # External monitors use DDC/CI; grant the active seat access to GPU I2C buses.
+  boot.kernelModules = [ "i2c-dev" ];
+  services.udev.packages = [ pkgs.ddcutil ];
+
   swapDevices = [
     {
       device = "/home/swapfile";
