@@ -13,6 +13,7 @@
     ./mimes.nix
     ./git.nix
     ./desktop.nix
+    ./ayugram.nix
     ./znix
     ./zoxide.nix
     ./foot.nix
