@@ -27,6 +27,11 @@
   # logind must see /home/swapfile to allow hibernation
   systemd.services.systemd-logind.serviceConfig.ProtectHome = "read-only";
 
+  home-manager.users.zerok.znix.theme.materialYouIcons = {
+    rocm = true;
+    gfxOverride = "10.3.0";
+  };
+
   home-manager.users.zerok.wayland.windowManager.hyprland.settings = {
     monitor = [
       "DP-1,1920x1080@165,1920x0,1"

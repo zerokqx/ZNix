@@ -1,0 +1,344 @@
+/* Material 3 baseline roles and component dimensions. Stylix supplies color
+ * and typeface; geometry, state layers and motion also work with stock colors. */
+:root {
+  --znix-radius-small: 4px;
+  --znix-radius-medium: 12px;
+  --znix-radius-large: 16px;
+  --znix-radius-xlarge: 28px;
+  --znix-radius-full: 999px;
+  --znix-tab-height: 48px;
+  --znix-tab-indicator: 3px;
+  --znix-button-height: 40px;
+  --znix-touch-target: 48px;
+  --znix-field-height: 56px;
+  --znix-label-large: 500 14px / 20px var(--default-font-family, sans-serif);
+  --znix-body-large: 400 16px / 24px var(--default-font-family, sans-serif);
+  --znix-body-medium: 400 14px / 20px var(--default-font-family, sans-serif);
+  --znix-body-small: 400 12px / 16px var(--default-font-family, sans-serif);
+  --znix-headline-small: 400 24px / 32px var(--default-font-family, sans-serif);
+  --znix-hover-opacity: 8%;
+  --znix-focus-opacity: 12%;
+  --znix-pressed-opacity: 12%;
+  --znix-disabled-content-opacity: 38%;
+  --znix-disabled-container-opacity: 12%;
+  --znix-surface-container-low: var(--sys-color-surface1);
+  --znix-surface-container: var(--sys-color-surface2);
+  --znix-surface-container-high: var(--sys-color-surface3);
+  --znix-surface-container-highest: var(--sys-color-surface5);
+  --znix-on-surface-variant: var(--sys-color-on-surface-subtle);
+  --znix-outline: var(--sys-color-outline);
+  --znix-outline-variant: var(--sys-color-divider);
+  --znix-shadow: black;
+  --znix-scrim: rgb(0 0 0 / 32%);
+  --znix-elevation-1:
+    0 1px 2px color-mix(in srgb, var(--znix-shadow) 30%, transparent),
+    0 1px 3px 1px color-mix(in srgb, var(--znix-shadow) 15%, transparent);
+  --znix-elevation-2:
+    0 1px 2px color-mix(in srgb, var(--znix-shadow) 30%, transparent),
+    0 2px 6px 2px color-mix(in srgb, var(--znix-shadow) 15%, transparent);
+  --znix-elevation-3:
+    0 1px 3px color-mix(in srgb, var(--znix-shadow) 30%, transparent),
+    0 4px 8px 3px color-mix(in srgb, var(--znix-shadow) 15%, transparent);
+  --znix-motion-standard: cubic-bezier(0.2, 0, 0, 1);
+  --znix-motion-decelerate: cubic-bezier(0, 0, 0, 1);
+  --znix-duration-short: 150ms;
+  --znix-duration-medium: 250ms;
+  --znix-duration-long: 400ms;
+}
+
+.znix-dialog {
+  --znix-field-surface: var(--znix-surface-container-high);
+  box-sizing: border-box;
+  inline-size: min(560px, calc(100% - 48px));
+  max-inline-size: none;
+  max-block-size: min(560px, calc(100% - 48px));
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  color: var(--sys-color-on-surface);
+  background: var(--znix-surface-container-high);
+  border: 0;
+  border-radius: var(--znix-radius-xlarge);
+  box-shadow: var(--znix-elevation-3);
+  font: var(--znix-body-medium);
+  letter-spacing: 0.25px;
+}
+
+.znix-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.znix-dialog > form {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+}
+
+.znix-dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: var(--znix-scrim);
+}
+
+.znix-dialog > form > header {
+  flex-shrink: 0;
+  padding: 24px 24px 0;
+}
+
+.znix-dialog > form > header > h2 {
+  margin: 0;
+  font: var(--znix-headline-small);
+  letter-spacing: 0;
+}
+
+.znix-dialog > form > header > p {
+  margin: 16px 0 0;
+  color: var(--znix-on-surface-variant);
+  font: var(--znix-body-medium);
+  letter-spacing: 0.25px;
+}
+
+.znix-dialog-content {
+  display: grid;
+  gap: 16px;
+  min-block-size: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 24px 24px 8px;
+}
+
+.znix-dialog > form > footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px 24px 24px;
+}
+
+.znix-button {
+  --znix-button-container: transparent;
+  --znix-button-label: var(--sys-color-primary);
+  --znix-button-outline: transparent;
+  --znix-state-layer: transparent;
+  box-sizing: border-box;
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-block-size: var(--znix-button-height);
+  padding: 0 24px;
+  color: var(--znix-button-label);
+  background: linear-gradient(var(--znix-state-layer), var(--znix-state-layer))
+    var(--znix-button-container);
+  border: 1px solid var(--znix-button-outline);
+  border-radius: var(--znix-radius-full);
+  font: var(--znix-label-large);
+  letter-spacing: 0.1px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.znix-button.text {
+  padding-inline: 12px;
+}
+
+.znix-button.filled {
+  --znix-button-container: var(--sys-color-primary);
+  --znix-button-label: var(--sys-color-on-primary);
+}
+
+.znix-button.outlined {
+  --znix-button-outline: var(--znix-outline);
+}
+
+.znix-button:enabled:hover {
+  --znix-state-layer: color-mix(in srgb, currentColor var(--znix-hover-opacity), transparent);
+}
+
+.znix-button.filled:enabled:hover {
+  box-shadow: var(--znix-elevation-1);
+}
+
+.znix-button.filled:enabled:is(:focus-visible, :active) {
+  box-shadow: none;
+}
+
+.znix-button:focus-visible {
+  --znix-state-layer: color-mix(in srgb, currentColor var(--znix-focus-opacity), transparent);
+  outline: 3px solid var(--sys-color-state-focus-ring);
+  outline-offset: 2px;
+}
+
+.znix-button:enabled:active {
+  --znix-state-layer: color-mix(in srgb, currentColor var(--znix-pressed-opacity), transparent);
+}
+
+.znix-button:disabled {
+  --znix-button-label: color-mix(
+    in srgb,
+    var(--sys-color-on-surface) var(--znix-disabled-content-opacity),
+    transparent
+  );
+  cursor: default;
+}
+
+.znix-button.filled:disabled {
+  --znix-button-container: color-mix(
+    in srgb,
+    var(--sys-color-on-surface) var(--znix-disabled-container-opacity),
+    transparent
+  );
+}
+
+.znix-button.outlined:disabled {
+  --znix-button-outline: color-mix(
+    in srgb,
+    var(--sys-color-on-surface) var(--znix-disabled-container-opacity),
+    transparent
+  );
+}
+
+@media (pointer: coarse) {
+  .znix-button {
+    min-inline-size: var(--znix-touch-target);
+  }
+
+  .znix-button::after {
+    content: "";
+    position: absolute;
+    inset: -4px 0;
+  }
+}
+
+.znix-field {
+  position: relative;
+  display: block;
+  min-inline-size: 0;
+  color: var(--znix-on-surface-variant);
+  font: var(--znix-body-large);
+}
+
+.znix-field > span {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: 0;
+  inset-inline-start: 12px;
+  max-inline-size: calc(100% - 24px);
+  padding-inline: 4px;
+  overflow: hidden;
+  color: inherit;
+  background: var(--znix-field-surface, var(--sys-color-surface));
+  font: var(--znix-body-small);
+  letter-spacing: 0.4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.znix-field > :is(input, textarea, select) {
+  box-sizing: border-box;
+  display: block;
+  inline-size: 100%;
+  min-block-size: var(--znix-field-height);
+  padding: 15px 16px;
+  color: var(--sys-color-on-surface);
+  background: transparent;
+  border: 1px solid var(--znix-outline);
+  border-radius: var(--znix-radius-small);
+  outline: none;
+  font: var(--znix-body-large);
+  letter-spacing: 0.5px;
+  caret-color: var(--sys-color-primary);
+}
+
+.znix-field > textarea {
+  resize: vertical;
+}
+
+.znix-field > select option {
+  color: var(--sys-color-on-surface);
+  background: var(--znix-field-surface, var(--sys-color-surface));
+}
+
+.znix-field > :is(input, textarea, select):enabled:hover {
+  border-color: var(--sys-color-on-surface);
+}
+
+.znix-field > :is(input, textarea, select):focus {
+  border-color: var(--sys-color-primary);
+  box-shadow: inset 0 0 0 1px var(--sys-color-primary);
+}
+
+.znix-field:focus-within {
+  color: var(--sys-color-primary);
+}
+
+.znix-field:has(:placeholder-shown):not(:focus-within) > span {
+  background: transparent;
+  font: var(--znix-body-large);
+  letter-spacing: 0.5px;
+  transform: translateY(calc(var(--znix-field-height) / 2 - 50%));
+}
+
+.znix-field:has([aria-invalid=true]) {
+  color: var(--sys-color-error);
+}
+
+.znix-field > [aria-invalid=true] {
+  border-color: var(--sys-color-error);
+}
+
+.znix-field > [aria-invalid=true]:focus {
+  border-color: var(--sys-color-error);
+  box-shadow: inset 0 0 0 1px var(--sys-color-error);
+}
+
+.znix-field:has(:disabled),
+.znix-field > :disabled {
+  color: color-mix(in srgb, var(--sys-color-on-surface) var(--znix-disabled-content-opacity), transparent);
+}
+
+.znix-field > :disabled {
+  border-color: color-mix(in srgb, var(--sys-color-on-surface) var(--znix-disabled-container-opacity), transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .znix-dialog[open] {
+    animation: znix-dialog-appear var(--znix-duration-medium) var(--znix-motion-decelerate);
+  }
+
+  .znix-button {
+    transition: box-shadow var(--znix-duration-short) var(--znix-motion-standard);
+  }
+
+  .znix-field > span {
+    transition: transform var(--znix-duration-short) var(--znix-motion-standard);
+  }
+}
+
+@keyframes znix-dialog-appear {
+  from { opacity: 0; }
+}
+
+@media (forced-colors: active) {
+  .znix-dialog,
+  .znix-button:is(.filled, .outlined),
+  .znix-field > :is(input, textarea, select) {
+    border: 1px solid ButtonText;
+  }
+
+  .znix-field > :is(input, textarea, select):focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 1px;
+  }
+
+  .znix-button:focus-visible {
+    outline-color: Highlight;
+  }
+}

@@ -1,0 +1,12 @@
+.network-summary-bar {
+  background-color: var(--znix-surface-container-low);
+}
+
+.network-log-grid.data-grid th,
+.network-log-grid.data-grid td {
+  border-left-color: transparent;
+}
+
+.network-log-grid.data-grid thead th:hover {
+  background-color: color-mix(in srgb, currentColor var(--znix-hover-opacity), transparent);
+}

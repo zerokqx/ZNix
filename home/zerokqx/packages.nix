@@ -2,7 +2,9 @@
 {
 
   home.packages = with pkgs; [
-    tor-browser
+    (callPackage ../../pkgs/pachca.nix { })
+    glab
+    mockoon
     firefox
     ngrok
     # inputs.vkpl.packages.${pkgs.stdenv.hostPlatform.system}.vkpl
@@ -16,13 +18,12 @@
     ghc
     gnumake
     python3
-    kdePackages.kdenlive
-    inputs.lu.packages.${stdenv.hostPlatform.system}.default
+    # kdePackages.kdenlive
     cargo
     dive
     psmisc
     file
-    vesktop
+    # vesktop
     beekeeper-studio
     mongodb-compass
     scrcpy

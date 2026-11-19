@@ -1,5 +1,37 @@
 { pkgs, lib, ... }:
 let
+  jinja-language-server = pkgs.rustPlatform.buildRustPackage {
+    pname = "jinja-lsp";
+    version = "0.5.0";
+    src = pkgs.fetchFromGitHub {
+      owner = "alex-oleshkevich";
+      repo = "jinja-lsp";
+      rev = "2f28a6cd13c421193a8efb0809334af8c4b9c389";
+      hash = "sha256-em+V5Y3h0i7KS6FSaxsVzts9RnNJTBY1+G/BjYwzQNU=";
+    };
+    cargoHash = "sha256-fJREFWclDM5NDmMdf1wDLNKDNof/E7KAXhcPrKn1Qm4=";
+    # The initial workspace scan can overwrite the index for a file opened during it.
+    postPatch = ''
+      patch --fuzz=0 -p1 <<'PATCH'
+      --- a/src/server/mod.rs
+      +++ b/src/server/mod.rs
+      @@ -251,5 +251,12 @@
+      +        {
+      +            let mut state = self.state.write().await;
+      +            for (key, source) in state.sources.clone() {
+      +                state.update_file(&key, &source);
+      +            }
+      +        }
+      +
+               if report {
+                   self.send_progress(
+                       &token,
+                       WorkDoneProgress::End(WorkDoneProgressEnd {
+                           message: Some(format!("indexed in {:?}", started.elapsed())),
+      PATCH
+    '';
+  };
+
   cssmodules-language-server = pkgs.buildNpmPackage {
     pname = "cssmodules-language-server";
     version = "1.5.2";
@@ -29,6 +61,12 @@ in
     enable = true;
     json.enable = true;
     yaml.enable = true;
+  };
+
+  filetype.extension = {
+    j2 = "jinja";
+    jinja = "jinja";
+    jinja2 = "jinja";
   };
 
   plugins.lsp = {
@@ -72,6 +110,21 @@ in
       docker_compose_language_service.enable = true;
 
       bashls.enable = true;
+
+      jinja_lsp = {
+        enable = true;
+        package = jinja-language-server;
+        cmd = [
+          "${jinja-language-server}/bin/jinja-lsp"
+          "lsp"
+        ];
+        filetypes = [ "jinja" ];
+        rootMarkers = [
+          "jinja.toml"
+          "pyproject.toml"
+          ".git"
+        ];
+      };
 
       nginx_language_server.enable = true;
 

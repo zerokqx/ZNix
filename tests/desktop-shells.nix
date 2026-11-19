@@ -41,26 +41,32 @@ let
     cfg:
     builtins.elem "${logoutBindingPrefix}${logout}" (bindings cfg)
     && builtins.elem "CTRL ALT, Delete, exec, ${logout}" (bindings cfg);
-  shellServicesAbsent =
+  supportServicesAbsent =
     cfg:
     let
       services = cfg.systemd.user.services;
     in
-    !(services ? caelestia || services ? dms || services ? hyprpolkitagent);
+    !(services ? dms || services ? hyprpolkitagent);
+  service = caelestia.systemd.user.services.caelestia;
 in
-assert assertMsg (
-  caelestia.programs.caelestia.enable
-  && !caelestia.programs.dank-material-shell.enable
-  && count (hasInfix "/bin/caelestia-shell ") (startup caelestia) == 1
-  && count (hasInfix "/libexec/hyprpolkitagent") (startup caelestia) == 1
-  && count (hasInfix "/bin/cliphist store") (startup caelestia) == 1
-  && !hasCommand "dms run" (startup caelestia)
-  && !hasCommand "dms " (bindings caelestia)
-  && hasClipboardBindings "${getExe caelestia.programs.caelestia.package} ipc call drawers toggle clipboard" caelestia
-  && caelestia.xdg.configFile ? "caelestia/shell.json"
-  && !(caelestia.xdg.configFile ? "DankMaterialShell/settings.json")
-  && shellServicesAbsent caelestia
-) "Caelestia must start once, with its own controls, clipboard history and polkit agent.";
+assert assertMsg
+  (
+    caelestia.programs.caelestia.enable
+    && !caelestia.programs.dank-material-shell.enable
+    && caelestia.systemd.user.startServices
+    && service.Service.ExecStart == [ (getExe caelestia.programs.caelestia.package) ]
+    && service.Install.WantedBy == [ caelestia.wayland.systemd.target ]
+    && supportServicesAbsent caelestia
+    && !hasCommand "/bin/caelestia-shell" (startup caelestia)
+    && count (hasInfix "/libexec/hyprpolkitagent") (startup caelestia) == 1
+    && count (hasInfix "/bin/cliphist store") (startup caelestia) == 1
+    && !hasCommand "dms run" (startup caelestia)
+    && !hasCommand "dms " (bindings caelestia)
+    && hasClipboardBindings "${getExe caelestia.programs.caelestia.package} ipc call drawers toggle clipboard" caelestia
+    && caelestia.xdg.configFile ? "caelestia/shell.json"
+    && !(caelestia.xdg.configFile ? "DankMaterialShell/settings.json")
+  )
+  "Caelestia must run as a user service, with its own controls, clipboard history and polkit agent.";
 assert assertMsg (
   !dms.programs.caelestia.enable
   && dms.programs.dank-material-shell.enable
@@ -73,7 +79,8 @@ assert assertMsg (
   && hasClipboardBindings "dms ipc call clipboard toggle" dms
   && dms.xdg.configFile ? "DankMaterialShell/settings.json"
   && !(dms.xdg.configFile ? "caelestia/shell.json")
-  && shellServicesAbsent dms
+  && !(dms.systemd.user.services ? caelestia)
+  && supportServicesAbsent dms
 ) "The DMS fallback must restore DMS controls and keep Caelestia out of the session.";
 assert assertMsg (
   !(builtins.tryEval both.config.home.username).success

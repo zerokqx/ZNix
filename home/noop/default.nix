@@ -16,7 +16,7 @@
     ../zerokqx/git.nix
     ../zerokqx/mimes.nix
     ../zerokqx/packages.nix
-    ../zerokqx/chromium.nix
+    ../zerokqx/chromium
     ../zerokqx/dir-file-create.nix
   ];
 

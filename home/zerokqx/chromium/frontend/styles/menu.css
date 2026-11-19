@@ -1,0 +1,6 @@
+/* Menu positioning uses measured Chromium item sizes. */
+.soft-context-menu {
+  border-radius: var(--znix-radius-small);
+  background-color: var(--znix-surface-container);
+  box-shadow: var(--znix-elevation-2);
+}

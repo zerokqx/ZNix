@@ -73,6 +73,7 @@
       };
 
       checks = {
+        chromium-devtools = import ../tests/chromium-devtools.nix { inherit pkgs inputs; };
         ayugram-stylix = import ../tests/ayugram-stylix.nix { inherit pkgs inputs; };
         celestia-stylix = import ../tests/celestia-stylix.nix { inherit pkgs inputs; };
         desktop-shells = import ../tests/desktop-shells.nix {

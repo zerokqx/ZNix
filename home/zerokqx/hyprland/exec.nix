@@ -10,7 +10,6 @@
     "[workspace special:ayugram silent] AyuGram"
   ]
   ++ lib.optionals config.programs.caelestia.enable [
-    "${lib.getExe config.programs.caelestia.package} -n"
     "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent"
     "${pkgs.wl-clipboard}/bin/wl-paste --watch ${lib.getExe pkgs.cliphist} store"
   ]

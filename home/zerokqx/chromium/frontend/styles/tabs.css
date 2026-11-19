@@ -1,0 +1,109 @@
+/* Primary text tabs. Keep upstream float-based measurement, overflow,
+ * selection, reordering and native vertical tab lists. */
+.tabbed-pane-shadow:not(.vertical-tab-layout) > .tabbed-pane-header {
+  flex-basis: var(--znix-tab-height);
+  align-items: center;
+  background: var(--sys-color-surface);
+  border-bottom-color: var(--znix-outline-variant);
+}
+
+.tabbed-pane-shadow:not(.vertical-tab-layout) .tabbed-pane-header-contents,
+.tabbed-pane-shadow:not(.vertical-tab-layout) .tabbed-pane-header-tab {
+  height: var(--znix-tab-height);
+}
+
+.tabbed-pane-shadow:not(.vertical-tab-layout) .tabbed-pane-header-tab {
+  padding-inline: 16px;
+  border-radius: 0;
+  color: var(--znix-on-surface-variant);
+  background: transparent;
+  font: var(--znix-label-large);
+  letter-spacing: 0.1px;
+}
+
+.tabbed-pane-shadow:not(.vertical-tab-layout) .tabbed-pane-header-tab.selected:not(.dragging) {
+  color: var(--sys-color-primary);
+}
+
+.tabbed-pane-shadow:not(.vertical-tab-layout) .tabbed-pane-header-tab:not(.disabled):hover {
+  background-color: color-mix(in srgb, currentColor var(--znix-hover-opacity), transparent);
+}
+
+.tabbed-pane-shadow:not(.vertical-tab-layout) .tabbed-pane-header-tab:focus-visible {
+  background-color: color-mix(in srgb, currentColor var(--znix-focus-opacity), transparent);
+  outline: 3px solid var(--sys-color-state-focus-ring);
+  outline-offset: -3px;
+}
+
+.tabbed-pane-shadow:not(.vertical-tab-layout) .tabbed-pane-header-tab:not(.disabled):active {
+  background-color: color-mix(in srgb, currentColor var(--znix-pressed-opacity), transparent);
+}
+
+.tabbed-pane-shadow:not(.vertical-tab-layout) .tabbed-pane-header-tab.disabled {
+  opacity: 0.38;
+}
+
+.tabbed-pane-shadow:not(.vertical-tab-layout) .tabbed-pane-header-tab-title {
+  position: relative;
+  align-self: stretch;
+  align-content: center;
+  min-inline-size: 24px;
+}
+
+.tabbed-pane-shadow:not(.vertical-tab-layout)
+  .tabbed-pane-header-tab.selected:not(.dragging)
+  .tabbed-pane-header-tab-title::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: var(--znix-tab-indicator);
+  border-radius: var(--znix-radius-small) var(--znix-radius-small) 0 0;
+  background: var(--sys-color-primary);
+}
+
+/* The upstream slider still marks the overflow control when the selected tab
+ * has no visible label. For visible tabs use the Material label-width mark. */
+.tabbed-pane-shadow:not(.vertical-tab-layout)
+  .tabbed-pane-header-contents:has(> .tabbed-pane-header-tabs > .tabbed-pane-header-tab.selected)
+  > .tabbed-pane-tab-slider {
+  visibility: hidden;
+}
+
+.tabbed-pane-tab-slider {
+  pointer-events: none;
+  transition-timing-function: var(--znix-motion-standard);
+}
+
+.tabbed-pane-shadow:not(.vertical-tab-layout) .tabbed-pane-header-tabs-drop-down-container {
+  height: var(--znix-button-height);
+  min-width: var(--znix-button-height);
+  margin-block: 4px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--znix-radius-full);
+  opacity: 1;
+}
+
+.tabbed-pane-header-tabs-drop-down-container .chevron-icon {
+  display: block;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabbed-pane-tab-slider {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .tabbed-pane-header-tab.selected {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+
+  .tabbed-pane-header-tab.selected .tabbed-pane-header-tab-title::after {
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+}

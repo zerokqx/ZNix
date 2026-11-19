@@ -1,0 +1,6 @@
+.suggest-box {
+  border-radius: var(--znix-radius-small);
+  border-color: var(--znix-outline-variant);
+  background-color: var(--znix-surface-container);
+  box-shadow: var(--znix-elevation-2);
+}

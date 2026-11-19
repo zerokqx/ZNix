@@ -1,0 +1,183 @@
+.znix-environment {
+  container: znix-environment / inline-size;
+  overflow: auto;
+  color: var(--sys-color-on-surface);
+  background: var(--sys-color-surface);
+}
+
+.znix-environment__content {
+  max-inline-size: 1040px;
+  margin-inline: auto;
+  padding: 24px;
+  font: 400 14px/20px var(--default-font-family);
+  letter-spacing: .25px;
+}
+
+.znix-environment__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+}
+
+.znix-environment__header h1 {
+  margin: 0;
+  font: 400 24px/32px var(--default-font-family);
+  letter-spacing: 0;
+}
+
+.znix-environment__header p {
+  margin: 8px 0 0;
+  color: var(--znix-on-surface-variant);
+}
+
+.znix-environment__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-block: 24px 8px;
+  min-block-size: 48px;
+}
+
+.znix-environment__count {
+  flex: 1 0 auto;
+  margin: 0;
+  color: var(--znix-on-surface-variant);
+}
+
+.znix-environment__table-container {
+  border: 1px solid var(--znix-outline-variant);
+  border-radius: 12px;
+  overflow: auto;
+}
+
+.znix-environment__table {
+  inline-size: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: start;
+}
+
+.znix-environment__table :is(th, td) {
+  text-align: start;
+  padding: 8px 16px;
+  block-size: 56px;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+.znix-environment__table th {
+  block-size: 48px;
+  color: var(--znix-on-surface-variant);
+  font-weight: 500;
+  background: var(--znix-surface-container-high);
+}
+
+.znix-environment__table tbody tr {
+  border-block-start: 1px solid var(--znix-outline-variant);
+  cursor: pointer;
+}
+
+.znix-environment__table tbody tr:hover {
+  background: color-mix(in srgb, var(--sys-color-on-surface) 8%, transparent);
+}
+
+.znix-environment__table tbody tr:focus-within,
+.znix-environment__table tbody tr:active {
+  background: color-mix(in srgb, var(--sys-color-on-surface) 12%, transparent);
+}
+
+.znix-environment__table td {
+  font: 400 14px/20px var(--monospace-font-family);
+  letter-spacing: 0;
+}
+
+.znix-environment__key {
+  display: block;
+  min-block-size: 40px;
+  inline-size: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  text-align: start;
+  color: var(--sys-color-primary);
+  font: inherit;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.znix-environment__key:focus-visible {
+  outline: 3px solid var(--sys-color-state-focus-ring);
+  outline-offset: 2px;
+}
+
+.znix-environment__empty {
+  padding: 32px 24px;
+  color: var(--znix-on-surface-variant);
+}
+
+.znix-environment__empty h2 {
+  margin: 0;
+  font: 500 16px/24px var(--default-font-family);
+  color: var(--sys-color-on-surface);
+}
+
+.znix-environment__empty code {
+  display: block;
+  margin-block-start: 8px;
+  overflow-wrap: anywhere;
+}
+
+.znix-environment__status {
+  min-block-size: 20px;
+  margin-block: 16px 8px;
+}
+
+.znix-environment__status.error,
+.znix-environment-editor__error {
+  color: var(--sys-color-error);
+}
+
+.znix-environment__hint {
+  color: var(--znix-on-surface-variant);
+  margin: 0;
+  max-inline-size: 75ch;
+}
+
+.znix-environment-editor__fields {
+  display: grid;
+  gap: 4px;
+}
+
+.znix-environment-editor__fields p {
+  margin: 0 16px;
+  font: 400 12px/16px var(--default-font-family);
+  letter-spacing: .4px;
+  color: var(--znix-on-surface-variant);
+}
+
+.znix-environment-editor__fields .znix-field:not(:first-child) {
+  margin-block-start: 20px;
+}
+
+.znix-environment-editor__fields .znix-environment-editor__preview {
+  margin-block-start: 20px;
+  color: var(--sys-color-on-surface);
+  overflow-wrap: anywhere;
+}
+
+.znix-environment-editor__fields .znix-environment-editor__error {
+  margin-block-start: 12px;
+  color: var(--sys-color-error);
+}
+
+.znix-environment-editor [data-action=delete] {
+  margin-inline-end: auto;
+}
+
+@container znix-environment (max-width: 599px) {
+  .znix-environment__content { padding: 16px; }
+}

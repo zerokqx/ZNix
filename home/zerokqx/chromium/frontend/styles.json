@@ -1,0 +1,10 @@
+{
+  "ui/legacy/tabbedPane.css": "styles/tabs.css",
+  "ui/legacy/inspectorCommon.css": "styles/controls.css",
+  "ui/components/buttons/button.css": "styles/buttons.css",
+  "ui/legacy/dialog.css": "styles/dialog.css",
+  "ui/legacy/suggestBox.css": "styles/suggestions.css",
+  "ui/legacy/softContextMenu.css": "styles/menu.css",
+  "panels/console/consoleView.css": "styles/console.css",
+  "panels/network/networkLogView.css": "styles/network.css"
+}

@@ -1,0 +1,7 @@
+/* Native Chromium widgets keep their content-specific layouts. */
+.widget {
+  border-radius: var(--znix-radius-xlarge);
+  border: 0;
+  background: var(--znix-surface-container-high);
+  box-shadow: var(--znix-elevation-3);
+}

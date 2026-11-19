@@ -1,0 +1,236 @@
+diff --git a/components/ScreenState.qml b/components/ScreenState.qml
+index 10f0548..de56b9e 100644
+--- a/components/ScreenState.qml
++++ b/components/ScreenState.qml
+@@ -11,6 +11,7 @@ PersistentProperties {
+     property bool clipboard
+     property bool dashboard
+     property bool utilities
++    property bool translator
+     property bool sidebar
+
+     // Dashboard state
+diff --git a/daemons/Shortcuts.qml b/daemons/Shortcuts.qml
+index de775bb..935de1c 100644
+--- a/daemons/Shortcuts.qml
++++ b/daemons/Shortcuts.qml
+@@ -112,7 +112,7 @@ Scope {
+     IpcHandler {
+         function toggle(drawer: string): void {
+             if (list().split("\n").includes(drawer)) {
+-                if (root.hasFullscreen && ["launcher", "clipboard", "session", "dashboard"].includes(drawer))
++                if (root.hasFullscreen && ["launcher", "clipboard", "session", "dashboard", "translator"].includes(drawer))
+                     return;
+                 const screenState = ShellState.forActive();
+                 screenState[drawer] = !screenState[drawer];
+diff --git a/modules/drawers/ContentWindow.qml b/modules/drawers/ContentWindow.qml
+index 37b80eb..34efb8c 100644
+--- a/modules/drawers/ContentWindow.qml
++++ b/modules/drawers/ContentWindow.qml
+@@ -62,6 +62,7 @@ StyledWindow {
+     onHasFullscreenChanged: {
+         screenState.launcher = false;
+         screenState.clipboard = false;
++        screenState.translator = false;
+         screenState.session = false;
+         screenState.dashboard = false;
+         panels.popouts.close();
+@@ -70,7 +71,7 @@ StyledWindow {
+     name: "drawers"
+     WlrLayershell.exclusionMode: ExclusionMode.Ignore
+     WlrLayershell.layer: (fsTransitionProg > 0 && contentItem.Config.general.showOverFullscreen) || (hasSpecialWorkspace && hasFullscreenOnNormalWs) ? WlrLayer.Overlay : WlrLayer.Top
+-    WlrLayershell.keyboardFocus: screenState.launcher || screenState.clipboard || screenState.session ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
++    WlrLayershell.keyboardFocus: screenState.launcher || screenState.clipboard || screenState.translator || screenState.session ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+
+     mask: hasFullscreen ? emptyRegion : regions
+
+@@ -117,7 +118,7 @@ StyledWindow {
+         active: {
+             const s = root.screenState;
+             const conf = root.contentItem.Config;
+-            if (s.clipboard || (s.launcher && conf.launcher.enabled) || (s.session && conf.session.enabled) || (s.sidebar && conf.sidebar.enabled))
++            if (s.clipboard || s.translator || (s.launcher && conf.launcher.enabled) || (s.session && conf.session.enabled) || (s.sidebar && conf.sidebar.enabled))
+                 return true;
+             if (!conf.dashboard.showOnHover && s.dashboard && conf.dashboard.enabled)
+                 return true;
+@@ -129,6 +130,7 @@ StyledWindow {
+         onCleared: {
+             root.screenState.launcher = false;
+             root.screenState.clipboard = false;
++            root.screenState.translator = false;
+             root.screenState.session = false;
+             root.screenState.sidebar = false;
+             root.screenState.dashboard = false;
+diff --git a/modules/drawers/Interactions.qml b/modules/drawers/Interactions.qml
+index 31f5906..0b6bfd3 100644
+--- a/modules/drawers/Interactions.qml
++++ b/modules/drawers/Interactions.qml
+@@ -202,9 +202,9 @@ CustomMouseArea {
+
+         // Show launcher on hover, or show/hide on drag if hover is disabled
+         if (Config.launcher.showOnHover) {
+-            if (!screenState.clipboard && !screenState.launcher && inBottomPanel(panels.launcher, x, y))
++            if (!screenState.clipboard && !screenState.translator && !screenState.launcher && inBottomPanel(panels.launcher, x, y))
+                 screenState.launcher = true;
+-        } else if (!screenState.clipboard && pressed && inBottomPanel(panels.launcher, dragStart.x, dragStart.y) && withinPanelWidth(panels.launcher, x, y)) {
++        } else if (!screenState.clipboard && !screenState.translator && pressed && inBottomPanel(panels.launcher, dragStart.x, dragStart.y) && withinPanelWidth(panels.launcher, x, y)) {
+             if (dragY < -Config.launcher.dragThreshold)
+                 screenState.launcher = true;
+             else if (dragY > Config.launcher.dragThreshold)
+@@ -231,7 +231,7 @@ CustomMouseArea {
+         }
+
+         // Show utilities on hover
+-        const showUtilities = inBottomPanel(panels.utilities, x, y, true);
++        const showUtilities = !screenState.translator && inBottomPanel(panels.utilities, x, y, true);
+
+         // Always update visibility based on hover if not in shortcut mode
+         if (!utilitiesShortcutActive) {
+diff --git a/modules/drawers/Panels.qml b/modules/drawers/Panels.qml
+index bcd295e..80f5d9f 100644
+--- a/modules/drawers/Panels.qml
++++ b/modules/drawers/Panels.qml
+@@ -123,17 +123,31 @@ Item {
+             if (root.screenState.clipboard) {
+                 root.screenState.launcher = false;
+                 root.screenState.session = false;
++                root.screenState.translator = false;
+             }
+         }
+
+         function onLauncherChanged(): void {
+-            if (root.screenState.launcher)
++            if (root.screenState.launcher) {
+                 root.screenState.clipboard = false;
++                root.screenState.translator = false;
++            }
+         }
+
+         function onSessionChanged(): void {
+-            if (root.screenState.session)
++            if (root.screenState.session) {
++                root.screenState.clipboard = false;
++                root.screenState.translator = false;
++            }
++        }
++
++        function onTranslatorChanged(): void {
++            if (root.screenState.translator) {
+                 root.screenState.clipboard = false;
++                root.screenState.launcher = false;
++                root.screenState.session = false;
++                root.screenState.utilities = false;
++            }
+         }
+     }
+
+diff --git a/modules/utilities/Content.qml b/modules/utilities/Content.qml
+index 9c16de1..a18d12c 100644
+--- a/modules/utilities/Content.qml
++++ b/modules/utilities/Content.qml
+@@ -14,17 +14,19 @@ Item {
+     required property ScreenState screenState
+     required property BarPopouts.Wrapper popouts
+     required property matrix4x4 deformMatrix
++    required property real translatorHeight
+
+     readonly property int enabledCards: (idleInhibit.active ? 1 : 0) + (record.active ? 1 : 0) + (toggles.active ? 1 : 0)
+-    readonly property real nonAnimHeight: ((idleInhibit.item as IdleInhibit)?.nonAnimHeight ?? 0) + ((record.item as Record)?.nonAnimHeight ?? 0) + ((toggles.item as Toggles)?.implicitHeight ?? 0) + layout.spacing * Math.max(0, enabledCards - 1)
++    readonly property real nonAnimHeight: screenState.translator ? translatorHeight : ((idleInhibit.item as IdleInhibit)?.nonAnimHeight ?? 0) + ((record.item as Record)?.nonAnimHeight ?? 0) + ((toggles.item as Toggles)?.implicitHeight ?? 0) + layout.spacing * Math.max(0, enabledCards - 1)
+
+     implicitWidth: layout.implicitWidth
+-    implicitHeight: layout.implicitHeight
++    implicitHeight: screenState.translator ? translatorHeight : layout.implicitHeight
+
+     ColumnLayout {
+         id: layout
+
+         anchors.fill: parent
++        visible: !root.screenState.translator
+         spacing: Tokens.spacing.medium
+
+         Loader {
+@@ -71,7 +73,18 @@ Item {
+         }
+     }
+
++    Translator {
++        anchors.fill: parent
++        visible: opened
++        opened: root.screenState.translator
++        onBack: {
++            root.screenState.utilities = true;
++            root.screenState.translator = false;
++        }
++    }
++
+     RecordingDeleteModal {
++        visible: !root.screenState.translator
+         props: root.props
+         deformMatrix: root.deformMatrix
+     }
+diff --git a/modules/utilities/Wrapper.qml b/modules/utilities/Wrapper.qml
+index 9e6160c..e1dbe64 100644
+--- a/modules/utilities/Wrapper.qml
++++ b/modules/utilities/Wrapper.qml
+@@ -24,7 +24,7 @@ Item {
+
+         reloadableId: "utilities"
+     }
+-    readonly property bool shouldBeActive: screenState.sidebar || (screenState.utilities && Config.utilities.enabled && !(screenState.session && Config.session.enabled))
++    readonly property bool shouldBeActive: screenState.translator || screenState.sidebar || (screenState.utilities && Config.utilities.enabled && !(screenState.session && Config.session.enabled))
+     readonly property real totalPadding: content.anchors.margins + CUtils.clamp(content.anchors.margins - Config.border.thickness, 0, content.anchors.margins)
+     readonly property real nonAnimHeight: ((content.item as Content)?.nonAnimHeight ?? 0) + totalPadding
+     property real offsetScale: shouldBeActive ? 0 : 1
+@@ -33,7 +33,7 @@ Item {
+     visible: offsetScale < 1
+     anchors.bottomMargin: (-implicitHeight - 5) * offsetScale
+     implicitHeight: content.implicitHeight + totalPadding
+-    implicitWidth: sidebar.width * (1 - sidebar.offsetScale) * horizontalStretch * sidebarLerp + Tokens.sizes.utilities.width * (1 - sidebarLerp)
++    implicitWidth: screenState.translator ? Math.min(500, parent.width) : sidebar.width * (1 - sidebar.offsetScale) * horizontalStretch * sidebarLerp + Tokens.sizes.utilities.width * (1 - sidebarLerp)
+     opacity: 1 - offsetScale
+
+     states: State {
+@@ -82,6 +82,7 @@ Item {
+
+         sourceComponent: Content {
+             implicitWidth: root.implicitWidth - root.totalPadding
++            translatorHeight: Math.max(0, Math.min(420, root.parent.height - root.totalPadding))
+             props: root.props
+             screenState: root.screenState
+             popouts: root.popouts
+diff --git a/modules/utilities/cards/Toggles.qml b/modules/utilities/cards/Toggles.qml
+index 6cf1669..94e8809 100644
+--- a/modules/utilities/cards/Toggles.qml
++++ b/modules/utilities/cards/Toggles.qml
+@@ -22,7 +22,11 @@ StyledRect {
+     readonly property var quickToggles: {
+         const seenIds = new Set();
+
+-        return Config.utilities.quickToggles.values.filter(item => {
++        const configured = Array.from(Config.utilities.quickToggles.values);
++        if (!configured.some(item => item.id === "translator"))
++            configured.push({ id: "translator", enabled: true });
++
++        return configured.filter(item => {
+             if (!item.enabled || seenIds.has(item.id))
+                 return false;
+
+@@ -145,6 +149,17 @@ StyledRect {
+                         onClicked: PersistentState.doNotDisturb = !PersistentState.doNotDisturb
+                     }
+                 }
++                DelegateChoice {
++                    roleValue: "translator"
++                    delegate: Toggle {
++                        objectName: "utilitiesTranslator"
++                        icon: "translate"
++                        Accessible.name: "Переводчик"
++                        inactiveOnColour: Colours.palette.m3onSurfaceVariant
++                        isToggle: false
++                        onClicked: root.screenState.translator = true
++                    }
++                }
+                 DelegateChoice {
+                     roleValue: "vpn"
+                     delegate: Toggle {

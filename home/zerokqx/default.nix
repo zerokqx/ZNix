@@ -21,8 +21,9 @@
     ./nixvim
     ./packages.nix
     ./spicetify.nix
-    ./chromium.nix
+    ./chromium
     ./dir-file-create.nix
+    ./material-you-icons.nix
   ];
 
   home.username = "zerok";

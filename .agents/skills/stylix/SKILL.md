@@ -49,15 +49,13 @@ nix build --no-link --no-update-lock-file \
 ./scripts/check.sh all
 ```
 
-Путь схемы передаётся в environment Hyprland поколения сессии. После
-авторизованной активации темы или переключения shell выйдите из сессии и войдите
-снова; перезапуск одной Caelestia не гарантирует обновление либо удаление этого
-environment.
+Пути схемы и обоев задаются в окружении пользовательского `caelestia.service`.
+При изменении этих путей Home Manager перезапускает сервис в активной сессии.
 
 При конфликте сначала проверьте эффективные значения `stylix.enable`,
 `stylix.targets.celestia.enable`, `programs.caelestia.enable` и
 `programs.caelestia.settings` через `nix eval`, затем путь схемы в
-`wayland.windowManager.hyprland.settings.env` и содержимое JSON. Если они верны,
+`programs.caelestia.systemd.environment` и содержимое JSON. Если они верны,
 сравните окружение запущенной оболочки с новым поколением. Не исправляйте
 расхождение перезаписью CLI state. Системный `stylix.enable` наследуется
 встроенным Home Manager как default; явный пользовательский override сильнее.

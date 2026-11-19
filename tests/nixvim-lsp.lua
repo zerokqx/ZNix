@@ -30,6 +30,9 @@ local function check()
   vim.fn.writefile({ '{"compilerOptions":{"strict":true},"include":["**/*"]}' }, "tsconfig.json")
   vim.fn.writefile({ "[tool.ruff.lint]", 'select = ["F"]' }, "pyproject.toml")
   vim.fn.writefile({ "a {", "  col", "}" }, "sample.css")
+  vim.fn.writefile({ '{% set greeting = "hello" %}', "{{ gre }}", "{% ma %}" }, "sample.j2")
+  vim.fn.writefile({ "{% fo %}" }, "sample.jinja")
+  vim.fn.writefile({ "{%- i %}" }, "sample.jinja2")
   vim.fn.writefile({ "import sys", "", "x = 1" }, "sample.py")
   vim.fn.writefile({
     '<script setup lang="ts">',
@@ -50,6 +53,31 @@ local function check()
   assert(cssls.capabilities.textDocument.completion.completionItem.snippetSupport, "CSSLS lost snippet support")
   assert(vim.lsp.config.pyright.capabilities.textDocument.completion.completionItem.snippetSupport == false,
     "CSSLS snippet support leaked into other clients")
+
+  for _, case in ipairs({
+    { "sample.j2", 2, 6, "greeting" },
+    { "sample.j2", 3, 5, "macro" },
+    { "sample.jinja", 1, 5, "for" },
+    { "sample.jinja2", 1, 5, "if" },
+  }) do
+    local filename, row, col, expected = unpack(case)
+    local jinja = attach(filename, { "jinja_lsp" })
+    assert(vim.bo[jinja].filetype == "jinja", "Jinja extension was not detected: " .. filename)
+    local client = vim.lsp.get_clients({ bufnr = jinja, name = "jinja_lsp" })[1]
+    vim.api.nvim_win_set_cursor(0, { row, col })
+    local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
+    params.context = { triggerKind = vim.lsp.protocol.CompletionTriggerKind.Invoked }
+    local found
+    for _ = 1, 10 do
+      local response = client:request_sync("textDocument/completion", params, 500, jinja)
+      local result = response and response.result
+      found = type(result) == "table"
+        and vim.iter(result.items or result):any(function(item) return item.label == expected end)
+      if found then break end
+      vim.wait(30)
+    end
+    assert(found, "Jinja completion misses " .. expected .. " in " .. filename)
+  end
 
   local python = attach("sample.py", { "pyright", "ruff" })
   local ruff = vim.lsp.get_clients({ bufnr = python, name = "ruff" })[1]
@@ -81,6 +109,6 @@ vim.schedule(function()
     vim.cmd("cquit")
     return
   end
-  print("Nixvim LSP smoke passed: CSS completion, Ruff diagnostics, Vue TypeScript, JSON/YAML schemas, Lua hints")
+  print("Nixvim LSP smoke passed: CSS and Jinja completion, Ruff diagnostics, Vue TypeScript, JSON/YAML schemas, Lua hints")
   vim.cmd("qa!")
 end)

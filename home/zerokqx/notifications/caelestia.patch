@@ -1,0 +1,43 @@
+--- a/modules/notifications/Notification.qml
++++ b/modules/notifications/Notification.qml
+@@ -17,7 +17,7 @@
+
+     required property NotifData modelData
+     readonly property bool hasImage: modelData.image.length > 0
+-    readonly property bool hasAppIcon: modelData.appIcon.length > 0
++    readonly property bool hasAppIcon: modelData.appIcon.length > 0 && Quickshell.iconPath(modelData.appIcon, true).length > 0
+     readonly property int bodyTextFormat: /[<*_`#\[\]]/.test(modelData.body) ? Text.MarkdownText : Text.PlainText
+     readonly property int nonAnimHeight: summary.implicitHeight + (root.expanded ? Tokens.spacing.extraSmall * 2 + appName.height + body.height + actions.height + actions.anchors.topMargin : bodyPreview.height) + inner.anchors.margins * 2
+     property bool expanded: Config.notifs.openExpanded
+--- a/modules/sidebar/NotifGroup.qml
++++ b/modules/sidebar/NotifGroup.qml
+@@ -22,7 +22,7 @@
+     readonly property list<var> activeNotifs: notifs.filter(n => !n.closed)
+     readonly property int notifCount: activeNotifs.length
+     readonly property string image: activeNotifs.find(n => n.image.length > 0)?.image ?? ""
+-    readonly property string appIcon: activeNotifs.find(n => n.appIcon.length > 0)?.appIcon ?? ""
++    readonly property string appIcon: activeNotifs.find(n => n.appIcon.length > 0 && Quickshell.iconPath(n.appIcon, true).length > 0)?.appIcon ?? ""
+     readonly property int urgency: {
+         if (activeNotifs.find(n => n.urgency === NotificationUrgency.Critical))
+             return NotificationUrgency.Critical;
+--- a/modules/lock/NotifGroup.qml
++++ b/modules/lock/NotifGroup.qml
+@@ -25,7 +25,7 @@
+         for (const n of notifs) {
+             if (!img && n.image.length > 0)
+                 img = n.image;
+-            if (!icon && n.appIcon.length > 0)
++            if (!icon && n.appIcon.length > 0 && Quickshell.iconPath(n.appIcon, true).length > 0)
+                 icon = n.appIcon;
+             if (n.urgency === NotificationUrgency.Critical)
+                 hasCritical = true;
+--- a/utils/Icons.qml
++++ b/utils/Icons.qml
+@@ -189,6 +189,6 @@
+     }
+
+     function getNotifIcon(summary: string, urgency: int): string {
+-        const fallback = urgency === NotificationUrgency.Critical ? "release_alert" : "chat";
++        const fallback = urgency === NotificationUrgency.Critical ? "release_alert" : "notifications";
+         return matchIcon(summary.toLowerCase(), notifIconRules, fallback);
+     }

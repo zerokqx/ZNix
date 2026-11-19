@@ -52,16 +52,21 @@ in
             ./clipboard/caelestia.patch
             ./audio/caelestia.patch
             ./media/caelestia.patch
+            ./translator/caelestia.patch
+            ./notifications/caelestia.patch
           ]
           ++ lib.optional useStylix ./znix/caelestia-stylix.patch;
         postPatch = (old.postPatch or "") + ''
           substitute ${./clipboard/ClipboardDrawer.qml} modules/drawers/ClipboardDrawer.qml \
             --replace-fail '@clipboardBackend@' '${lib.getExe clipboardBackend}'
+          substitute ${./translator/Translator.qml} modules/utilities/Translator.qml \
+            --replace-fail '@translateShell@' '${lib.getExe pkgs.translate-shell}' \
+            --replace-fail '@timeout@' '${lib.getExe' pkgs.coreutils "timeout"}'
         '';
       })
     );
-    # Hyprland starts the selected shell through exec-once.
-    systemd.enable = false;
+    # Restart the shell when its Nix store path changes during activation.
+    systemd.enable = true;
     cli.enable = true;
 
     settings = {

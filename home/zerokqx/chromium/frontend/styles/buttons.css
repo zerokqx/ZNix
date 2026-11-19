@@ -1,0 +1,55 @@
+/* Standard label buttons use Material's 40px container. Keep compact icon
+ * variants in native toolbar, editor and data-panel layouts. */
+button:is(.primary, .tonal, .outlined, .text):not(.toolbar, .icon, .only-icon, .small, .micro) {
+  --button-height: var(--znix-button-height);
+  --icon-size: 18px;
+  padding-inline: 24px;
+  border-radius: var(--znix-radius-full);
+  font: var(--znix-label-large);
+  letter-spacing: 0.1px;
+
+  &.text { padding-inline: 12px; }
+  &.text-with-icon { padding-inline: 12px 16px; }
+  &.outlined:enabled { border-color: var(--znix-outline); }
+
+  &.primary:enabled:hover { box-shadow: var(--znix-elevation-1); }
+  &.primary:enabled:is(:focus-visible, :active) { box-shadow: none; }
+
+  &:disabled {
+    color: color-mix(in srgb, var(--sys-color-on-surface) var(--znix-disabled-content-opacity), transparent);
+  }
+
+  &.primary:disabled,
+  &.tonal:disabled {
+    background: color-mix(in srgb, var(--sys-color-on-surface) var(--znix-disabled-container-opacity), transparent);
+    border-color: transparent;
+  }
+
+  &.outlined:disabled {
+    border-color: color-mix(in srgb, var(--sys-color-on-surface) var(--znix-disabled-container-opacity), transparent);
+  }
+}
+
+button:is(.primary, .tonal, .outlined, .text):enabled {
+  --hover-layer-color: color-mix(in srgb, currentColor var(--znix-hover-opacity), transparent);
+  --active-layer-color: color-mix(in srgb, currentColor var(--znix-pressed-opacity), transparent);
+
+  &:focus-visible:not(.only-icon) {
+    outline-width: 3px;
+    outline-color: var(--sys-color-state-focus-ring);
+  }
+
+  &:focus-visible::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: color-mix(in srgb, currentColor var(--znix-focus-opacity), transparent);
+    pointer-events: none;
+  }
+
+  &:active::after {
+    /* The upstream ::before already paints the pressed layer. */
+    background: transparent;
+  }
+}

@@ -1,0 +1,10 @@
+/* Preserve Console's measured message and prompt geometry. */
+#console-prompt {
+  border-radius: var(--znix-radius-small);
+  background: var(--znix-surface-container-low);
+  box-shadow: inset 0 0 0 1px var(--znix-outline);
+}
+
+#console-prompt:focus-within {
+  box-shadow: inset 0 0 0 2px var(--sys-color-primary);
+}

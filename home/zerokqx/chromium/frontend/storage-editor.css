@@ -1,0 +1,46 @@
+.znix-storage-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.znix-storage-tools > .znix-field {
+  min-inline-size: 150px;
+}
+
+.znix-storage-value {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  min-block-size: 120px;
+  overflow: hidden;
+  background: var(--sys-color-surface);
+  border: 1px solid var(--znix-outline);
+  border-radius: var(--znix-radius-small);
+}
+
+.znix-storage-value:focus-within {
+  border-color: var(--sys-color-primary);
+  outline: 1px solid var(--sys-color-primary);
+}
+
+.znix-storage-code {
+  display: flex;
+  flex: 1 1 auto;
+  min-block-size: 0;
+  block-size: clamp(120px, 45dvh, 420px);
+}
+
+.znix-storage-error {
+  color: var(--sys-color-error);
+  font: var(--znix-body-small);
+  letter-spacing: 0.4px;
+  overflow-wrap: anywhere;
+}
+
+@media (forced-colors: active) {
+  .znix-storage-value:focus-within {
+    outline: 2px solid Highlight;
+  }
+}

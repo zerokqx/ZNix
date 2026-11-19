@@ -1,0 +1,22 @@
+/* Chromium's compact toolbars share colors with Material components. Keep
+ * their native geometry, which panel layouts use when measuring available space. */
+devtools-toolbar .toolbar-button:not(.toolbar-has-dropdown):focus-visible {
+  outline: 2px solid var(--sys-color-state-focus-ring);
+  outline-offset: -2px;
+}
+
+devtools-toolbar .toolbar-input::before {
+  border: 1px solid var(--znix-outline);
+  border-radius: var(--znix-radius-small);
+}
+
+.harmony-input:not([type]),
+.harmony-input[type='text'],
+.harmony-input[type='number'] {
+  border-radius: var(--znix-radius-small);
+}
+
+.panel,
+.panel-sidebar {
+  background-color: var(--sys-color-cdt-base-container);
+}

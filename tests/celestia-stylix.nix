@@ -28,11 +28,12 @@ let
     programs.caelestia.settings.appearance.font.body.medium.size = 19;
   };
 
-  env = cfg: cfg.wayland.windowManager.hyprland.settings.env or [ ];
-  findEnv = prefix: cfg: lib.findFirst (lib.hasPrefix "${prefix},") null (env cfg);
-  schemeEnv = findEnv "CAELESTIA_STYLIX_SCHEME";
-  wallpaperEnv = findEnv "CAELESTIA_STYLIX_WALLPAPER";
-  schemePath = cfg: lib.removePrefix "CAELESTIA_STYLIX_SCHEME," (schemeEnv cfg);
+  serviceEnvironment = cfg: cfg.systemd.user.services.caelestia.Service.Environment or [ ];
+  findEnvironment =
+    prefix: cfg: lib.findFirst (lib.hasPrefix "${prefix}=") null (serviceEnvironment cfg);
+  schemeEnv = findEnvironment "CAELESTIA_STYLIX_SCHEME";
+  wallpaperEnv = findEnvironment "CAELESTIA_STYLIX_WALLPAPER";
+  schemePath = cfg: lib.removePrefix "CAELESTIA_STYLIX_SCHEME=" (schemeEnv cfg);
   shellFile = cfg: cfg.xdg.configFile."caelestia/shell.json".source;
   noTheme =
     cfg:
@@ -43,15 +44,15 @@ in
 assert
   config.programs.caelestia.enable && config.stylix.enable && config.stylix.targets.celestia.enable;
 assert !config.programs.dank-material-shell.enable && !starts "dms run" config;
-assert starts "caelestia-shell" config;
+assert config.systemd.user.services ? caelestia && !starts "caelestia-shell" config;
 assert globalOff.programs.caelestia.enable && noTheme globalOff;
 assert targetOff.programs.caelestia.enable && noTheme targetOff;
 assert dms.stylix.enable && dms.programs.dank-material-shell.enable && noTheme dms;
 assert starts "dms run" dms && !starts "caelestia-shell" dms;
 assert wallpaperEnv config == null;
-assert wallpaperEnv firstImage == "CAELESTIA_STYLIX_WALLPAPER,${firstWallpaper}";
+assert wallpaperEnv firstImage == "CAELESTIA_STYLIX_WALLPAPER=${firstWallpaper}";
 assert !firstImage.services.hyprpaper.enable;
-assert wallpaperEnv changed == "CAELESTIA_STYLIX_WALLPAPER,${secondWallpaper}";
+assert wallpaperEnv changed == "CAELESTIA_STYLIX_WALLPAPER=${secondWallpaper}";
 assert schemePath changed != schemePath config;
 pkgs.runCommand "znix-celestia-stylix-check"
   {

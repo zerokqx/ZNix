@@ -108,7 +108,7 @@ packages. Эти исключения сохранены ради совмест
 совместимости: уменьшение числа узлов lock не гарантирует ускорения и может
 сломать Hyprland/Nixvim. Обновление lock — самостоятельное изменение.
 
-Частный override Widevine в `home/zerokqx/chromium.nix` фиксирует URL и хеш.
+Частный override Widevine в `home/zerokqx/chromium/default.nix` фиксирует URL и хеш.
 Из самого наличия override нельзя заключить, что весь Chromium компилируется
 заново: проверяйте фактический dry-build.
 

@@ -165,9 +165,9 @@ in
       ] (_: lib.mkDefault false);
     };
 
-    wayland.windowManager.hyprland.settings.env = [
-      "CAELESTIA_STYLIX_SCHEME,${schemeFile}"
+    programs.caelestia.systemd.environment = [
+      "CAELESTIA_STYLIX_SCHEME=${schemeFile}"
     ]
-    ++ lib.optional (stylix.image != null) "CAELESTIA_STYLIX_WALLPAPER,${stylix.image}";
+    ++ lib.optional (stylix.image != null) "CAELESTIA_STYLIX_WALLPAPER=${stylix.image}";
   };
 }
